@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>最近のBerkshelfの使い方(2015)</title>
+  <link href="http://uyorum.github.io/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://uyorum.github.io/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://uyorum.github.io/images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://uyorum.github.io"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">@uyorumの雑記帳</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">uyorum&#39;s tech blog</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/uyorum"><img src="http://uyorum.github.io/images/github2-dreamstale35.png"></a>
+        
+        
+        
+          <a href="https://twitter.com/uyorum"><img src="http://uyorum.github.io/images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://uyorum.github.io/index.xml"><img src="http://uyorum.github.io/images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://uyorum.github.io/images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>最近のBerkshelfの使い方(2015)</h4>
+          <p>
+           
+          </p>
+          <p>
+
+<p>今さらながらBerkshelfを使ったのだけれどネットには最新の情報がなくて習得に手こずったのでまとめておく。</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="http://berkshelf.com/">Berkshelf</a></li>
+<li><a href="http://d.hatena.ne.jp/akuwano/20140806/1407291260">Cookbookの管理を楽にするBerkshelfの使い方( ー`дー´)キリッ とか。 - 256bitの殺人メニュー</a></li>
+<li><a href="http://qiita.com/joker1007/items/1b62e3a36b4f435c53a2">最近の(2013/8/28時点の)vagrantとberkshelfの書き方 - Qiita</a></li>
+</ul>
+
+<h2 id="インストール">インストール</h2>
+
+<p>chefdkパッケージに含まれている．Gemでもインストールできるがchefdkが推奨らしい．</p>
+
+<h2 id="設定">設定</h2>
+
+<p>設定ファイルは~/.berkshelf/config.json<br />
+ほとんどの設定は~/.chef/knife.rbから読み込んでくれる<br />
+vagrant関連の項目を除いて，別個に設定が必要そうな項目は以下</p>
+
+<ul>
+<li>ssl.verify</li>
+<li>github</li>
+</ul>
+
+<p>とりあえず<code>ssl.verify</code>だけは設定しておく．Chef Serverを使う場合はおそらく必須．</p>
+
+<ul>
+<li><p>~/.berkshelf/config.json</p>
+
+<pre><code>{
+  &quot;ssl&quot;: {
+    &quot;verify&quot;: false
+  }
+}
+</code></pre></li>
+</ul>
+
+<h2 id="考え方">考え方</h2>
+
+<ul>
+<li>BerkshelfはRubyにおけるBundlerの役割
+
+<ul>
+<li>アプリケーション(=cookbook)を動かすのに必要なGem(=cookbook)をインストール(=ダウンロード)する</li>
+</ul></li>
+<li>Gemfile(=Berksfile)はアプリケーション(=cookbook)に紐づく
+
+<ul>
+<li>chef-repoではない</li>
+</ul></li>
+<li>Gem同様，cookbookはローカルにインストールする
+
+<ul>
+<li>レシピを開発する個々の環境で<code>berks install</code>する</li>
+<li>Berkshelfでダウンロードするcookbookはchef-repoに含めない</li>
+</ul></li>
+</ul>
+
+<h2 id="コマンドの流れ">コマンドの流れ</h2>
+
+<ol>
+<li><p>Berksfileを作成する</p>
+
+<ul>
+<li><p>既存のcookbookにBerksfileを作成する</p>
+
+<pre><code>$ cd cookbook_name
+$ berks init .
+      create  Berksfile
+      create  Thorfile
+      create  chefignore
+      create  .gitignore
+      create  Gemfile
+      create  .kitchen.yml
+      append  Thorfile
+      create  test/integration/default
+      append  .gitignore
+      append  .gitignore
+      append  Gemfile
+      append  Gemfile
+You must run `bundle install' to fetch any new gems.
+      create  Vagrantfile
+Successfully initialized
+</code></pre></li>
+
+<li><p>新規にcookbookを作成する</p>
+
+<pre><code>$ berks cookbook test
+      create  test/files/default
+      create  test/templates/default
+      create  test/attributes
+      create  test/libraries
+      create  test/providers
+      create  test/recipes
+      create  test/resources
+      create  test/recipes/default.rb
+      create  test/metadata.rb
+      create  test/LICENSE
+      create  test/README.md
+      create  test/CHANGELOG.md
+      create  test/Berksfile
+      create  test/Thorfile
+      create  test/chefignore
+      create  test/.gitignore
+      create  test/Gemfile
+      create  .kitchen.yml
+      append  Thorfile
+      append  .gitignore
+      append  .gitignore
+      append  Gemfile
+      append  Gemfile
+You must run `bundle install' to fetch any new gems.
+      create  test/Vagrantfile
+</code></pre>
+
+<p>カレントディレクトリにcookbookが作成される</p></li>
+</ul>
+
+<p>今後は<code>knife cookbook create</code>の代わりに<code>berks cookbook</code>でcookbookを作成するようにするとよい．</p></li>
+
+<li><p>Berksfileに依存するcookbook名を書いていく
+書き方はGemfileと同様．</p>
+
+<pre><code>source &quot;https://supermarket.chef.io&quot;
+
+metadata
+
+cookbook 'mysql2_chef_gem', '~&gt; 1.0.1'
+cookbook 'database', '~&gt; 4.0.6'
+</code></pre></li>
+
+<li><p>metadata.rbにも同じcookbook名を書く</p>
+
+<pre><code>depends          'mysql2_chef_gem'
+depends          'database'
+</code></pre></li>
+
+<li><p>cookbookをインストール</p>
+
+<pre><code>$ berks install
+</code></pre>
+
+<p>デフォルトでは<code>~/.berkshelf/cookbooks/&lt;cookbook_name&gt;-&lt;version&gt;</code>にcookbookが格納される．<br />
+ネットにある記事では<code>chef-repo/cookbooks</code>にインストールすると書かれていることがあるが，現在は違う模様．</p></li>
+
+<li><p>Chef Serverへアップロード</p>
+
+<pre><code>$ berks upload [cookbook_name]
+またはcookbookディレクトリの中で
+$ berks upload
+</code></pre>
+
+<p>Berkshelfでインストールしたcookbookのディレクトリ名がcookbook名と異なるためそのままでは<code>knife</code>でuploadできない．注意．<br />
+cookbook名を入れないと依存するcookbookも一緒にuploadしてくれる</p></li>
+</ol>
+
+<h2 id="metaなcookbook">metaなcookbook</h2>
+
+<p>Berkshelfでインストールしたcookbookを使いたい場合，run_listに直接書くのではなくそのcookbookを呼び出す用のcookbookを用意しておくとよい．<br />
+そのcookbookでコミュニティのcookbookのAttributeを上書きとかして，include_recipeする．<br />
+で，Berksfileに使うcookbookを書いていく．<br />
+<a href="http://qiita.com/joker1007/items/1b62e3a36b4f435c53a2">最近の(2013/8/28時点の)vagrantとberkshelfの書き方 - Qiita</a>を参考に．</p>
+
+<h2 id="その他のコマンド">その他のコマンド</h2>
+
+<ul>
+<li><code>berks package</code><br />
+cookbookとその依存cookbookをまとめてtar.gzでアーカイブする</li>
+<li><code>berks vendor</code><br />
+上記と似ているが，アーカイブせずに<code>pwd/berks-cookbooks</code>以下にcookbookを配置する<br />
+ディレクリ名=cookbook名にして配置してくれるのでときどき使う．PackerでChef使うときとか．</li>
+</ul>
+
+<h2 id="感想">感想</h2>
+
+<p>Productionな環境ではコミュニティのcookbookはあまり使用しないみたいなので，Berkshelfの出番はあまりないと思う．<br />
+ごく簡単なものや特に便利なものに関してはコミュニティのものを使ってもいいと思うけど，多様してブラックボックスが増えるのもよくない．<br />
+主にインスタントな検証環境，開発環境とかかな．</p>
+</p>
+          <p>16 Jul 2015
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'uyorum';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/07/21/boot2docker-xhyve/"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/03/29/openvpn-on-dd-wrt/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (C) 2016 uyorum All Right Reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://uyorum.github.io/js/materialize.min.js"></script>
+  <script src="http://uyorum.github.io/js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43857839-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

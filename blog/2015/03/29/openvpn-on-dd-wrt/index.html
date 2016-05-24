@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>DD-WRTでOpenVPNの設定</title>
+  <link href="http://uyorum.github.io/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://uyorum.github.io/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://uyorum.github.io/images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://uyorum.github.io"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">@uyorumの雑記帳</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">uyorum&#39;s tech blog</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/uyorum"><img src="http://uyorum.github.io/images/github2-dreamstale35.png"></a>
+        
+        
+        
+          <a href="https://twitter.com/uyorum"><img src="http://uyorum.github.io/images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://uyorum.github.io/index.xml"><img src="http://uyorum.github.io/images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://uyorum.github.io/images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>DD-WRTでOpenVPNの設定</h4>
+          <p>
+           
+          </p>
+          <p>
+
+<p>色々はまったのでメモ。</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="http://yamatamemo.blogspot.jp/2014/01/easy-rsa-3.html">easy-rsa 3 で認証局を構築する « yamata::memo</a></li>
+<li><a href="http://ameblo.jp/chocoball-muroi/entry-11788301407.html">DD-WRTとiPhone5sでVPNの構築（OpenVPN）｜チョコボール室井の報告書</a></li>
+</ul>
+
+<h2 id="認証局の設置-クライアント証明書の作成">認証局の設置~クライアント証明書の作成</h2>
+
+<p><a href="https://github.com/OpenVPN/easy-rsa">easy-rsa</a>を使用する．使い方は<a href="http://yamatamemo.blogspot.jp/2014/01/easy-rsa-3.html">ここ</a>を参考に．
+後から気づいたが<a href="http://www.openvpn.jp/vpnux-pki/">vpnux PKI Manager</a>なんていうGUIツールが公開されていた．これを使えば楽にできるかも．</p>
+
+<h2 id="dd-wrtの設定">DD-WRTの設定</h2>
+
+<h3 id="openvpnサーバの設定">OpenVPNサーバの設定</h3>
+
+<p>Services -&gt; VPNから</p>
+
+<p>Key|Value
+:-|:-
+OpenVPN|Enable
+Start Type|WAN Up
+Config as|Server
+Server mode|Router (TUN)
+Network|10.0.1.0
+Netmask|255.255.255.0
+Port|11194
+Tunnel Protocol|TCP
+Encryption Cipher|AES-256-CBC
+Hash Algorithm|SHA256
+Advanced Options|Enable
+TLS Cipher|None
+LZO Compression|Yes
+Redirect default Gateway|Disable
+Allow Client to Client|Disable
+Allow duplicate cn|Disable
+Tunnel MTU setting|1400
+Tunnel UDP Fragment|-
+Tunnel UDP MSS-Fix|Disable
+CCD-Dir DEFAULT file|-
+Static Key|-
+PKCS12 Key|-
+Public Server Cert|サーバ証明書の内容を転載
+CA Cert|CA証明書の内容を転載
+Private Server Key|サーバの秘密鍵の内容を転載
+DH PEM|DHパラメータの内容を転載
+Additional Config|push &ldquo;route 10.0.0.0 255.255.255.0&rdquo;
+TLS Auth Key|-
+Certificate Revoke List|-</p>
+
+<p><br>
+いくつか説明</p>
+
+<ul>
+<li>Network, Additional Configについて<br />
+自宅のLANは10.0.0.0/24で作成している．OpenVPNで接続したクライアントはそれとは別のセグメント(10.0.1.0/24)に配置することにする．(自動でサーバのIPアドレスは10.0.1.1になる)</li>
+</ul>
+
+<p>接続してきたクライアントへ自宅LAN宛のルーティングを追加するためにAdditional Configに「push ~行」を追加している．</p>
+
+<ul>
+<li><p>Portについて<br />
+セキュリティのことを考えてデフォルトのポートから変更する．後に設定するclient.ovpnやポート転送の設定値もここの値にそろえる．</p></li>
+
+<li><p>Tunnel Protocolについて<br />
+なぜかUDPだとクライアントから接続できなかったためTCPにする．</p></li>
+</ul>
+
+<p>設定が完了したらApply Settingsをクリック．</p>
+
+<h3 id="ポートフォワーディングの設定">ポートフォワーディングの設定</h3>
+
+<p>OpenVPNの設定を書けばWAN側ポートでも待ち受けてくれるものと思っていたがそうではないみたい．
+別途ポートフォワーディングの設定をする必要があった．ここで一番つまった．</p>
+
+<p>NAT/QoS -&gt; Port Forwardingから</p>
+
+<p>Application|Protocol|Source Net|Port from|IP Address|Port to|Enable
+:-|:-|:-|:-|:-|:-|:-
+OpenVPN(任意の文字列)|TCP|0.0.0.0/0|11942|10.0.1.1|11942|チェックを入れる</p>
+
+<h2 id="クライアントの設定">クライアントの設定</h2>
+
+<p>インストール方法は省略</p>
+
+<ul>
+<li>client.ovpn</li>
+</ul>
+
+<p>コメントを除けば以下の内容</p>
+
+<pre><code>client
+dev tu
+proto tcp
+remote &lt;OpenVPNサーバのホスト名またはIPアドレス&gt; 11194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca &lt;CA証明書のファイル名&gt;
+cert &lt;クライアント証明書のファイル名&gt;
+key &lt;クライアント秘密鍵のファイル名&gt;
+remote-cert-tls server
+cipher AES-256-CBC
+comp-lzo
+verb 3
+auth sha256
+</code></pre>
+
+<p>証明書と秘密鍵はclient.opvnと同じディレクトリ(Windowsの場合はC:\Program Files\OpenVPN\config)に置けばよい．
+なお証明書と秘密鍵はファイル名を書くかわりに以下のように.opvnに内容を直接書くこともできるみたい．1ファイルで完結するからこちらの方がいいかも．</p>
+
+<pre><code>&lt;ca&gt;
+-----BEGIN CERTIFICATE-----
+略
+-----END CERTIFICATE-----
+
+&lt;/ca&gt;
+
+&lt;cert&gt;
+-----BEGIN CERTIFICATE-----
+略
+-----END CERTIFICATE-----
+
+&lt;/cert&gt;
+
+&lt;key&gt;
+-----BEGIN PRIVATE KEY-----
+略
+-----END PRIVATE KEY-----
+
+&lt;/key&gt;
+</code></pre>
+
+<p>あとはクライアントから接続するだけ．</p>
+</p>
+          <p>29 Mar 2015
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'uyorum';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/07/16/how-to-berkshelf/"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/02/22/setup-octopress/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (C) 2016 uyorum All Right Reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://uyorum.github.io/js/materialize.min.js"></script>
+  <script src="http://uyorum.github.io/js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43857839-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+
