@@ -1,0 +1,24 @@
+baseurl = "http://uyorum.github.io"
+contentdir = "content"
+layoutdir = "layouts"
+publishdir = "public"
+languageCode = "ja-jp"
+title = "@uyorumの雑記帳"
+copyright = "Copyright (C) 2016 uyorum All Right Reserved."
+theme = "material-design"
+paginate = 9
+disqusShortname = "uyorum"
+
+[indexes]
+  category = "categories"
+  tag = "tags"
+
+[Params]
+  description = "uyorum's tech blog"
+  author = "uyorum"
+  twitter = "uyorum"
+  github = "uyorum"
+  googleAnalyticsUserID = "UA-43857839-1"
+
+[permalinks]
+  post = "/blog/:year/:month/:day/:filename/"
