@@ -7,8 +7,206 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright (C) 2016 uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sat, 06 Feb 2016 20:44:03 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 12 Sep 2016 19:19:36 +0900</lastBuildDate>
     <atom:link href="http://uyorum.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>XtraBackupによるバックアップ設計</title>
+      <link>http://uyorum.github.io/blog/2016/09/12/xtrabackup-1/</link>
+      <pubDate>Mon, 12 Sep 2016 19:19:36 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2016/09/12/xtrabackup-1/</guid>
+      <description>
+
+&lt;p&gt;最近，自宅で動かしているとあるサービスのMariaDBのバックアップを取ろうとふと思い立った．
+使ったことがなかったのでXtraBackupでバックアップ設計することにした．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.percona.com/doc/percona-xtrabackup/2.4/index.html&#34;&gt;Percona XtraBackup - Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;設計方針&#34;&gt;設計方針&lt;/h2&gt;
+
+&lt;p&gt;XtraBackupの使い方はネットに情報があふれているのでここでは説明しません．
+こんな感じの方針でバックアップ設計をしていきます．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;バックアップ先はいずれかのクラウドがいいが，あまりお金をかけたくない(個人でやっているものなので)&lt;/li&gt;
+&lt;li&gt;バックアップの容量をできるだけ小さくしたい&lt;/li&gt;
+&lt;li&gt;RTOは数時間レベルでOK&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;XtraBackupは増分バックアップができるので以下のようにしました．&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;1週間や2週間に1回くらいの頻度でフルバックアップを取得する&lt;/li&gt;
+&lt;li&gt;それ以外の日は前日からの増分バックアップを取得する&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;コマンド&#34;&gt;コマンド&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;フルバックアップ&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ innobackupex --history=xbhistory --compact --stream=xbstream ./ | gzip - &amp;gt; base.xbstream.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;増分バックアップ&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ innobackupex --incremental --history=xbhistory --incremental-history-name=xbhistory --compact --stream=xbstream ./ | gzip - &amp;gt; inc.xbstream.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以下で各オプションの使用した理由などを解説していきます&lt;/p&gt;
+
+&lt;h3 id=&#34;stream-xbstream&#34;&gt;&lt;code&gt;--stream=xbstream&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.percona.com/doc/percona-xtrabackup/2.4/howtos/recipes_ibkx_stream.html&#34;&gt;Make a Streaming Backup&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;指定したパスにバックアップをファイルとして出力する代わりに，指定したフォーマットのアーカイブ形式で標準出力に吐き出します．
+形式は&lt;code&gt;tar&lt;/code&gt;と&lt;code&gt;xbstream&lt;/code&gt;が指定できますが，&lt;code&gt;--incremental&lt;/code&gt;オプションと組み合わせる場合は&lt;code&gt;xbstream&lt;/code&gt;でなければならないので&lt;code&gt;xbstream&lt;/code&gt;を使用します．&lt;/p&gt;
+
+&lt;h3 id=&#34;history&#34;&gt;&lt;code&gt;--history&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/incremental_backups.html&#34;&gt;Incremental Backups&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;https://www.percona.com/doc/percona-xtrabackup/2.4/innobackupex/storing_history.html&#34;&gt;Store backup history on the server&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;--incremental&lt;/code&gt;(増分バックアップ)を使うときは起点とするLSNを指定する必要があります．指定する方法は&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;前回のバックアップ先ディレクトリを指定する(&lt;code&gt;--incremantal-basedir&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;前回のLSNを指定する(&lt;code&gt;--incremental-lsn&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;前回のバックアップ時の情報を対象のDBに保存する(&lt;code&gt;--history&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;前回バックアップ時のLSNはバックアップ先ディレクトリの&lt;code&gt;xtrabackup_checkpoints&lt;/code&gt;ファイルに記録されています(&lt;code&gt;to_lsn&lt;/code&gt;)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cat xtrabackup_checkpoints 
+backup_type = full-backuped
+from_lsn = 0
+to_lsn = 2353547498
+last_lsn = 2353547498
+compact = 0
+recover_binlog_info = 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;xbstream形式だと特定のファイルのみ展開したりすることができなさそうだし，今回は取得したバックアップはクラウド上にアップロードしてローカルからはすぐに削除するつもりなので，先2つの方法はとれなさそうです．
+よって&lt;code&gt;--history&lt;/code&gt;オプションを使用することにします．&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;--history&lt;/code&gt;を使用した場合，バックアップの情報は対象インスタンスの&lt;code&gt;PERCONA_SCHEMA.xtrabackup_history&lt;/code&gt;に保存されます．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ innobackupex --history=xbhistory /data/backups
+$ mysql -uroot -ppassword
+&amp;gt; select * from PERCONA_SCHEMA.xtrabackup_history\G
+*************************** 1. row ***************************
+            uuid: 3c60a347-78d8-11e6-95ea-06b838280a4d
+            name: xbhistory
+       tool_name: innobackupex
+    tool_command: --history=xbhistory /data/backups
+    tool_version: 2.3.5
+ibbackup_version: 2.3.5
+  server_version: 5.5.50-MariaDB
+      start_time: 2016-09-12 11:01:01
+        end_time: 2016-09-12 11:01:20
+       lock_time: 0
+      binlog_pos: NULL
+ innodb_from_lsn: 0
+   innodb_to_lsn: 2353547508
+         partial: N
+     incremental: N
+          format: file
+         compact: N
+      compressed: N
+       encrypted: N
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;増分バックアップを取得するときは&lt;code&gt;--incremental-history-name&lt;/code&gt;オプションを使います．
+&lt;code&gt;--history&lt;/code&gt;オプションを付けないとその回はDBに保存されないようなので増分バックアップのときも&lt;code&gt;--history&lt;/code&gt;オプションを使います．
+毎回，前回のフルバックアップからの増分を取得する，のようなバックアップ設計のときは&lt;code&gt;--history&lt;/code&gt;オプションを付けないと実現できそうです．&lt;/p&gt;
+
+&lt;h3 id=&#34;compact&#34;&gt;&lt;code&gt;--compact&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.percona.com/doc/percona-xtrabackup/2.4/innobackupex/compact_backups_innobackupex.html&#34;&gt;Compact Backups&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://nippondanji.blogspot.jp/2010/10/innodb.html&#34;&gt;漢(オトコ)のコンピュータ道: 知って得するInnoDBセカンダリインデックス活用術！&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;InnoDBのセカンダリインデックスをバックアップに含めない．
+バックアップサイズは削減できるがセカンダリインデックスの再生成が必要になるためprepare処理に時間がかかってしまう．
+今回はRTOよりもバックアップ容量を重視したいのでこのオプションを使用する．&lt;/p&gt;
+
+&lt;h3 id=&#34;compress&#34;&gt;&lt;code&gt;--compress&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.percona.com/doc/percona-xtrabackup/2.4/howtos/recipes_ibkx_compressed.html&#34;&gt;Making a Compressed Backup&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;innobackupex&lt;/code&gt;コマンドには&lt;code&gt;--compress&lt;/code&gt;というオプションがある．これを使うとバックアップ時に各&lt;code&gt;.ibd&lt;/code&gt;ファイルを&lt;code&gt;qpress&lt;/code&gt;という形式で圧縮するようになる．
+&lt;code&gt;gzip&lt;/code&gt;とどちらを使うのがいいのか，圧縮率と時間を比較してみた．&lt;/p&gt;
+
+&lt;p&gt;環境はEC2の&lt;code&gt;t2.micro&lt;/code&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;center&#34;&gt;&lt;code&gt;--compress&lt;/code&gt;&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;&lt;code&gt;gzip&lt;/code&gt;&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;time&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;size&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;command&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;N&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;N&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;16s&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1020MB&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;innobackupex --stream=xbstream ./ &amp;gt; 1.xbstream&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;Y&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;N&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;16s&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;527MB&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;innobackupex --compress --stream=xbstream ./ &amp;gt; 2.xbstream&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;N&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Y&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;66s&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;396MB&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;`innobackupex &amp;ndash;stream=xbstream ./&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;N&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Y&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;25s&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;404MB&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;`innobackupex &amp;ndash;stream=xbstream ./&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;Y&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Y&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;47s&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;435MB&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;`innobackupex &amp;ndash;compress &amp;ndash;stream=xbstream ./&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;データの内容にもよるのだろうが，&lt;code&gt;--compress&lt;/code&gt;オプションは結構高速で，オプションをつけないときと時間はほとんど変わらなかった．
+だが，&lt;code&gt;gzip -1&lt;/code&gt;だと時間は少しかかってしまうが，容量がさらに2割以上削減できるようなので&lt;code&gt;--compress&lt;/code&gt;オプションは使用せずに&lt;code&gt;gzip -1&lt;/code&gt;に渡すことにした．&lt;/p&gt;
+
+&lt;h3 id=&#34;最後に&#34;&gt;最後に&lt;/h3&gt;
+
+&lt;p&gt;mysqldumpと比べるとバックアップの容量が大きくなると思っていましたが，XtraBackupには増分バックアップ機能があるので結果的には容量を削減できそうです．
+まだドキュメントをすべて読んだわけではないのでもっとよい方法があるのかもしれませんが，ひとまずこの方法で運用してみます．&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>CROSS2016 まとめ</title>
@@ -2298,49 +2496,6 @@ gem &#39;therubyracer&#39;, &#39;~&amp;gt; 0.12.1&#39;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;編集後に再び&lt;code&gt;bundle install&lt;/code&gt;を実行．&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Xmonadのmodキーを半角/全角キーに変更する</title>
-      <link>http://uyorum.github.io/blog/2015/02/22/xmonad-change-modmask/</link>
-      <pubDate>Sun, 22 Feb 2015 19:04:51 +0900</pubDate>
-      
-      <guid>http://uyorum.github.io/blog/2015/02/22/xmonad-change-modmask/</guid>
-      <description>
-
-&lt;p&gt;Xmonadを使い始めました．
-いろいろ設定方法を紹介しているページは見つかるのですがmodキーをAltまたはWindowsキー以外に設定する方法が見つからなかったのでメモ．&lt;/p&gt;
-
-&lt;h2 id=&#34;経緯&#34;&gt;経緯&lt;/h2&gt;
-
-&lt;p&gt;いろいろググってみてもmodキーをWindowsキーに変更しているページしか見つかりませんでした．
-Windowsキーのあるキーボードの右下はなかなか指が届きづらいため別のキーにしたいと考えました．
-自分はSKKを使っているので全角/半角キーは使いません．この位置ならば割と容易に届くためmodキーにこのキーを使うことにしました．&lt;/p&gt;
-
-&lt;h2 id=&#34;設定方法&#34;&gt;設定方法&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;xmonad.hs&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;よく紹介されているようにmodMaskをmod4Maskに割り当てます&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;modMask = mod4Mask
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Xmodmap&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;mod4に全角/半角キーを追加します&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;keysym Zenkaku_Hankaku = Super_L
-add mod4 = Zenkaku_Hankaku
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;あとは設定を読み込ませてやればOKです．
-なんでmod4MaskでWindowsキーになるのか不思議だったのですがXmodmapで割り当てられていたんですね．&lt;/p&gt;
 </description>
     </item>
     
