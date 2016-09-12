@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP</title>
+  <link href="http://uyorum.github.io/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://uyorum.github.io/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://uyorum.github.io/images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://uyorum.github.io"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">@uyorumの雑記帳</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">uyorum&#39;s tech blog</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/uyorum"><img src="http://uyorum.github.io/images/github2-dreamstale35.png"></a>
+        
+        
+        
+          <a href="https://twitter.com/uyorum"><img src="http://uyorum.github.io/images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://uyorum.github.io/index.xml"><img src="http://uyorum.github.io/images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://uyorum.github.io/images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP</h4>
+          <p>
+           
+          </p>
+          <p>
+
+<p>今後，OTPを扱うことになりそうなので予習しておく．</p>
+
+<h2 id="概要">概要</h2>
+
+<ul>
+<li>OTP生成のアルゴリズムとして生成回数を変数に用いるHOTPと時刻を変数に用いるTOTPがある．</li>
+<li>両者はそれぞれ<a href="https://tools.ietf.org/html/rfc4226">RFC 4226</a>と<a href="http://tools.ietf.org/html/rfc6238">RFC 6238</a>で規定されている．</li>
+<li>RFCを読みながらOTPについて学んでいく．</li>
+</ul>
+
+<h3 id="背景">背景</h3>
+
+<ul>
+<li>ここ最近，インターネット上では単一の静的な文字列(パスワード)による認証では不十分であることがわかってきた．</li>
+<li>各ベンダーの相互互換性のない実装のせいで，二要素認証はあまり普及してこなかった．</li>
+<li>インターネットへ二要素認証を普及させるには，トークンなどの専用機ではなくより柔軟なデバイス(スマートフォンなどを指していると思われる)で使用できるようにする必要がある</li>
+<li>ワンタイムパスワードは，クライアントマシンに特別なソフトウェアをインストールする必要がないという面で，PKIや生体認証などよりもしばしば推奨される．
+
+<ul>
+<li>そのためユーザは様々なデバイスを渡り歩くことができる</li>
+</ul></li>
+</ul>
+
+<h3 id="アルゴリズムの要件">アルゴリズムの要件</h3>
+
+<p>MUST, SHOULDなどの単語の意味は<a href="https://tools.ietf.org/html/rfc2119">RFC2119</a>で定義されている．</p>
+
+<ol>
+<li>アルゴリズムはsequence-bacedまたはcounter-basedでなければならない．(MUST)</li>
+<li>アルゴリズムはその実装において以下の面でハードウェアに対してeconomicalであるべき．(SHOULD)
+
+<ul>
+<li>バッテリー</li>
+<li>ボタン数</li>
+<li>計算量</li>
+<li>ディスプレイサイズ</li>
+</ul></li>
+<li>アルゴリズムはいずれの数的な入力をサポートしないハードウェアでも動作しなければならない．(MUST)</li>
+<li>アルゴリズムの出力は読みやすく入力しやすいものでなければならない．(MUST)<br />
+また6文字以上の数字で構成されるのが望ましい．</li>
+</ol>
+
+<h3 id="アルゴリズムの概要">アルゴリズムの概要</h3>
+
+<p>Rubyでの実装例とともに段階的に解説していく．</p>
+
+<ol>
+<li><p>インプットとしてSecret Key(サーバとクライアントで事前に共有しておく文字列)，カウンタ，桁数をとる．</p>
+
+<pre><code class="language-ruby">secret = '12345678901234567890'
+count = 1
+digit = 6
+</code></pre></li>
+
+<li><p>カウンタは8桁のバイト文字列に変換しておく<br />
+e.g.) <code>count = 10 =&gt; count_in_byte = \x00\x00\x00\x00\x00\x00\x00\x0a</code></p>
+
+<pre><code class="language-ruby">count_in_byte = ''
+for i in (0..7)
+  count_in_byte = ((count &amp; 0xff) &lt;&lt; (8 * i)).chr + count_in_byte
+  count &gt;&gt;= 8
+end
+</code></pre></li>
+
+<li><p>Secret Keyと，変換したカウンタを用いてHMAC-SHA1(<a href="https://tools.ietf.org/html/rfc2104">RFC 2104</a>)を計算する</p>
+
+<pre><code class="language-ruby">hmac = OpenSSL::HMAC.digest('sha1', secret, count_in_byte)
+</code></pre></li>
+
+<li><p>計算した値(20バイトの文字列)の末尾4ビットをオフセットとする</p>
+
+<pre><code class="language-ruby">offset = hmac[-1].ord &amp; 0xf
+</code></pre></li>
+
+<li><p>先ほどのHMAC-SHA1値のoffsetバイト目から4バイトのうち末尾31ビットを取り出して数値に変換する</p>
+
+<pre><code class="language-ruby">num = (hmac[offset].ord &amp; 0x7f) &lt;&lt; 24 |
+      (hmac[offset + 1].ord &amp; 0xff) &lt;&lt; 16 |
+      (hmac[offset + 2].ord &amp; 0xff) &lt;&lt; 8 |
+      (hmac[offset + 3].ord &amp; 0xff)
+</code></pre></li>
+
+<li><p>変換後の数値の末尾n桁がHOTPである(ここではdigit=6なので末尾6桁)</p>
+
+<pre><code class="language-ruby">puts num % (10 ** digit)
+</code></pre></li>
+</ol>
+
+<h3 id="hotpを生成してみる">HOTPを生成してみる</h3>
+
+<p>Rubyで実装したプログラムを用いて実際にHOTPを生成してみる．今回は比較対象としてGoogle Authenticatorでも同時にHOTPを生成する．</p>
+
+<p>まずは両者でSecret Keyを共有する必要がある．Secret Keyは&rdquo;12345678901234567890&rdquo;とする．(本来はSecretKeyの生成方法にも気を払うべきである．)<br />
+GoogleAuthenticatorへのSecretKeyの渡し方として以下の2つの方法がある．</p>
+
+<blockquote>
+<ul>
+<li>Key provisioning via scanning a QR code</li>
+<li>Manual key entry of RFC 3548 base32 key strings</li>
+</ul>
+</blockquote>
+
+<p><a href="https://github.com/google/google-authenticator/wiki">google/google-authenticator Wiki</a> より</p>
+
+<p>今回は簡単のため後者の方法をとる．
+先程のSecretKeyをBase32でエンコードする．</p>
+
+<pre><code class="language-shell">$ irb
+irb(main):001:0&gt; require 'base32'
+=&gt; true
+irb(main):002:0&gt; Base32.encode(&quot;12345678901234567890&quot;)
+=&gt; &quot;GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ&quot;
+</code></pre>
+
+<p>できた．これをスマホへ持っていってGoogleAuthenticatorへ入力する．(余談だがPCからスマホへの文字列の引き渡しにはPushbulletが役に立った)
+生成した文字列を&rdquo;キー&rdquo;へ入力し，&rdquo;カウンタベース&rdquo;を選択する．</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/01.png" alt="01.png" /></p>
+
+<p>1回目のHOTPを生成．</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/02.png" alt="02.png" /></p>
+
+<pre><code class="language-shell">$ ruby hotp.rb
+287082
+</code></pre>
+
+<p>2回目．</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/03.png" alt="03.png" /></p>
+
+<p>ソースを編集して<code>count=2</code>にしてから実行．</p>
+
+<pre><code class="language-shell">$ ruby hotp.rb
+359152
+</code></pre>
+
+<p>確かに両者で同じ値が出力されている．このようにサーバ側(今回はRubyプログラム)とクライアント側(今回はGoogleAuthenticator)でOTPを生成して一致しているかどうかで認証を行う．</p>
+
+<h3 id="hotpを用いた認証の流れ">HOTPを用いた認証の流れ</h3>
+
+<ul>
+<li><p>セットアップ<br />
+クライアントとサーバでSecret Keyを共有する．<br />
+カウンタを1にセットし，クライアント，サーバそれぞれが保持しておく．</p></li>
+
+<li><p>認証時</p>
+
+<ol>
+<li>通常の(パスワード等による)認証の後，クライアント側でHOTPを生成し，サーバへ送信する．<br />
+その後，クライアント側のカウンタを2にセットする．</li>
+<li>サーバ側でもHOTPを生成する．両者が一致した場合は認証成功とみなす．<br />
+その後，サーバ側のカウンタを2にセットする．<br />
+一致しなかった場合は認証失敗とみなす．カウンタは1のまま．</li>
+</ol></li>
+</ul>
+
+<h3 id="カウンタの再同期">カウンタの再同期</h3>
+
+<p>先ほど説明した流れではクライアント側のカウンタがサーバ側より進んでしまうことがある．(クライアント側でHOTPを生成したが認証を行なわなかった場合など)<br />
+その場合に備えて，RFC内ではカウンタの再同期の仕組みを組込むことが推奨されている．</p>
+
+<ol>
+<li>あらかじめサーバ側で整数値look-ahead parameter(記号sで表す)を設定しておく．</li>
+<li>HOTPによる認証を求められた際に，サーバは保持しているカウンタに対するHOTPに加えて次のs個分のHOTPも生成し，クライアント側のHOTPと照合する．</li>
+<li>もしその中に一致するものがあった場合は認証成功とし，そのHOTPに対応するカウンタ+1をサーバ側カウンタにセットする．</li>
+</ol>
+
+<p>以上のような流れを踏むことで最大sだけカウンタがずれてもカウンタの再同期が可能になる．</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/04.png" alt="04.png" /></p>
+
+<h3 id="その他">その他</h3>
+
+<p>RFC内ではその他にも以下のような要素について述べられている．が、今回はこれで力尽きたので今度書く．</p>
+
+<ul>
+<li>認証試行回数の上限値</li>
+<li>Secret Keyの保存方法</li>
+<li>Secret Keyの生成方法</li>
+<li>サーバとクライアントの双方向認証</li>
+<li>HOTP生成アルゴリズムのセキュリティ強度</li>
+</ul>
+
+<p>図を書くのにはどのソフトがいいんだろう…</p>
+</p>
+          <p>24 Jul 2015
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'uyorum';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/07/29/learning-go-01/"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/07/21/boot2docker-xhyve/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (C) 2016 uyorum All Right Reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://uyorum.github.io/js/materialize.min.js"></script>
+  <script src="http://uyorum.github.io/js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43857839-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

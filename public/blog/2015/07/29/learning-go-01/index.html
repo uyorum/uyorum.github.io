@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>Go言語のお勉強 その1</title>
+  <link href="http://uyorum.github.io/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://uyorum.github.io/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://uyorum.github.io/images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://uyorum.github.io"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">@uyorumの雑記帳</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">uyorum&#39;s tech blog</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/uyorum"><img src="http://uyorum.github.io/images/github2-dreamstale35.png"></a>
+        
+        
+        
+          <a href="https://twitter.com/uyorum"><img src="http://uyorum.github.io/images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://uyorum.github.io/index.xml"><img src="http://uyorum.github.io/images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://uyorum.github.io/images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>Go言語のお勉強 その1</h4>
+          <p>
+           
+          </p>
+          <p>
+
+<p>Go言語を勉強中．今日やったことまとめ．</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="http://golang-jp.org/doc/">ドキュメント - The Go Programming Language</a></li>
+<li><a href="http://dev.classmethod.jp/series/golang-2/">golang ｜ シリーズ ｜ Developers.IO</a></li>
+</ul>
+
+<h2 id="プログラムの構造">プログラムの構造</h2>
+
+<pre><code class="language-go">package main
+
+import (
+  &quot;fmt&quot;
+  &quot;strconv&quot;
+)
+
+func func1 {
+  // definition of function
+
+}
+
+func main {
+  // main operation
+
+}
+</code></pre>
+
+<ul>
+<li>プログラムを実行するとまず<code>main</code>が実行される．</li>
+<li><code>import</code><br />
+使用するパッケージを指定する．ここで指定したがプログラム内で使用していないと実行時に警告が出力される．<br />
+括弧でまとめてimportすることができる．上記の例は以下と等価</li>
+</ul>
+
+<pre><code class="language-go">import &quot;fmt&quot;
+import &quot;strconv&quot;
+</code></pre>
+
+<h2 id="変数の宣言">変数の宣言</h2>
+
+<pre><code class="language-go">var int1 int
+var int2 int = 1
+var int3 = 2
+var str1, str2 string
+var str1, str2 = &quot;hoge&quot;, &quot;huga&quot;
+
+func func1 {
+  boo := false
+}
+</code></pre>
+
+<ul>
+<li><code>var 変数名 型</code>の形式で宣言する．</li>
+<li>宣言と同時に初期化することもできる．その場合は型の指定を省略でき，右辺の型が自動的に使用される．</li>
+<li><code>,</code>区切りで複数の変数を同時に宣言することもできる．</li>
+<li>関数内に限り<code>:=</code>を使用することで<code>var</code>を省略できる．</li>
+</ul>
+
+<h3 id="定数">定数</h3>
+
+<pre><code class="language-go">const PI float64 = 3.14
+//PI = 3.141592 &lt;-エラー
+
+const (
+  const1 = &quot;string&quot;
+  const2 = 10
+)
+
+const (
+  x = iota
+  y = iota
+  z
+)
+
+// 0 1 2 0
+fmt.Println(x, y, z, x)
+</code></pre>
+
+<ul>
+<li><code>const 変数 [型] = 値</code>の形式で宣言する．</li>
+<li>変数と異なり，宣言と同時に初期化しないとエラーになる．</li>
+<li><code>const (   )</code>を使うことでまとめて宣言することもできる．
+
+<ul>
+<li>値を省略すると上と同じ値が代入される．</li>
+</ul></li>
+<li><code>iota</code>は連番が生成される．</li>
+</ul>
+
+<h2 id="関数">関数</h2>
+
+<pre><code class="language-go">func inc1(i int) int {
+  i++
+  fmt.Println(&quot;inc1: i = &quot; + strconv.Itoa(i))
+  return i
+}
+</code></pre>
+
+<ul>
+<li><code>func 関数名(引数 引数の型[, 引数 引数の型[, ...]]) [返り値の型]</code>の形式で宣言する</li>
+</ul>
+
+<pre><code class="language-go">func split(sum int) (x, y int) {
+    x = sum * 4 / 9
+    y = sum - x
+    return
+}
+
+// 7 10
+fmt.Println(split(17))
+</code></pre>
+
+<ul>
+<li>関数の宣言時に返り値で変数を指定することで<code>return</code>時に変数を省略できる．</li>
+</ul>
+
+<h3 id="可変長引数">可変長引数</h3>
+
+<pre><code class="language-go">func fArgs(strArgs ...string) {
+  for index, value := range strArgs {
+    fmt.Println(index, value)
+  }
+}
+
+// 0 Go
+// 1 Java
+// 2 Ruby
+fArgs(&quot;Go&quot;, &quot;Java&quot;, &quot;Ruby&quot;)
+</code></pre>
+
+<ul>
+<li>引数の型に<code>...</code>をつけることで可変長変数をとる関数を宣言できる</li>
+<li>配列に格納される．(Array? Slice?)</li>
+</ul>
+
+<h2 id="ポインタ">ポインタ</h2>
+
+<pre><code class="language-go">func inc2(i *int) {
+	*i++
+	fmt.Println(&quot;inc2: i = &quot; + strconv.Itoa(*i))
+}
+
+num := 10
+inc1(num)          // inc1: i = 11
+fmt.Println(num)   // 10
+num = 10
+inc2(&amp;num)         // inc2: i = 11
+fmt.Println(num)   // 11
+</code></pre>
+
+<ul>
+<li><code>*型</code>形式で記述することで「指定した型を持つ値を指すポインタ」が渡される．</li>
+<li><code>*ポインタ名</code>形式で記述することで「そのポインタが指す値」が渡される．</li>
+<li><code>&amp;変数名</code>形式で記述することで「その変数のポインタ」が渡される．</li>
+<li>inc2はポインタを関数に渡しているため，関数の外でも値が変更されたままになる．</li>
+<li>Goでは引数の渡し方はすべて値渡し．ここで行なっているのは「参照の値渡し」である．
+
+<ul>
+<li>値がメモリ上でコピーされないのでメモリの節約になる．</li>
+</ul></li>
+</ul>
+
+<p>今日はここまで．</p>
+</p>
+          <p>29 Jul 2015
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'uyorum';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/07/29/learning-go-02/"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/07/24/hotp/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (C) 2016 uyorum All Right Reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://uyorum.github.io/js/materialize.min.js"></script>
+  <script src="http://uyorum.github.io/js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43857839-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

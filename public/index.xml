@@ -1,0 +1,2348 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>@uyorumの雑記帳</title>
+    <link>http://uyorum.github.io/</link>
+    <description>Recent content on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright (C) 2016 uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Sat, 06 Feb 2016 20:44:03 +0900</lastBuildDate>
+    <atom:link href="http://uyorum.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>CROSS2016 まとめ</title>
+      <link>http://uyorum.github.io/blog/2016/02/06/cross2016/</link>
+      <pubDate>Sat, 06 Feb 2016 20:44:03 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2016/02/06/cross2016/</guid>
+      <description>
+
+&lt;p&gt;メモ&lt;/p&gt;
+
+&lt;h2 id=&#34;日本のiaas裏トーク-インフラ-ソフトウェア&#34;&gt;日本のIaaS裏トーク〜インフラ×ソフトウェア〜&lt;/h2&gt;
+
+&lt;h3 id=&#34;各社のiaasの紹介&#34;&gt;各社のIaaSの紹介&lt;/h3&gt;
+
+&lt;h4 id=&#34;nifty&#34;&gt;NIFTY&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;vDSを使ってる&lt;/li&gt;
+&lt;li&gt;FWはESXi上で動くもの(仮想アプライアンス？)&lt;/li&gt;
+&lt;li&gt;NSXを使えないか検討中&lt;/li&gt;
+&lt;li&gt;仮想基盤は構築の度にVMware以外も検討している
+
+&lt;ul&gt;
+&lt;li&gt;今のところVMwareのみ&lt;/li&gt;
+&lt;li&gt;リージョン単位で仮想化基盤が異なっても大丈夫な設計になってる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;idcf&#34;&gt;IDCF&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;CloudPlatformを使ってる&lt;/li&gt;
+&lt;li&gt;ネットワークの対外接続は総容量660Gbps(国内最大)
+
+&lt;ul&gt;
+&lt;li&gt;国内9DCの合計&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;kibanaで開発中のリポジトリの統計(？)を見れる模様&lt;/li&gt;
+&lt;li&gt;オールフラッシュ
+
+&lt;ul&gt;
+&lt;li&gt;制限かけてないのでIOPSじゃぶじゃぶ出る&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;RubyでNW機器を管理する(コンフィグいれたり)仕組みを作っている&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;gmo&#34;&gt;GMO&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;OpenStack
+
+&lt;ul&gt;
+&lt;li&gt;進化のスピードが速いから&lt;/li&gt;
+&lt;li&gt;バグを独自で改修することもある&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;組織(だいたいコンポーネントごとにわかれている)
+
+&lt;ul&gt;
+&lt;li&gt;ユーザインターフェース&lt;/li&gt;
+&lt;li&gt;バックエンド&lt;/li&gt;
+&lt;li&gt;制御ロジック&lt;/li&gt;
+&lt;li&gt;OpenStack&lt;/li&gt;
+&lt;li&gt;ミドルウェア&lt;/li&gt;
+&lt;li&gt;物理インフラ&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;ネットワーク
+
+&lt;ul&gt;
+&lt;li&gt;画一的なL2ネットワークを組むことが多い&lt;/li&gt;
+&lt;li&gt;スイッチの設定はプログラムから動的に変更している&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;さくら&#34;&gt;さくら&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;生のKVMを使って独自の管理基盤を作っている&lt;/li&gt;
+&lt;li&gt;クラウドコントローラは天才プログラマがひとりで作った&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;cloudstackの今後&#34;&gt;CloudStackの今後&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;(IDCF)買収によるインパクトはほとんどない
+
+&lt;ul&gt;
+&lt;li&gt;CloudPlatformだとカスタマイズできない(サポートされない)&lt;/li&gt;
+&lt;li&gt;かえってCloudStackの方が都合がいい&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;開発&#34;&gt;開発&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;NIFTY
+
+&lt;ul&gt;
+&lt;li&gt;インフラエンジニアをクラウドエンジニアと呼んでいる&lt;/li&gt;
+&lt;li&gt;どのレイヤまで，という境界は特にない
+
+&lt;ul&gt;
+&lt;li&gt;各自が関わりたいところまでやる，といった感じ&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;アプリケーションは別の部で作っている&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;(さくら)組織がわかれていてもお互いコミュニケーションをはかる必要ある&lt;/li&gt;
+&lt;li&gt;バッチスクリプトなどのは各々好きな言語で書いてる
+
+&lt;ul&gt;
+&lt;li&gt;Perl，Python，GO，Ruby&lt;/li&gt;
+&lt;li&gt;(さくら)やりたいことができたらいい&lt;/li&gt;
+&lt;li&gt;(NIFTY)書いた人が好きな言語で書いてる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;OSSのパッチはアップストリームに上げてる？
+
+&lt;ul&gt;
+&lt;li&gt;(GMO)OpenStackのバグ改修は上げてない
+
+&lt;ul&gt;
+&lt;li&gt;ForkしてGitで管理している&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;(さくら)QEMUのパッチあててるがアップストリームには上げてない&lt;/li&gt;
+&lt;li&gt;(さくら)VyOSのチューニングしているが上げてない
+
+&lt;ul&gt;
+&lt;li&gt;自環境にあわせたカスタマイズなので汎用性がないため&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;(NIFTY)VyOSのパッチは一部を除いて上げてない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;インフラ(特にネットワーク機器)を制御するプログラムのテストをどうやるか
+
+&lt;ul&gt;
+&lt;li&gt;さくら
+
+&lt;ul&gt;
+&lt;li&gt;本番環境でテストすることもある&lt;/li&gt;
+&lt;li&gt;開発環境は放っておくとどんどん壊れていく&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;NIFTY
+
+&lt;ul&gt;
+&lt;li&gt;ESXiをネストさせてる&lt;/li&gt;
+&lt;li&gt;物理機器は本番環境とそろえてのテストはなかなかできていない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;GMO
+
+&lt;ul&gt;
+&lt;li&gt;自分たちのVMだけがあるホストを本番環境に用意してテストしてる&lt;/li&gt;
+&lt;li&gt;(NIFTY)そのVMを全ホストに順に移行させてホストを順番にテストしている&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;やっかいだった障害
+
+&lt;ul&gt;
+&lt;li&gt;(各社)ストレージ障害&lt;/li&gt;
+&lt;li&gt;(NIFTY)DCの電源障害&lt;/li&gt;
+&lt;li&gt;(さくら)スイッチのバグ
+
+&lt;ul&gt;
+&lt;li&gt;メーカーにバグを認めさせて直させるのが障害&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;見つけよう-dockerと開発-運用のいい関係&#34;&gt;見つけよう、Dockerと開発・運用のいい関係&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;(中井さん)Dockerはコンテナ技術ではない．Dockerの目的はアプリケーションのモビリティを上げることであり，そのためにコンテナ型仮想化がちょうどよかっただけのこと．コンテナ型仮想化自体は以前からあった．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;先達に聞くこれからのエンジニア像-2016&#34;&gt;先達に聞くこれからのエンジニア像 2016&lt;/h2&gt;
+
+&lt;h3 id=&#34;与えられた条件下でどうやってベストを尽くすか&#34;&gt;与えられた条件下でどうやってベストを尽くすか&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;みんな戦略を立てて立ち回っているわけではなさそう&lt;/li&gt;
+&lt;li&gt;むしろ環境を自分で提案していく必要がある&lt;/li&gt;
+&lt;li&gt;「創造性は制約を好む」&lt;/li&gt;
+&lt;li&gt;現状の延長ではない目標を定める
+
+&lt;ul&gt;
+&lt;li&gt;必然的にイノベーションが必要になる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;どうやってチームを奮いたたせるか&#34;&gt;どうやってチームを奮いたたせるか&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;(伊勢さん)期日とゴールを定めて，途中は干渉しない
+
+&lt;ul&gt;
+&lt;li&gt;失敗したときのリカバリ案はあらかじめ考えておく&lt;/li&gt;
+&lt;li&gt;途中で干渉されるのが嫌だった&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;日本は立場が上の人間の言うことが正しいと捉えられる傾向にある
+
+&lt;ul&gt;
+&lt;li&gt;それゆえ，上の人間は発言にも気をつかう必要がある&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;より高い視点へ&#34;&gt;より高い視点へ&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;技術を学ぶことを楽しむ人間にさせるには
+
+&lt;ul&gt;
+&lt;li&gt;コミュニティや勉強会を楽しんでいる姿を見せる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する</title>
+      <link>http://uyorum.github.io/blog/2015/11/09/get-ip-in-hyperv/</link>
+      <pubDate>Mon, 09 Nov 2015 23:28:41 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/11/09/get-ip-in-hyperv/</guid>
+      <description>
+
+&lt;p&gt;「内部ネットワーク」を使用している場合，Hyper-VのGuestOSはDHCPでIPアドレスが振られる．
+HostからGuestへアクセスするときにアドレスが変わると困る．
+Guestを固定アドレスにすればいいのかも知れないが，何かの拍子でセグメントが変わったら面倒なので自動で取得できるようする．&lt;/p&gt;
+
+&lt;h2 id=&#34;環境&#34;&gt;環境&lt;/h2&gt;
+
+&lt;h3 id=&#34;host&#34;&gt;Host&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&amp;gt; systeminfo
+(抜粋)
+OS Name:                   Microsoft Windows 10 Pro
+OS Version:                10.0.10240 N/A Build 10240
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;guest&#34;&gt;Guest&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Debian
+Description:    Debian GNU/Linux unstable (sid)
+Release:        unstable
+Codename:       sid
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;準備&#34;&gt;準備&lt;/h2&gt;
+
+&lt;p&gt;Guest OSにAgentをインストール&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo apt-get install hyperv-daemons
+$ dpkg -l hyperv-daemons
+要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)保持
+| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストール/(W)トリガ待ち/(T)トリガ保留
+|/ エラー?=(空欄)無/(R)要再インストール (状態,エラーの大文字=異常)
+||/ 名前                          バージョン          アーキテクチャ      説明
++++-=============================-===================-===================-================================================================
+ii  hyperv-daemons                4.2-2               amd64               Support daemons for Linux running on Hyper-V
+$ systemctl status hyperv-daemons.hv-fcopy-daemon.service
+● hyperv-daemons.hv-fcopy-daemon.service - Hyper-V file copy service (FCOPY) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-fcopy-daemon.service; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+Condition: start condition failed at 金 2015-11-06 22:31:17 JST; 3 days ago
+$ systemctl status hyperv-daemons.hv-kvp-daemon.service
+● hyperv-daemons.hv-kvp-daemon.service - Hyper-V key-value pair (KVP) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-kvp-daemon.service; enabled; vendor preset: enabled)
+   Active: active (running) since 金 2015-11-06 22:31:17 JST; 3 days ago
+ Main PID: 673 (hv_kvp_daemon)
+   CGroup: /system.slice/hyperv-daemons.hv-kvp-daemon.service
+           └─673 /usr/sbin/hv_kvp_daemon -n
+$ systemctl status hyperv-daemons.hv-vss-daemon.service
+● hyperv-daemons.hv-vss-daemon.service - Hyper-V volume shadow copy service (VSS) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-vss-daemon.service; enabled; vendor preset: enabled)
+   Active: active (running) since 金 2015-11-06 22:31:17 JST; 3 days ago
+ Main PID: 667 (hv_vss_daemon)
+   CGroup: /system.slice/hyperv-daemons.hv-vss-daemon.service
+           └─667 /usr/sbin/hv_vss_daemon -n
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;daemonのひとつで起動に失敗しているがとりあえず放置．それぞれの役割はこんな感じ．&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;hv_fcopy_daemon provides the file copy service, allowing the host to copy files into the guest.
+hv_kvp_daemon provides the key-value pair (KVP) service, allowing the host to get and set the IP networking configuration of the guest. (This requires helper scripts which are not currently included.)
+hv_vss_daemon provides the volume shadow copy service (VSS), allowing the host to freeze the guest filesystems while taking a snapshot.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://packages.debian.org/sid/hyperv-daemons&#34;&gt;Debian &amp;ndash; Details of package hyperv-daemons in sid&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;今回必要なのはおそらく&lt;code&gt;hv_kvp_daemon&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ホスト側のpowershellでコマンドを実行&#34;&gt;ホスト側のPowerShellでコマンドを実行&lt;/h2&gt;
+
+&lt;p&gt;管理者権限がないと値を取得できないので注意&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&amp;gt; Get-VMNetworkAdapter -VMName &amp;lt;VM Name&amp;gt; | Select IPAddresses
+IPAddresses
+-----------
+{192.168.137.214, fe80::215:5dff:fe02:103}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以下のような感じでIPv4アドレスだけ取得できた&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&amp;gt; $vm = Get-VMNetworkAdapter -VMName Phoebe
+&amp;gt; $vm.IPAddresses -match &amp;quot;^\d+\.\d+\.\d+\.\d+$&amp;quot;
+192.168.137.214
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上．&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ffmpeg(avconv)でmp3からブランクスクリーン(黒)のmp4を作成する</title>
+      <link>http://uyorum.github.io/blog/2015/10/15/create-blank-video-with-ffmpeg/</link>
+      <pubDate>Thu, 15 Oct 2015 21:15:02 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/10/15/create-blank-video-with-ffmpeg/</guid>
+      <description>
+
+&lt;p&gt;逆(mp4からmp3を抽出する)はよく見つかるけど日本語の情報がなかったのでまとめておく．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://libav.org/avconv.html&#34;&gt;Libav documentation : avconv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://ffmpeg.org/pipermail/ffmpeg-user/2013-June/015632.html&#34;&gt;[FFmpeg-user] convert mp3 to 3gp or MP4&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://stackoverflow.com/questions/5887311/ffmpeg-1-image-1-audio-file-1-video&#34;&gt;ffmpeg: 1 image + 1 audio file = 1 video - Stack Overflow&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;コマンド&#34;&gt;コマンド&lt;/h2&gt;
+
+&lt;p&gt;ffmpegやavconvを初めて自分で使ったのでまとめておく．&lt;br /&gt;
+自分はavconvを使ったがたぶんffmpegも同じなんじゃないかな(適当)&lt;br /&gt;
+オプション一覧はあるがその意味が説明されているドキュメントを見つけられなかったのでオプションの意味が間違ってるかもしれない．&lt;/p&gt;
+
+&lt;p&gt;標題を達成するには&amp;hellip;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ avconv -y -s 320x240 -f rawvideo -pix_fmt rgb24 -r 1 -i /dev/zero -i /path/to/mp3 -vcodec libx264 -acodec copy -shortest /name/of/output.mp4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;各オプションの解説&#34;&gt;各オプションの解説&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-y&lt;/code&gt;&lt;br /&gt;
+同名のファイルが既にあった場合でも確認なしでファイルを上書きする&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-s 320x240&lt;/code&gt;&lt;br /&gt;
+-s[:stream_specifier] size (input/output,per-stream)&lt;br /&gt;
+映像のサイズ．今回は真っ黒の画面にするのでサイズはどうでもいい．小さめでキリのよいQVGAにする．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-f rawvideo&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;-f fmt (input/output)&lt;/code&gt;&lt;br /&gt;
+入力または出力のフォーマットを(強制的に)指定する．&lt;br /&gt;
+「強制的」と書いたのは，avconvは入力に指定したファイルの中身や出力に指定したファイルの拡張子からフォーマットを自動で判別するようになっているため．&lt;br /&gt;
+→fmtの選択肢は？？&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-pix_fmt rgb24&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;-pix_fmt[:stream_specifier] format (input/output,per-stream)&lt;/code&gt;&lt;br /&gt;
+pixel formatを指定する．(おそらく)RGBで表現し，1ドットあたり24bit消費する&lt;br /&gt;
+&lt;code&gt;avconv -pix_fmts&lt;/code&gt;で選択肢が表示される．リストを見た感じ，monobの方がサイズが小さくなりそうだったが比較したらrgb24の方が小さくなった(約30分で16byte)．なぜだ．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-r 1&lt;/code&gt;&lt;br /&gt;
+&lt;code&gt;-r[:stream_specifier] fps (input/output,per-stream)&lt;/code&gt;&lt;br /&gt;
+映像のFPSを指定する．小さい値を指定した方が出来上がりのファイルサイズも小さくなる．ということで1を指定．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-i /dev/zero -i /path/to/mp3&lt;/code&gt;&lt;br /&gt;
+inputを指定する．映像とか音声とか自動で判別してくれる模様．便利．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-vcodec libx264&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-acodec copy&lt;/code&gt;&lt;br /&gt;
+それぞれ&lt;code&gt;-codec:v&lt;/code&gt;と&lt;code&gt;-codec:a&lt;/code&gt;へのalias．&lt;br /&gt;
+&lt;code&gt;-codec[:stream_specifier] codec (input/output,per-stream)&lt;/code&gt;&lt;br /&gt;
+入力(-iの前に書いた場合)や出力(出力ファイル名の前に書いた場合)のcodecを指定する．(前述の通り，入力のcodecは自動で判別してくれる)&lt;br /&gt;
+ここでは出力．映像はX264，音声はcopyを指定することで再エンコードせずにそのまま使用する．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-shortest&lt;/code&gt;&lt;br /&gt;
+入力に指定したストリームのうち，最も短いものの末尾に到達した時点でエンコードを終了する．&lt;br /&gt;
+今回は映像の入力に/dev/zeroを指定しているので(つまり永遠)，このオプションを与えないとエンコードが終了しない．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;/name/of/output.mp4&lt;/code&gt;&lt;br /&gt;
+出力ファイル名．前述の通り.mp4にすればで自動的にMP4形式で出力してくれる．&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以上．&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CoreOS入門1 etcd</title>
+      <link>http://uyorum.github.io/blog/2015/09/04/learning-coreos-01/</link>
+      <pubDate>Fri, 04 Sep 2015 23:01:54 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/09/04/learning-coreos-01/</guid>
+      <description>
+
+&lt;p&gt;最近CoreOSを触りはじめたので学んだことをまとめていく．まずはetcdから．
+最終的にはKubernetesでCoreOSをコントロールするところまでいきたいなーと思ってるが，いつになることやら．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/coreos/etcd&#34;&gt;coreos/etcd&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://coreos.com/etcd/docs/latest/getting-started-with-etcd.html&#34;&gt;Getting Started with etcd on CoreOS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://coreos.com/os/docs/latest/cluster-discovery.html&#34;&gt;Clustering Machines&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;etcdとは&#34;&gt;etcdとは&lt;/h2&gt;
+
+&lt;p&gt;分散KVS．詳細はいろいろな方が紹介記事を書いているので省略．&lt;/p&gt;
+
+&lt;p&gt;以下，etcdによるクラスタの構成方法．&lt;br /&gt;
+etcdはv0.4系とv2.0系があり，それぞれコマンドオプションがほとんど違うので注意が必要．&lt;br /&gt;
+以下はetcd v2での説明．&lt;/p&gt;
+
+&lt;h2 id=&#34;etcdクラスタを構成するには&#34;&gt;etcdクラスタを構成するには&lt;/h2&gt;
+
+&lt;p&gt;マルチキャストを使って互いのノード(peerと呼ぶ)を自動で見つけてくれるたぐいのものではない．マルチクラウドやL3ネットワーク越しに使うことも想定しているからっぽい．&lt;br /&gt;
+よってノードは他のノードがどこにいるか(IPアドレス)を何らかの方法で取得しなければならない．以下の3つの方法がある．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Static&lt;br /&gt;
+クラスタのメンバのアドレスとポートが既にわかっている場合に使う．etcd起動時に他のノードのアドレスを与える．&lt;/li&gt;
+&lt;li&gt;etcd discovery&lt;br /&gt;
+各ノードのアドレスが事前にわからない場合に使う．詳しくは後述する&lt;/li&gt;
+&lt;li&gt;DNS discovery&lt;br /&gt;
+同上．DNSのSRVレコードを使う．よく調べてない．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;discovery-serviceとは&#34;&gt;Discovery Serviceとは&lt;/h3&gt;
+
+&lt;p&gt;etcdクラスタを初めに構築するときに利用するService．各ノードのetcdはこのServiceに自分のアドレスを登録し，同様に登録された他のノードのアドレスを知る．&lt;br /&gt;
+Discovery Serviceはクラスタの構築時にのみ使用される．既に稼動しているクラスタへのノードの追加やクラスタのモニタリングには利用しない．&lt;br /&gt;
+後からノードを追加したり除去するするときは&lt;a href=&#34;https://github.com/coreos/etcd/blob/master/Documentation/runtime-configuration.md&#34;&gt;runtime&lt;/a&gt;が使われる．&lt;br /&gt;
+Discovery ServiceのURLは通常使い回しはせずに構築するクラスタごとに生成しなおす．&lt;/p&gt;
+
+&lt;h3 id=&#34;public-discovery-serviceによるクラスタの構成&#34;&gt;Public Discovery Serviceによるクラスタの構成&lt;/h3&gt;
+
+&lt;p&gt;自分でDiscovery Serviceを立てる方法と専用のPublicサービスを利用する方法がある．&lt;br /&gt;
+前者は普通にetcdを起動すればいいみたい．ここでetcdを起動するホストはクラスタに参加させたいホストとは別物なので注意．これに気づくまでに時間がかかった．&lt;br /&gt;
+(Public Serviceの方法はetcd2でしか使えない？etcd 4.9ではなぜかだめだった．)&lt;br /&gt;
+Public Discovery Serviceを使うには&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ curl https://discovery.etcd.io/new?size=3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;で返ってきたURLを&lt;code&gt;-discovery&lt;/code&gt;オプションに指定してetcdを起動する．sizeにははじめにクラスタを構成する際のノード数を指定する．&lt;br /&gt;
+ここで指定する値は重要で，ここで指定した台数が集まらないとetcdクラスタが完成しない．(KVSが機能しない)&lt;/p&gt;
+
+&lt;p&gt;今回は1つのOSでポートを変えてetcdプロセスを3つ起動してクラスタを構成してみる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;環境&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ cat /etc/redhat-release 
+CentOS Linux release 7.1.1503 (Core)
+ 
+$ etcd --version
+etcd Version: 2.0.13
+Git SHA: 92e3895
+Go Version: go1.4.2
+Go OS/Arch: linux/amd64
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ここではあえてCoreOSは使わない．etcdはCoreOSだけのものではないので．&lt;/p&gt;
+
+&lt;p&gt;このホスト上でetcdを3つ起動する．&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;client port&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;peer port&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;machine1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2379&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2380&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;machine2&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;22379&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;22380&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;machine2&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;32379&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;32380&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+&lt;li&gt;client port&lt;br /&gt;
+KVSへのアクセスを受け付けるポート&lt;/li&gt;
+&lt;li&gt;peer port&lt;br /&gt;
+etcd同士で通信するときに使用するポート&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;1ノード目を起動させる&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ etcd -name machine1 -initial-advertise-peer-urls http://127.0.0.1:2380 \
+&amp;gt; -listen-peer-urls http://127.0.0.1:2380 \
+&amp;gt; -listen-client-urls http://127.0.0.1:2379 \
+&amp;gt; -advertise-client-urls http://127.0.0.1:2379 \
+&amp;gt; -discovery https://discovery.etcd.io/&amp;lt;token&amp;gt;
+2015/08/31 22:03:06 etcd: no data-dir provided, using default data-dir ./machine1.etcd
+2015/08/31 22:03:06 etcd: listening for peers on http://127.0.0.1:2380
+2015/08/31 22:03:06 etcd: listening for client requests on http://127.0.0.1:2379
+2015/08/31 22:03:06 etcdserver: datadir is valid for the 2.0.1 format
+2015/08/31 22:03:07 discovery: found self b4adc113c23753cc in the cluster
+2015/08/31 22:03:07 discovery: found 1 peer(s), waiting for 2 more
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;initial~で始まるオプションはクラスタの他のノードに伝えるURL(Discovery Serviceに登録される)&lt;br /&gt;
+listen~はそのまま．listenするポートとインターフェース&lt;br /&gt;
+&lt;strong&gt;マルチクラウドなど，NAT環境なんかでは両者をしっかり区別する必要がある&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;残りのノードも同じように起動するとクラスタの構成が完了する&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;2015/08/31 22:07:45 raft: a956683cc771ba75 [logterm: 1, index: 3, vote: 0] voted for 2307dad4ec70be21 [logterm: 1, index: 3] at term 2
+2015/08/31 22:07:45 raft.node: a956683cc771ba75 elected leader 2307dad4ec70be21 at term 2
+2015/08/31 22:07:45 rafthttp: starting client stream to 2307dad4ec70be21 at term 2
+2015/08/31 22:07:45 etcdserver: published {Name:machine1 ClientURLs:[http://127.0.0.1:32379]} to cluster 31fef011866a5fd7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;このノードがクラスタのLeaderに選ばれたのがわかる．このへんはRaftというアルゴリズムが用いられているらしい．Raftについてはあとで調べたい．&lt;br /&gt;
+ちなみにクラスタ構成後にDiscovery URLを見てみると&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ curl https://discovery.etcd.io/9dfd14389c921bdde47847f13b7f51cb
+{
+  &amp;quot;node&amp;quot;: {
+    &amp;quot;createdIndex&amp;quot;: 780131509.0,
+    &amp;quot;modifiedIndex&amp;quot;: 780131509.0,
+    &amp;quot;nodes&amp;quot;: [
+      {
+        &amp;quot;createdIndex&amp;quot;: 780132766.0,
+        &amp;quot;modifiedIndex&amp;quot;: 780132766.0,
+        &amp;quot;value&amp;quot;: &amp;quot;machine1=http:\/\/127.0.0.1:2380&amp;quot;,
+        &amp;quot;key&amp;quot;: &amp;quot;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/a956683cc771ba75&amp;quot;
+      },
+      {
+        &amp;quot;createdIndex&amp;quot;: 780132931.0,
+        &amp;quot;modifiedIndex&amp;quot;: 780132931.0,
+        &amp;quot;value&amp;quot;: &amp;quot;machine2=http:\/\/127.0.0.1:22380&amp;quot;,
+        &amp;quot;key&amp;quot;: &amp;quot;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/2307dad4ec70be21&amp;quot;
+      },
+      {
+        &amp;quot;createdIndex&amp;quot;: 780133027.0,
+        &amp;quot;modifiedIndex&amp;quot;: 780133027.0,
+        &amp;quot;value&amp;quot;: &amp;quot;machine3=http:\/\/127.0.0.1:32380&amp;quot;,
+        &amp;quot;key&amp;quot;: &amp;quot;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/6693db807ca7130f&amp;quot;
+      }
+    ],
+    &amp;quot;dir&amp;quot;: true,
+    &amp;quot;key&amp;quot;: &amp;quot;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb&amp;quot;
+  },
+  &amp;quot;action&amp;quot;: &amp;quot;get&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;jsonは別途，見やすくパースしてる．実際にはjsonが1行で表示される．&lt;/p&gt;
+
+&lt;p&gt;このクラスタに後からノードを追加したい場合は同じURLを指定してetcdを実行すればよい．内容を見て自動でクラスタに参加してくれる．
+(このURLはいつまで有効？)&lt;/p&gt;
+
+&lt;h3 id=&#34;kvsの使用&#34;&gt;KVSの使用&lt;/h3&gt;
+
+&lt;p&gt;試しにKVSに値を入れてみる(APIは&lt;a href=&#34;https://github.com/coreos/etcd/blob/master/Documentation/api.md&#34;&gt;ここ&lt;/a&gt;を参照)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ curl http://127.0.0.1:2379/v2/keys/foo -XPUT -d value=bar
+{
+  &amp;quot;node&amp;quot;: {
+    &amp;quot;createdIndex&amp;quot;: 7,
+    &amp;quot;modifiedIndex&amp;quot;: 7,
+    &amp;quot;value&amp;quot;: &amp;quot;bar&amp;quot;,
+    &amp;quot;key&amp;quot;: &amp;quot;\/foo&amp;quot;
+  },
+  &amp;quot;action&amp;quot;: &amp;quot;set&amp;quot;
+}
+$ curl http://127.0.0.1:2379/v2/keys/foo
+{
+  &amp;quot;node&amp;quot;: {
+    &amp;quot;createdIndex&amp;quot;: 7,
+    &amp;quot;modifiedIndex&amp;quot;: 7,
+    &amp;quot;value&amp;quot;: &amp;quot;bar&amp;quot;,
+    &amp;quot;key&amp;quot;: &amp;quot;\/foo&amp;quot;
+  },
+  &amp;quot;action&amp;quot;: &amp;quot;get&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;登録された．別のノード(22379番ポート)に同じキーを問い合わせてみる&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ curl http://127.0.0.1:22379/v2/keys/foo
+{
+  &amp;quot;node&amp;quot;: {
+    &amp;quot;createdIndex&amp;quot;: 7,
+    &amp;quot;modifiedIndex&amp;quot;: 7,
+    &amp;quot;value&amp;quot;: &amp;quot;bar&amp;quot;,
+    &amp;quot;key&amp;quot;: &amp;quot;\/foo&amp;quot;
+  },
+  &amp;quot;action&amp;quot;: &amp;quot;get&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;coreosでは&#34;&gt;CoreOSでは&lt;/h2&gt;
+
+&lt;p&gt;etcd2はsystemdによりdaemonとして起動させる．先ほどコマンドオプションで与えていた情報はCloud-Configで設定できる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cloud-config.yml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;coreos:
+  units:
+    - name: etcd2.service
+      command: start
+  etcd2:
+    discovery: https://discovery.etcd.io/&amp;lt;token&amp;gt;
+    listen-client-urls: http://0.0.0.0:2379
+    advertise-client-urls: http://$private_ipv4:2379
+    listen-peer-urls: http://$private_ipv4:2380
+    initial-advertise-peer-urls: http://$private_ipv4:2380
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;tokenはもう一度取得しなおすこと．起動させてからコマンドで確認してみると．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ fleetctl list-machines -l
+MACHINE                                 IP              METADATA
+4c5b32d1d79c47ff8e4847e1df78ab53        10.0.0.111      -
+79e7347d66de4ce8b3ec423cdd93e314        10.0.0.124      -
+ef6ce0b8871844beb929411f8926b686        10.0.0.139      -
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;クラスタを構成できていることがわかる．&lt;br /&gt;
+なお，Amazon EC2, Google Compute Engine, OpenStack, Rackspace, DigitalOcean, Vagrantに限り，&lt;code&gt;$private_ipv4&lt;/code&gt;や&lt;code&gt;$public_ipv4&lt;/code&gt;という変数が使える．&lt;/p&gt;
+
+&lt;h3 id=&#34;任意の環境でprivate-ipv4を使う&#34;&gt;任意の環境でprivate_ipv4を使う&lt;/h3&gt;
+
+&lt;p&gt;ここからは自分で検証した結果をまとめておく．&lt;/p&gt;
+
+&lt;p&gt;前述の通りprivate_ipv4等の変数は一部の環境でしか使えない．&lt;br /&gt;
+そのためCoreOSホスト毎にcloud-config.ymlを用意するでもない限り，その他の環境では少し工夫する必要がある．&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;cloud-config.yml&lt;/code&gt;を読み込むとetcdの設定ファイル&lt;code&gt;/run/systemd/system/etcd2.service.d/20-cloudinit.conf&lt;/code&gt;が生成される．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[Service]
+Environment=&amp;quot;ETCD_ADVERTISE_CLIENT_URLS=http://:2379&amp;quot;
+Environment=&amp;quot;ETCD_DISCOVERY=https://discovery.etcd.io/7d7a0ede23474b12c32b88e5b968b2a5&amp;quot;
+Environment=&amp;quot;ETCD_INITIAL_ADVERTISE_PEER_URLS=http://:2380&amp;quot;
+Environment=&amp;quot;ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379&amp;quot;
+Environment=&amp;quot;ETCD_LISTEN_PEER_URLS=http://:2380&amp;quot;
+Environment=&amp;quot;ETCD_NAME=default&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;$private_ipv4&lt;/code&gt;が空なのでIPアドレスが空になってる．&lt;br /&gt;
+1つの方法としてはOS起動後にこのファイルを編集してetcdを再起動することで対応できる．&lt;/p&gt;
+
+&lt;p&gt;または&lt;code&gt;/etc/environment&lt;/code&gt;でも設定できる．このファイルを作成し，以下のような内容にすることでそれぞれ&lt;code&gt;$public_ipv4&lt;/code&gt;と&lt;code&gt;$private_ipv4&lt;/code&gt;がセットされる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;/etc/environment&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;COREOS_PUBLIC_IPV4=XXX.XXX.XXX.XXX
+COREOS_PRIVATE_IPV4=10.0.0.100
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;systemctlのunitを作成し，IPアドレスを取得し上記のファイルを作成するようにしている．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cloud-config.yml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;coreos:
+  update:
+    reboot-strategy: reboot
+    group: master
+  units:
+    # Create etcd2 parameters
+    - name: create-etcd-env.service
+      command: start
+      content: |
+        [Unit]
+        Description=creates etcd environment
+        Before=etcd2.service
+ 
+        [Service]
+        Type=oneshot
+        ExecStart=/bin/bash -c &amp;quot;echo COREOS_PUBLIC_IPV4=`curl -s ipinfo.io | jq -r &#39;.ip&#39;` &amp;gt; /etc/environment&amp;quot;
+        ExecStart=/bin/bash -c &amp;quot;echo COREOS_PRIVATE_IPV4=`ip addr show eth0 | grep -o &#39;inet [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+&#39; | grep -o [0-9].*` &amp;gt;&amp;gt; /etc/environment&amp;quot;
+        Execstart=/bin/systemctl restart user-configdrive.service
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;※ 最後に&lt;code&gt;user-configdrive.service&lt;/code&gt;を再起動し設定ファイルを生成し直すようにしたいがなぜかうまくいかない．手で叩くとうまくいくのだが？？&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>YAPC::Asia Tokyo 2015に行ってきた</title>
+      <link>http://uyorum.github.io/blog/2015/08/23/yapc2015/</link>
+      <pubDate>Sun, 23 Aug 2015 21:12:10 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/08/23/yapc2015/</guid>
+      <description>
+
+&lt;p&gt;YAPC::Asia Tokyo 2015に行ってきたのでまとめ&lt;/p&gt;
+
+&lt;p&gt;Perlのイベント(？)ですが，インフラの話題も多く，また最近プログラミングもやるようにしているので勉強のために行ってきました．&lt;br /&gt;
+主に以下のテーマをチェック&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ITインフラ構築・運用&lt;/li&gt;
+&lt;li&gt;Docker&lt;/li&gt;
+&lt;li&gt;特定言語に限らないプログラミング全般のノウハウ&lt;/li&gt;
+&lt;li&gt;Golang(最近書いているため)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;managing-containers-at-scale-with-coreos-and-kubernetes&#34;&gt;Managing Containers at Scale with CoreOS and Kubernetes&lt;/h2&gt;
+
+&lt;p&gt;CoreOS, Inc.のKelsey Hightower氏による話．&lt;br /&gt;
+寝坊して10分ほど遅刻したけど席がたくさん空いていた．会場が広いせいもあるんだろうけど．&lt;/p&gt;
+
+&lt;p&gt;内容はCoreOSとKubernetesのデモ．&lt;br /&gt;
+KubernetesのWebUIはとても綺麗だった．&lt;/p&gt;
+
+&lt;p&gt;最後の質疑メモ&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Q. DBインスタンス等を立ち上げる場合，ストレージはどのようのに扱えばよいか？
+A.
+DockerはStatelessであることを前提としてデザインしてある
+通常ホストボリュームを使うためいつも同じホストで起動するようにする必要があるが，Kubernetesではこれを制御できないため
+NFSやクラウドストレージにデータを置き，Dockerホストでそれをマウントするようにする
+→ etcdを使ってホスト間でマウントポイント等を同期する
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;consulと自作ossを活用した100台規模のwebサービス運用-fujiwara&#34;&gt;Consulと自作OSSを活用した100台規模のWebサービス運用 @fujiwara&lt;/h2&gt;
+
+&lt;p&gt;自分はConsulを触ったことがないので初歩的なことなのかも知れないが以下の点は要注意だと思った．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Consulクラスタノード障害時の注意点&lt;br /&gt;
+Consulのクラスタを維持するには最低3ノード必要．障害によりこれを下回った場合，クラスタが崩壊しConsulのKVSのデータが失われる．&lt;br /&gt;
+また，クラスタのLeaderノードがダウンした場合，新しいLeader選出までは問い合わせに返答できなくなる．&lt;br /&gt;
+(デフォルトではクエリが一度Leaderへ転送され，Leaderが返答するようになっているから)&lt;br /&gt;
+それを防ぐにはConsulを&amp;rdquo;Stale&amp;rdquo;モードで動作するように変更する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Strecherのように，インフラエンジニアのお仕事を手助けするものをつくりたい．と，自分がプログラミングを勉強する目的を再確認．&lt;/p&gt;
+
+&lt;h2 id=&#34;polyglotのためのdocker-我々はどこから来てどこへ向かうのか&#34;&gt;PolyglotのためのDocker - 我々はどこから来てどこへ向かうのか&lt;/h2&gt;
+
+&lt;p&gt;Docker Inc.のNathan LeClaire氏．&lt;br /&gt;
+Polyglotとは複数のプログラミング言語を扱うエンジニアのこと．サービスインフラとしてのDockerではなく，Polyglotが扱う，開発環境としてのDockerに視点を向けた話．&lt;br /&gt;
+あの言語を学びたい，このライブラリを試してみたいとなったときに実行環境をDockerfileで記述してあれば環境構築に煩わされることもないという趣旨．&lt;/p&gt;
+
+&lt;p&gt;個人的にはそれをやろうとすると，プログラムを実行するためのコマンドをどう叩けばいいかということでいつも困る．&lt;br /&gt;
+コンテナに入ってコマンドを叩くのはやりたくないし，ローカルのコマンドを叩くのと同じように扱うにはどうやればいいんだろう．(どなたか教えてほしい)&lt;/p&gt;
+
+&lt;h2 id=&#34;我々はどのように冗長化を失敗したのか-kenjiskywalker&#34;&gt;我々はどのように冗長化を失敗したのか @kenjiskywalker&lt;/h2&gt;
+
+&lt;p&gt;Consulを使ってMySQLのFailoverを実装しようとした(失敗した)話．&lt;/p&gt;
+
+&lt;p&gt;どうにもDBの性能が落ちる時間帯があり，クラウド事業者に頼んでホストを移行してもらったら解消した，という話題(おそらく同じホスト上の別のVMが負荷のかかる処理を行なっていた)&lt;br /&gt;
+クラウドやってる身の人間としては，そういうのもクラウドの性質だから我慢して使ってねと思う一方，影響をこうむる他のユーザを考えると非常に悩ましい状態．&lt;br /&gt;
+どのVMが原因なのかは調べればすぐわかるけど，使用を控えてくれとは言えないですし．&lt;/p&gt;
+
+&lt;h2 id=&#34;docker３兄弟について-toritori0318&#34;&gt;Docker３兄弟について @toritori0318&lt;/h2&gt;
+
+&lt;p&gt;DockerとDocker Composeの使い分け．&lt;br /&gt;
+「Docker Composeなら&lt;code&gt;docker-compose up&lt;/code&gt;だけで起動できるから楽」なるほどなー&lt;/p&gt;
+
+&lt;h2 id=&#34;adventures-in-refactoring&#34;&gt;Adventures in Refactoring&lt;/h2&gt;
+
+&lt;p&gt;GitHubのBen Lavender氏．&lt;br /&gt;
+かなり喋りが速くて同時通訳の方がとても大変そうだったが見事に最後までやりきっていた．さすが．&lt;br /&gt;
+ちなみに今回同時通訳を行なってくださったのは&lt;a href=&#34;http://www.kytrade.co.jp/&#34;&gt;ケイワイトレード&lt;/a&gt;の方々．きちんと専門用語も翻訳できていた．&lt;/p&gt;
+
+&lt;p&gt;変数やメソッド名に&lt;code&gt;_&lt;/code&gt;を入れている場合，構造的には間に新たなオブジェクトを求めていることになる．&lt;br /&gt;
+e.g.) &lt;code&gt;git.pull_valid?&lt;/code&gt; → &lt;code&gt;git.pull.valid?&lt;/code&gt;&lt;br /&gt;
+今度からはこのことを意識して設計してみようと思った．&lt;/p&gt;
+
+&lt;h2 id=&#34;profiling-optimizing-in-go&#34;&gt;Profiling &amp;amp; Optimizing in Go&lt;/h2&gt;
+
+&lt;p&gt;Brad Fitzpatrick氏．&lt;/p&gt;
+
+&lt;p&gt;個人的には2日間で一番アツかった講演．&lt;br /&gt;
+GolangのProfiling機能でプログラムをより軽く，より速くしていく過程をライブで実演&lt;br /&gt;
+同機能の充実ぷりにも驚いたが，氏がEmacsを使っているのでテンションがあがった．&lt;br /&gt;
+Golangは使い始めたばかりでこの機能をほとんど知らないので一回では理解しきれなかった．動画でもう一度見たい．&lt;/p&gt;
+
+&lt;h2 id=&#34;lt&#34;&gt;LT&lt;/h2&gt;
+
+&lt;p&gt;たくさん笑わせてもらった．&lt;br /&gt;
+とくに参考になったのが&lt;a href=&#34;https://twitter.com/yoku0825&#34;&gt;@yoku0825&lt;/a&gt;さんの「&lt;a href=&#34;http://www.slideshare.net/yoku0825/mysql-57-51945745&#34;&gt;MySQL 5.7の罠があなたを狙っている&lt;/a&gt;」．&lt;/p&gt;
+
+&lt;p&gt;非常に充実した2日間でした．スタッフの方々，スピーカーの方々，ありがとうございました．&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Go言語のお勉強 その4</title>
+      <link>http://uyorum.github.io/blog/2015/08/02/learning-go-04/</link>
+      <pubDate>Sun, 02 Aug 2015 22:17:45 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/08/02/learning-go-04/</guid>
+      <description>
+
+&lt;p&gt;4日目&lt;/p&gt;
+
+&lt;h2 id=&#34;データ型&#34;&gt;データ型&lt;/h2&gt;
+
+&lt;h3 id=&#34;array&#34;&gt;Array&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var a1 [5]int
+fmt.Println(a1)		// [0 0 0 0 0]
+a1[0] = 2
+fmt.Println(a1)		// [2 0 0 0 0]
+
+var a3 [2][3]int
+fmt.Println(a3)		// [[0 0 0] [0 0 0]]
+
+a2 := [4]string{&amp;quot;hoge&amp;quot;, &amp;quot;huga&amp;quot;, &amp;quot;foo&amp;quot;, &amp;quot;bar&amp;quot;}
+fmt.Println(a2)		// [hoge huga foo bar]
+fmt.Println(a2[:3])	// [hoge huga foo]
+fmt.Println(a2[2:3])	// [foo]
+fmt.Println(a2[2:])	// [foo bar]
+fmt.Println(len(a2))	// 4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[要素数]型&lt;/code&gt;でArray型を表現する&lt;/li&gt;
+&lt;li&gt;宣言と同時に初期化するには&lt;code&gt;[要素数]型{ 値を列挙 }&lt;/code&gt;で表現する&lt;/li&gt;
+&lt;li&gt;多重配列も利用可能
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[n1][n2]type&lt;/code&gt;は&lt;code&gt;[n1]([n2]type)&lt;/code&gt;と等価&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;値へアクセスするには&lt;code&gt;変数名[インデックス]&lt;/code&gt;と表現する
+
+&lt;ul&gt;
+&lt;li&gt;インデックスは0から始まる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;:を使うことで範囲を指定してアクセスすることもできる&lt;/li&gt;
+&lt;li&gt;後からサイズを変更することはできない
+
+&lt;ul&gt;
+&lt;li&gt;そういったときは&lt;code&gt;Slice&lt;/code&gt;を使う&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;slice&#34;&gt;Slice&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var s1 []int
+fmt.Println(s1)			// []
+s2 := []int{10, 20, 30, 40, 50}
+fmt.Println(s2)			// [10 20 30 40 50]
+var s3 []int = make([]int, 3, 4)
+fmt.Println(s3)			//[0 0 0]
+s3[3] = 1
+fmt.Println(s3)			//[0 0 0]
+
+s4 := a2[:]			// a2 == [hoge huga foo bar]
+fmt.Println(s4)			// [hoge huga foo bar]
+a2[1] = &amp;quot;piyo&amp;quot;
+fmt.Println(s4)			// [hoge piyo foo bar]
+
+var s4 []int = make([]int, 3, 4)
+fmt.Println(s4)			//[0 0 0]
+fmt.Println(len(s4))		// 3
+fmt.Println(cap(s4))		// 4
+s4 = s4[:cap(s4)]		// 長さを拡張
+fmt.Println(s4)			// [0 0 0 0]
+
+s4 = []int{10, 20, 30, 40}
+s5 := make([]int, len(s4), (cap(s4) + 1))
+copy(s5, s4)
+fmt.Println(len(s5), cap(s5))	// 4, 5
+fmt.Println(s5)				// [10 20 30 40]
+
+s6 := append(s5, 50, 60)
+fmt.Println(s6)				// [10 20 30 40 50 60]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[]型&lt;/code&gt;で表現する&lt;/li&gt;
+&lt;li&gt;Sliceの各要素には値へのポインタが格納される&lt;/li&gt;
+&lt;li&gt;ArrayからSliceを生成することができる
+
+&lt;ul&gt;
+&lt;li&gt;同様にSliceからSliceを生成することもできる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Sliceは組み込みのmake関数でも生成することができる
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;make([]型, 長さ, 容量)&lt;/code&gt;で表現する&lt;/li&gt;
+&lt;li&gt;容量は省略することもでき，その場合は長さと同じ値が自動で設定される&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Sliceの長さはその容量まで拡張することができる&lt;/li&gt;
+&lt;li&gt;容量を拡張するにはmake関数でより大きい容量を指定してSliceを再生成する&lt;/li&gt;
+&lt;li&gt;SliceからSliceへ値をコピーするにはcopy関数を使う
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;copy(dst, src)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;append関数を使うと容量と長さの拡張を自動で行なってくれる&lt;/li&gt;
+&lt;li&gt;要素を削除する関数は用意されていないので自分で作る必要がある&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;map&#34;&gt;Map&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;m1 := make(map[string]int)
+m1[&amp;quot;x&amp;quot;] = 10
+m1[&amp;quot;y&amp;quot;] = 20
+fmt.Println(m1[&amp;quot;x&amp;quot;])			// 10
+
+delete(m1, &amp;quot;x&amp;quot;)
+fmt.Println(m1)					// map[y:20]
+fmt.Println(m1[&amp;quot;x&amp;quot;])			// 0
+
+m2 := map[string]int{&amp;quot;x&amp;quot;: 10, &amp;quot;y&amp;quot;: 20}
+// Undefined
+if _, ok := m2[&amp;quot;z&amp;quot;]; ok {
+	fmt.Println(&amp;quot;Defined&amp;quot;)
+} else {
+	fmt.Println(&amp;quot;Undefined&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;いわゆる連想配列&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;make(map[Keyの型]Valueの型)&lt;/code&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Keyには&lt;code&gt;function&lt;/code&gt;, &lt;code&gt;Map&lt;/code&gt;, &lt;code&gt;Slice&lt;/code&gt;型を使用することができない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;要素を消すにはdelete関数を使う&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;map[Key]&lt;/code&gt;には戻り値が2つある
+
+&lt;ul&gt;
+&lt;li&gt;1つめは指定したキーに対応する値&lt;/li&gt;
+&lt;li&gt;2つめには値が定義されていたらtrue，未定義の場合はfalseが返る&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;MapはArrayやSliceと異なり各要素に順番がない&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;range&#34;&gt;range&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;array1 := [...]int{10, 20, 30}
+slice1 := append(array1[:], 40, 50)
+map1 := map[string]int{&amp;quot;hoge&amp;quot;: 10, &amp;quot;huga&amp;quot;: 20}
+
+// index: 0 value: 10
+// index: 1 value: 20
+// index: 2 value: 30
+for i, v := range array1 {
+	fmt.Println(&amp;quot;index:&amp;quot;, i, &amp;quot;value:&amp;quot;, v)
+}
+
+// index: 0 value: 10
+// index: 1 value: 20
+// index: 2 value: 30
+// index: 3 value: 40
+// index: 4 value: 50
+for i, v := range slice1 {
+	fmt.Println(&amp;quot;index:&amp;quot;, i, &amp;quot;value:&amp;quot;, v)
+}
+
+// key: hoge value: 10
+// key: huga value: 20
+for k, v := range map1 {
+	fmt.Println(&amp;quot;key:&amp;quot;, k, &amp;quot;value:&amp;quot;, v)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Array, Slice, Mapなどの各要素に対するループ処理を実行するときに使う&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;range 変数&lt;/code&gt;で2つの戻り値が返る
+
+&lt;ul&gt;
+&lt;li&gt;1つめはインデックス(Mapの場合はキー)&lt;/li&gt;
+&lt;li&gt;2つめは値&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Mapは要素に順番を持たないので実行する度に順番が異なる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ここまではほとんど&lt;a href=&#34;http://dev.classmethod.jp/series/golang-2/&#34;&gt;ここ&lt;/a&gt;をなめただけ．&lt;br /&gt;
+あとは公式ドキュメントとか本とか見ながら細かいところ勉強していこうと思う．&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Go言語のお勉強 その3</title>
+      <link>http://uyorum.github.io/blog/2015/08/02/learning-go-03/</link>
+      <pubDate>Sun, 02 Aug 2015 01:19:12 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/08/02/learning-go-03/</guid>
+      <description>
+
+&lt;p&gt;今日の分．&lt;/p&gt;
+
+&lt;h2 id=&#34;制御構文&#34;&gt;制御構文&lt;/h2&gt;
+
+&lt;h3 id=&#34;if&#34;&gt;if&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;x := false
+if x == true {
+	fmt.Println(&amp;quot;x is true&amp;quot;)
+} else {
+	fmt.Println(&amp;quot;x is false&amp;quot;)
+}
+
+rand.Seed(time.Now().UnixNano())
+// [0, 10)の乱数(整数)を生成
+if y := rand.Intn(10); y &amp;lt; 5 {
+	fmt.Println(y, &amp;quot;is less than 5&amp;quot;)
+} else if y &amp;gt; 5 {
+	fmt.Println(y, &amp;quot;is greater than 5&amp;quot;)
+} else {
+	fmt.Println(y, &amp;quot;is equal to 5&amp;quot;)
+}
+fmt.Println(y)		// undefined: y
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;if 条件式 {trueの場合の処理}&lt;/code&gt;のように書く&lt;/li&gt;
+&lt;li&gt;条件式を&lt;code&gt;( )&lt;/code&gt;で囲む必要はない&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;else&lt;/code&gt;や&lt;code&gt;else if&lt;/code&gt;が使える&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;変数名 := 値; 条件式&lt;/code&gt;のように書くことで条件式部分で変数を宣言することもできる
+
+&lt;ul&gt;
+&lt;li&gt;ここで定義した変数はif文の中でのみ有効&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;for&#34;&gt;for&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;for i := 0; i &amp;lt; 10; i++ {
+	fmt.Println(i)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;for Expression1; Expression2; Expression3 {処理内容}&lt;/code&gt;のように書く
+
+&lt;ul&gt;
+&lt;li&gt;Expression1はforループの開始前に呼ばれる&lt;/li&gt;
+&lt;li&gt;Expression2は処理開始前に呼ばれ，trueならば処理が実行される&lt;/li&gt;
+&lt;li&gt;Expression3は処理終了時に呼ばれる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Expression1とExpression3は省略可能
+
+&lt;ul&gt;
+&lt;li&gt;Goにはwhileループがないがforで代用できる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;switch&#34;&gt;switch&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;i := 5
+// i is 5
+// i is greater than 4
+switch i {
+case 1:
+	fmt.Println(&amp;quot;i is 1&amp;quot;)
+case 2, 3, 4:
+	fmt.Println(&amp;quot;i is 2, 3 or 4&amp;quot;)
+case 5:
+	fmt.Println(&amp;quot;i is 5&amp;quot;)
+	fallthrough
+default:
+	fmt.Println(&amp;quot;i is greater than 4&amp;quot;)
+}
+
+switch {
+case i % 15 == 0:
+	fmt.Println(&amp;quot;FizzBuzz&amp;quot;)
+case i % 3 == 0:
+	fmt.Println(&amp;quot;Fizz&amp;quot;)
+case i % 5 == 0:
+	fmt.Println(&amp;quot;Buzz&amp;quot;)
+default:
+	fmt.Println(i)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;switch 変数 { case 値: 処理内容 }&lt;/code&gt;のように書く&lt;/li&gt;
+&lt;li&gt;値は,区切りで複数書くこともできる&lt;/li&gt;
+&lt;li&gt;マッチした場合は処理を実行してswitch文を抜ける
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;fallthrough&lt;/code&gt;を書くことでひとつ下のcaseの処理も実行することができる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;どのcaseにも一致しなかった場合はdefaultが実行される
+
+&lt;ul&gt;
+&lt;li&gt;defaultは省略でき，省略した場合defaultでは何もしない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;値に等しいかどうかだけでなく，不等式なども使うことができる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;インターフェース&#34;&gt;インターフェース&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// インターフェースを宣言
+// メソッド名と引数，戻り値のみ定義する
+type Interface1 interface {
+	returnVariable() string
+}
+
+// ひとつめの構造体を定義
+// インターフェース内で定義したメソッドreturnVariableを実装する
+type Struct1 struct {
+	var1 string
+}
+func (s Struct1) returnVariable() string {
+	return &amp;quot;valiable: &amp;quot; + s.var1
+}
+
+// ふたつめの構造体を定義
+// こちらでもインターフェース内で定義したメソッドを実装する
+type Struct2 struct {
+	var1 string
+}
+func (s Struct2) returnVariable() string {
+	return s.var1 + &amp;quot; is the variable of this&amp;quot;
+}
+
+func printVariable(i Interface1) {
+	fmt.Println(i.returnVariable())
+}
+
+func main() {
+	s1 := Struct1{var1: &amp;quot;hoge&amp;quot;}
+	s2 := Struct2{var1: &amp;quot;huga&amp;quot;}
+
+	// Struct1，Struct2ともにInterface1型として扱える
+	printVariable(s1)      // valiable: hoge
+	printVariable(s2)      // huga is the variable of this
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;type インターフェース名 interface&lt;/code&gt;形式で宣言する&lt;/li&gt;
+&lt;li&gt;インターフェース内で定義したメソッドを全て実装するとでインターフェースを利用できるようになる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;空インターフェース&#34;&gt;空インターフェース&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var x interface{}
+num := 0
+str := &amp;quot;hello&amp;quot;
+// Integer
+x = num
+fmt.Printf(&amp;quot;%d\n&amp;quot;, x)
+// String
+x = str
+fmt.Printf(&amp;quot;%s\n&amp;quot;, x)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1つもメソッドを定義しないインターフェースを「空インターフェース」と呼ぶ&lt;/li&gt;
+&lt;li&gt;空のインターフェースには何の機能もないが，空インターフェース型の変数には任意の型の値を格納することができる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;型アサーション&#34;&gt;型アサーション&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func isString(a interface{}) bool {
+	_, ok := a.(string)
+	return ok
+}
+
+func printType(a interface{}) {
+	switch value := a.(type) {
+	case int:
+		fmt.Printf(&amp;quot;int %d\n&amp;quot;, value)
+	case string:
+		fmt.Printf(&amp;quot;string %s\n&amp;quot;, value)
+	default:
+		fmt.Printf(&amp;quot;other&amp;quot;)
+	}
+}
+
+func main() {
+	var y interface{} = 10
+	i1, i2 := y.(int)
+	fmt.Println(i1, i2)            // 10 true
+
+	var j1 interface{} = 1
+	var j2 interface{} = &amp;quot;hoge&amp;quot;
+	fmt.Println(isString(j1))      // false
+	fmt.Println(isString(j2))      // true
+	printType(j1)                  // int 1
+	printType(j2)                  // string hoge
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;インターフェース型変数.(型名)&lt;/code&gt;で&lt;code&gt;変数に格納された値, boolean&lt;/code&gt;が返る
+
+&lt;ul&gt;
+&lt;li&gt;booleanには，変数に格納された値の型が引数に与えた型に一致する場合にtrueが格納される&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;空インターフェースに格納した値の型を特定するのに利用する&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Go言語のお勉強 その2</title>
+      <link>http://uyorum.github.io/blog/2015/07/29/learning-go-02/</link>
+      <pubDate>Wed, 29 Jul 2015 23:07:42 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/07/29/learning-go-02/</guid>
+      <description>
+
+&lt;p&gt;今日のまとめ&lt;/p&gt;
+
+&lt;h2 id=&#34;構造体&#34;&gt;構造体&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type User struct {
+  name string
+  age int
+}
+
+func main() {
+   var user1 User
+   user1.name = &amp;quot;ichiro&amp;quot;
+   // ichiro 0
+   fmt.Println(user1.name, user1.age)
+
+   user2 := User{&amp;quot;jiro&amp;quot;, 30}
+   // jiro 30
+   fmt.Println(user2.name, user2.age)
+
+   user3 := User{name: &amp;quot;saburo&amp;quot;, age: 20}
+   // saburo 20
+   fmt.Println(user3.name, user3.age)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Goの構造体は以下の特徴を持っている
+
+&lt;ul&gt;
+&lt;li&gt;構造体はフィールド(フィールド名と値の組)の集まりである&lt;/li&gt;
+&lt;li&gt;構造体にメソッドを定義することができる&lt;/li&gt;
+&lt;li&gt;構造体に構造体を埋め込むことができる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;type 構造体名 struct&lt;/code&gt;形式で宣言する．&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;構造体名.フィールド名&lt;/code&gt;でフィールドの値にアクセスすることができる&lt;/li&gt;
+&lt;li&gt;フィールドの初期化の方法はいくつかある
+
+&lt;ul&gt;
+&lt;li&gt;構造体を初期化してから順に値を入れる&lt;/li&gt;
+&lt;li&gt;構造体の初期化時にフィールドの値を列挙する&lt;/li&gt;
+&lt;li&gt;構造体の初期化時に&lt;code&gt;フィールド名: 値&lt;/code&gt;を列挙する&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ここで気付いたけど，変数は始めから何かしらの値が入っているようだ&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;構造体って初めて扱ったけどvalueに色々な型を持てるハッシュみたいなもの？&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;ポインタ型で初期化&#34;&gt;ポインタ型で初期化&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;user4 := &amp;amp;User{name: &amp;quot;shiro&amp;quot;, age: 15}
+// shiro 15
+// {shiro 15}
+fmt.Println(user4.name, user4.age)
+fmt.Println(*user4)
+ 
+user5 := new(User)
+user5.name = &amp;quot;goro&amp;quot;
+// goro 0
+// {goro 0}
+fmt.Println(user5.name, user5.age)
+fmt.Println(*user5)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;amp;構造体名&lt;/code&gt;または&lt;code&gt;new(構造体名)&lt;/code&gt;で初期化するとポインタ型で受け取ることができる．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;関数による初期化&#34;&gt;関数による初期化&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func newUser(name string, age int) *User {
+  u := new(User)
+  u.name = name
+  u.age = age
+  return u
+}
+ 
+var user *User = newUser(&amp;quot;taro&amp;quot;,30)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;ネスト構造体&#34;&gt;ネスト構造体&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type Foo struct {
+  hoge string
+  huga string
+}
+
+type Bar struct {
+  Foo
+  huga string
+  piyo string
+}
+
+user5 := new(User)
+user5.name = &amp;quot;goro&amp;quot;
+fmt.Println(user5.name, user5.age)
+fmt.Println(*user5)
+
+str1 := Foo{hoge: &amp;quot;HOGE&amp;quot;, huga: &amp;quot;HUGA&amp;quot;}
+str2 := Bar{Foo: str1, huga: &amp;quot;Huga&amp;quot;, piyo: &amp;quot;Piyo&amp;quot;}
+// HOGE Huga HUGA Piyo
+fmt.Println(str2.hoge, str2.huga, str2.Foo.huga, str2.piyo)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;フィールドに構造体を指定することで構造体をネストすることができる&lt;/li&gt;
+&lt;li&gt;ネストした構造体のフィールドへアクセスするには&lt;code&gt;str2.Foo.huga&lt;/code&gt;のように指定する&lt;/li&gt;
+&lt;li&gt;フィールド名が重複していなければ&lt;code&gt;str2.huga&lt;/code&gt;のように構造体名を省略できる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;メソッド定義&#34;&gt;メソッド定義&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func (u User) greet() string {
+	return &amp;quot;hello, &amp;quot; + u.name
+}
+
+u := User{&amp;quot;taro&amp;quot;, 30}
+fmt.Println(u.greet())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;func (レシーバ名 レシーバの型) メソッド名(引数) 返り値&lt;/code&gt;形式で記述する&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Go言語のお勉強 その1</title>
+      <link>http://uyorum.github.io/blog/2015/07/29/learning-go-01/</link>
+      <pubDate>Wed, 29 Jul 2015 00:30:49 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/07/29/learning-go-01/</guid>
+      <description>
+
+&lt;p&gt;Go言語を勉強中．今日やったことまとめ．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://golang-jp.org/doc/&#34;&gt;ドキュメント - The Go Programming Language&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://dev.classmethod.jp/series/golang-2/&#34;&gt;golang ｜ シリーズ ｜ Developers.IO&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;プログラムの構造&#34;&gt;プログラムの構造&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+  &amp;quot;fmt&amp;quot;
+  &amp;quot;strconv&amp;quot;
+)
+
+func func1 {
+  // definition of function
+
+}
+
+func main {
+  // main operation
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;プログラムを実行するとまず&lt;code&gt;main&lt;/code&gt;が実行される．&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;import&lt;/code&gt;&lt;br /&gt;
+使用するパッケージを指定する．ここで指定したがプログラム内で使用していないと実行時に警告が出力される．&lt;br /&gt;
+括弧でまとめてimportすることができる．上記の例は以下と等価&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;import &amp;quot;fmt&amp;quot;
+import &amp;quot;strconv&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;変数の宣言&#34;&gt;変数の宣言&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var int1 int
+var int2 int = 1
+var int3 = 2
+var str1, str2 string
+var str1, str2 = &amp;quot;hoge&amp;quot;, &amp;quot;huga&amp;quot;
+
+func func1 {
+  boo := false
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;var 変数名 型&lt;/code&gt;の形式で宣言する．&lt;/li&gt;
+&lt;li&gt;宣言と同時に初期化することもできる．その場合は型の指定を省略でき，右辺の型が自動的に使用される．&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;,&lt;/code&gt;区切りで複数の変数を同時に宣言することもできる．&lt;/li&gt;
+&lt;li&gt;関数内に限り&lt;code&gt;:=&lt;/code&gt;を使用することで&lt;code&gt;var&lt;/code&gt;を省略できる．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;定数&#34;&gt;定数&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;const PI float64 = 3.14
+//PI = 3.141592 &amp;lt;-エラー
+
+const (
+  const1 = &amp;quot;string&amp;quot;
+  const2 = 10
+)
+
+const (
+  x = iota
+  y = iota
+  z
+)
+
+// 0 1 2 0
+fmt.Println(x, y, z, x)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;const 変数 [型] = 値&lt;/code&gt;の形式で宣言する．&lt;/li&gt;
+&lt;li&gt;変数と異なり，宣言と同時に初期化しないとエラーになる．&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;const (   )&lt;/code&gt;を使うことでまとめて宣言することもできる．
+
+&lt;ul&gt;
+&lt;li&gt;値を省略すると上と同じ値が代入される．&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iota&lt;/code&gt;は連番が生成される．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;関数&#34;&gt;関数&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func inc1(i int) int {
+  i++
+  fmt.Println(&amp;quot;inc1: i = &amp;quot; + strconv.Itoa(i))
+  return i
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;func 関数名(引数 引数の型[, 引数 引数の型[, ...]]) [返り値の型]&lt;/code&gt;の形式で宣言する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func split(sum int) (x, y int) {
+    x = sum * 4 / 9
+    y = sum - x
+    return
+}
+
+// 7 10
+fmt.Println(split(17))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;関数の宣言時に返り値で変数を指定することで&lt;code&gt;return&lt;/code&gt;時に変数を省略できる．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;可変長引数&#34;&gt;可変長引数&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func fArgs(strArgs ...string) {
+  for index, value := range strArgs {
+    fmt.Println(index, value)
+  }
+}
+
+// 0 Go
+// 1 Java
+// 2 Ruby
+fArgs(&amp;quot;Go&amp;quot;, &amp;quot;Java&amp;quot;, &amp;quot;Ruby&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;引数の型に&lt;code&gt;...&lt;/code&gt;をつけることで可変長変数をとる関数を宣言できる&lt;/li&gt;
+&lt;li&gt;配列に格納される．(Array? Slice?)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;ポインタ&#34;&gt;ポインタ&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func inc2(i *int) {
+	*i++
+	fmt.Println(&amp;quot;inc2: i = &amp;quot; + strconv.Itoa(*i))
+}
+
+num := 10
+inc1(num)          // inc1: i = 11
+fmt.Println(num)   // 10
+num = 10
+inc2(&amp;amp;num)         // inc2: i = 11
+fmt.Println(num)   // 11
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;*型&lt;/code&gt;形式で記述することで「指定した型を持つ値を指すポインタ」が渡される．&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;*ポインタ名&lt;/code&gt;形式で記述することで「そのポインタが指す値」が渡される．&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;amp;変数名&lt;/code&gt;形式で記述することで「その変数のポインタ」が渡される．&lt;/li&gt;
+&lt;li&gt;inc2はポインタを関数に渡しているため，関数の外でも値が変更されたままになる．&lt;/li&gt;
+&lt;li&gt;Goでは引数の渡し方はすべて値渡し．ここで行なっているのは「参照の値渡し」である．
+
+&lt;ul&gt;
+&lt;li&gt;値がメモリ上でコピーされないのでメモリの節約になる．&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;今日はここまで．&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP</title>
+      <link>http://uyorum.github.io/blog/2015/07/24/hotp/</link>
+      <pubDate>Fri, 24 Jul 2015 22:57:11 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/07/24/hotp/</guid>
+      <description>
+
+&lt;p&gt;今後，OTPを扱うことになりそうなので予習しておく．&lt;/p&gt;
+
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;OTP生成のアルゴリズムとして生成回数を変数に用いるHOTPと時刻を変数に用いるTOTPがある．&lt;/li&gt;
+&lt;li&gt;両者はそれぞれ&lt;a href=&#34;https://tools.ietf.org/html/rfc4226&#34;&gt;RFC 4226&lt;/a&gt;と&lt;a href=&#34;http://tools.ietf.org/html/rfc6238&#34;&gt;RFC 6238&lt;/a&gt;で規定されている．&lt;/li&gt;
+&lt;li&gt;RFCを読みながらOTPについて学んでいく．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;背景&#34;&gt;背景&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ここ最近，インターネット上では単一の静的な文字列(パスワード)による認証では不十分であることがわかってきた．&lt;/li&gt;
+&lt;li&gt;各ベンダーの相互互換性のない実装のせいで，二要素認証はあまり普及してこなかった．&lt;/li&gt;
+&lt;li&gt;インターネットへ二要素認証を普及させるには，トークンなどの専用機ではなくより柔軟なデバイス(スマートフォンなどを指していると思われる)で使用できるようにする必要がある&lt;/li&gt;
+&lt;li&gt;ワンタイムパスワードは，クライアントマシンに特別なソフトウェアをインストールする必要がないという面で，PKIや生体認証などよりもしばしば推奨される．
+
+&lt;ul&gt;
+&lt;li&gt;そのためユーザは様々なデバイスを渡り歩くことができる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;アルゴリズムの要件&#34;&gt;アルゴリズムの要件&lt;/h3&gt;
+
+&lt;p&gt;MUST, SHOULDなどの単語の意味は&lt;a href=&#34;https://tools.ietf.org/html/rfc2119&#34;&gt;RFC2119&lt;/a&gt;で定義されている．&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;アルゴリズムはsequence-bacedまたはcounter-basedでなければならない．(MUST)&lt;/li&gt;
+&lt;li&gt;アルゴリズムはその実装において以下の面でハードウェアに対してeconomicalであるべき．(SHOULD)
+
+&lt;ul&gt;
+&lt;li&gt;バッテリー&lt;/li&gt;
+&lt;li&gt;ボタン数&lt;/li&gt;
+&lt;li&gt;計算量&lt;/li&gt;
+&lt;li&gt;ディスプレイサイズ&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;アルゴリズムはいずれの数的な入力をサポートしないハードウェアでも動作しなければならない．(MUST)&lt;/li&gt;
+&lt;li&gt;アルゴリズムの出力は読みやすく入力しやすいものでなければならない．(MUST)&lt;br /&gt;
+また6文字以上の数字で構成されるのが望ましい．&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;アルゴリズムの概要&#34;&gt;アルゴリズムの概要&lt;/h3&gt;
+
+&lt;p&gt;Rubyでの実装例とともに段階的に解説していく．&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;インプットとしてSecret Key(サーバとクライアントで事前に共有しておく文字列)，カウンタ，桁数をとる．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;secret = &#39;12345678901234567890&#39;
+count = 1
+digit = 6
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;カウンタは8桁のバイト文字列に変換しておく&lt;br /&gt;
+e.g.) &lt;code&gt;count = 10 =&amp;gt; count_in_byte = \x00\x00\x00\x00\x00\x00\x00\x0a&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;count_in_byte = &#39;&#39;
+for i in (0..7)
+  count_in_byte = ((count &amp;amp; 0xff) &amp;lt;&amp;lt; (8 * i)).chr + count_in_byte
+  count &amp;gt;&amp;gt;= 8
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Secret Keyと，変換したカウンタを用いてHMAC-SHA1(&lt;a href=&#34;https://tools.ietf.org/html/rfc2104&#34;&gt;RFC 2104&lt;/a&gt;)を計算する&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;hmac = OpenSSL::HMAC.digest(&#39;sha1&#39;, secret, count_in_byte)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;計算した値(20バイトの文字列)の末尾4ビットをオフセットとする&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;offset = hmac[-1].ord &amp;amp; 0xf
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;先ほどのHMAC-SHA1値のoffsetバイト目から4バイトのうち末尾31ビットを取り出して数値に変換する&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;num = (hmac[offset].ord &amp;amp; 0x7f) &amp;lt;&amp;lt; 24 |
+      (hmac[offset + 1].ord &amp;amp; 0xff) &amp;lt;&amp;lt; 16 |
+      (hmac[offset + 2].ord &amp;amp; 0xff) &amp;lt;&amp;lt; 8 |
+      (hmac[offset + 3].ord &amp;amp; 0xff)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;変換後の数値の末尾n桁がHOTPである(ここではdigit=6なので末尾6桁)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;puts num % (10 ** digit)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;hotpを生成してみる&#34;&gt;HOTPを生成してみる&lt;/h3&gt;
+
+&lt;p&gt;Rubyで実装したプログラムを用いて実際にHOTPを生成してみる．今回は比較対象としてGoogle Authenticatorでも同時にHOTPを生成する．&lt;/p&gt;
+
+&lt;p&gt;まずは両者でSecret Keyを共有する必要がある．Secret Keyは&amp;rdquo;12345678901234567890&amp;rdquo;とする．(本来はSecretKeyの生成方法にも気を払うべきである．)&lt;br /&gt;
+GoogleAuthenticatorへのSecretKeyの渡し方として以下の2つの方法がある．&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Key provisioning via scanning a QR code&lt;/li&gt;
+&lt;li&gt;Manual key entry of RFC 3548 base32 key strings&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/google/google-authenticator/wiki&#34;&gt;google/google-authenticator Wiki&lt;/a&gt; より&lt;/p&gt;
+
+&lt;p&gt;今回は簡単のため後者の方法をとる．
+先程のSecretKeyをBase32でエンコードする．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ irb
+irb(main):001:0&amp;gt; require &#39;base32&#39;
+=&amp;gt; true
+irb(main):002:0&amp;gt; Base32.encode(&amp;quot;12345678901234567890&amp;quot;)
+=&amp;gt; &amp;quot;GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;できた．これをスマホへ持っていってGoogleAuthenticatorへ入力する．(余談だがPCからスマホへの文字列の引き渡しにはPushbulletが役に立った)
+生成した文字列を&amp;rdquo;キー&amp;rdquo;へ入力し，&amp;rdquo;カウンタベース&amp;rdquo;を選択する．&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/01.png&#34; alt=&#34;01.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;1回目のHOTPを生成．&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/02.png&#34; alt=&#34;02.png&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ ruby hotp.rb
+287082
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2回目．&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/03.png&#34; alt=&#34;03.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ソースを編集して&lt;code&gt;count=2&lt;/code&gt;にしてから実行．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ ruby hotp.rb
+359152
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;確かに両者で同じ値が出力されている．このようにサーバ側(今回はRubyプログラム)とクライアント側(今回はGoogleAuthenticator)でOTPを生成して一致しているかどうかで認証を行う．&lt;/p&gt;
+
+&lt;h3 id=&#34;hotpを用いた認証の流れ&#34;&gt;HOTPを用いた認証の流れ&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;セットアップ&lt;br /&gt;
+クライアントとサーバでSecret Keyを共有する．&lt;br /&gt;
+カウンタを1にセットし，クライアント，サーバそれぞれが保持しておく．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;認証時&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;通常の(パスワード等による)認証の後，クライアント側でHOTPを生成し，サーバへ送信する．&lt;br /&gt;
+その後，クライアント側のカウンタを2にセットする．&lt;/li&gt;
+&lt;li&gt;サーバ側でもHOTPを生成する．両者が一致した場合は認証成功とみなす．&lt;br /&gt;
+その後，サーバ側のカウンタを2にセットする．&lt;br /&gt;
+一致しなかった場合は認証失敗とみなす．カウンタは1のまま．&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;カウンタの再同期&#34;&gt;カウンタの再同期&lt;/h3&gt;
+
+&lt;p&gt;先ほど説明した流れではクライアント側のカウンタがサーバ側より進んでしまうことがある．(クライアント側でHOTPを生成したが認証を行なわなかった場合など)&lt;br /&gt;
+その場合に備えて，RFC内ではカウンタの再同期の仕組みを組込むことが推奨されている．&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;あらかじめサーバ側で整数値look-ahead parameter(記号sで表す)を設定しておく．&lt;/li&gt;
+&lt;li&gt;HOTPによる認証を求められた際に，サーバは保持しているカウンタに対するHOTPに加えて次のs個分のHOTPも生成し，クライアント側のHOTPと照合する．&lt;/li&gt;
+&lt;li&gt;もしその中に一致するものがあった場合は認証成功とし，そのHOTPに対応するカウンタ+1をサーバ側カウンタにセットする．&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;以上のような流れを踏むことで最大sだけカウンタがずれてもカウンタの再同期が可能になる．&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/04.png&#34; alt=&#34;04.png&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;その他&#34;&gt;その他&lt;/h3&gt;
+
+&lt;p&gt;RFC内ではその他にも以下のような要素について述べられている．が、今回はこれで力尽きたので今度書く．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;認証試行回数の上限値&lt;/li&gt;
+&lt;li&gt;Secret Keyの保存方法&lt;/li&gt;
+&lt;li&gt;Secret Keyの生成方法&lt;/li&gt;
+&lt;li&gt;サーバとクライアントの双方向認証&lt;/li&gt;
+&lt;li&gt;HOTP生成アルゴリズムのセキュリティ強度&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;図を書くのにはどのソフトがいいんだろう…&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>MacのxhyveでDockerを使う</title>
+      <link>http://uyorum.github.io/blog/2015/07/21/boot2docker-xhyve/</link>
+      <pubDate>Tue, 21 Jul 2015 23:52:37 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/07/21/boot2docker-xhyve/</guid>
+      <description>
+
+&lt;p&gt;xhyve(いまだに発音がわからない)の仕組みは全く理解してないけど，xhyveとboot2dockerを使ってdockerコマンドを叩くまで．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/mist64/xhyve&#34;&gt;mist64/xhyve&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.pagetable.com/?p=831&#34;&gt;xhyve – Lightweight Virtualization on OS X Based on bhyve | pagetable.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ailispaw/boot2docker-xhyve&#34;&gt;ailispaw/boot2docker-xhyve&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;環境
+
+&lt;ul&gt;
+&lt;li&gt;Mac mini (Mid2011)&lt;/li&gt;
+&lt;li&gt;OS X Yosemite (10.10.4)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;いちおう背景とか
+
+&lt;ul&gt;
+&lt;li&gt;Dockerとは最近流行りのコンテナ型仮想化ユーティリティ&lt;/li&gt;
+&lt;li&gt;Dockerを使うにはLinuxが必要(Linuxカーネルの機能を使うため)&lt;/li&gt;
+&lt;li&gt;MacでDockerを使いたかったら仮想環境などで別途Linuxを用意する必要がある&lt;/li&gt;
+&lt;li&gt;そのあたりを勝手にやってくれる&lt;a href=&#34;http://boot2docker.io/&#34;&gt;Boot2docker&lt;/a&gt;というプロダクトがあった
+
+&lt;ul&gt;
+&lt;li&gt;仮想環境として&lt;a href=&#34;https://www.virtualbox.org/&#34;&gt;VirtualBox&lt;/a&gt;を使用している&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.linux-kvm.org/page/Main_Page&#34;&gt;KVM&lt;/a&gt;をFreeBSDに移植した&lt;a href=&#34;http://bhyve.org/&#34;&gt;bhyve&lt;/a&gt;をOS Xへ移植した&lt;a href=&#34;https://github.com/mist64/xhyve&#34;&gt;xhyve&lt;/a&gt;(かなり語弊があると思う)というプロダクトが最近リリースされた&lt;/li&gt;
+&lt;li&gt;VirtualBoxの代わりにxhyveをバックエンドとする&lt;a href=&#34;https://github.com/ailispaw/boot2docker-xhyve&#34;&gt;boot2docker-xhyve&lt;/a&gt;がリリースされたので使ってみた&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
+
+&lt;h3 id=&#34;xhyve&#34;&gt;xhyve&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/mist64/xhyve
+$ cd xhyve
+$ make
+$ sudo cp build/xhyve /usr/local/bin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;boot2docker-xhyve&#34;&gt;boot2docker-xhyve&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/ailispaw/boot2docker-xhyve
+$ cd boot2docker-xhyve
+$ make
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Dockerがセットアップ済みのTiny Core Linuxが起動する&lt;/p&gt;
+
+&lt;h3 id=&#34;docker&#34;&gt;Docker&lt;/h3&gt;
+
+&lt;p&gt;boot2dockerを使ってみた系の記事を見てるとLinuxへSSHしてdockerコマンドを叩きましょう，みたいなことがたまり書かれてたりするけどDockerはクラサバ型だからMac上にDockerクライアントがインストールされていればよい．&lt;br /&gt;
+Homebrewで入れるのが一番簡単かな．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo brew install docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Dockerサーバはlocalhostではないので別途情報を設定する必要がある．
+boot2docker-xhyveディレクトリへ移動して以下のコマンドを叩く．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ export DOCKER_HOST=tcp://`make ip`:2375
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;dockerコマンドを叩いてみる&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker info
+Containers: 0
+Images: 0
+Storage Driver: aufs
+ Root Dir: /mnt/vda1/var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 2
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 4.0.5-boot2docker
+Operating System: Boot2Docker 1.7.0 (TCL 6.3); master : 7960f90 - Thu Jun 18 18:31:45 UTC 2015
+(略)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;できた．&lt;/p&gt;
+
+&lt;h2 id=&#34;boot2docker-xhyveの使い方&#34;&gt;boot2docker-xhyveの使い方&lt;/h2&gt;
+
+&lt;p&gt;makeコマンドはboot2docker-xhyveディレクトリへ移動してから叩く&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;起動&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ make run
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;または&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo ./xhyverun.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;停止&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ make halt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;またはTiny Coreへログインして&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo halt
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Tiny Coreへログイン&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ make ssh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ユーザ/パスワードは docker/tcuser だが入力は自動でやってくれる．&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;tips&#34;&gt;Tips&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;環境変数DOCKER_HOSTをいちいち設定するのが面倒&lt;br /&gt;
+.bashrcなり.zshrcなりに以下を追記(pathは環境に合わせて書き変える)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;b2d_xhyve_root=&amp;quot;/path/to/boot2docker-xhyve&amp;quot;
+if [ -f ${b2d_xhyve_root}/.mac_address ]; then
+  export DOCKER_HOST=tcp://`${b2d_xhyve_root}/uuid2ip/mac2ip.sh $(cat ${b2d_xhyve_root}/.mac_address)`:2375
+fi
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;起動，停止も面倒&lt;br /&gt;
+同様に以下を追記&lt;br /&gt;
+&lt;code&gt;start-docker&lt;/code&gt;で起動，&lt;code&gt;halt-docker&lt;/code&gt;で停止&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;alias start-docker=&#39; \
+  pushd ${b2d_xhyve_root} &amp;gt;/dev/null; \
+  make run; \
+  popd &amp;gt;/dev/null&#39;
+alias halt-docker=&#39; \
+  pushd ${b2d_xhyve_root} &amp;gt;/dev/null; \
+  make halt; \
+  popd &amp;gt;/dev/null&#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>最近のBerkshelfの使い方(2015)</title>
+      <link>http://uyorum.github.io/blog/2015/07/16/how-to-berkshelf/</link>
+      <pubDate>Thu, 16 Jul 2015 21:50:16 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/07/16/how-to-berkshelf/</guid>
+      <description>
+
+&lt;p&gt;今さらながらBerkshelfを使ったのだけれどネットには最新の情報がなくて習得に手こずったのでまとめておく。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://berkshelf.com/&#34;&gt;Berkshelf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/akuwano/20140806/1407291260&#34;&gt;Cookbookの管理を楽にするBerkshelfの使い方( ー`дー´)キリッ とか。 - 256bitの殺人メニュー&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://qiita.com/joker1007/items/1b62e3a36b4f435c53a2&#34;&gt;最近の(2013/8/28時点の)vagrantとberkshelfの書き方 - Qiita&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
+
+&lt;p&gt;chefdkパッケージに含まれている．Gemでもインストールできるがchefdkが推奨らしい．&lt;/p&gt;
+
+&lt;h2 id=&#34;設定&#34;&gt;設定&lt;/h2&gt;
+
+&lt;p&gt;設定ファイルは~/.berkshelf/config.json&lt;br /&gt;
+ほとんどの設定は~/.chef/knife.rbから読み込んでくれる&lt;br /&gt;
+vagrant関連の項目を除いて，別個に設定が必要そうな項目は以下&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ssl.verify&lt;/li&gt;
+&lt;li&gt;github&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;とりあえず&lt;code&gt;ssl.verify&lt;/code&gt;だけは設定しておく．Chef Serverを使う場合はおそらく必須．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;~/.berkshelf/config.json&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;ssl&amp;quot;: {
+    &amp;quot;verify&amp;quot;: false
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;考え方&#34;&gt;考え方&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BerkshelfはRubyにおけるBundlerの役割
+
+&lt;ul&gt;
+&lt;li&gt;アプリケーション(=cookbook)を動かすのに必要なGem(=cookbook)をインストール(=ダウンロード)する&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Gemfile(=Berksfile)はアプリケーション(=cookbook)に紐づく
+
+&lt;ul&gt;
+&lt;li&gt;chef-repoではない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Gem同様，cookbookはローカルにインストールする
+
+&lt;ul&gt;
+&lt;li&gt;レシピを開発する個々の環境で&lt;code&gt;berks install&lt;/code&gt;する&lt;/li&gt;
+&lt;li&gt;Berkshelfでダウンロードするcookbookはchef-repoに含めない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;コマンドの流れ&#34;&gt;コマンドの流れ&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Berksfileを作成する&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;既存のcookbookにBerksfileを作成する&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd cookbook_name
+$ berks init .
+      create  Berksfile
+      create  Thorfile
+      create  chefignore
+      create  .gitignore
+      create  Gemfile
+      create  .kitchen.yml
+      append  Thorfile
+      create  test/integration/default
+      append  .gitignore
+      append  .gitignore
+      append  Gemfile
+      append  Gemfile
+You must run `bundle install&#39; to fetch any new gems.
+      create  Vagrantfile
+Successfully initialized
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;新規にcookbookを作成する&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ berks cookbook test
+      create  test/files/default
+      create  test/templates/default
+      create  test/attributes
+      create  test/libraries
+      create  test/providers
+      create  test/recipes
+      create  test/resources
+      create  test/recipes/default.rb
+      create  test/metadata.rb
+      create  test/LICENSE
+      create  test/README.md
+      create  test/CHANGELOG.md
+      create  test/Berksfile
+      create  test/Thorfile
+      create  test/chefignore
+      create  test/.gitignore
+      create  test/Gemfile
+      create  .kitchen.yml
+      append  Thorfile
+      append  .gitignore
+      append  .gitignore
+      append  Gemfile
+      append  Gemfile
+You must run `bundle install&#39; to fetch any new gems.
+      create  test/Vagrantfile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;カレントディレクトリにcookbookが作成される&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;今後は&lt;code&gt;knife cookbook create&lt;/code&gt;の代わりに&lt;code&gt;berks cookbook&lt;/code&gt;でcookbookを作成するようにするとよい．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Berksfileに依存するcookbook名を書いていく
+書き方はGemfileと同様．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;source &amp;quot;https://supermarket.chef.io&amp;quot;
+
+metadata
+
+cookbook &#39;mysql2_chef_gem&#39;, &#39;~&amp;gt; 1.0.1&#39;
+cookbook &#39;database&#39;, &#39;~&amp;gt; 4.0.6&#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;metadata.rbにも同じcookbook名を書く&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;depends          &#39;mysql2_chef_gem&#39;
+depends          &#39;database&#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;cookbookをインストール&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ berks install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;デフォルトでは&lt;code&gt;~/.berkshelf/cookbooks/&amp;lt;cookbook_name&amp;gt;-&amp;lt;version&amp;gt;&lt;/code&gt;にcookbookが格納される．&lt;br /&gt;
+ネットにある記事では&lt;code&gt;chef-repo/cookbooks&lt;/code&gt;にインストールすると書かれていることがあるが，現在は違う模様．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Chef Serverへアップロード&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ berks upload [cookbook_name]
+またはcookbookディレクトリの中で
+$ berks upload
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Berkshelfでインストールしたcookbookのディレクトリ名がcookbook名と異なるためそのままでは&lt;code&gt;knife&lt;/code&gt;でuploadできない．注意．&lt;br /&gt;
+cookbook名を入れないと依存するcookbookも一緒にuploadしてくれる&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;metaなcookbook&#34;&gt;metaなcookbook&lt;/h2&gt;
+
+&lt;p&gt;Berkshelfでインストールしたcookbookを使いたい場合，run_listに直接書くのではなくそのcookbookを呼び出す用のcookbookを用意しておくとよい．&lt;br /&gt;
+そのcookbookでコミュニティのcookbookのAttributeを上書きとかして，include_recipeする．&lt;br /&gt;
+で，Berksfileに使うcookbookを書いていく．&lt;br /&gt;
+&lt;a href=&#34;http://qiita.com/joker1007/items/1b62e3a36b4f435c53a2&#34;&gt;最近の(2013/8/28時点の)vagrantとberkshelfの書き方 - Qiita&lt;/a&gt;を参考に．&lt;/p&gt;
+
+&lt;h2 id=&#34;その他のコマンド&#34;&gt;その他のコマンド&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;berks package&lt;/code&gt;&lt;br /&gt;
+cookbookとその依存cookbookをまとめてtar.gzでアーカイブする&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;berks vendor&lt;/code&gt;&lt;br /&gt;
+上記と似ているが，アーカイブせずに&lt;code&gt;pwd/berks-cookbooks&lt;/code&gt;以下にcookbookを配置する&lt;br /&gt;
+ディレクリ名=cookbook名にして配置してくれるのでときどき使う．PackerでChef使うときとか．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;感想&#34;&gt;感想&lt;/h2&gt;
+
+&lt;p&gt;Productionな環境ではコミュニティのcookbookはあまり使用しないみたいなので，Berkshelfの出番はあまりないと思う．&lt;br /&gt;
+ごく簡単なものや特に便利なものに関してはコミュニティのものを使ってもいいと思うけど，多様してブラックボックスが増えるのもよくない．&lt;br /&gt;
+主にインスタントな検証環境，開発環境とかかな．&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>DD-WRTでOpenVPNの設定</title>
+      <link>http://uyorum.github.io/blog/2015/03/29/openvpn-on-dd-wrt/</link>
+      <pubDate>Sun, 29 Mar 2015 20:56:18 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/03/29/openvpn-on-dd-wrt/</guid>
+      <description>
+
+&lt;p&gt;色々はまったのでメモ。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://yamatamemo.blogspot.jp/2014/01/easy-rsa-3.html&#34;&gt;easy-rsa 3 で認証局を構築する « yamata::memo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://ameblo.jp/chocoball-muroi/entry-11788301407.html&#34;&gt;DD-WRTとiPhone5sでVPNの構築（OpenVPN）｜チョコボール室井の報告書&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;認証局の設置-クライアント証明書の作成&#34;&gt;認証局の設置~クライアント証明書の作成&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/OpenVPN/easy-rsa&#34;&gt;easy-rsa&lt;/a&gt;を使用する．使い方は&lt;a href=&#34;http://yamatamemo.blogspot.jp/2014/01/easy-rsa-3.html&#34;&gt;ここ&lt;/a&gt;を参考に．
+後から気づいたが&lt;a href=&#34;http://www.openvpn.jp/vpnux-pki/&#34;&gt;vpnux PKI Manager&lt;/a&gt;なんていうGUIツールが公開されていた．これを使えば楽にできるかも．&lt;/p&gt;
+
+&lt;h2 id=&#34;dd-wrtの設定&#34;&gt;DD-WRTの設定&lt;/h2&gt;
+
+&lt;h3 id=&#34;openvpnサーバの設定&#34;&gt;OpenVPNサーバの設定&lt;/h3&gt;
+
+&lt;p&gt;Services -&amp;gt; VPNから&lt;/p&gt;
+
+&lt;p&gt;Key|Value
+:-|:-
+OpenVPN|Enable
+Start Type|WAN Up
+Config as|Server
+Server mode|Router (TUN)
+Network|10.0.1.0
+Netmask|255.255.255.0
+Port|11194
+Tunnel Protocol|TCP
+Encryption Cipher|AES-256-CBC
+Hash Algorithm|SHA256
+Advanced Options|Enable
+TLS Cipher|None
+LZO Compression|Yes
+Redirect default Gateway|Disable
+Allow Client to Client|Disable
+Allow duplicate cn|Disable
+Tunnel MTU setting|1400
+Tunnel UDP Fragment|-
+Tunnel UDP MSS-Fix|Disable
+CCD-Dir DEFAULT file|-
+Static Key|-
+PKCS12 Key|-
+Public Server Cert|サーバ証明書の内容を転載
+CA Cert|CA証明書の内容を転載
+Private Server Key|サーバの秘密鍵の内容を転載
+DH PEM|DHパラメータの内容を転載
+Additional Config|push &amp;ldquo;route 10.0.0.0 255.255.255.0&amp;rdquo;
+TLS Auth Key|-
+Certificate Revoke List|-&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;
+いくつか説明&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Network, Additional Configについて&lt;br /&gt;
+自宅のLANは10.0.0.0/24で作成している．OpenVPNで接続したクライアントはそれとは別のセグメント(10.0.1.0/24)に配置することにする．(自動でサーバのIPアドレスは10.0.1.1になる)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;接続してきたクライアントへ自宅LAN宛のルーティングを追加するためにAdditional Configに「push ~行」を追加している．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Portについて&lt;br /&gt;
+セキュリティのことを考えてデフォルトのポートから変更する．後に設定するclient.ovpnやポート転送の設定値もここの値にそろえる．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Tunnel Protocolについて&lt;br /&gt;
+なぜかUDPだとクライアントから接続できなかったためTCPにする．&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;設定が完了したらApply Settingsをクリック．&lt;/p&gt;
+
+&lt;h3 id=&#34;ポートフォワーディングの設定&#34;&gt;ポートフォワーディングの設定&lt;/h3&gt;
+
+&lt;p&gt;OpenVPNの設定を書けばWAN側ポートでも待ち受けてくれるものと思っていたがそうではないみたい．
+別途ポートフォワーディングの設定をする必要があった．ここで一番つまった．&lt;/p&gt;
+
+&lt;p&gt;NAT/QoS -&amp;gt; Port Forwardingから&lt;/p&gt;
+
+&lt;p&gt;Application|Protocol|Source Net|Port from|IP Address|Port to|Enable
+:-|:-|:-|:-|:-|:-|:-
+OpenVPN(任意の文字列)|TCP|0.0.0.0/0|11942|10.0.1.1|11942|チェックを入れる&lt;/p&gt;
+
+&lt;h2 id=&#34;クライアントの設定&#34;&gt;クライアントの設定&lt;/h2&gt;
+
+&lt;p&gt;インストール方法は省略&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;client.ovpn&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;コメントを除けば以下の内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;client
+dev tu
+proto tcp
+remote &amp;lt;OpenVPNサーバのホスト名またはIPアドレス&amp;gt; 11194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca &amp;lt;CA証明書のファイル名&amp;gt;
+cert &amp;lt;クライアント証明書のファイル名&amp;gt;
+key &amp;lt;クライアント秘密鍵のファイル名&amp;gt;
+remote-cert-tls server
+cipher AES-256-CBC
+comp-lzo
+verb 3
+auth sha256
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;証明書と秘密鍵はclient.opvnと同じディレクトリ(Windowsの場合はC:\Program Files\OpenVPN\config)に置けばよい．
+なお証明書と秘密鍵はファイル名を書くかわりに以下のように.opvnに内容を直接書くこともできるみたい．1ファイルで完結するからこちらの方がいいかも．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ca&amp;gt;
+-----BEGIN CERTIFICATE-----
+略
+-----END CERTIFICATE-----
+
+&amp;lt;/ca&amp;gt;
+
+&amp;lt;cert&amp;gt;
+-----BEGIN CERTIFICATE-----
+略
+-----END CERTIFICATE-----
+
+&amp;lt;/cert&amp;gt;
+
+&amp;lt;key&amp;gt;
+-----BEGIN PRIVATE KEY-----
+略
+-----END PRIVATE KEY-----
+
+&amp;lt;/key&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;あとはクライアントから接続するだけ．&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Octopressセットアップメモ</title>
+      <link>http://uyorum.github.io/blog/2015/02/22/setup-octopress/</link>
+      <pubDate>Sun, 22 Feb 2015 22:16:12 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/02/22/setup-octopress/</guid>
+      <description>
+
+&lt;p&gt;わけあってOctopress環境を作り直したのでメモ&lt;/p&gt;
+
+&lt;h2 id=&#34;参考資料&#34;&gt;参考資料&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://octopress.org/docs/&#34;&gt;Octopress Documentation - Octopress&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;前提&#34;&gt;前提&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Rubyはrbenvを使用してインストールする
+
+&lt;ul&gt;
+&lt;li&gt;使用するバージョンは1.9.3-p551&lt;/li&gt;
+&lt;li&gt;rbenv-gemsetプラグインを使用してgemを隔離する&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;手順&#34;&gt;手順&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;ソースをclone&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/imathis/octopress
+Cloning into &#39;octopress&#39;...
+remote: Counting objects: 10786, done.
+remote: Compressing objects: 100% (26/26), done.
+remote: Total 10786 (delta 8), reused 5 (delta 1)
+Receiving objects: 100% (10786/10786), 2.85 MiB | 1.68 MiB/s, done.
+Resolving deltas: 100% (5178/5178), done.
+Checking connectivity... done.
+$ ls
+octopress
+$ cd octopress
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Rubyのバージョンを指定&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ echo &#39;1.9.3-p551&#39; &amp;gt; .ruby-version
+$ rbenv versions
+  system
+* 1.9.3-p551
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;gemsetを作成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ rbenv gemset create 1.9.3-p551 octopress
+created octopress for 1.9.3-p551
+$ echo octopress &amp;gt; .rbenv-gemsets
+$ rbenv gemset active
+octopress global
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;あとは公式の手順に従えばOK&lt;/p&gt;
+
+&lt;p&gt;自分の環境では途中でJavaScript Runtimeがないと怒られたので&lt;a href=&#34;https://github.com/imathis/octopress/issues/1612&#34;&gt;ここ&lt;/a&gt;を参考にGemfileに以下を追加&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# jekyll needs javascript runtime
+# detail: https://github.com/imathis/octopress/issues/1612
+gem &#39;therubyracer&#39;, &#39;~&amp;gt; 0.12.1&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;編集後に再び&lt;code&gt;bundle install&lt;/code&gt;を実行．&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Xmonadのmodキーを半角/全角キーに変更する</title>
+      <link>http://uyorum.github.io/blog/2015/02/22/xmonad-change-modmask/</link>
+      <pubDate>Sun, 22 Feb 2015 19:04:51 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2015/02/22/xmonad-change-modmask/</guid>
+      <description>
+
+&lt;p&gt;Xmonadを使い始めました．
+いろいろ設定方法を紹介しているページは見つかるのですがmodキーをAltまたはWindowsキー以外に設定する方法が見つからなかったのでメモ．&lt;/p&gt;
+
+&lt;h2 id=&#34;経緯&#34;&gt;経緯&lt;/h2&gt;
+
+&lt;p&gt;いろいろググってみてもmodキーをWindowsキーに変更しているページしか見つかりませんでした．
+Windowsキーのあるキーボードの右下はなかなか指が届きづらいため別のキーにしたいと考えました．
+自分はSKKを使っているので全角/半角キーは使いません．この位置ならば割と容易に届くためmodキーにこのキーを使うことにしました．&lt;/p&gt;
+
+&lt;h2 id=&#34;設定方法&#34;&gt;設定方法&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;xmonad.hs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;よく紹介されているようにmodMaskをmod4Maskに割り当てます&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;modMask = mod4Mask
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Xmodmap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;mod4に全角/半角キーを追加します&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;keysym Zenkaku_Hankaku = Super_L
+add mod4 = Zenkaku_Hankaku
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;あとは設定を読み込ませてやればOKです．
+なんでmod4MaskでWindowsキーになるのか不思議だったのですがXmodmapで割り当てられていたんですね．&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

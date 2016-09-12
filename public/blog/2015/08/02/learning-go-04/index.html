@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>Go言語のお勉強 その4</title>
+  <link href="http://uyorum.github.io/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://uyorum.github.io/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://uyorum.github.io/images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://uyorum.github.io"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">@uyorumの雑記帳</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">uyorum&#39;s tech blog</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/uyorum"><img src="http://uyorum.github.io/images/github2-dreamstale35.png"></a>
+        
+        
+        
+          <a href="https://twitter.com/uyorum"><img src="http://uyorum.github.io/images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://uyorum.github.io/index.xml"><img src="http://uyorum.github.io/images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://uyorum.github.io/images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>Go言語のお勉強 その4</h4>
+          <p>
+           
+          </p>
+          <p>
+
+<p>4日目</p>
+
+<h2 id="データ型">データ型</h2>
+
+<h3 id="array">Array</h3>
+
+<pre><code class="language-go">var a1 [5]int
+fmt.Println(a1)		// [0 0 0 0 0]
+a1[0] = 2
+fmt.Println(a1)		// [2 0 0 0 0]
+
+var a3 [2][3]int
+fmt.Println(a3)		// [[0 0 0] [0 0 0]]
+
+a2 := [4]string{&quot;hoge&quot;, &quot;huga&quot;, &quot;foo&quot;, &quot;bar&quot;}
+fmt.Println(a2)		// [hoge huga foo bar]
+fmt.Println(a2[:3])	// [hoge huga foo]
+fmt.Println(a2[2:3])	// [foo]
+fmt.Println(a2[2:])	// [foo bar]
+fmt.Println(len(a2))	// 4
+</code></pre>
+
+<ul>
+<li><code>[要素数]型</code>でArray型を表現する</li>
+<li>宣言と同時に初期化するには<code>[要素数]型{ 値を列挙 }</code>で表現する</li>
+<li>多重配列も利用可能
+
+<ul>
+<li><code>[n1][n2]type</code>は<code>[n1]([n2]type)</code>と等価</li>
+</ul></li>
+<li>値へアクセスするには<code>変数名[インデックス]</code>と表現する
+
+<ul>
+<li>インデックスは0から始まる</li>
+</ul></li>
+<li>:を使うことで範囲を指定してアクセスすることもできる</li>
+<li>後からサイズを変更することはできない
+
+<ul>
+<li>そういったときは<code>Slice</code>を使う</li>
+</ul></li>
+</ul>
+
+<h3 id="slice">Slice</h3>
+
+<pre><code class="language-go">var s1 []int
+fmt.Println(s1)			// []
+s2 := []int{10, 20, 30, 40, 50}
+fmt.Println(s2)			// [10 20 30 40 50]
+var s3 []int = make([]int, 3, 4)
+fmt.Println(s3)			//[0 0 0]
+s3[3] = 1
+fmt.Println(s3)			//[0 0 0]
+
+s4 := a2[:]			// a2 == [hoge huga foo bar]
+fmt.Println(s4)			// [hoge huga foo bar]
+a2[1] = &quot;piyo&quot;
+fmt.Println(s4)			// [hoge piyo foo bar]
+
+var s4 []int = make([]int, 3, 4)
+fmt.Println(s4)			//[0 0 0]
+fmt.Println(len(s4))		// 3
+fmt.Println(cap(s4))		// 4
+s4 = s4[:cap(s4)]		// 長さを拡張
+fmt.Println(s4)			// [0 0 0 0]
+
+s4 = []int{10, 20, 30, 40}
+s5 := make([]int, len(s4), (cap(s4) + 1))
+copy(s5, s4)
+fmt.Println(len(s5), cap(s5))	// 4, 5
+fmt.Println(s5)				// [10 20 30 40]
+
+s6 := append(s5, 50, 60)
+fmt.Println(s6)				// [10 20 30 40 50 60]
+</code></pre>
+
+<ul>
+<li><code>[]型</code>で表現する</li>
+<li>Sliceの各要素には値へのポインタが格納される</li>
+<li>ArrayからSliceを生成することができる
+
+<ul>
+<li>同様にSliceからSliceを生成することもできる</li>
+</ul></li>
+<li>Sliceは組み込みのmake関数でも生成することができる
+
+<ul>
+<li><code>make([]型, 長さ, 容量)</code>で表現する</li>
+<li>容量は省略することもでき，その場合は長さと同じ値が自動で設定される</li>
+</ul></li>
+<li>Sliceの長さはその容量まで拡張することができる</li>
+<li>容量を拡張するにはmake関数でより大きい容量を指定してSliceを再生成する</li>
+<li>SliceからSliceへ値をコピーするにはcopy関数を使う
+
+<ul>
+<li><code>copy(dst, src)</code></li>
+</ul></li>
+<li>append関数を使うと容量と長さの拡張を自動で行なってくれる</li>
+<li>要素を削除する関数は用意されていないので自分で作る必要がある</li>
+</ul>
+
+<h3 id="map">Map</h3>
+
+<pre><code class="language-go">m1 := make(map[string]int)
+m1[&quot;x&quot;] = 10
+m1[&quot;y&quot;] = 20
+fmt.Println(m1[&quot;x&quot;])			// 10
+
+delete(m1, &quot;x&quot;)
+fmt.Println(m1)					// map[y:20]
+fmt.Println(m1[&quot;x&quot;])			// 0
+
+m2 := map[string]int{&quot;x&quot;: 10, &quot;y&quot;: 20}
+// Undefined
+if _, ok := m2[&quot;z&quot;]; ok {
+	fmt.Println(&quot;Defined&quot;)
+} else {
+	fmt.Println(&quot;Undefined&quot;)
+}
+</code></pre>
+
+<ul>
+<li>いわゆる連想配列</li>
+<li><code>make(map[Keyの型]Valueの型)</code>
+
+<ul>
+<li>Keyには<code>function</code>, <code>Map</code>, <code>Slice</code>型を使用することができない</li>
+</ul></li>
+<li>要素を消すにはdelete関数を使う</li>
+<li><code>map[Key]</code>には戻り値が2つある
+
+<ul>
+<li>1つめは指定したキーに対応する値</li>
+<li>2つめには値が定義されていたらtrue，未定義の場合はfalseが返る</li>
+</ul></li>
+<li>MapはArrayやSliceと異なり各要素に順番がない</li>
+</ul>
+
+<h3 id="range">range</h3>
+
+<pre><code class="language-go">array1 := [...]int{10, 20, 30}
+slice1 := append(array1[:], 40, 50)
+map1 := map[string]int{&quot;hoge&quot;: 10, &quot;huga&quot;: 20}
+
+// index: 0 value: 10
+// index: 1 value: 20
+// index: 2 value: 30
+for i, v := range array1 {
+	fmt.Println(&quot;index:&quot;, i, &quot;value:&quot;, v)
+}
+
+// index: 0 value: 10
+// index: 1 value: 20
+// index: 2 value: 30
+// index: 3 value: 40
+// index: 4 value: 50
+for i, v := range slice1 {
+	fmt.Println(&quot;index:&quot;, i, &quot;value:&quot;, v)
+}
+
+// key: hoge value: 10
+// key: huga value: 20
+for k, v := range map1 {
+	fmt.Println(&quot;key:&quot;, k, &quot;value:&quot;, v)
+}
+</code></pre>
+
+<ul>
+<li>Array, Slice, Mapなどの各要素に対するループ処理を実行するときに使う</li>
+<li><code>range 変数</code>で2つの戻り値が返る
+
+<ul>
+<li>1つめはインデックス(Mapの場合はキー)</li>
+<li>2つめは値</li>
+</ul></li>
+<li>Mapは要素に順番を持たないので実行する度に順番が異なる</li>
+</ul>
+
+<p>ここまではほとんど<a href="http://dev.classmethod.jp/series/golang-2/">ここ</a>をなめただけ．<br />
+あとは公式ドキュメントとか本とか見ながら細かいところ勉強していこうと思う．</p>
+</p>
+          <p>2 Aug 2015
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'uyorum';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/08/23/yapc2015/"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/08/02/learning-go-03/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (C) 2016 uyorum All Right Reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://uyorum.github.io/js/materialize.min.js"></script>
+  <script src="http://uyorum.github.io/js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43857839-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

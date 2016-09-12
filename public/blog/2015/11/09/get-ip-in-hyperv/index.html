@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する</title>
+  <link href="http://uyorum.github.io/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://uyorum.github.io/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://uyorum.github.io/images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://uyorum.github.io"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">@uyorumの雑記帳</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">uyorum&#39;s tech blog</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/uyorum"><img src="http://uyorum.github.io/images/github2-dreamstale35.png"></a>
+        
+        
+        
+          <a href="https://twitter.com/uyorum"><img src="http://uyorum.github.io/images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://uyorum.github.io/index.xml"><img src="http://uyorum.github.io/images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://uyorum.github.io/images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する</h4>
+          <p>
+           
+          </p>
+          <p>
+
+<p>「内部ネットワーク」を使用している場合，Hyper-VのGuestOSはDHCPでIPアドレスが振られる．
+HostからGuestへアクセスするときにアドレスが変わると困る．
+Guestを固定アドレスにすればいいのかも知れないが，何かの拍子でセグメントが変わったら面倒なので自動で取得できるようする．</p>
+
+<h2 id="環境">環境</h2>
+
+<h3 id="host">Host</h3>
+
+<pre><code class="language-shell">&gt; systeminfo
+(抜粋)
+OS Name:                   Microsoft Windows 10 Pro
+OS Version:                10.0.10240 N/A Build 10240
+</code></pre>
+
+<h3 id="guest">Guest</h3>
+
+<pre><code class="language-shell">$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Debian
+Description:    Debian GNU/Linux unstable (sid)
+Release:        unstable
+Codename:       sid
+</code></pre>
+
+<h2 id="準備">準備</h2>
+
+<p>Guest OSにAgentをインストール</p>
+
+<pre><code class="language-shell">$ sudo apt-get install hyperv-daemons
+$ dpkg -l hyperv-daemons
+要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)保持
+| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストール/(W)トリガ待ち/(T)トリガ保留
+|/ エラー?=(空欄)無/(R)要再インストール (状態,エラーの大文字=異常)
+||/ 名前                          バージョン          アーキテクチャ      説明
++++-=============================-===================-===================-================================================================
+ii  hyperv-daemons                4.2-2               amd64               Support daemons for Linux running on Hyper-V
+$ systemctl status hyperv-daemons.hv-fcopy-daemon.service
+● hyperv-daemons.hv-fcopy-daemon.service - Hyper-V file copy service (FCOPY) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-fcopy-daemon.service; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+Condition: start condition failed at 金 2015-11-06 22:31:17 JST; 3 days ago
+$ systemctl status hyperv-daemons.hv-kvp-daemon.service
+● hyperv-daemons.hv-kvp-daemon.service - Hyper-V key-value pair (KVP) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-kvp-daemon.service; enabled; vendor preset: enabled)
+   Active: active (running) since 金 2015-11-06 22:31:17 JST; 3 days ago
+ Main PID: 673 (hv_kvp_daemon)
+   CGroup: /system.slice/hyperv-daemons.hv-kvp-daemon.service
+           └─673 /usr/sbin/hv_kvp_daemon -n
+$ systemctl status hyperv-daemons.hv-vss-daemon.service
+● hyperv-daemons.hv-vss-daemon.service - Hyper-V volume shadow copy service (VSS) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-vss-daemon.service; enabled; vendor preset: enabled)
+   Active: active (running) since 金 2015-11-06 22:31:17 JST; 3 days ago
+ Main PID: 667 (hv_vss_daemon)
+   CGroup: /system.slice/hyperv-daemons.hv-vss-daemon.service
+           └─667 /usr/sbin/hv_vss_daemon -n
+</code></pre>
+
+<p>daemonのひとつで起動に失敗しているがとりあえず放置．それぞれの役割はこんな感じ．</p>
+
+<blockquote>
+<p>hv_fcopy_daemon provides the file copy service, allowing the host to copy files into the guest.
+hv_kvp_daemon provides the key-value pair (KVP) service, allowing the host to get and set the IP networking configuration of the guest. (This requires helper scripts which are not currently included.)
+hv_vss_daemon provides the volume shadow copy service (VSS), allowing the host to freeze the guest filesystems while taking a snapshot.</p>
+</blockquote>
+
+<p><a href="https://packages.debian.org/sid/hyperv-daemons">Debian &ndash; Details of package hyperv-daemons in sid</a></p>
+
+<p>今回必要なのはおそらく<code>hv_kvp_daemon</code></p>
+
+<h2 id="ホスト側のpowershellでコマンドを実行">ホスト側のPowerShellでコマンドを実行</h2>
+
+<p>管理者権限がないと値を取得できないので注意</p>
+
+<pre><code class="language-shell">&gt; Get-VMNetworkAdapter -VMName &lt;VM Name&gt; | Select IPAddresses
+IPAddresses
+-----------
+{192.168.137.214, fe80::215:5dff:fe02:103}
+</code></pre>
+
+<p>以下のような感じでIPv4アドレスだけ取得できた</p>
+
+<pre><code class="language-shell">&gt; $vm = Get-VMNetworkAdapter -VMName Phoebe
+&gt; $vm.IPAddresses -match &quot;^\d+\.\d+\.\d+\.\d+$&quot;
+192.168.137.214
+</code></pre>
+
+<p>以上．</p>
+</p>
+          <p>9 Nov 2015
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'uyorum';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2016/02/06/cross2016/"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2015/10/15/create-blank-video-with-ffmpeg/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (C) 2016 uyorum All Right Reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://uyorum.github.io/js/materialize.min.js"></script>
+  <script src="http://uyorum.github.io/js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43857839-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+

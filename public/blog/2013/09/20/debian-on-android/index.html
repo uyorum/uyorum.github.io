@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>Android上でDebianを動かす</title>
+  <link href="http://uyorum.github.io/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="http://uyorum.github.io/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style type="text/css">
+  
+    footer.page-footer{background-image: url(http://uyorum.github.io/images/default.png);}
+  
+  </style>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="http://uyorum.github.io"><i class="mdi-action-home left"></i>Home<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/categories"><i class="mdi-action-perm-media left"></i>Categories<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+    <li><a href="http://uyorum.github.io/tags"><i class="mdi-action-loyalty left"></i>Tags<i class="mdi-hardware-keyboard-arrow-right right"></i></a></li>
+  </ul>
+  <div id="index-banner" class="parallax-container">
+  <a data-activates="slide-out" class="btn-floating button-collapse" style="top: 5px; left: 5px;"><i class="mdi-navigation-menu"></i></a>
+    <div class="section no-pad-bot">
+      <div class="container">
+        
+        <h1 class="header center teal-text text-lighten-2">@uyorumの雑記帳</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">uyorum&#39;s tech blog</h5>
+        </div>
+        <div class="row center">
+        
+          <a href="https://github.com/uyorum"><img src="http://uyorum.github.io/images/github2-dreamstale35.png"></a>
+        
+        
+        
+          <a href="https://twitter.com/uyorum"><img src="http://uyorum.github.io/images/twitter-dreamstale71.png"></a>
+        
+        
+        
+          <a href="http://uyorum.github.io/index.xml"><img src="http://uyorum.github.io/images/feed-dreamstale27.png"></a>
+        </div>
+      </div>
+    </div>
+    <div class="parallax">
+    
+      <img src="http://uyorum.github.io/images/default.png">
+    
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel">
+          <h4>Android上でDebianを動かす</h4>
+          <p>
+           
+          </p>
+          <p>
+
+<p>AndroidでもEmacsと戯れたかったので調べてみました．</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="http://wiki.debian.org/ChrootOnAndroid">ChrootOnAndroid</a></li>
+<li><a href="http://j7lg.tumblr.com/post/18547622412/android-sd-debian-squeeze-chroot">androidのSDカード領域にDebian squeezeのchroot環境を入れる</a></li>
+<li><a href="http://d.hatena.ne.jp/Strobo/20120607/1339065529">Android+ポケモンキーボードでモバイルLinux環境を作る</a></li>
+<li><a href="http://d.hatena.ne.jp/rattcv/20101219">AndroidでDebian Lennyを使う。</a></li>
+</ul>
+
+<h2 id="方針">方針</h2>
+
+<p>ざっと調べてみた感じ導入には次の二通りの方法があるようです．</p>
+
+<ol>
+<li>イメージファイルを作って，その中にルートファイルシステムを構築</li>
+<li>Android端末またはSDカード内にディレクトリを掘って，その中にルートファイルシステムを構築</li>
+</ol>
+
+<p>どちらの場合も作ったルートファイルシステムにchrootすることでDebian環境に移行します．<br />
+今回は1の方法を選択しました．<br />
+理由は環境のバックアップがファイルひとつをコピーすればいいという点です．</p>
+
+<h2 id="用意するもの">用意するもの</h2>
+
+<ul>
+<li>Debian環境<br />
+Debianのイメージファイルを作成するのに必要です．<br />
+物理マシンでも仮想マシンでも可能ですが，作成したイメージファイルをAndroid実機のストレージ内にコピーできる環境である必要があります．</li>
+<li>Android実機<br />
+ルート権限が必要です．
+また，作成したイメージファイルを保存するためのストレージ容量が必要です．<br />
+場所は内蔵でもSDカードでもよいはずです．自分はSDカードがささる端末を持っていないので未確認ですが．</li>
+</ul>
+
+<h2 id="作業内容">作業内容</h2>
+
+<h3 id="debianイメージファイルの作成">Debianイメージファイルの作成</h3>
+
+<p>800MBのイメージファイルを作成します．Debian実機で以下のコマンドを実行します．
+800MB * 1024 * 1024 = 838860800B なので 838860800バイトのファイルを作ればいいことになります．</p>
+
+<pre><code>    # aptitude install debootstrap
+    # dd if=/dev/zero of=debian.img seek=838860800 bs=1 count=1
+    # mke2fs -F debian.img
+    # mkdir debian
+    # sudo mount -o loop debian.img debian
+    # sudo debootstrap --verbose --arch=armel --foreign squeeze debian http://ftp.jp.debian.org/debian
+</code></pre>
+
+<h3 id="androidでmountしてchroot">Androidでmountしてchroot</h3>
+
+<ul>
+<li><p>PC上で作業<br />
+Androidのストレージ上に作成したイメージファイルをコピーします．ここではadbコマンドを使用します．<br />
+Android SDKの導入方法は各自で調べてください．</p>
+
+<pre><code>イメージファイルを/sdcard/へコピー
+# adb push debian.img /sdcard/
+Androidのシェルへ移動
+# adb shell
+</code></pre></li>
+
+<li><p>Android上で作業</p>
+
+<pre><code>はじめにrootへ昇格します
+$ su
+# cd /sdcard
+# mkdir debian
+# busybox mknod /dev/block/loop99 b 7 0
+# busybox losetup /dev/block/loop99 debian.img
+# busybox mount -t ext2 -o noatime,nodiratime /dev/block/loop99 debian
+# busybox chroot debian /bin/bash
+</code></pre></li>
+</ul>
+
+<h3 id="chroot環境下で作業">chroot環境下で作業</h3>
+
+<pre><code>    # /debootstrap/debootstrap --second-stage
+    # echo 'deb http://ftp.jp.debian.org/debian stable main non-free contrib' &gt; /etc/apt/sources.list
+    # apt-get autoclean
+    # apt-get update
+</code></pre>
+
+<h3 id="debianの設定">Debianの設定</h3>
+
+<p>以上でDebianのインストールは完了しました．あとはいろいろ必要な設定を行なっていきます．</p>
+
+<h4 id="設定ファイルの編集">設定ファイルの編集</h4>
+
+<ul>
+<li><p>/etc/resolv.conf</p>
+
+<pre><code>nameserver 8.8.8.8
+nameserver 8.8.4.4
+</code></pre></li>
+
+<li><p>/etc/hosts</p>
+
+<pre><code>127.0.0.1       localhost
+</code></pre></li>
+
+<li><p>/etc/sysctl.d/ipv6.conf</p>
+
+<pre><code>net.ipv6.conf.all.disable_ipv6 = 1
+</code></pre></li>
+</ul>
+
+<h4 id="各種設定">各種設定</h4>
+
+<ul>
+<li><p>localeの設定</p>
+
+<pre><code>apt-get install locales
+dpkg-reconfigure locales
+</code></pre></li>
+
+<li><p>とりあえず使いそうなパッケージを入れる
+ここは各自必要なものをインストールしてください．
+ここで入れる必要のあるパッケージはとくにありません．</p>
+
+<pre><code>aptitude install emacs23-nox vim lv git-core zsh ddskk migemo ruby
+</code></pre></li>
+</ul>
+
+<h3 id="bootscriptを配置">bootscriptを配置</h3>
+
+<p>以上で必要な作業は完了しました．Debianを起動するには適当なターミナルアプリでchrootコマンドを叩けばいいのですが，
+その前にexportとかmountとかいろいろコマンドを実行しなくてはいけません．<br />
+これはなかなか面倒なので起動に必要な処理をスクリプトにまとめておきます．<br />
+以下のスクリプトは参考サイトから拝借しました．</p>
+
+<ul>
+<li><p>bootdebian.sh</p>
+
+<p>#!/system/bin/sh</p>
+
+<p>abort() {
+       echo $1
+       exit 1
+   }</p>
+
+<p>DEBIAN=/sdcard/debian.img</p>
+
+<p>[ -f ${DEBIAN} ] || abort &ldquo;${DEBIAN}: no such file.&rdquo;
+       DEVICE=/dev/block/loop99
+   [ -b ${DEVICE} ]
+       DEBROOT=/sdcard/debian
+   [ -d ${DEBROOT} ] || mkdir -p ${DEBROOT}
+       export PATH=/system/bin:/usr/bin:/usr/sbin:/bin:$PATH
+       export TERM=linux
+       export HOME=/root
+       export LANG=ja_JP.UTF-8</p>
+
+<p>busybox mknod ${DEVICE} b 7 99; busybox losetup ${DEVICE} ${DEBIAN}; sleep 1
+   busybox mount -t ext2 -o noatime,nodiratime ${DEVICE} ${DEBROOT}/</p>
+
+<p>if [ $? == 0 ]; then
+       sleep 1
+       echo -n &ldquo;Debian boot&hellip;&rdquo;
+       busybox mount -t devpts devpts ${DEBROOT}/dev/pts; sleep 1
+       busybox mount -t proc proc ${DEBROOT}/proc; sleep 1
+       busybox mount -t sysfs sysfs ${DEBROOT}/sys; sleep 1
+       echo &ldquo;done&rdquo;
+       chroot ${DEBROOT} /bin/zsh; sleep 1
+       echo -n &ldquo;Shutdown&hellip;&rdquo;
+       busybox fuser -k ${DEBROOT}; sleep 1
+       busybox fuser -k ${DEVICE}; sleep 1
+       busybox umount ${DEBROOT}/dev/pts; sleep 1
+       busybox umount ${DEBROOT}/proc; sleep 1
+       busybox umount ${DEBROOT}/sys; sleep 1
+       busybox umount ${DEBROOT}
+       rm ${DEVICE}
+       echo &ldquo;done&rdquo;
+   else
+       echo &ldquo;Debian boot error.&rdquo;
+       busybox fuser -k ${DEBROOT}; sleep 1
+       busybox fuser -k ${DEVICE}; sleep 1
+       busybox umount ${DEBROOT}/dev/pts; sleep 1
+       busybox umount ${DEBROOT}/proc; sleep 1
+       busybox umount ${DEBROOT}/sys; sleep 1
+       busybox umount ${DEBROOT}
+       rm ${DEVICE}
+   fi</p></li>
+</ul>
+
+<p>私はzshユーザなのでシェルをzshにしていますが，そうでない人は適当に指定してください．
+スクリプトを作成したら以下のコマンドでAndroid端末の/sdcard/以下にコピーします．</p>
+
+<pre><code>    $ adb push bootdebian.sh /sdcard/
+</code></pre>
+
+<h2 id="起動してみる">起動してみる</h2>
+
+<p>適当なターミナルアプリからRoot権限で上のスクリプトを走らせればDebianが起動します．
+私は<a href="https://play.google.com/store/apps/details?id=jackpal.androidterm&amp;hl=ja">Android Terminal Emulator</a>というアプリを使っています．
+アプリを起動したら以下のコマンドを実行します．</p>
+
+<pre><code>    $ su
+    # sh /sdcard/bootdebian.sh
+</code></pre>
+
+<p>プロンプトが返ってきたらDebianが起動しているはずです．</p>
+</p>
+          <p>20 Sep 2013
+            
+          </p>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'uyorum';
+    
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2013/09/21/install-org-googlecl/"><i class="mdi-navigation-arrow-back"></i></a>
+      
+      </div>
+      <div class="col s6 m10 center">&nbsp</div>
+      <div class="col s3 m1">
+      
+        <a class="btn-floating btn-large waves-effect waves-light" href="http://uyorum.github.io/blog/2013/09/20/first-post/"><i class="mdi-navigation-arrow-forward"></i></a>
+      
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright (C) 2016 uyorum All Right Reserved.
+      <div class="right">Design <a class="grey-text text-lighten-4" href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="http://uyorum.github.io/js/materialize.min.js"></script>
+  <script src="http://uyorum.github.io/js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43857839-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  </body>
+</html>
+
