@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>RPMコマンドのオプション - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">RPMコマンドのオプション</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2013-09-21">September 21, 2013</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>最近LPIC-1を取ろうと勉強中です．
+その中でRedHat系のパッケージ操作コマンドであるrpmコマンドのオプションについて出てきたので備忘録のためにまとめておくことにします．</p>
+
+<p>rpmのオプションには大きく分けると「インストール/アップグレード」「アンインストール」「照会」の3つに分けられます．</p>
+
+<h2 id="インストール-アップグレード">インストール/アップグレード</h2>
+
+<p>インストール/アップグレードモードでは以下のいずれかのオプションを使用する</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">オプション</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">-i (&ndash;install) &lt;パッケージファイル名&gt;</td>
+<td align="left">パッケージをインストールする</td>
+</tr>
+
+<tr>
+<td align="left">-U (&ndash;upgrade) &lt;パッケージファイル名&gt;</td>
+<td align="left">パッケージを更新する．インストールされていなければ新規にインストールする</td>
+</tr>
+
+<tr>
+<td align="left">-F (&ndash;freshen) &lt;パッケージファイル名&gt;</td>
+<td align="left">パッケージを更新する．インストールされていなければなにもしない</td>
+</tr>
+</tbody>
+</table>
+
+<p>これらのオプションを使用したときは以下のオプションも併用できる</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">オプション</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">-v</td>
+<td align="left">詳細な情報を表示する</td>
+</tr>
+
+<tr>
+<td align="left">-h (&ndash;hash)</td>
+<td align="left">進行状況を「#」で表示する</td>
+</tr>
+
+<tr>
+<td align="left">&ndash;nodeps</td>
+<td align="left">依存関係を無視してインストールする</td>
+</tr>
+
+<tr>
+<td align="left">&ndash;test</td>
+<td align="left">実際にはインストールせずにテストを実施する</td>
+</tr>
+</tbody>
+</table>
+
+<p>パッケージをファイルからインストールするときは以下のようにオプションを組み合わせているのをよく見る気がします．</p>
+
+<pre><code>    # rpm -ivh &lt;package&gt;
+</code></pre>
+
+<h2 id="アンインストール">アンインストール</h2>
+
+<p>こちらはあまり種類がないようで，</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">オプション</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">-e (&ndash;erace) &lt;パッケージ名&gt;</td>
+<td align="left">パッケージをアンインストールする</td>
+</tr>
+</tbody>
+</table>
+
+<p>ちなみに-eオプションを渡したときも&ndash;nodepsオプションを使用できます．
+効果は「依存関係を無視してアンインストールする」です．</p>
+
+<h2 id="照会">照会</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">オプション</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">-q &lt;パッケージ名&gt;</td>
+<td align="left">指定したパッケージがインストールされているか照会する</td>
+</tr>
+</tbody>
+</table>
+
+<p>このモードでは以下のオプションが併用できる</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">オプション</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">-a (-all)</td>
+<td align="left">インストール済みのすべてのパッケージを表示する</td>
+</tr>
+
+<tr>
+<td align="left">-f &lt;ファイル名&gt;</td>
+<td align="left">指定したファイルを含むパッケージ名を表示する</td>
+</tr>
+
+<tr>
+<td align="left">-p &lt;パッケージファイル名&gt;</td>
+<td align="left">対象としてパッケージファイル名を指定する</td>
+</tr>
+
+<tr>
+<td align="left">-i (&ndash;info)</td>
+<td align="left">インストール済みのパッケージ情報を表示する</td>
+</tr>
+
+<tr>
+<td align="left">-l (&ndash;list)</td>
+<td align="left">指定したパッケージに含まれるファイルを表示する</td>
+</tr>
+
+<tr>
+<td align="left">-R (&ndash;requires)</td>
+<td align="left">指定したパッケージが依存しているファイル等を表示する</td>
+</tr>
+
+<tr>
+<td align="left">&ndash;changelog</td>
+<td align="left">変更履歴を表示する</td>
+</tr>
+</tbody>
+</table>
+
+<p>あるパッケージがインストールされているかどうかを調べたかったら以下のように実行すればよいわけですね</p>
+
+<pre><code>    $ rpm -qa | grep &lt;package&gt;
+</code></pre>
+
+<p>deb系で言う&rdquo;dpkg -l&rdquo;みたいな感じ．</p>
+
+<p>出典: <a href="http://www.amazon.co.jp/dp/4798127922">Linux教科書 LPIC レベル1 第5版 [翔泳社]</a></p>
+
+<h2 id="なんでこんなものをまとめているのかと言うと">なんでこんなものをまとめているのかと言うと</h2>
+
+<p>私はDebianユーザなのでRedHatやCentOSの環境が手元にありません．本で読んでいるばかりだとなかなか頭に残らないので
+手を動かして覚えようということでまとめてみました．</p>
+
+<p>やっぱり手元にESXi環境とかあったらこういうとき必要な環境をささっと準備できて便利なんだろうなーと思いつつ
+いざそれ用に新しいマシンを買うとなると10万はいっちゃいそうでなかなか踏み出せずにいます…</p>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

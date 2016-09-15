@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>org-googlecl.elの導入と改造 - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">org-googlecl.elの導入と改造</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2013-09-21">September 21, 2013</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>EmacsからBloggerに直接投稿できる上にorg-modeの文法が利用できるorg-googlecl.elをむかし導入しました．
+さっそく試してみたところ文章がやたらと改行されていたのでそれを直すためにorg-googlecl.elを改造しました．
+そのログが残っていたのでとりあえずあげておきます．
+見てのとおり現在は見ての通りgithub + Octopressを使用しているのですが．</p>
+
+<h2 id="導入">導入</h2>
+
+<p>Android上でEmacsが動くようになったので，そこからbloggerに投稿するために以前友人に教えてもらったorg-googlecl.elを導入しました．<br />
+方法は<a href="http://hitsumabushi-pc.blogspot.jp/2011/12/org-googleclel.html">ここ</a>や<a href="http://kikukawatei.blogspot.jp/2011/01/org-googleclel-blogger_4570.html">ここ</a>を参考にすれば難しくないので割愛します．</p>
+
+<h2 id="改造">改造</h2>
+
+<p>早速試してみたのですが，文章がやたらと改行されてしまって見ににくいことこの上ない．<br />
+いろいろ調べたり試したりしたところ，orgから生成したhtmlをアップロードするときにソース内の改行を&rdquo;<br />&ldquo;に置換している模様．<br />
+どうしてこんなことになっているのかは不明ですが，とりあえずupload時にソース内の改行をすべて消してしまうことにします．<br />
+自分はelispを読み書きできないので<a href="http://kikukawatei.blogspot.jp/2011/01/org-googleclel.html">ここ</a>を参考org-googlecl.elを編集します．</p>
+
+<pre><code>    (with-temp-file  tmpfile
+        (insert bhtml)
+        (goto-char (buffer-end 1))
+        (insert googlecl-footer))
+</code></pre>
+
+<p>の部分を</p>
+
+<pre><code>    (with-temp-file  tmpfile
+            (insert (replace-regexp-in-string
+                     &quot;\n&quot; &quot;&quot; bhtml))
+                     (goto-char (buffer-end 1)))
+</code></pre>
+
+<p>と置き換えました．<br />
+&ldquo;\n&rdquo;(改行コード)を&rdquo;&ldquo;で置換しています．(つまり\nを削除)<br />
+とりあえずこれで読める体裁にはなりました．</p>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>Go言語のお勉強 その3 - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">Go言語のお勉強 その3</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2015-08-02">August 02, 2015</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>今日の分．</p>
+
+<h2 id="制御構文">制御構文</h2>
+
+<h3 id="if">if</h3>
+
+<pre><code class="language-go">x := false
+if x == true {
+	fmt.Println(&quot;x is true&quot;)
+} else {
+	fmt.Println(&quot;x is false&quot;)
+}
+
+rand.Seed(time.Now().UnixNano())
+// [0, 10)の乱数(整数)を生成
+if y := rand.Intn(10); y &lt; 5 {
+	fmt.Println(y, &quot;is less than 5&quot;)
+} else if y &gt; 5 {
+	fmt.Println(y, &quot;is greater than 5&quot;)
+} else {
+	fmt.Println(y, &quot;is equal to 5&quot;)
+}
+fmt.Println(y)		// undefined: y
+</code></pre>
+
+<ul>
+<li><code>if 条件式 {trueの場合の処理}</code>のように書く</li>
+<li>条件式を<code>( )</code>で囲む必要はない</li>
+<li><code>else</code>や<code>else if</code>が使える</li>
+<li><code>変数名 := 値; 条件式</code>のように書くことで条件式部分で変数を宣言することもできる
+
+<ul>
+<li>ここで定義した変数はif文の中でのみ有効</li>
+</ul></li>
+</ul>
+
+<h3 id="for">for</h3>
+
+<pre><code class="language-go">for i := 0; i &lt; 10; i++ {
+	fmt.Println(i)
+}
+</code></pre>
+
+<ul>
+<li><code>for Expression1; Expression2; Expression3 {処理内容}</code>のように書く
+
+<ul>
+<li>Expression1はforループの開始前に呼ばれる</li>
+<li>Expression2は処理開始前に呼ばれ，trueならば処理が実行される</li>
+<li>Expression3は処理終了時に呼ばれる</li>
+</ul></li>
+<li>Expression1とExpression3は省略可能
+
+<ul>
+<li>Goにはwhileループがないがforで代用できる</li>
+</ul></li>
+</ul>
+
+<h3 id="switch">switch</h3>
+
+<pre><code class="language-go">i := 5
+// i is 5
+// i is greater than 4
+switch i {
+case 1:
+	fmt.Println(&quot;i is 1&quot;)
+case 2, 3, 4:
+	fmt.Println(&quot;i is 2, 3 or 4&quot;)
+case 5:
+	fmt.Println(&quot;i is 5&quot;)
+	fallthrough
+default:
+	fmt.Println(&quot;i is greater than 4&quot;)
+}
+
+switch {
+case i % 15 == 0:
+	fmt.Println(&quot;FizzBuzz&quot;)
+case i % 3 == 0:
+	fmt.Println(&quot;Fizz&quot;)
+case i % 5 == 0:
+	fmt.Println(&quot;Buzz&quot;)
+default:
+	fmt.Println(i)
+}
+</code></pre>
+
+<ul>
+<li><code>switch 変数 { case 値: 処理内容 }</code>のように書く</li>
+<li>値は,区切りで複数書くこともできる</li>
+<li>マッチした場合は処理を実行してswitch文を抜ける
+
+<ul>
+<li><code>fallthrough</code>を書くことでひとつ下のcaseの処理も実行することができる</li>
+</ul></li>
+<li>どのcaseにも一致しなかった場合はdefaultが実行される
+
+<ul>
+<li>defaultは省略でき，省略した場合defaultでは何もしない</li>
+</ul></li>
+<li>値に等しいかどうかだけでなく，不等式なども使うことができる</li>
+</ul>
+
+<h2 id="インターフェース">インターフェース</h2>
+
+<pre><code class="language-go">// インターフェースを宣言
+// メソッド名と引数，戻り値のみ定義する
+type Interface1 interface {
+	returnVariable() string
+}
+
+// ひとつめの構造体を定義
+// インターフェース内で定義したメソッドreturnVariableを実装する
+type Struct1 struct {
+	var1 string
+}
+func (s Struct1) returnVariable() string {
+	return &quot;valiable: &quot; + s.var1
+}
+
+// ふたつめの構造体を定義
+// こちらでもインターフェース内で定義したメソッドを実装する
+type Struct2 struct {
+	var1 string
+}
+func (s Struct2) returnVariable() string {
+	return s.var1 + &quot; is the variable of this&quot;
+}
+
+func printVariable(i Interface1) {
+	fmt.Println(i.returnVariable())
+}
+
+func main() {
+	s1 := Struct1{var1: &quot;hoge&quot;}
+	s2 := Struct2{var1: &quot;huga&quot;}
+
+	// Struct1，Struct2ともにInterface1型として扱える
+	printVariable(s1)      // valiable: hoge
+	printVariable(s2)      // huga is the variable of this
+}
+</code></pre>
+
+<ul>
+<li><code>type インターフェース名 interface</code>形式で宣言する</li>
+<li>インターフェース内で定義したメソッドを全て実装するとでインターフェースを利用できるようになる</li>
+</ul>
+
+<h3 id="空インターフェース">空インターフェース</h3>
+
+<pre><code class="language-go">var x interface{}
+num := 0
+str := &quot;hello&quot;
+// Integer
+x = num
+fmt.Printf(&quot;%d\n&quot;, x)
+// String
+x = str
+fmt.Printf(&quot;%s\n&quot;, x)
+</code></pre>
+
+<ul>
+<li>1つもメソッドを定義しないインターフェースを「空インターフェース」と呼ぶ</li>
+<li>空のインターフェースには何の機能もないが，空インターフェース型の変数には任意の型の値を格納することができる</li>
+</ul>
+
+<h3 id="型アサーション">型アサーション</h3>
+
+<pre><code class="language-go">func isString(a interface{}) bool {
+	_, ok := a.(string)
+	return ok
+}
+
+func printType(a interface{}) {
+	switch value := a.(type) {
+	case int:
+		fmt.Printf(&quot;int %d\n&quot;, value)
+	case string:
+		fmt.Printf(&quot;string %s\n&quot;, value)
+	default:
+		fmt.Printf(&quot;other&quot;)
+	}
+}
+
+func main() {
+	var y interface{} = 10
+	i1, i2 := y.(int)
+	fmt.Println(i1, i2)            // 10 true
+
+	var j1 interface{} = 1
+	var j2 interface{} = &quot;hoge&quot;
+	fmt.Println(isString(j1))      // false
+	fmt.Println(isString(j2))      // true
+	printType(j1)                  // int 1
+	printType(j2)                  // string hoge
+}
+</code></pre>
+
+<ul>
+<li><code>インターフェース型変数.(型名)</code>で<code>変数に格納された値, boolean</code>が返る
+
+<ul>
+<li>booleanには，変数に格納された値の型が引数に与えた型に一致する場合にtrueが格納される</li>
+</ul></li>
+<li>空インターフェースに格納した値の型を特定するのに利用する</li>
+</ul>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

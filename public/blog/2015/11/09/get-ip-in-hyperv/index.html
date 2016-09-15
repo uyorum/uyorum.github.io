@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2015-11-09">November 09, 2015</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>「内部ネットワーク」を使用している場合，Hyper-VのGuestOSはDHCPでIPアドレスが振られる．
+HostからGuestへアクセスするときにアドレスが変わると困る．
+Guestを固定アドレスにすればいいのかも知れないが，何かの拍子でセグメントが変わったら面倒なので自動で取得できるようする．</p>
+
+<h2 id="環境">環境</h2>
+
+<h3 id="host">Host</h3>
+
+<pre><code class="language-shell">&gt; systeminfo
+(抜粋)
+OS Name:                   Microsoft Windows 10 Pro
+OS Version:                10.0.10240 N/A Build 10240
+</code></pre>
+
+<h3 id="guest">Guest</h3>
+
+<pre><code class="language-shell">$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Debian
+Description:    Debian GNU/Linux unstable (sid)
+Release:        unstable
+Codename:       sid
+</code></pre>
+
+<h2 id="準備">準備</h2>
+
+<p>Guest OSにAgentをインストール</p>
+
+<pre><code class="language-shell">$ sudo apt-get install hyperv-daemons
+$ dpkg -l hyperv-daemons
+要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)保持
+| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストール/(W)トリガ待ち/(T)トリガ保留
+|/ エラー?=(空欄)無/(R)要再インストール (状態,エラーの大文字=異常)
+||/ 名前                          バージョン          アーキテクチャ      説明
++++-=============================-===================-===================-================================================================
+ii  hyperv-daemons                4.2-2               amd64               Support daemons for Linux running on Hyper-V
+$ systemctl status hyperv-daemons.hv-fcopy-daemon.service
+● hyperv-daemons.hv-fcopy-daemon.service - Hyper-V file copy service (FCOPY) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-fcopy-daemon.service; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+Condition: start condition failed at 金 2015-11-06 22:31:17 JST; 3 days ago
+$ systemctl status hyperv-daemons.hv-kvp-daemon.service
+● hyperv-daemons.hv-kvp-daemon.service - Hyper-V key-value pair (KVP) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-kvp-daemon.service; enabled; vendor preset: enabled)
+   Active: active (running) since 金 2015-11-06 22:31:17 JST; 3 days ago
+ Main PID: 673 (hv_kvp_daemon)
+   CGroup: /system.slice/hyperv-daemons.hv-kvp-daemon.service
+           └─673 /usr/sbin/hv_kvp_daemon -n
+$ systemctl status hyperv-daemons.hv-vss-daemon.service
+● hyperv-daemons.hv-vss-daemon.service - Hyper-V volume shadow copy service (VSS) daemon
+   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-vss-daemon.service; enabled; vendor preset: enabled)
+   Active: active (running) since 金 2015-11-06 22:31:17 JST; 3 days ago
+ Main PID: 667 (hv_vss_daemon)
+   CGroup: /system.slice/hyperv-daemons.hv-vss-daemon.service
+           └─667 /usr/sbin/hv_vss_daemon -n
+</code></pre>
+
+<p>daemonのひとつで起動に失敗しているがとりあえず放置．それぞれの役割はこんな感じ．</p>
+
+<blockquote>
+<p>hv_fcopy_daemon provides the file copy service, allowing the host to copy files into the guest.
+hv_kvp_daemon provides the key-value pair (KVP) service, allowing the host to get and set the IP networking configuration of the guest. (This requires helper scripts which are not currently included.)
+hv_vss_daemon provides the volume shadow copy service (VSS), allowing the host to freeze the guest filesystems while taking a snapshot.</p>
+</blockquote>
+
+<p><a href="https://packages.debian.org/sid/hyperv-daemons">Debian &ndash; Details of package hyperv-daemons in sid</a></p>
+
+<p>今回必要なのはおそらく<code>hv_kvp_daemon</code></p>
+
+<h2 id="ホスト側のpowershellでコマンドを実行">ホスト側のPowerShellでコマンドを実行</h2>
+
+<p>管理者権限がないと値を取得できないので注意</p>
+
+<pre><code class="language-shell">&gt; Get-VMNetworkAdapter -VMName &lt;VM Name&gt; | Select IPAddresses
+IPAddresses
+-----------
+{192.168.137.214, fe80::215:5dff:fe02:103}
+</code></pre>
+
+<p>以下のような感じでIPv4アドレスだけ取得できた</p>
+
+<pre><code class="language-shell">&gt; $vm = Get-VMNetworkAdapter -VMName Phoebe
+&gt; $vm.IPAddresses -match &quot;^\d+\.\d+\.\d+\.\d+$&quot;
+192.168.137.214
+</code></pre>
+
+<p>以上．</p>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

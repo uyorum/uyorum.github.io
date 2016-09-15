@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>YAPC::Asia Tokyo 2015に行ってきた - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">YAPC::Asia Tokyo 2015に行ってきた</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2015-08-23">August 23, 2015</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>YAPC::Asia Tokyo 2015に行ってきたのでまとめ</p>
+
+<p>Perlのイベント(？)ですが，インフラの話題も多く，また最近プログラミングもやるようにしているので勉強のために行ってきました．<br />
+主に以下のテーマをチェック</p>
+
+<ul>
+<li>ITインフラ構築・運用</li>
+<li>Docker</li>
+<li>特定言語に限らないプログラミング全般のノウハウ</li>
+<li>Golang(最近書いているため)</li>
+</ul>
+
+<h2 id="managing-containers-at-scale-with-coreos-and-kubernetes">Managing Containers at Scale with CoreOS and Kubernetes</h2>
+
+<p>CoreOS, Inc.のKelsey Hightower氏による話．<br />
+寝坊して10分ほど遅刻したけど席がたくさん空いていた．会場が広いせいもあるんだろうけど．</p>
+
+<p>内容はCoreOSとKubernetesのデモ．<br />
+KubernetesのWebUIはとても綺麗だった．</p>
+
+<p>最後の質疑メモ</p>
+
+<pre><code>Q. DBインスタンス等を立ち上げる場合，ストレージはどのようのに扱えばよいか？
+A.
+DockerはStatelessであることを前提としてデザインしてある
+通常ホストボリュームを使うためいつも同じホストで起動するようにする必要があるが，Kubernetesではこれを制御できないため
+NFSやクラウドストレージにデータを置き，Dockerホストでそれをマウントするようにする
+→ etcdを使ってホスト間でマウントポイント等を同期する
+</code></pre>
+
+<h2 id="consulと自作ossを活用した100台規模のwebサービス運用-fujiwara">Consulと自作OSSを活用した100台規模のWebサービス運用 @fujiwara</h2>
+
+<p>自分はConsulを触ったことがないので初歩的なことなのかも知れないが以下の点は要注意だと思った．</p>
+
+<ul>
+<li>Consulクラスタノード障害時の注意点<br />
+Consulのクラスタを維持するには最低3ノード必要．障害によりこれを下回った場合，クラスタが崩壊しConsulのKVSのデータが失われる．<br />
+また，クラスタのLeaderノードがダウンした場合，新しいLeader選出までは問い合わせに返答できなくなる．<br />
+(デフォルトではクエリが一度Leaderへ転送され，Leaderが返答するようになっているから)<br />
+それを防ぐにはConsulを&rdquo;Stale&rdquo;モードで動作するように変更する</li>
+</ul>
+
+<p>Strecherのように，インフラエンジニアのお仕事を手助けするものをつくりたい．と，自分がプログラミングを勉強する目的を再確認．</p>
+
+<h2 id="polyglotのためのdocker-我々はどこから来てどこへ向かうのか">PolyglotのためのDocker - 我々はどこから来てどこへ向かうのか</h2>
+
+<p>Docker Inc.のNathan LeClaire氏．<br />
+Polyglotとは複数のプログラミング言語を扱うエンジニアのこと．サービスインフラとしてのDockerではなく，Polyglotが扱う，開発環境としてのDockerに視点を向けた話．<br />
+あの言語を学びたい，このライブラリを試してみたいとなったときに実行環境をDockerfileで記述してあれば環境構築に煩わされることもないという趣旨．</p>
+
+<p>個人的にはそれをやろうとすると，プログラムを実行するためのコマンドをどう叩けばいいかということでいつも困る．<br />
+コンテナに入ってコマンドを叩くのはやりたくないし，ローカルのコマンドを叩くのと同じように扱うにはどうやればいいんだろう．(どなたか教えてほしい)</p>
+
+<h2 id="我々はどのように冗長化を失敗したのか-kenjiskywalker">我々はどのように冗長化を失敗したのか @kenjiskywalker</h2>
+
+<p>Consulを使ってMySQLのFailoverを実装しようとした(失敗した)話．</p>
+
+<p>どうにもDBの性能が落ちる時間帯があり，クラウド事業者に頼んでホストを移行してもらったら解消した，という話題(おそらく同じホスト上の別のVMが負荷のかかる処理を行なっていた)<br />
+クラウドやってる身の人間としては，そういうのもクラウドの性質だから我慢して使ってねと思う一方，影響をこうむる他のユーザを考えると非常に悩ましい状態．<br />
+どのVMが原因なのかは調べればすぐわかるけど，使用を控えてくれとは言えないですし．</p>
+
+<h2 id="docker３兄弟について-toritori0318">Docker３兄弟について @toritori0318</h2>
+
+<p>DockerとDocker Composeの使い分け．<br />
+「Docker Composeなら<code>docker-compose up</code>だけで起動できるから楽」なるほどなー</p>
+
+<h2 id="adventures-in-refactoring">Adventures in Refactoring</h2>
+
+<p>GitHubのBen Lavender氏．<br />
+かなり喋りが速くて同時通訳の方がとても大変そうだったが見事に最後までやりきっていた．さすが．<br />
+ちなみに今回同時通訳を行なってくださったのは<a href="http://www.kytrade.co.jp/">ケイワイトレード</a>の方々．きちんと専門用語も翻訳できていた．</p>
+
+<p>変数やメソッド名に<code>_</code>を入れている場合，構造的には間に新たなオブジェクトを求めていることになる．<br />
+e.g.) <code>git.pull_valid?</code> → <code>git.pull.valid?</code><br />
+今度からはこのことを意識して設計してみようと思った．</p>
+
+<h2 id="profiling-optimizing-in-go">Profiling &amp; Optimizing in Go</h2>
+
+<p>Brad Fitzpatrick氏．</p>
+
+<p>個人的には2日間で一番アツかった講演．<br />
+GolangのProfiling機能でプログラムをより軽く，より速くしていく過程をライブで実演<br />
+同機能の充実ぷりにも驚いたが，氏がEmacsを使っているのでテンションがあがった．<br />
+Golangは使い始めたばかりでこの機能をほとんど知らないので一回では理解しきれなかった．動画でもう一度見たい．</p>
+
+<h2 id="lt">LT</h2>
+
+<p>たくさん笑わせてもらった．<br />
+とくに参考になったのが<a href="https://twitter.com/yoku0825">@yoku0825</a>さんの「<a href="http://www.slideshare.net/yoku0825/mysql-57-51945745">MySQL 5.7の罠があなたを狙っている</a>」．</p>
+
+<p>非常に充実した2日間でした．スタッフの方々，スピーカーの方々，ありがとうございました．</p>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

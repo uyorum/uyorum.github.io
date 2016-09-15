@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>Intel DC3217IYEへVMware vSphere hypervisor5.5をインストールする - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">Intel DC3217IYEへVMware vSphere hypervisor5.5をインストールする</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2013-09-24">September 24, 2013</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>先日購入したDC3217IYEにVMware vSphere hypervisorをインストールしようとしたところドライバがないと言われました．
+IntelのNICだから認識するだろうとタカをくくっていましたがダメでした．方法を調べたので手順をまとめておきます．</p>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="http://www.tekhead.org/blog/2013/01/nanolab-running-vmware-vsphere-on-intel-nuc-part-2-2/">NanoLab – Running VMware vSphere on Intel NUC – Part 2</a></p>
+
+<h3 id="用意するもの">用意するもの</h3>
+
+<p>バージョンなどの番号は異なることがあります．適宜読みかえてください．</p>
+
+<ol>
+<li>インストーラ(VMware-VMvisor-Installer-5.5.0-1331820.x86_64.iso)<br />
+ダウンロードにはVMwareのアカウントが必要です<br /></li>
+<li>ESXi-Customizer(ESXi-Customizer-v2.7.1.exe)<br />
+<a href="http://www.v-front.de/p/esxi-customizer.html">ここ</a>から最新版をダウンロードしておきます．</li>
+<li>Intel 82579V Gigabit Ethernet Controllerのドライバ<br />
+<a href="http://dl.dropbox.com/u/27246203/E1001E.tgz">E1001E.tgz</a><br />
+アーカイブを解凍する必要はありません</li>
+</ol>
+
+<h3 id="作業">作業</h3>
+
+<p>ダウンロードしたインストーラの中にドライバを組み込んで、新しいインストーラを作成します．</p>
+
+<ol>
+<li>ESXi-Customizer-v2.7.1.exeを実行します．</li>
+<li>解凍する場所を指定します．(例: C:\tmp)</li>
+<li>解凍先のディレクトリにあるESXi-Customizer.cmdを実行します．ウィンドウが表示されるので以下の値を指定します．
+
+<ul>
+<li>ESXi ISO<br />
+ダウンロードしたESXiのインストーラを指定します</li>
+<li>OEM.tgz<br />
+ダウンロードしたドライバを指定します</li>
+<li>working directory<br />
+作成したインストーラの出力先ディレクトリを指定します．</li>
+</ul></li>
+<li>下のチェックボックスは以下のように選択します．
+
+<ul>
+<li>Force repackingを<strong>選択</strong></li>
+<li>Create (U)EFI-bootable ISOは<strong>選択しない</strong></li>
+<li>Enable automatic update checkは<strong>選択しない</strong>
+<br /></li>
+</ul></li>
+</ol>
+
+<p>私の場合は以下のように指定してあります．<br />
+   <img src="https://dl.dropboxusercontent.com/u/46387437/esxi-customizer.jpg" alt="esxi-customizer" />
+1. 選択したら下の&rdquo;Run!&ldquo;をクリックして実行します．
+   途中のダイアログは&rdquo;はい&rdquo;を選択します．</p>
+
+<p>成功すると&rdquo;working directory&rdquo;に指定したディレクトリに&rdquo;ESXi-5.x-Custom.iso&rdquo;というファイルが作成されています．
+あとはCDに焼くなり、USBメモリに焼くなりしてインストールをします．</p>
+
+<p>以上、IntelのNUCベアボーンDC3217IYにVMware vSphere hypervisor5.5をインストールする方法(正確にはインストーラを作成する方法ですが)でした．<br />
+実は別のショップで注文したSSDがまだ届いていないので実際にはインストールせずに、インストールの途中で&rdquo;NICが見つからない&rdquo;のエラーが出ないことを確認しただけです．
+なのでインストール中、またはインストール後に何か不具合が発生するかもしれません．<br />
+余談ですがvSphere5.5がリリースされていることを知ったのはこのためにインストーラをダウンロードしようとしたときのことでした．</p>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

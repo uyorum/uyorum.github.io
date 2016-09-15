@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>Android上でDebianを動かす - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">Android上でDebianを動かす</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2013-09-20">September 20, 2013</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>AndroidでもEmacsと戯れたかったので調べてみました．</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="http://wiki.debian.org/ChrootOnAndroid">ChrootOnAndroid</a></li>
+<li><a href="http://j7lg.tumblr.com/post/18547622412/android-sd-debian-squeeze-chroot">androidのSDカード領域にDebian squeezeのchroot環境を入れる</a></li>
+<li><a href="http://d.hatena.ne.jp/Strobo/20120607/1339065529">Android+ポケモンキーボードでモバイルLinux環境を作る</a></li>
+<li><a href="http://d.hatena.ne.jp/rattcv/20101219">AndroidでDebian Lennyを使う。</a></li>
+</ul>
+
+<h2 id="方針">方針</h2>
+
+<p>ざっと調べてみた感じ導入には次の二通りの方法があるようです．</p>
+
+<ol>
+<li>イメージファイルを作って，その中にルートファイルシステムを構築</li>
+<li>Android端末またはSDカード内にディレクトリを掘って，その中にルートファイルシステムを構築</li>
+</ol>
+
+<p>どちらの場合も作ったルートファイルシステムにchrootすることでDebian環境に移行します．<br />
+今回は1の方法を選択しました．<br />
+理由は環境のバックアップがファイルひとつをコピーすればいいという点です．</p>
+
+<h2 id="用意するもの">用意するもの</h2>
+
+<ul>
+<li>Debian環境<br />
+Debianのイメージファイルを作成するのに必要です．<br />
+物理マシンでも仮想マシンでも可能ですが，作成したイメージファイルをAndroid実機のストレージ内にコピーできる環境である必要があります．</li>
+<li>Android実機<br />
+ルート権限が必要です．
+また，作成したイメージファイルを保存するためのストレージ容量が必要です．<br />
+場所は内蔵でもSDカードでもよいはずです．自分はSDカードがささる端末を持っていないので未確認ですが．</li>
+</ul>
+
+<h2 id="作業内容">作業内容</h2>
+
+<h3 id="debianイメージファイルの作成">Debianイメージファイルの作成</h3>
+
+<p>800MBのイメージファイルを作成します．Debian実機で以下のコマンドを実行します．
+800MB * 1024 * 1024 = 838860800B なので 838860800バイトのファイルを作ればいいことになります．</p>
+
+<pre><code>    # aptitude install debootstrap
+    # dd if=/dev/zero of=debian.img seek=838860800 bs=1 count=1
+    # mke2fs -F debian.img
+    # mkdir debian
+    # sudo mount -o loop debian.img debian
+    # sudo debootstrap --verbose --arch=armel --foreign squeeze debian http://ftp.jp.debian.org/debian
+</code></pre>
+
+<h3 id="androidでmountしてchroot">Androidでmountしてchroot</h3>
+
+<ul>
+<li><p>PC上で作業<br />
+Androidのストレージ上に作成したイメージファイルをコピーします．ここではadbコマンドを使用します．<br />
+Android SDKの導入方法は各自で調べてください．</p>
+
+<pre><code>イメージファイルを/sdcard/へコピー
+# adb push debian.img /sdcard/
+Androidのシェルへ移動
+# adb shell
+</code></pre></li>
+
+<li><p>Android上で作業</p>
+
+<pre><code>はじめにrootへ昇格します
+$ su
+# cd /sdcard
+# mkdir debian
+# busybox mknod /dev/block/loop99 b 7 0
+# busybox losetup /dev/block/loop99 debian.img
+# busybox mount -t ext2 -o noatime,nodiratime /dev/block/loop99 debian
+# busybox chroot debian /bin/bash
+</code></pre></li>
+</ul>
+
+<h3 id="chroot環境下で作業">chroot環境下で作業</h3>
+
+<pre><code>    # /debootstrap/debootstrap --second-stage
+    # echo 'deb http://ftp.jp.debian.org/debian stable main non-free contrib' &gt; /etc/apt/sources.list
+    # apt-get autoclean
+    # apt-get update
+</code></pre>
+
+<h3 id="debianの設定">Debianの設定</h3>
+
+<p>以上でDebianのインストールは完了しました．あとはいろいろ必要な設定を行なっていきます．</p>
+
+<h4 id="設定ファイルの編集">設定ファイルの編集</h4>
+
+<ul>
+<li><p>/etc/resolv.conf</p>
+
+<pre><code>nameserver 8.8.8.8
+nameserver 8.8.4.4
+</code></pre></li>
+
+<li><p>/etc/hosts</p>
+
+<pre><code>127.0.0.1       localhost
+</code></pre></li>
+
+<li><p>/etc/sysctl.d/ipv6.conf</p>
+
+<pre><code>net.ipv6.conf.all.disable_ipv6 = 1
+</code></pre></li>
+</ul>
+
+<h4 id="各種設定">各種設定</h4>
+
+<ul>
+<li><p>localeの設定</p>
+
+<pre><code>apt-get install locales
+dpkg-reconfigure locales
+</code></pre></li>
+
+<li><p>とりあえず使いそうなパッケージを入れる
+ここは各自必要なものをインストールしてください．
+ここで入れる必要のあるパッケージはとくにありません．</p>
+
+<pre><code>aptitude install emacs23-nox vim lv git-core zsh ddskk migemo ruby
+</code></pre></li>
+</ul>
+
+<h3 id="bootscriptを配置">bootscriptを配置</h3>
+
+<p>以上で必要な作業は完了しました．Debianを起動するには適当なターミナルアプリでchrootコマンドを叩けばいいのですが，
+その前にexportとかmountとかいろいろコマンドを実行しなくてはいけません．<br />
+これはなかなか面倒なので起動に必要な処理をスクリプトにまとめておきます．<br />
+以下のスクリプトは参考サイトから拝借しました．</p>
+
+<ul>
+<li><p>bootdebian.sh</p>
+
+<p>#!/system/bin/sh</p>
+
+<p>abort() {
+       echo $1
+       exit 1
+   }</p>
+
+<p>DEBIAN=/sdcard/debian.img</p>
+
+<p>[ -f ${DEBIAN} ] || abort &ldquo;${DEBIAN}: no such file.&rdquo;
+       DEVICE=/dev/block/loop99
+   [ -b ${DEVICE} ]
+       DEBROOT=/sdcard/debian
+   [ -d ${DEBROOT} ] || mkdir -p ${DEBROOT}
+       export PATH=/system/bin:/usr/bin:/usr/sbin:/bin:$PATH
+       export TERM=linux
+       export HOME=/root
+       export LANG=ja_JP.UTF-8</p>
+
+<p>busybox mknod ${DEVICE} b 7 99; busybox losetup ${DEVICE} ${DEBIAN}; sleep 1
+   busybox mount -t ext2 -o noatime,nodiratime ${DEVICE} ${DEBROOT}/</p>
+
+<p>if [ $? == 0 ]; then
+       sleep 1
+       echo -n &ldquo;Debian boot&hellip;&rdquo;
+       busybox mount -t devpts devpts ${DEBROOT}/dev/pts; sleep 1
+       busybox mount -t proc proc ${DEBROOT}/proc; sleep 1
+       busybox mount -t sysfs sysfs ${DEBROOT}/sys; sleep 1
+       echo &ldquo;done&rdquo;
+       chroot ${DEBROOT} /bin/zsh; sleep 1
+       echo -n &ldquo;Shutdown&hellip;&rdquo;
+       busybox fuser -k ${DEBROOT}; sleep 1
+       busybox fuser -k ${DEVICE}; sleep 1
+       busybox umount ${DEBROOT}/dev/pts; sleep 1
+       busybox umount ${DEBROOT}/proc; sleep 1
+       busybox umount ${DEBROOT}/sys; sleep 1
+       busybox umount ${DEBROOT}
+       rm ${DEVICE}
+       echo &ldquo;done&rdquo;
+   else
+       echo &ldquo;Debian boot error.&rdquo;
+       busybox fuser -k ${DEBROOT}; sleep 1
+       busybox fuser -k ${DEVICE}; sleep 1
+       busybox umount ${DEBROOT}/dev/pts; sleep 1
+       busybox umount ${DEBROOT}/proc; sleep 1
+       busybox umount ${DEBROOT}/sys; sleep 1
+       busybox umount ${DEBROOT}
+       rm ${DEVICE}
+   fi</p></li>
+</ul>
+
+<p>私はzshユーザなのでシェルをzshにしていますが，そうでない人は適当に指定してください．
+スクリプトを作成したら以下のコマンドでAndroid端末の/sdcard/以下にコピーします．</p>
+
+<pre><code>    $ adb push bootdebian.sh /sdcard/
+</code></pre>
+
+<h2 id="起動してみる">起動してみる</h2>
+
+<p>適当なターミナルアプリからRoot権限で上のスクリプトを走らせればDebianが起動します．
+私は<a href="https://play.google.com/store/apps/details?id=jackpal.androidterm&amp;hl=ja">Android Terminal Emulator</a>というアプリを使っています．
+アプリを起動したら以下のコマンドを実行します．</p>
+
+<pre><code>    $ su
+    # sh /sdcard/bootdebian.sh
+</code></pre>
+
+<p>プロンプトが返ってきたらDebianが起動しているはずです．</p>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

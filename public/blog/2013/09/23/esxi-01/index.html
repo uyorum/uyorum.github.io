@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>ESXiサーバ構築誌 - 機器構成 - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">ESXiサーバ構築誌 - 機器構成</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2013-09-23">September 23, 2013</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>かねてから自宅サーバ兼，検証用マシン用にESXiサーバが自宅にほしいと思っていました．
+しかし，なかなかハードウェアが決まらず二の足を踏んでいたのですが，たまたまネットを眺めていたらなかなかよい構成を
+思いついたので構築に踏みきることにしました．
+その経過を何回かにわけて記録に残しておくことにします．</p>
+
+<h2 id="きっかけ">きっかけ</h2>
+
+<p>想定しているESXiの用途としては，自宅サーバ用にLinuxマシン1台に加えて検証用にLinuxが2台ほど動かすことでした．
+また，ついでにファイルサーバも一新したいと考えていました．現在はバッファローの簡易NAS機能でHDDを2台動かしているのですが，
+容量が足りなくなってきたことに加えて，冗長性がない，HDDを使い始めて4年ほど，とそろそろデータ損失が心配になってきたのです．</p>
+
+<h2 id="構成">構成</h2>
+
+<ul>
+<li>サーバ
+
+<ul>
+<li>本体
+Intel NUC BOXDC3217IYE</li>
+<li>内蔵disk
+A-DATA mSATA SSD ASP310S3-64GM-C</li>
+<li>RAM
+CFD W3N1600Q-8G * 2</li>
+</ul></li>
+<li>ストレージ
+
+<ul>
+<li>NAS
+NETGEAR ReadyNAS 104</li>
+<li>HDD
+WESTERN DIGITAL WD30EFRX * 4</li>
+</ul></li>
+</ul>
+
+<p>ReadyNAS 104を見つけたのが今回の構成を思いついたきっかけでした．
+この機種はsmb(CIFS)はもちろんNFSやiSCSIでも共有できるのでESXiのデータストアにちょうどいいのです．
+BOXDC3217IYEは消費電力とコンパクトさで選択しました．欲を言えばNICがふたつあればよかった．</p>
+
+<p>とりあえず構成は決まったのであとは注文するだけです．構築の記録を今後もあげていこうと思います．</p>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

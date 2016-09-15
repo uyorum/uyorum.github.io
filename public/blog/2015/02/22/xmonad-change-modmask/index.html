@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+<title>Xmonadのmodキーを半角/全角キーに変更する - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+	<main role="main">
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+			<h1 class="entry-title" itemprop="headline">Xmonadのmodキーを半角/全角キーに変更する</h1>
+			<span class="entry-meta"><time itemprop="datePublished" datetime="2015-02-22">February 22, 2015</time></span>
+			<section itemprop="entry-text">
+				
+
+<p>Xmonadを使い始めました．
+いろいろ設定方法を紹介しているページは見つかるのですがmodキーをAltまたはWindowsキー以外に設定する方法が見つからなかったのでメモ．</p>
+
+<h2 id="経緯">経緯</h2>
+
+<p>いろいろググってみてもmodキーをWindowsキーに変更しているページしか見つかりませんでした．
+Windowsキーのあるキーボードの右下はなかなか指が届きづらいため別のキーにしたいと考えました．
+自分はSKKを使っているので全角/半角キーは使いません．この位置ならば割と容易に届くためmodキーにこのキーを使うことにしました．</p>
+
+<h2 id="設定方法">設定方法</h2>
+
+<ul>
+<li>xmonad.hs</li>
+</ul>
+
+<p>よく紹介されているようにmodMaskをmod4Maskに割り当てます</p>
+
+<pre><code>modMask = mod4Mask
+</code></pre>
+
+<ul>
+<li>Xmodmap</li>
+</ul>
+
+<p>mod4に全角/半角キーを追加します</p>
+
+<pre><code>keysym Zenkaku_Hankaku = Super_L
+add mod4 = Zenkaku_Hankaku
+</code></pre>
+
+<p>あとは設定を読み込ませてやればOKです．
+なんでmod4MaskでWindowsキーになるのか不思議だったのですがXmodmapで割り当てられていたんですね．</p>
+
+			</section>
+		</article>
+	</main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			
+			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			
+			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
+		</div>
+		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+	</footer>
+
+</div>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
