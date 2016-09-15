@@ -14,10 +14,11 @@ disqusShortname = "uyorum"
   tag = "tags"
 
 [Params]
+  logo = "https://avatars2.githubusercontent.com/u/2661975"
   description = "uyorum's tech blog"
   author = "uyorum"
-  twitter = "uyorum"
-  github = "uyorum"
+  twitter = "https://twitter.com/uyorum"
+  github = "https://github.com/uyorum"
   googleAnalyticsUserID = "UA-43857839-1"
 
 [permalinks]
