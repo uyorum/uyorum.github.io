@@ -9,7 +9,7 @@ help:
 ## Subtree add
 prepare: public
 	rm -rf public
-  git subtree add --prefix=public $(REPO) master
+	git subtree add --prefix=public $(REPO) master
 
 ## Create new post
 post:
