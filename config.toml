@@ -5,7 +5,7 @@ publishdir = "public"
 languageCode = "ja-jp"
 title = "@uyorumの雑記帳"
 copyright = "Copyright (C) 2016 uyorum All Right Reserved."
-theme = "material-design"
+theme = "hugo-zen"
 paginate = 9
 disqusShortname = "uyorum"
 
