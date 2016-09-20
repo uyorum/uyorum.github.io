@@ -5,10 +5,12 @@
 <meta name="generator" content="Hugo 0.17-DEV" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <link rel="stylesheet" href="/css/normalize.css">
 <link rel="stylesheet" href="/css/skeleton.css">
 <link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" href="http://uyorum.github.io/favicon.ico">
 <link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 <title>Go言語のお勉強 その2 - @uyorumの雑記帳</title>
 </head>
@@ -24,12 +26,30 @@
 	</header>
 
 
-	<main role="main">
-		<article itemscope itemtype="http://schema.org/BlogPosting">
-			<h1 class="entry-title" itemprop="headline">Go言語のお勉強 その2</h1>
-			<span class="entry-meta"><time itemprop="datePublished" datetime="2015-07-29">July 29, 2015</time></span>
-			<section itemprop="entry-text">
-				
+  <main role="main">
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 class="entry-title" itemprop="headline">Go言語のお勉強 その2</h1>
+      <span class="entry-meta">
+        <time itemprop="datePublished" datetime="2015-07-29">July 29, 2015
+        </time>
+      </span>
+      <span class="pull-right">
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2f2015%2f07%2f29%2flearning-go-02%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Go%e8%a8%80%e8%aa%9e%e3%81%ae%e3%81%8a%e5%8b%89%e5%bc%b7%20%e3%81%9d%e3%81%ae2 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2f2015%2f07%2f29%2flearning-go-02%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2f2015%2f07%2f29%2flearning-go-02%2f&amp;title=Go%e8%a8%80%e8%aa%9e%e3%81%ae%e3%81%8a%e5%8b%89%e5%bc%b7%20%e3%81%9d%e3%81%ae2 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Go%e8%a8%80%e8%aa%9e%e3%81%ae%e3%81%8a%e5%8b%89%e5%bc%b7%20%e3%81%9d%e3%81%ae2 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2f2015%2f07%2f29%2flearning-go-02%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </span>
+      <section itemprop="entry-text">
+        
 
 <p>今日のまとめ</p>
 
@@ -153,28 +173,83 @@ fmt.Println(u.greet())
 <li><code>func (レシーバ名 レシーバの型) メソッド名(引数) 返り値</code>形式で記述する</li>
 </ul>
 
-			</section>
-		</article>
-	</main>
+      </section>
+      <aside>
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2f2015%2f07%2f29%2flearning-go-02%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Go%e8%a8%80%e8%aa%9e%e3%81%ae%e3%81%8a%e5%8b%89%e5%bc%b7%20%e3%81%9d%e3%81%ae2 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2f2015%2f07%2f29%2flearning-go-02%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2f2015%2f07%2f29%2flearning-go-02%2f&amp;title=Go%e8%a8%80%e8%aa%9e%e3%81%ae%e3%81%8a%e5%8b%89%e5%bc%b7%20%e3%81%9d%e3%81%ae2 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Go%e8%a8%80%e8%aa%9e%e3%81%ae%e3%81%8a%e5%8b%89%e5%bc%b7%20%e3%81%9d%e3%81%ae2 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2f2015%2f07%2f29%2flearning-go-02%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </aside>
+      
+        <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'uyorum';
+    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/2015\/07\/29\/learning-go-02\/';
+    var disqus_title = 'Go言語のお勉強 その2';
+    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/2015\/07\/29\/learning-go-02\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      
+    </article>
+  </main>
 
 
 	<footer role="contentinfo">
 		<div class="hr"></div>
 		<div class="footer-link">
+			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
 			
-			<a href="https://twitter.com/uyorum" target="_blank">Twitter</a>
+			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
 			
-			<a href="https://github.com/uyorum" target="_blank">GitHub</a>
 		</div>
-		<div class="copyright">Copyright &copy; Copyright (C) 2016 uyorum All Right Reserved.</div>
+		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
 	</footer>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-43857839-1', 'auto');
+ga('send', 'pageview');
+</script>
+
 
 </div>
 
-
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	ga('send', 'pageview');
+</script>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
 </body>
 </html>
+

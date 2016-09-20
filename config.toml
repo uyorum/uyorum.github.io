@@ -4,10 +4,11 @@ layoutdir = "layouts"
 publishdir = "public"
 languageCode = "ja-jp"
 title = "@uyorumの雑記帳"
-copyright = "Copyright (C) 2016 uyorum All Right Reserved."
+copyright = "uyorum All Right Reserved."
 theme = "hugo-zen"
 paginate = 9
 disqusShortname = "uyorum"
+googleAnalytics = "UA-43857839-1"
 
 [indexes]
   category = "categories"
@@ -17,9 +18,9 @@ disqusShortname = "uyorum"
   logo = "https://avatars2.githubusercontent.com/u/2661975"
   description = "uyorum's tech blog"
   author = "uyorum"
-  twitter = "https://twitter.com/uyorum"
-  github = "https://github.com/uyorum"
-  googleAnalyticsUserID = "UA-43857839-1"
+  twitter = "uyorum"
+  github = "uyorum"
+  email = "uyorum.pub@gmail.com"
 
 [permalinks]
   post = "/blog/:year/:month/:day/:filename/"
