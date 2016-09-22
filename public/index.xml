@@ -161,7 +161,7 @@ ibbackup_version: 2.3.5
 &lt;td align=&#34;center&#34;&gt;N&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;16s&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;1020MB&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;code&gt;innobackupex --stream=xbstream ./ &amp;gt; 1.xbstream&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;innobackupex &amp;ndash;stream=xbstream ./ &amp;gt; 1.xbstream&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
@@ -169,7 +169,7 @@ ibbackup_version: 2.3.5
 &lt;td align=&#34;center&#34;&gt;N&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;16s&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;527MB&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;code&gt;innobackupex --compress --stream=xbstream ./ &amp;gt; 2.xbstream&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;innobackupex &amp;ndash;compress &amp;ndash;stream=xbstream ./ &amp;gt; 2.xbstream&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
@@ -177,7 +177,7 @@ ibbackup_version: 2.3.5
 &lt;td align=&#34;center&#34;&gt;Y&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;66s&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;396MB&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;`innobackupex &amp;ndash;stream=xbstream ./&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;innobackupex &amp;ndash;stream=xbstream ./ &amp;#124; gzip - &amp;gt; 3.xbstream.gz&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
@@ -185,7 +185,7 @@ ibbackup_version: 2.3.5
 &lt;td align=&#34;center&#34;&gt;Y&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;25s&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;404MB&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;`innobackupex &amp;ndash;stream=xbstream ./&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;innobackupex &amp;ndash;stream=xbstream ./ &amp;#124; gzip -1 - &amp;gt; 4.xbstream.gz&lt;/td&gt;
 &lt;/tr&gt;
 
 &lt;tr&gt;
@@ -193,7 +193,7 @@ ibbackup_version: 2.3.5
 &lt;td align=&#34;center&#34;&gt;Y&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;47s&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;435MB&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;`innobackupex &amp;ndash;compress &amp;ndash;stream=xbstream ./&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;innobackupex &amp;ndash;compress &amp;ndash;stream=xbstream ./ &amp;#124; gzip - &amp;gt; 5.xbstream.gz&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

@@ -116,11 +116,11 @@ InnoDBのセカンダリインデックスをバックアップに含めない�
 
 |`--compress`|`gzip`|time|size|command|
 |:--:|:--:|:--|:--|:--|
-|N|N|16s|1020MB|`innobackupex --stream=xbstream ./ > 1.xbstream`|
-|Y|N|16s|527MB|`innobackupex --compress --stream=xbstream ./ > 2.xbstream`|
-|N|Y|66s|396MB|`innobackupex --stream=xbstream ./ | gzip - > 3.xbstream.gz`|
-|N|Y|25s|404MB|`innobackupex --stream=xbstream ./ | gzip -1 - > 4.xbstream.gz`|
-|Y|Y|47s|435MB|`innobackupex --compress --stream=xbstream ./ | gzip - > 5.xbstream.gz`|
+|N|N|16s|1020MB|innobackupex --stream=xbstream ./ > 1.xbstream|
+|Y|N|16s|527MB|innobackupex --compress --stream=xbstream ./ > 2.xbstream|
+|N|Y|66s|396MB|innobackupex --stream=xbstream ./ &#124; gzip - > 3.xbstream.gz|
+|N|Y|25s|404MB|innobackupex --stream=xbstream ./ &#124; gzip -1 - > 4.xbstream.gz|
+|Y|Y|47s|435MB|innobackupex --compress --stream=xbstream ./ &#124; gzip - > 5.xbstream.gz|
 
 データの内容にもよるのだろうが，`--compress`オプションは結構高速で，オプションをつけないときと時間はほとんど変わらなかった．
 だが，`gzip -1`だと時間は少しかかってしまうが，容量がさらに2割以上削減できるようなので`--compress`オプションは使用せずに`gzip -1`に渡すことにした．
