@@ -7,8 +7,145 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Mon, 12 Sep 2016 19:19:36 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 09 Oct 2016 17:39:14 +0900</lastBuildDate>
     <atom:link href="http://uyorum.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Erato Audio Apollo7 レビュー</title>
+      <link>http://uyorum.github.io/blog/2016/10/09/apollo7-1/</link>
+      <pubDate>Sun, 09 Oct 2016 17:39:14 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2016/10/09/apollo7-1/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://eratolife.com/&#34;&gt;Erato Audio社&lt;/a&gt;の完全ワイヤレスイヤホン&lt;a href=&#34;http://eratolife.com/apollo-7&#34;&gt;Apollo7&lt;/a&gt;を買って1週間ほど使ったので使用感とかレビューを書いておきます．&lt;/p&gt;
+
+&lt;!-- more  --&gt;
+
+&lt;h2 id=&#34;なぜ今買ったか&#34;&gt;なぜ今買ったか&lt;/h2&gt;
+
+&lt;p&gt;完全ワイヤレスイヤホンという分野を知ったのは2014年にKickstarterでEARINが発表されたときでした．
+そのときは非常に気になっていたのですが，スペック的にいくつか気になるところもあり，まだ新しい分野でもあったので買うのはもう少し製品が成熟してからにしようと思って手を出しませんでした．
+以降はこの分野については特にウォッチはせずに忘れていたのですが，最近AppleからAirPodsが発表されたのを見て思い出して再度調べてみたのがきっかけでした．
+いくつかのメーカーから同様の製品が発売されていることを知り，その中でよさそうなApolloo7を選択しました．&lt;/p&gt;
+
+&lt;h2 id=&#34;なぜapollo7を選択したか&#34;&gt;なぜApollo7を選択したか&lt;/h2&gt;
+
+&lt;p&gt;とりあえず2ちゃんねるの該当スレで評判を見ていきました．
+ざっと眺めたところ，スレ内ではEARIN，Apollo7，The Dashがよく話題に挙がる機種のようでした．
+各機種の特徴と評判は以下の通り．&lt;/p&gt;
+
+&lt;h3 id=&#34;earin&#34;&gt;EARIN&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BA型ドライバを搭載&lt;/li&gt;
+&lt;li&gt;人の多いところで接続が切れやすいという発言をよく見かけた&lt;/li&gt;
+&lt;li&gt;そもそもかつて見送った機種&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;the-dash&#34;&gt;The Dash&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ストレージ内蔵，フィットネストラッカー搭載，トランスペアレントモード搭載と，他の機種と比べて多機能
+
+&lt;ul&gt;
+&lt;li&gt;個人的には前半2つの機能はこの手の機種に求めない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;本体とケースが大きい&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;apollo7&#34;&gt;Apollo7&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;人が多いところでも接続が切れにくいという発言をよく見かけた&lt;/li&gt;
+&lt;li&gt;自分が求めている必要最小限の機能&lt;/li&gt;
+&lt;li&gt;デザインがよい&lt;/li&gt;
+&lt;li&gt;9/30に国内代理店が取扱いを開始するので保証などを受けやすい&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以上の点から検討した結果，Apollo7を選択しました．
+国内だとeイヤホンで試聴できるですが，所詮Bluetoothだし音質はそれほど重視していなかったので試聴せずにヨドバシドットコムにて購入．&lt;/p&gt;
+
+&lt;h2 id=&#34;使い勝手&#34;&gt;使い勝手&lt;/h2&gt;
+
+&lt;p&gt;各イヤホンは本体にボタンを搭載しており，このボタンを押すことで本体またはスマホを操作します．
+各イヤホンにはLまたはRと印字されており，左右どちら用かはあらかじめ決まっているようです．&lt;/p&gt;
+
+&lt;h3 id=&#34;初期セットアップ&#34;&gt;初期セットアップ&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;左右どちらかのイヤホン(以降，右耳とする)のボタンを長押しする&lt;/li&gt;
+&lt;li&gt;「Power on」と声が流れるが引き続き長押しし続ける&lt;/li&gt;
+&lt;li&gt;「Pairing」と声が流れるのでスマホを操作しペアリングする&lt;/li&gt;
+&lt;li&gt;「Phone connected」と声が流れる(このイヤホンがスマホと接続される)&lt;/li&gt;
+&lt;li&gt;左耳のイヤホンのボタンを長押しする&lt;/li&gt;
+&lt;li&gt;「Headset connected」と両耳から流れる(このイヤホンは右耳のイヤホンと接続される)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;再度使うとき&#34;&gt;再度使うとき&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;イヤホンをケースから取り出す&lt;/li&gt;
+&lt;li&gt;右耳のイヤホンのボタンを長押しする(「Power on」と流れる)&lt;/li&gt;
+&lt;li&gt;しばらくするとスマホと接続される(「Phone connected」と流れる)&lt;/li&gt;
+&lt;li&gt;左耳のイヤホンのボタンを長押しする(「Power on」と流れる)&lt;/li&gt;
+&lt;li&gt;しばらくすると右耳と接続される(「Headset connected」と両耳から流れる)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;レビュー&#34;&gt;レビュー&lt;/h2&gt;
+
+&lt;p&gt;いずれもNexus5で使用していて気付いた点です．ペアリングする機種によって接続の切れにくさなどは異なる可能性があります．&lt;/p&gt;
+
+&lt;h3 id=&#34;いい点&#34;&gt;いい点&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;やっぱり完全ワイヤレスは便利&lt;br /&gt;
+鞄の中でケーブルがからまることがない，使用中にケーブルがひっかかることがない．かなり便利です．&lt;/li&gt;
+&lt;li&gt;フィット感がいい&lt;br /&gt;
+これを付けてジョギングもしてみましたが外れる気配は一切ありませんでした．重量もほとんど感じず．&lt;/li&gt;
+&lt;li&gt;デザインがいい&lt;br /&gt;
+シンプルなデザインで必要最小限の機能とサイズで気に入りました．&lt;/li&gt;
+&lt;li&gt;見た目よりケースに収納しやすい&lt;br /&gt;
+イヤホンもケースも小さいのでケースに収納するのが大変そうだなーと思っていたのですが，雑に扱ってもしっかりケースにはまってくれるので収納は楽です．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;気になる点&#34;&gt;気になる点&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ケースのバッテリー残量がわかりにくい&lt;br /&gt;
+ケースのバッテリー残量が少なくなるとケースのLEDが点滅するのですが，そうなったら時すでに遅しなのか，イヤホンの充電がほとんどされずにイヤホンが使えなくて困ったことがありました．
+毎日ケースも充電するようにした方がよさそうです．&lt;/li&gt;
+&lt;li&gt;人の多いところではやっぱり切れる&lt;br /&gt;
+駅など人の多いところではやっぱり音がブツブツ切れます．
+スマホとの接続よりも左右のリンクが切れやすいと感じます．&lt;/li&gt;
+&lt;li&gt;ペアリングされていると本体のLEDが点滅する&lt;br /&gt;
+イヤホンの角度によっては耳でLEDが点滅するので目立ちます．電源が入っているかどうかを表現したかったのでしょうが，スマホの画面を見るなどで代用できるので本体のLEDは不要かなと思いました．&lt;/li&gt;
+&lt;li&gt;再生中のボタン操作がしづらい&lt;br /&gt;
+ボタンで一時停止などの操作ができるのですが，指が耳にぶつかってボタンが押しにくいので自分は使っていません．再生の一時停止などはスマートウォッチと相性がよさそう．&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;tips&#34;&gt;Tips&lt;/h2&gt;
+
+&lt;h3 id=&#34;左右どちらがスマホとペアリングさせるかが大事&#34;&gt;左右どちらがスマホとペアリングさせるかが大事&lt;/h3&gt;
+
+&lt;p&gt;上でも書いた通り，先にペアリングした方がスマホと接続されます．
+よって，例えばスマホを体の右側に身につける場合は右耳のイヤホンとスマホを接続した方がリンクが切れにくくなります．&lt;/p&gt;
+
+&lt;h3 id=&#34;最後&#34;&gt;最後&lt;/h3&gt;
+
+&lt;p&gt;定価で約40000円と決して安い買い物ではなかったのですが，以下の2点にその価値を感じるかどうかかなと思います．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用中にケーブルを一切気にしなくていいという圧倒的利便性&lt;/li&gt;
+&lt;li&gt;比較的新しい分野をいち早く体験できる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;私はヨドバシのポイントを使って30000円以下で買えたので個人的に満足しています．正直なところ定価だと少し考えます…
+(国内発売直後はAmazonで各色35000円くらいで売っていたので待っていたら復活するかもしれません．または業者を使って個人輸入)&lt;/p&gt;
+
+&lt;p&gt;以上です．&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>XtraBackupによるバックアップ設計</title>
@@ -2420,82 +2557,6 @@ auth sha256
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;あとはクライアントから接続するだけ．&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Octopressセットアップメモ</title>
-      <link>http://uyorum.github.io/blog/2015/02/22/setup-octopress/</link>
-      <pubDate>Sun, 22 Feb 2015 22:16:12 +0900</pubDate>
-      
-      <guid>http://uyorum.github.io/blog/2015/02/22/setup-octopress/</guid>
-      <description>
-
-&lt;p&gt;わけあってOctopress環境を作り直したのでメモ&lt;/p&gt;
-
-&lt;h2 id=&#34;参考資料&#34;&gt;参考資料&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://octopress.org/docs/&#34;&gt;Octopress Documentation - Octopress&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;前提&#34;&gt;前提&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Rubyはrbenvを使用してインストールする
-
-&lt;ul&gt;
-&lt;li&gt;使用するバージョンは1.9.3-p551&lt;/li&gt;
-&lt;li&gt;rbenv-gemsetプラグインを使用してgemを隔離する&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;手順&#34;&gt;手順&lt;/h2&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;ソースをclone&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/imathis/octopress
-Cloning into &#39;octopress&#39;...
-remote: Counting objects: 10786, done.
-remote: Compressing objects: 100% (26/26), done.
-remote: Total 10786 (delta 8), reused 5 (delta 1)
-Receiving objects: 100% (10786/10786), 2.85 MiB | 1.68 MiB/s, done.
-Resolving deltas: 100% (5178/5178), done.
-Checking connectivity... done.
-$ ls
-octopress
-$ cd octopress
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Rubyのバージョンを指定&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ echo &#39;1.9.3-p551&#39; &amp;gt; .ruby-version
-$ rbenv versions
-  system
-* 1.9.3-p551
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;gemsetを作成&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ rbenv gemset create 1.9.3-p551 octopress
-created octopress for 1.9.3-p551
-$ echo octopress &amp;gt; .rbenv-gemsets
-$ rbenv gemset active
-octopress global
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;あとは公式の手順に従えばOK&lt;/p&gt;
-
-&lt;p&gt;自分の環境では途中でJavaScript Runtimeがないと怒られたので&lt;a href=&#34;https://github.com/imathis/octopress/issues/1612&#34;&gt;ここ&lt;/a&gt;を参考にGemfileに以下を追加&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# jekyll needs javascript runtime
-# detail: https://github.com/imathis/octopress/issues/1612
-gem &#39;therubyracer&#39;, &#39;~&amp;gt; 0.12.1&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;編集後に再び&lt;code&gt;bundle install&lt;/code&gt;を実行．&lt;/p&gt;
 </description>
     </item>
     
