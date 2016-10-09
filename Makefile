@@ -20,6 +20,7 @@ post:
 deploy:
 	echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 	hugo
+	git pull
 	git add -A
 	git commit -m "Rebuilding site"
 	git subtree push --prefix=public $(REPO) master
