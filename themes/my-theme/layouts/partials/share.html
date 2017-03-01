@@ -1,0 +1,12 @@
+<div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u={{ .Permalink | html }}" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text={{ .Title | html }} - {{ .Site.Title }}&amp;url={{ .Permalink | html }}" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ .Permalink | html }}&amp;title={{ .Title | html }} - {{ .Site.Title }}" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject={{ .Title | html }} - {{ .Site.Title }}&amp;body={{ .Permalink | html }}">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
