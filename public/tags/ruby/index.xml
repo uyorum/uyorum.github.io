@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ruby on @uyorumの雑記帳</title>
+    <link>http://uyorum.github.io/tags/ruby/index.xml</link>
+    <description>Recent content in Ruby on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <atom:link href="http://uyorum.github.io/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作</title>
+      <link>http://uyorum.github.io/blog/2017/03/01/rails-asset-pipeline-1/</link>
+      <pubDate>Wed, 01 Mar 2017 23:01:28 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2017/03/01/rails-asset-pipeline-1/</guid>
+      <description>
+
+&lt;p&gt;Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった．
+いろいろと知識を詰め込んだので復習も兼ねてまとめていく．
+おそらくRailsを使い慣れている人にとっては基本的すぎる内容．&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2 id=&#34;環境&#34;&gt;環境&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ ruby -v
+geruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-darwin15]
+$ gem list -l ^rails$
+
+*** LOCAL GEMS ***
+
+rails (4.2.8)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;アセットとは&#34;&gt;アセットとは&lt;/h2&gt;
+
+&lt;p&gt;定義が見つからなかったが，おそらく以下のような感じ．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Railsのサーバから配信するコンテンツのうち，Viewにより生成されたもの以外
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;具体的にはJavaScript，CSS，画像ファイルなど．あまりないだろうが，静的なhtmlもこれらと同様に扱うことはできそう．&lt;/p&gt;
+
+&lt;h2 id=&#34;アセットパイプラインとは&#34;&gt;アセットパイプラインとは&lt;/h2&gt;
+
+&lt;p&gt;サーバ上に存在するアセットをクライアントへ配信する仕組みのこと．アセットパイプラインは&lt;code&gt;sprockets-rails&lt;/code&gt;gemにより提供されている．配信までの途中でいくつかの処理を経る場合がほとんど．例えば以下．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;JavaScriptおよびCSSの結合，最小化&lt;/li&gt;
+&lt;li&gt;ブラウザが理解しない書式(CoffeeScript, SASS, ERBなど)で書かれたコードを素のコードへ変換する&lt;/li&gt;
+&lt;li&gt;ファイル名へMD5ダイジェストの付与&lt;/li&gt;
+&lt;li&gt;アセットの圧縮&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;それぞれの処理の内容は&lt;a href=&#34;https://railsguides.jp/asset_pipeline.html&#34;&gt;アセットパイプライン | Rails ガイド&lt;/a&gt;が詳しいので省略する&lt;/p&gt;
+
+&lt;p&gt;いくつかの処理はRailsが動作するモード(Environment)により異なる．&lt;/p&gt;
+
+&lt;p&gt;通常，アセットは&lt;code&gt;{app,lib,vendor}/assets/{javascripts,stylesheets,images}&lt;/code&gt;のいずれかに配置する．
+それぞれの使い分けは下記を参照&lt;br /&gt;
+&lt;a href=&#34;https://railsguides.jp/asset_pipeline.html#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E7%B7%A8%E6%88%90&#34;&gt;2.2 アセットの編成 - アセットパイプライン | Rails ガイド&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;以下，簡単のため&lt;code&gt;config.assets.digest = false&lt;/code&gt;を設定する(ファイル名にダイジェストが含まれなくなる)&lt;/p&gt;
+
+&lt;h2 id=&#34;インクルード&#34;&gt;インクルード&lt;/h2&gt;
+
+&lt;p&gt;通常，クライアントへ配信されるのは&lt;code&gt;app/assets/javascripts/application.js&lt;/code&gt;と&lt;code&gt;app/assets/stylesheets/application.css&lt;/code&gt;である．
+実際，デフォルトの内容を削除してみると，レスポンスに含まれるstylesheetとscriptは&lt;code&gt;application.css&lt;/code&gt;および&lt;code&gt;application.js&lt;/code&gt;のみである．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ cat /dev/null &amp;gt; app/assets/javascripts/application.js
+$ cat /dev/null &amp;gt; app/assets/stylesheets/application.css
+$ rails s &amp;amp;
+$ curl localhost:3000
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt;PlayRubyOnRails&amp;lt;/title&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; media=&amp;quot;all&amp;quot; href=&amp;quot;/assets/application.self.css?body=1&amp;quot; /&amp;gt;
+  &amp;lt;script src=&amp;quot;/assets/application.self.js?body=1&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;meta name=&amp;quot;csrf-param&amp;quot; content=&amp;quot;authenticity_token&amp;quot; /&amp;gt;
+&amp;lt;meta name=&amp;quot;csrf-token&amp;quot; content=&amp;quot;y6ytycY6X3PLUW5E6YTxIcEAC9CovDLYNqdipEqLvE/GXPGQIVq2LRvMMSQvauxmmVNEVvwlhSp3cQ1je+HWVw==&amp;quot; /&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+
+&amp;lt;h1&amp;gt;Sample Page&amp;lt;/h1&amp;gt;
+
+
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ただし特別な文法により，これらのファイルに別のファイルを&lt;code&gt;挿入&lt;/code&gt;することができる．
+例として以下の&lt;code&gt;example_script.js&lt;/code&gt;と&lt;code&gt;example_style.css&lt;/code&gt;をそれぞれ&lt;code&gt;application.js&lt;/code&gt;と&lt;code&gt;application.css&lt;/code&gt;に挿入する．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ echo &#39;// example_script.js&#39; &amp;gt;  vendor/assets/javascripts/example_script.js
+$ echo &#39;/* example_style.css */&#39; &amp;gt; vendor/assets/stylesheets/example_style.css
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript:app/assets/javascripts/application.js&#34;&gt;//= require example_script
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-css:app/assets/stylesheets/application.css&#34;&gt;/*
+ *= require example_style
+ */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;サーバからのレスポンスは以下のように変わる&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ curl localhost:3000
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt;PlayRubyOnRails&amp;lt;/title&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; media=&amp;quot;all&amp;quot; href=&amp;quot;/assets/example_style.self.css?body=1&amp;quot; /&amp;gt;
+&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; media=&amp;quot;all&amp;quot; href=&amp;quot;/assets/application.self.css?body=1&amp;quot; /&amp;gt;
+  &amp;lt;script src=&amp;quot;/assets/example_script.self.js?body=1&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;quot;/assets/application.self.js?body=1&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;meta name=&amp;quot;csrf-param&amp;quot; content=&amp;quot;authenticity_token&amp;quot; /&amp;gt;
+&amp;lt;meta name=&amp;quot;csrf-token&amp;quot; content=&amp;quot;gbwYN47/sxpRHGPNzTr0hSqyDnZJL2L21r+9R77Inc3ytUyGKTjhpXe9JYKdafnLgXqaYUdEKqJgtwSvNt8Qmg==&amp;quot; /&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+
+&amp;lt;h1&amp;gt;Sample Page&amp;lt;/h1&amp;gt;
+
+
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;example_style.css&lt;/code&gt;と&lt;code&gt;example_script.js&lt;/code&gt;が追加されている．それぞれの内容も先ほど作成した通りである&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ curl &#39;localhost:3000/assets/example_style.self.css?body=1&#39;
+/* example_style.css */
+
+$ curl &#39;localhost:3000/assets/example_script.self.js?body=1&#39;
+// example_script.js
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上がインクルード機能である．なおインクルード対象のアセットの探索場所はあらかじめ設定されており，&lt;code&gt;Rails.application.config.assets.paths&lt;/code&gt;で確認することができる．
+確認したところ，&lt;code&gt;Rails.root&lt;/code&gt;とGemのインストールディレクトリ以下の&lt;code&gt;{app,lib,vendor}/assets/{javascripts,stylesheets,images}&lt;/code&gt;が追加されていた．&lt;/p&gt;
+
+&lt;p&gt;なお当然ながらインクルードを利用せずにクライアントへ配信することも可能である．記述方法は&lt;a href=&#34;https://railsguides.jp/asset_pipeline.html#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E6%9B%B8%E3%81%8F&#34;&gt;2.3 アセットにリンクするコードを書く - アセットパイプライン | Rails ガイド&lt;/a&gt;を参照．&lt;/p&gt;
+
+&lt;p&gt;以上のように，RailsはAssets Pipelineにより動的にアセットを処理しレスポンスを生成する．
+ただし，以上の動作はRailsをdevelopment環境で動作させた場合であり，production環境で動作させた場合は多少動作が異なる．
+production環境では動的にアセットを処理することはなく，事前にアセットを静的に生成しておく必要がある．この処理をプリコンパイルと呼ぶ．
+&lt;code&gt;config.assets.compile = true&lt;/code&gt;とすることによりdevelopment環境と同様の動作にすることはできるが，サーバ側のパフォーマンスの観点から通常この設定は使用しない．&lt;/p&gt;
+
+&lt;h2 id=&#34;プリコンパイル&#34;&gt;プリコンパイル&lt;/h2&gt;
+
+&lt;p&gt;RailsをProdution環境で動作させるには事前にプリコンパイルを行なう必要がある．そのためのRakeタスクがあらかじめ用意されており，コマンドひとつでプリコンパイルは完了する．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript:app/assets/javascripts/application.js&#34;&gt;//= require example_script
+var application = foo;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript:app/assets/javascripts/example_script.js&#34;&gt;// example_script.js
+var example_script = bar;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-css:app/assets/stylesheets/application.css&#34;&gt;/*
+ *= require example_style
+ */
+h1 {
+  font-size: 3em;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-css:app/assets/stylesheets/example_style.css&#34;&gt;/* example_style.css */
+h2 {
+  font-size: 1.2em;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ RAILS_ENV=production bundle exec rake assets:precompile
+I, [2017-03-05T16:32:17.543841 #10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js
+I, [2017-03-05T16:32:17.550791 #10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js.gz
+I, [2017-03-05T16:32:17.558124 #10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css
+I, [2017-03-05T16:32:17.558406 #10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css.gz
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;なお，&lt;code&gt;config.assets.digest = false&lt;/code&gt;を設定しているにも関わらずファイル名にダイジェストが含まれてしまうのは仕様のようだ．&lt;br /&gt;
+参考: &lt;a href=&#34;http://qiita.com/munazo/items/15f9c143bc4ecdd74220&#34;&gt;Rails4のdigestにまつわる論争 - Qiita&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;production環境でRailsを起動してアクセスしてみるとレスポンスは以下のようになっている．(環境変数&lt;code&gt;SECRET_KEY_BASE&lt;/code&gt;と&lt;code&gt;RAILS_SERVE_STATIC_FILES&lt;/code&gt;についての説明はここでは省略する．)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ RAILS_ENV=production SECRET_KEY_BASE=secret RAILS_SERVE_STATIC_FILES=1 rails s &amp;amp;
+$ curl localhost:3000
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt;PlayRubyOnRails&amp;lt;/title&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; media=&amp;quot;all&amp;quot; href=&amp;quot;/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css&amp;quot; /&amp;gt;
+  &amp;lt;script src=&amp;quot;/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;meta name=&amp;quot;csrf-param&amp;quot; content=&amp;quot;authenticity_token&amp;quot; /&amp;gt;
+&amp;lt;meta name=&amp;quot;csrf-token&amp;quot; content=&amp;quot;yuRwf5qcdQ81DfCqhYLYItnc7p6RR52Ny5zahm0vrFuL4p6EFVOPOvjtg25PrjTa4OfybypUlqH6cbra4cuqjA==&amp;quot; /&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+
+&amp;lt;h1&amp;gt;Sample Page&amp;lt;/h1&amp;gt;
+
+
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;development環境ではインクルードしたアセットが列挙されていたが，今回は&lt;code&gt;application.css&lt;/code&gt;と&lt;code&gt;application.js&lt;/code&gt;だけになっている．
+インクルードした&lt;code&gt;example_script.js&lt;/code&gt;と&lt;code&gt;example_style.css&lt;/code&gt;はこれらのファイルに挿入されてクラアントへ配信される．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ curl localhost:3000/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css
+h2{font-size:1.2em}h1{font-size:3em}
+$ curl localhost:3000/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js
+var example_script=bar,application=foo;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ちなみに，単にファイルの内容を結合するだけでなく，以下のような処理が施されているのがわかる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;不要な改行，空白の削除&lt;/li&gt;
+&lt;li&gt;コメントの削除&lt;/li&gt;
+&lt;li&gt;記述の結合&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;これが，冒頭で述べたAssets Pipelineが行う処理のひとつ，最小化である．&lt;/p&gt;
+
+&lt;h2 id=&#34;config-assets-precompile&#34;&gt;config.assets.precompile&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;application.js&lt;/code&gt;と&lt;code&gt;application.css&lt;/code&gt;にインクルードしてアセットを配信するのならこれでよいのだが，そうでない場合(特定のページでだけでアセットを配信したい場合など)は注意が必要である．
+例として&lt;code&gt;application.js&lt;/code&gt;にはインクルードしないJavaScriptコード(&lt;code&gt;addon_script.js&lt;/code&gt;)をひとつ追加して&lt;code&gt;application.html.erb&lt;/code&gt;にエントリを追加する&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript:app/assets/javascripts/addon_script.js&#34;&gt;var addon_script = hoge;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html:app/views/layouts/application.html.erb&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt;PlayRubyOnRails&amp;lt;/title&amp;gt;
+  &amp;lt;%= stylesheet_link_tag    &#39;application&#39;, media: &#39;all&#39; %&amp;gt;
+  &amp;lt;%= javascript_include_tag &#39;application&#39; %&amp;gt;
+  &amp;lt;%= javascript_include_tag &#39;addon_script&#39; %&amp;gt;
+  &amp;lt;%= csrf_meta_tags %&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+
+&amp;lt;%= yield %&amp;gt;
+
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;このとき，development環境では&lt;code&gt;addon_script.js&lt;/code&gt;はアセットの探索パスに含まれているため正常に配信されるのだが，このファイルは実はプリコンパイルされないためproduction環境では配信されない．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ RAILS_ENV=production bundle exec rake assets:precompile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;なぜこのようなことが起こるかというと，Assets Pipelineにはインクルードされたアセットの探索パス(&lt;code&gt;config.assets.paths&lt;/code&gt;)とは別にプリコンパイル対象とするアセットの探索パスが設定されているためである．
+デフォルトではプリコンパイルは&lt;code&gt;app/assets&lt;/code&gt;以下の&lt;code&gt;.js&lt;/code&gt;，&lt;code&gt;.css&lt;/code&gt;(&lt;code&gt;addon_script.js&lt;/code&gt;はこれに合致する)&lt;strong&gt;以外&lt;/strong&gt;のファイルが対象となっている．それ以外のファイルをプリコンパイル対象としたい場合は&lt;code&gt;config.assets.precompile&lt;/code&gt;で指定する必要がある．(デフォルトだと&lt;code&gt;config/initializers/assets.rb&lt;/code&gt;に書くことになっている)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;# addon_script.js をプリコンパイル対象に追加
+$ echo &#39;Rails.application.config.assets.precompile += %w( addon_script.js )&#39; &amp;gt;&amp;gt; config/initializers/assets.rb
+$ RAILS_ENV=production bundle exec rake assets:precompile
+I, [2017-03-05T17:19:41.045142 #45578]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/addon_script-1a95c29effd76a7a053372381062d1ff547d51609534712aa469e4682fe94f39.js
+I, [2017-03-05T17:19:41.051197 #45578]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/addon_script-1a95c29effd76a7a053372381062d1ff547d51609534712aa469e4682fe94f39.js.gz
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;addon_script.js&lt;/code&gt;がプリコンパイルされた．&lt;/p&gt;
+
+&lt;p&gt;以上のように，アセットの探索パスには含まれているが，プリコンパイルの対象ではないファイル(&lt;code&gt;application.js&lt;/code&gt;や&lt;code&gt;application.css&lt;/code&gt;にインクルードしていない&lt;code&gt;.js&lt;/code&gt;や&lt;code&gt;.css&lt;/code&gt;)がある場合は注意が必要である．(開発環境では正常に動いているが，本番環境で異常が発生してしまう)&lt;br /&gt;
+私の場合はこの挙動の違いに気づくまで時間がかかってしまった…&lt;/p&gt;
+
+&lt;p&gt;以上&lt;/p&gt;
+
+&lt;p&gt;ここで使用したコードは&lt;a href=&#34;https://github.com/uyorum/play-ruby-on-rails/tree/assets-pipeline&#34;&gt;uyorum/play-ruby-on-rails at assets-pipeline&lt;/a&gt;で公開している．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://railsguides.jp/asset_pipeline.html&#34;&gt;アセットパイプライン | Rails ガイド&lt;/a&gt;&lt;br /&gt;
+とりあえずここ読んどけばいいかな，と思って読んだが実際に触ってみないと細かいところがわからなかった&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://railsdoc.com/asset_pipeline&#34;&gt;アセットパイプライン(Asset Pipeline) - - Railsドキュメント&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://qiita.com/metheglin/items/c5c756246b7afbd34ae2&#34;&gt;Rails Asset Pipelineがうまくいかないときの問題の切り分けかた - Qiita&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rails/rails/pull/7968&#34;&gt;Only compile non-js/css under app/assets by default by josh · Pull Request #7968 · rails/rails&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
