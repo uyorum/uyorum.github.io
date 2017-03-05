@@ -2,8 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://uyorum.github.io/</loc>
-    <lastmod>2016-10-09T17:39:14+09:00</lastmod>
+    <loc>http://uyorum.github.io/blog/2017/03/01/rails-asset-pipeline-1/</loc>
+    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
   </url>
   
   <url>
@@ -134,6 +134,41 @@
   <url>
     <loc>http://uyorum.github.io/blog/2013/09/20/first-post/</loc>
     <lastmod>2013-09-20T22:42:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/tags/</loc>
+    <lastmod>2016-10-09T17:39:14+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/</loc>
+    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/post/</loc>
+    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/tags/rails/</loc>
+    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/tags/ruby/</loc>
+    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/tags/</loc>
+    <priority>0</priority>
   </url>
   
 </urlset>

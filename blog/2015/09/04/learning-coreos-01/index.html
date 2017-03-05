@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.17-DEV" />
+<meta name="generator" content="Hugo 0.19-DEV" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -50,10 +50,10 @@
 
       </span>
       <section itemprop="entry-text">
-        
-
-<p>最近CoreOSを触りはじめたので学んだことをまとめていく．まずはetcdから．
+        <p>最近CoreOSを触りはじめたので学んだことをまとめていく．まずはetcdから．
 最終的にはKubernetesでCoreOSをコントロールするところまでいきたいなーと思ってるが，いつになることやら．</p>
+
+<p></p>
 
 <h2 id="参考">参考</h2>
 
@@ -359,7 +359,6 @@ COREOS_PRIVATE_IPV4=10.0.0.100
 </code></pre>
 
 <p>※ 最後に<code>user-configdrive.service</code>を再起動し設定ファイルを生成し直すようにしたいがなぜかうまくいかない．手で叩くとうまくいくのだが？？</p>
-
       </section>
       <aside>
         <div class="share-box">
@@ -417,7 +416,7 @@ COREOS_PRIVATE_IPV4=10.0.0.100
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-43857839-1', 'auto');
 ga('send', 'pageview');
