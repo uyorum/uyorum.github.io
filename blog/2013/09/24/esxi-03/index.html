@@ -68,9 +68,7 @@ IntelのNICだから認識するだろうとタカをくくっていましたが
 ダウンロードにはVMwareのアカウントが必要です<br /></li>
 <li>ESXi-Customizer(ESXi-Customizer-v2.7.1.exe)<br />
 <a href="http://www.v-front.de/p/esxi-customizer.html">ここ</a>から最新版をダウンロードしておきます．</li>
-<li>Intel 82579V Gigabit Ethernet Controllerのドライバ<br />
-<a href="http://dl.dropbox.com/u/27246203/E1001E.tgz">E1001E.tgz</a><br />
-アーカイブを解凍する必要はありません</li>
+<li>Intel 82579V Gigabit Ethernet Controllerのドライバ</li>
 </ol>
 
 <h3 id="作業">作業</h3>
@@ -90,20 +88,18 @@ IntelのNICだから認識するだろうとタカをくくっていましたが
 <li>working directory<br />
 作成したインストーラの出力先ディレクトリを指定します．</li>
 </ul></li>
-<li>下のチェックボックスは以下のように選択します．
+
+<li><p>下のチェックボックスは以下のように選択します．</p>
 
 <ul>
 <li>Force repackingを<strong>選択</strong></li>
 <li>Create (U)EFI-bootable ISOは<strong>選択しない</strong></li>
-<li>Enable automatic update checkは<strong>選択しない</strong>
-<br /></li>
+<li>Enable automatic update checkは<strong>選択しない</strong></li>
 </ul></li>
-</ol>
 
-<p>私の場合は以下のように指定してあります．<br />
-   <img src="https://dl.dropboxusercontent.com/u/46387437/esxi-customizer.jpg" alt="esxi-customizer" />
-1. 選択したら下の&rdquo;Run!&ldquo;をクリックして実行します．
-   途中のダイアログは&rdquo;はい&rdquo;を選択します．</p>
+<li><p>選択したら下の&rdquo;Run!&ldquo;をクリックして実行します．
+途中のダイアログは&rdquo;はい&rdquo;を選択します．</p></li>
+</ol>
 
 <p>成功すると&rdquo;working directory&rdquo;に指定したディレクトリに&rdquo;ESXi-5.x-Custom.iso&rdquo;というファイルが作成されています．
 あとはCDに焼くなり、USBメモリに焼くなりしてインストールをします．</p>

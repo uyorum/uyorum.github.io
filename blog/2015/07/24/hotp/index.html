@@ -169,11 +169,11 @@ irb(main):002:0&gt; Base32.encode(&quot;12345678901234567890&quot;)
 <p>できた．これをスマホへ持っていってGoogleAuthenticatorへ入力する．(余談だがPCからスマホへの文字列の引き渡しにはPushbulletが役に立った)
 生成した文字列を&rdquo;キー&rdquo;へ入力し，&rdquo;カウンタベース&rdquo;を選択する．</p>
 
-<p><img src="https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/01.png" alt="01.png" /></p>
+<p><img src="/hotp/01.jpg" alt="01.jpg" /></p>
 
 <p>1回目のHOTPを生成．</p>
 
-<p><img src="https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/02.png" alt="02.png" /></p>
+<p><img src="/hotp/02.jpg" alt="02.jpg" /></p>
 
 <pre><code class="language-shell">$ ruby hotp.rb
 287082
@@ -181,7 +181,7 @@ irb(main):002:0&gt; Base32.encode(&quot;12345678901234567890&quot;)
 
 <p>2回目．</p>
 
-<p><img src="https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/03.png" alt="03.png" /></p>
+<p><img src="/hotp/03.jpg" alt="03.jpg" /></p>
 
 <p>ソースを編集して<code>count=2</code>にしてから実行．</p>
 
@@ -222,7 +222,7 @@ irb(main):002:0&gt; Base32.encode(&quot;12345678901234567890&quot;)
 
 <p>以上のような流れを踏むことで最大sだけカウンタがずれてもカウンタの再同期が可能になる．</p>
 
-<p><img src="https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/04.png" alt="04.png" /></p>
+<p><img src="/hotp/04.jpg" alt="04.jpg" /></p>
 
 <h3 id="その他">その他</h3>
 
