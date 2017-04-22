@@ -109,11 +109,11 @@ irb(main):002:0> Base32.encode("12345678901234567890")
 できた．これをスマホへ持っていってGoogleAuthenticatorへ入力する．(余談だがPCからスマホへの文字列の引き渡しにはPushbulletが役に立った)
 生成した文字列を"キー"へ入力し，"カウンタベース"を選択する．
 
-![01.png](https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/01.png)
+![01.jpg](/hotp/01.jpg)
 
 1回目のHOTPを生成．
 
-![02.png](https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/02.png)
+![02.jpg](/hotp/02.jpg)
 
 ```shell
 $ ruby hotp.rb
@@ -122,7 +122,7 @@ $ ruby hotp.rb
 
 2回目．
 
-![03.png](https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/03.png)
+![03.jpg](/hotp/03.jpg)
 
 ソースを編集して`count=2`にしてから実行．
 
@@ -155,7 +155,7 @@ $ ruby hotp.rb
 
 以上のような流れを踏むことで最大sだけカウンタがずれてもカウンタの再同期が可能になる．
 
-![04.png](https://dl.dropboxusercontent.com/u/46387437/uyorum.github.io/hotp/04.png)
+![04.jpg](/hotp/04.jpg)
 
 ### その他
 RFC内ではその他にも以下のような要素について述べられている．が、今回はこれで力尽きたので今度書く．

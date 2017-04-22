@@ -32,14 +32,14 @@ date = "2013-10-06T11:20:00+09:00"
 
 1. zipを展開してできたディレクトリ内の"CoderSetup"を実行します．  
    実行すると以下のウィンドウが表示されます．
-   ![01](https://dl.dropboxusercontent.com/u/46387437/Coder-for-pi/01.png)
+   ![01](/coder-for-pi/01.jpg)
    表示されている通り，MacからSDカードを抜いた状態で"START"をクリックします．
 1. MacにSDカードを挿入してから"NEXT"をクリックします．
-   ![02](https://dl.dropboxusercontent.com/u/46387437/Coder-for-pi/02.png)
+   ![02](/coder-for-pi/02.jpg)
 1. "INSTALL"をクリックしてSDカードにインストールします．SDカードはフォーマットされます．
-   ![03](https://dl.dropboxusercontent.com/u/46387437/Coder-for-pi/03.png)
+   ![03](/coder-for-pi/03.jpg)
 1. 以下の画面になったらインストール完了です．
-   ![04](https://dl.dropboxusercontent.com/u/46387437/Coder-for-pi/04.png)
+   ![04](/coder-for-pi/04.jpg)
 1. インストールが完了したらSDカードをRaspberryPiに挿入して起動させます．
    RaspberryPiが起動したら次は初期設定です．
 
@@ -51,12 +51,12 @@ Coder for RaspberryPiの設定・操作はブラウザから行うことにな�
 1. PCの無線をONにしてネットワークを探します．  
    "CoderConfig"というアドホックネットワークが見つかるので接続します．
 1. ブラウザで http://coder.local/ を開くと以下のページが表示されます．
-   ![06](https://dl.dropboxusercontent.com/u/46387437/Coder-for-pi/06.png)
+   ![06](/coder-for-pi/06.jpg)
 1. パスワードを設定します．  
    以後，このパスワードを使ってCoder for RaspberryPiの画面に入ることになります．
 1. チュートリアルが表示されます．"Got it"をクリックして次へ進みます．
 1. Coder for PaspberryPiのホームが表示されました．
-   ![08](https://dl.dropboxusercontent.com/u/46387437/Coder-for-pi/08.png)
+   ![08](/coder-for-pi/08.jpg)
    以上で導入は完了です．
 
 # 自宅の無線LANへ接続
@@ -64,7 +64,7 @@ Coder for RaspberryPiの設定・操作はブラウザから行うことにな�
 上の手順に続いてブラウザから設定します．
 
 1. ホームの右上の歯車をクリックすると以下の画面になります．
-   ![09](https://dl.dropboxusercontent.com/u/46387437/Coder-for-pi/09.png)
+   ![09](/coder-for-pi/09.jpg)
 1. "Wifi Setup"をクリックしアクセスポイントのSSIDとパスワードを入力します．
 1. 設定が完了すると自動的にRaspberryPiが再起動して無線LANに接続されているはずです．
 
