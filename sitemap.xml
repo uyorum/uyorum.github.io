@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</loc>
+    <lastmod>2017-04-22T21:48:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://uyorum.github.io/blog/2017/03/01/rails-asset-pipeline-1/</loc>
     <lastmod>2017-03-01T23:01:28+09:00</lastmod>
   </url>
@@ -138,19 +143,19 @@
   
   <url>
     <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2016-10-09T17:39:14+09:00</lastmod>
+    <lastmod>2017-04-22T21:48:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://uyorum.github.io/</loc>
-    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+    <lastmod>2017-04-22T21:48:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://uyorum.github.io/post/</loc>
-    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+    <lastmod>2017-04-22T21:48:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
