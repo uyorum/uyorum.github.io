@@ -10,6 +10,236 @@
     <atom:link href="http://uyorum.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Home Assistantでつくるホームオートメーション(導入編)</title>
+      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</link>
+      <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</guid>
+      <description>
+
+&lt;p&gt;ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2 id=&#34;home-assitantとは&#34;&gt;Home Assitantとは&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/&#34;&gt;Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/home-assistant/home-assistant&#34;&gt;home-assistant/home-assistant: Open-source home automation platform running on Python 3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ホームオートメーションを実現するためのソフトウェア．Githubで開発されており，Python3で書かれている．
+様々なサービス，センサー，家電に対応しておりブラウザでそれらの状態を確認，操作するためのUIが提供されている．
+また，特定のトリガーとアクションをあらかじめ定義しておくことでそれらを自動制御することもできる．&lt;/p&gt;
+
+&lt;p&gt;同様のソフトウェアとして，以下のようなソフトウェアもある&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.openhab.org/&#34;&gt;openHAB&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://domoticz.com/&#34;&gt;Domoticz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.homebridge.com/&#34;&gt;HomeBridge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;2017/4/22時点でGithubのスター数は以下のような感じでHome Assistantが一番人気がありそう．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Home Assistant…6583&lt;/li&gt;
+&lt;li&gt;openHAB…241&lt;/li&gt;
+&lt;li&gt;Domoticz…651&lt;/li&gt;
+&lt;li&gt;HomeBridge…4903&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;公式サイトでデモ画面を見ることができる．&lt;a href=&#34;https://home-assistant.io/demo/&#34;&gt;Home Assistant Demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://home-assistant.io/docs/installation/&#34;&gt;Installation of Home Assistant - Home Assistant&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;様々のインストール方法が提供されている．自分はRaspberryPiでGPIOを使いたかったためRaspbianへのManual Installを選択した．&lt;/p&gt;
+
+&lt;p&gt;systemdのユニットファイルも提供されている．自分は多少変更して以下のようにした．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;/etc/systemd/system/home-assistant.service&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;[Unit]
+Description=Home Assistant
+After=network.target
+
+[Service]
+Type=simple
+User=ha
+ExecStart=/srv/homeassistant/bin/hass -c &amp;quot;/home/ha/.homeassistant&amp;quot;
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;「ha」という名前でシステムユーザを作成し，このユーザでHome Assistantを実行するようにしている．&lt;/p&gt;
+
+&lt;p&gt;参考: &lt;a href=&#34;https://home-assistant.io/docs/autostart/systemd/&#34;&gt;Autostart using systemd - Home Assistant&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;有効化&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo systemctl daemon-reload
+$ sudo systemctl enable home-assistant
+$ sudo systemctl start home-assistant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;初回起動時はコンポーネントのインストールがあるため10分ほどかかる．
+ブラウザでポート8123へアクセスするとWebUIが表示される．&lt;/p&gt;
+
+&lt;p&gt;実行ユーザのホームディレクトリに&lt;code&gt;.homeassistant/configuration.yaml&lt;/code&gt;というファイルが自動で作成される．基本的に設定はこのファイルにYAML形式で書いていくことになる．&lt;/p&gt;
+
+&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+
+&lt;p&gt;Home Asssistantで扱うリソースはComponentという形で提供されており&lt;a href=&#34;https://home-assistant.io/components/&#34;&gt;ここ&lt;/a&gt;から確認できる．これを書いている時点でComponentは640個ある．
+個々のComponentはPlatform(Serviceと表記されることもある)としてグルーピングされており，設定方法や可能な操作はPlatformごとに決まっている．
+Platformには例えば以下のようなものがある．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/media_player/&#34;&gt;Media Player&lt;/a&gt;&lt;br /&gt;
+Google Cast，Amazon Fire TV，Apple TV，Kodiなど，再生/停止/音量などのインターフェースを持つもの&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/light/&#34;&gt;Lights&lt;/a&gt;&lt;br /&gt;
+Philips Hue，MiLight(LimitlessLED)など，点灯/消灯/照度/色温度などのインターフェースを持つもの&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/switch/&#34;&gt;Switches&lt;/a&gt;&lt;br /&gt;
+Belkin WeMo，D-Link Smart Plugなど，ON/OFFのインターフェースを持つもの&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/notify/&#34;&gt;Notifications&lt;/a&gt;&lt;br /&gt;
+Slack，Pushbulletなど，メッセージを与えるもの&lt;/li&gt;
+&lt;li&gt;Sensor&lt;br /&gt;
+Netatmo，Zabbix，OpenWeatherMapなど，数値や文字列を取得できるもの&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/binary_sensor/&#34;&gt;Binary Sensor&lt;/a&gt;&lt;br /&gt;
+0/1の値を取得できるもの&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ひとつのWebサービスやデバイスでもインターフェースによっては複数のPlatformにComponentが用意されていることがある．&lt;br /&gt;
+また，それぞれのPlatformには，Webサービスやデバイスの他にREST，Commandといった汎用的なComponentも用意されているため結構いろいろできる．&lt;/p&gt;
+
+&lt;p&gt;ひとまずこれくらいを知っておくとスムーズに使い始めることができるはず．&lt;/p&gt;
+
+&lt;p&gt;以上&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Home Assistantでつくるホームオートメーション(導入編)</title>
+      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</link>
+      <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</guid>
+      <description>
+
+&lt;p&gt;ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2 id=&#34;home-assitantとは&#34;&gt;Home Assitantとは&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/&#34;&gt;Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/home-assistant/home-assistant&#34;&gt;home-assistant/home-assistant: Open-source home automation platform running on Python 3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ホームオートメーションを実現するためのソフトウェア．Githubで開発されており，Python3で書かれている．
+様々なサービス，センサー，家電に対応しておりブラウザでそれらの状態を確認，操作するためのUIが提供されている．
+また，特定のトリガーとアクションをあらかじめ定義しておくことでそれらを自動制御することもできる．&lt;/p&gt;
+
+&lt;p&gt;同様のソフトウェアとして，以下のようなソフトウェアもある&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.openhab.org/&#34;&gt;openHAB&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://domoticz.com/&#34;&gt;Domoticz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.homebridge.com/&#34;&gt;HomeBridge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;2017/4/22時点でGithubのスター数は以下のような感じでHome Assistantが一番人気がありそう．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Home Assistant…6583&lt;/li&gt;
+&lt;li&gt;openHAB…241&lt;/li&gt;
+&lt;li&gt;Domoticz…651&lt;/li&gt;
+&lt;li&gt;HomeBridge…4903&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;公式サイトでデモ画面を見ることができる．&lt;a href=&#34;https://home-assistant.io/demo/&#34;&gt;Home Assistant Demo&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://home-assistant.io/docs/installation/&#34;&gt;Installation of Home Assistant - Home Assistant&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;様々のインストール方法が提供されている．自分はRaspberryPiでGPIOを使いたかったためRaspbianへのManual Installを選択した．&lt;/p&gt;
+
+&lt;p&gt;systemdのユニットファイルも提供されている．自分は多少変更して以下のようにした．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;/etc/systemd/system/home-assistant.service&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;[Unit]
+Description=Home Assistant
+After=network.target
+
+[Service]
+Type=simple
+User=ha
+ExecStart=/srv/homeassistant/bin/hass -c &amp;quot;/home/ha/.homeassistant&amp;quot;
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;「ha」という名前でシステムユーザを作成し，このユーザでHome Assistantを実行するようにしている．&lt;/p&gt;
+
+&lt;p&gt;参考: &lt;a href=&#34;https://home-assistant.io/docs/autostart/systemd/&#34;&gt;Autostart using systemd - Home Assistant&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;有効化&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo systemctl daemon-reload
+$ sudo systemctl enable home-assistant
+$ sudo systemctl start home-assistant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;初回起動時はコンポーネントのインストールがあるため10分ほどかかる．
+ブラウザでポート8123へアクセスするとWebUIが表示される．&lt;/p&gt;
+
+&lt;p&gt;実行ユーザのホームディレクトリに&lt;code&gt;.homeassistant/configuration.yaml&lt;/code&gt;というファイルが自動で作成される．基本的に設定はこのファイルにYAML形式で書いていくことになる．&lt;/p&gt;
+
+&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+
+&lt;p&gt;Home Asssistantで扱うリソースはComponentという形で提供されており&lt;a href=&#34;https://home-assistant.io/components/&#34;&gt;ここ&lt;/a&gt;から確認できる．これを書いている時点でComponentは640個ある．
+個々のComponentはPlatform(Serviceと表記されることもある)としてグルーピングされており，設定方法や可能な操作はPlatformごとに決まっている．
+Platformには例えば以下のようなものがある．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/media_player/&#34;&gt;Media Player&lt;/a&gt;&lt;br /&gt;
+Google Cast，Amazon Fire TV，Apple TV，Kodiなど，再生/停止/音量などのインターフェースを持つもの&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/light/&#34;&gt;Lights&lt;/a&gt;&lt;br /&gt;
+Philips Hue，MiLight(LimitlessLED)など，点灯/消灯/照度/色温度などのインターフェースを持つもの&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/switch/&#34;&gt;Switches&lt;/a&gt;&lt;br /&gt;
+Belkin WeMo，D-Link Smart Plugなど，ON/OFFのインターフェースを持つもの&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/notify/&#34;&gt;Notifications&lt;/a&gt;&lt;br /&gt;
+Slack，Pushbulletなど，メッセージを与えるもの&lt;/li&gt;
+&lt;li&gt;Sensor&lt;br /&gt;
+Netatmo，Zabbix，OpenWeatherMapなど，数値や文字列を取得できるもの&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/binary_sensor/&#34;&gt;Binary Sensor&lt;/a&gt;&lt;br /&gt;
+0/1の値を取得できるもの&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ひとつのWebサービスやデバイスでもインターフェースによっては複数のPlatformにComponentが用意されていることがある．&lt;br /&gt;
+また，それぞれのPlatformには，Webサービスやデバイスの他にREST，Commandといった汎用的なComponentも用意されているため結構いろいろできる．&lt;/p&gt;
+
+&lt;p&gt;ひとまずこれくらいを知っておくとスムーズに使い始めることができるはず．&lt;/p&gt;
+
+&lt;p&gt;以上&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Erato Audio Apollo7 レビュー</title>
       <link>http://uyorum.github.io/blog/2016/10/09/apollo7-1/</link>
       <pubDate>Sun, 09 Oct 2016 17:39:14 +0900</pubDate>
