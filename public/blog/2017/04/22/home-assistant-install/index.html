@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.19-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" href="http://uyorum.github.io/favicon.ico">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+
+<title>Home Assistantでつくるホームオートメーション(導入編) - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+  <main role="main">
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 class="entry-title" itemprop="headline">Home Assistantでつくるホームオートメーション(導入編)</h1>
+      <span class="entry-meta">
+        <time itemprop="datePublished" datetime="2017-04-22">April 22, 2017
+        </time>
+      </span>
+      <span class="pull-right">
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2f2017%2f04%2f22%2fhome-assistant-install%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Home%20Assistant%e3%81%a7%e3%81%a4%e3%81%8f%e3%82%8b%e3%83%9b%e3%83%bc%e3%83%a0%e3%82%aa%e3%83%bc%e3%83%88%e3%83%a1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%28%e5%b0%8e%e5%85%a5%e7%b7%a8%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2f2017%2f04%2f22%2fhome-assistant-install%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2f2017%2f04%2f22%2fhome-assistant-install%2f&amp;title=Home%20Assistant%e3%81%a7%e3%81%a4%e3%81%8f%e3%82%8b%e3%83%9b%e3%83%bc%e3%83%a0%e3%82%aa%e3%83%bc%e3%83%88%e3%83%a1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%28%e5%b0%8e%e5%85%a5%e7%b7%a8%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Home%20Assistant%e3%81%a7%e3%81%a4%e3%81%8f%e3%82%8b%e3%83%9b%e3%83%bc%e3%83%a0%e3%82%aa%e3%83%bc%e3%83%88%e3%83%a1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%28%e5%b0%8e%e5%85%a5%e7%b7%a8%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2f2017%2f04%2f22%2fhome-assistant-install%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </span>
+      <section itemprop="entry-text">
+        
+
+<p>ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて</p>
+
+<!-- more -->
+
+<h2 id="home-assitantとは">Home Assitantとは</h2>
+
+<ul>
+<li><a href="https://home-assistant.io/">Home Assistant</a></li>
+<li><a href="https://github.com/home-assistant/home-assistant">home-assistant/home-assistant: Open-source home automation platform running on Python 3</a></li>
+</ul>
+
+<p>ホームオートメーションを実現するためのソフトウェア．Githubで開発されており，Python3で書かれている．
+様々なサービス，センサー，家電に対応しておりブラウザでそれらの状態を確認，操作するためのUIが提供されている．
+また，特定のトリガーとアクションをあらかじめ定義しておくことでそれらを自動制御することもできる．</p>
+
+<p>同様のソフトウェアとして，以下のようなソフトウェアもある</p>
+
+<ul>
+<li><a href="https://www.openhab.org/">openHAB</a></li>
+<li><a href="https://domoticz.com/">Domoticz</a></li>
+<li><a href="https://www.homebridge.com/">HomeBridge</a></li>
+</ul>
+
+<p>2017/4/22時点でGithubのスター数は以下のような感じでHome Assistantが一番人気がありそう．</p>
+
+<ul>
+<li>Home Assistant…6583</li>
+<li>openHAB…241</li>
+<li>Domoticz…651</li>
+<li>HomeBridge…4903</li>
+</ul>
+
+<p>公式サイトでデモ画面を見ることができる．<a href="https://home-assistant.io/demo/">Home Assistant Demo</a></p>
+
+<h2 id="インストール">インストール</h2>
+
+<p><a href="https://home-assistant.io/docs/installation/">Installation of Home Assistant - Home Assistant</a></p>
+
+<p>様々のインストール方法が提供されている．自分はRaspberryPiでGPIOを使いたかったためRaspbianへのManual Installを選択した．</p>
+
+<p>systemdのユニットファイルも提供されている．自分は多少変更して以下のようにした．</p>
+
+<ul>
+<li>/etc/systemd/system/home-assistant.service</li>
+</ul>
+
+<pre><code>[Unit]
+Description=Home Assistant
+After=network.target
+
+[Service]
+Type=simple
+User=ha
+ExecStart=/srv/homeassistant/bin/hass -c &quot;/home/ha/.homeassistant&quot;
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>「ha」という名前でシステムユーザを作成し，このユーザでHome Assistantを実行するようにしている．</p>
+
+<p>参考: <a href="https://home-assistant.io/docs/autostart/systemd/">Autostart using systemd - Home Assistant</a></p>
+
+<ul>
+<li>有効化</li>
+</ul>
+
+<pre><code class="language-shell">$ sudo systemctl daemon-reload
+$ sudo systemctl enable home-assistant
+$ sudo systemctl start home-assistant
+</code></pre>
+
+<p>初回起動時はコンポーネントのインストールがあるため10分ほどかかる．
+ブラウザでポート8123へアクセスするとWebUIが表示される．</p>
+
+<p>実行ユーザのホームディレクトリに<code>.homeassistant/configuration.yaml</code>というファイルが自動で作成される．基本的に設定はこのファイルにYAML形式で書いていくことになる．</p>
+
+<h2 id="概念">概念</h2>
+
+<p>Home Asssistantで扱うリソースはComponentという形で提供されており<a href="https://home-assistant.io/components/">ここ</a>から確認できる．これを書いている時点でComponentは640個ある．
+個々のComponentはPlatform(Serviceと表記されることもある)としてグルーピングされており，設定方法や可能な操作はPlatformごとに決まっている．
+Platformには例えば以下のようなものがある．</p>
+
+<ul>
+<li><a href="https://home-assistant.io/components/media_player/">Media Player</a><br />
+Google Cast，Amazon Fire TV，Apple TV，Kodiなど，再生/停止/音量などのインターフェースを持つもの</li>
+<li><a href="https://home-assistant.io/components/light/">Lights</a><br />
+Philips Hue，MiLight(LimitlessLED)など，点灯/消灯/照度/色温度などのインターフェースを持つもの</li>
+<li><a href="https://home-assistant.io/components/switch/">Switches</a><br />
+Belkin WeMo，D-Link Smart Plugなど，ON/OFFのインターフェースを持つもの</li>
+<li><a href="https://home-assistant.io/components/notify/">Notifications</a><br />
+Slack，Pushbulletなど，メッセージを与えるもの</li>
+<li>Sensor<br />
+Netatmo，Zabbix，OpenWeatherMapなど，数値や文字列を取得できるもの</li>
+<li><a href="https://home-assistant.io/components/binary_sensor/">Binary Sensor</a><br />
+0/1の値を取得できるもの</li>
+</ul>
+
+<p>ひとつのWebサービスやデバイスでもインターフェースによっては複数のPlatformにComponentが用意されていることがある．<br />
+また，それぞれのPlatformには，Webサービスやデバイスの他にREST，Commandといった汎用的なComponentも用意されているため結構いろいろできる．</p>
+
+<p>ひとまずこれくらいを知っておくとスムーズに使い始めることができるはず．</p>
+
+<p>以上</p>
+
+      </section>
+      <aside>
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2f2017%2f04%2f22%2fhome-assistant-install%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Home%20Assistant%e3%81%a7%e3%81%a4%e3%81%8f%e3%82%8b%e3%83%9b%e3%83%bc%e3%83%a0%e3%82%aa%e3%83%bc%e3%83%88%e3%83%a1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%28%e5%b0%8e%e5%85%a5%e7%b7%a8%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2f2017%2f04%2f22%2fhome-assistant-install%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2f2017%2f04%2f22%2fhome-assistant-install%2f&amp;title=Home%20Assistant%e3%81%a7%e3%81%a4%e3%81%8f%e3%82%8b%e3%83%9b%e3%83%bc%e3%83%a0%e3%82%aa%e3%83%bc%e3%83%88%e3%83%a1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%28%e5%b0%8e%e5%85%a5%e7%b7%a8%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Home%20Assistant%e3%81%a7%e3%81%a4%e3%81%8f%e3%82%8b%e3%83%9b%e3%83%bc%e3%83%a0%e3%82%aa%e3%83%bc%e3%83%88%e3%83%a1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%28%e5%b0%8e%e5%85%a5%e7%b7%a8%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2f2017%2f04%2f22%2fhome-assistant-install%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </aside>
+      
+        <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'uyorum';
+    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/2017\/04\/22\/home-assistant-install\/';
+    var disqus_title = 'Home Assistantでつくるホームオートメーション(導入編)';
+    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/2017\/04\/22\/home-assistant-install\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      
+    </article>
+  </main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+			
+			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+			
+      
+		</div>
+		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+	</footer>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-43857839-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

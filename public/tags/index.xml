@@ -10,11 +10,391 @@
     <atom:link href="http://uyorum.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Home Assistantで人感センサーを使って照明を自動点灯する</title>
+      <link>http://uyorum.github.io/blog/2017/04/23/home-assistant-gpio/</link>
+      <pubDate>Sun, 23 Apr 2017 21:33:54 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2017/04/23/home-assistant-gpio/</guid>
+      <description>
+
+&lt;p&gt;Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2 id=&#34;使用製品&#34;&gt;使用製品&lt;/h2&gt;
+
+&lt;p&gt;今回使用するセンサー，機器は以下の通り&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Raspbery Pi 2 Model B&lt;br /&gt;
+Raspbian jessie liteの上にHome Assistantをインストール済み&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;赤外線人感センサー SB612A&lt;br /&gt;
+&lt;a href=&#34;http://akizukidenshi.com/catalog/g/gM-08767/&#34;&gt;秋月電子&lt;/a&gt;で購入．Raspberry Piから電源を取るので3.3Vまたは5Vで動くものなら何でもいいと思う．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;WiFi LED電球 MiLight
+&lt;a href=&#34;http://item.rakuten.co.jp/illumica/c/0000000205/&#34;&gt;楽天のイルミカ&lt;/a&gt;で&lt;a href=&#34;http://item.rakuten.co.jp/illumica/it_m005/&#34;&gt;ブリッジ&lt;/a&gt;と&lt;a href=&#34;http://item.rakuten.co.jp/illumica/it_m003/&#34;&gt;電球&lt;/a&gt;を購入．&lt;br /&gt;
+スマホアプリを使って操作できるところまでセットアップしておく．資金に余裕があるならHueでもいいと思う．&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
+
+&lt;p&gt;やりたいことは以下の通り&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;人感センサーを使って人が近づいたことを検知できるようにしておく&lt;/li&gt;
+&lt;li&gt;センサーに反応があった場合，MiLightへリクエストを発行し電球を点灯&lt;/li&gt;
+&lt;li&gt;センサーに反応がなくなってしばらく経ってからMiLightへリクエストを発行し電球を消灯&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;home-assistantでgpioを使う&#34;&gt;Home AssistantでGPIOを使う&lt;/h2&gt;
+
+&lt;p&gt;秋月のサイトにあるSB612Aのデータシートを見ると以下のことがわかる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;VCC端子に電源を接続する(DC3.3〜12V)&lt;/li&gt;
+&lt;li&gt;センサーの反応はTEST端子から取れる．TEST端子の電位がそれぞれ反応あり=3.3V，反応なし=0Vになる．ただし実際には，センサーに反応がなくなってから0Vになるまではタイムラグがある&lt;/li&gt;
+&lt;li&gt;上記タイムラグ(Delay Time)は2秒〜80分で調整できる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;今回の設計は以下のようにする&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;VCC端子を3.3V端子(ピン1)へ接続&lt;/li&gt;
+&lt;li&gt;TEST端子をGPIO 4端子へ接続&lt;/li&gt;
+&lt;li&gt;GND端子をGND(ピン6)へ接続&lt;/li&gt;
+&lt;li&gt;Delay timeは最短の2秒とする&lt;/li&gt;
+&lt;li&gt;TEST=0Vの状態を確実にGPIOのLOW状態とするためにRaspberryPiに内蔵のプルダウン抵抗を有効にする&lt;/li&gt;
+&lt;li&gt;bouncetimeは50msとする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://uyorum.github.io/home-assistant-gpio/01.jpg&#34; alt=&#34;01.jpg&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Home Assistantの設定は以下のようになる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;binary_sensor:
+  - platform: rpi_gpio
+    ports:
+      4: PIR Sensor
+    pull_mode: down
+    bouncetime: 50
+    invert_logic: false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを&lt;code&gt;gpio&lt;/code&gt;グループに所属させればよい．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo usermod -a -G gpio ha
+$ sudo systemctl restart home-assistant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;home-assistantでmilightを使う&#34;&gt;Home AssistantでMiLightを使う&lt;/h2&gt;
+
+&lt;p&gt;MiLight(中身はLimitlessLED)ははじめからComponentとして提供されているためこれを利用する．&lt;a href=&#34;https://home-assistant.io/components/light.limitlessled/&#34;&gt;LimitlessLED - Home Assistant&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configuration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;light:
+  - platform: limitlessled
+    bridges:
+      - host: x.x.x.x
+        version: 5
+        port: 8899
+        groups:
+          - number: 1
+            name: MiLight
+            type: rgbw
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;イルミカで購入できるWiFiブリッジはVersion 5，カラー電球のタイプはrgbw(rgbwwではない)&lt;/li&gt;
+&lt;li&gt;グループ番号はタイプごとに1~4のいずれかになる．今回はrgbwグループのグループ1に登録している&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;なお，Home AssistantはWebインターフェースで設定ファイルを読み直すことができるが，プロセスの再起動を行わないと反映されないものが多い．
+確実に設定を反映させるため，プロセスの再起動を行う．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo systemctl restart home-assistant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;automationを設定する&#34;&gt;Automationを設定する&lt;/h2&gt;
+
+&lt;p&gt;ここまでで，WebインターフェースではセンサーのON/OFFが表示され，MiLightを操作できるようになっているはず．
+次に，これらを組み合わせて以下の動作を実現する．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;センサーに反応があった場合にMiLightを点灯する&lt;/li&gt;
+&lt;li&gt;明るさは255段階(Home Assistant上での値)中，150とする&lt;br /&gt;
+ただしMiLightとしては，v4のWiFiブリッジでRGBWを使用する場合は25段階にしか調節できないそうなので，実際には25段階中15くらい&lt;/li&gt;
+&lt;li&gt;センサーに反応がない状態が1分後続くと消灯する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;設定は以下のようになる&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configuration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;- alias: Turn on light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;on&#39;
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.milight
+    data:
+      brightness: 150
+- alias: Turn off light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;off&#39;
+    for:
+      minutes: 1
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.milight
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ハマった箇所をいくつか&lt;/p&gt;
+
+&lt;h3 id=&#34;entity-idの命名規則&#34;&gt;entity_idの命名規則&lt;/h3&gt;
+
+&lt;p&gt;entity_idに指定する名前はそれぞれのComponentで設定した&lt;code&gt;name&lt;/code&gt;値になる．空白や大文字はスネークケースへ変換される．
+つまり，nameを「PIR Sensor」のようにした場合，entity_idでは「pir_sensor」のように指定する&lt;/p&gt;
+
+&lt;h3 id=&#34;ある状態が一定時間続く-をトリガーにする&#34;&gt;「ある状態が一定時間続く」をトリガーにする&lt;/h3&gt;
+
+&lt;p&gt;action内では一定時間の経過を待つ&lt;code&gt;delay&lt;/code&gt;文が使える&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;- alias: Turn off light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;off&#39;
+  action:
+    - delay: 0:01
+    - service: homeassistant.turn_off
+      entity_id: light.milight
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;だが，これでは「センサーに反応がなくなってから1分後」になるため，例えば30秒後にセンサーに反応が戻っても結局そのまま消灯してしまう．&lt;br /&gt;
+しばらく悩んでいたのだが，Triggerで&lt;code&gt;for&lt;/code&gt;を使うことで希望の動作ができることがわかったので簡単に希望の動作を実現できた．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://takashiski.hatenablog.com/entry/2016/01/12/000658&#34;&gt;プログラマブル電球milightで遊ぼう(RGBW/DW) - takashiskiのブログ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/binary_sensor.rpi_gpio/&#34;&gt;Raspberry PI GPIO Binary Sensor - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/light.limitlessled/&#34;&gt;LimitlessLED - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/docs/automation/&#34;&gt;Automating Home Assistant - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/cookbook/turn_on_light_for_10_minutes_when_motion_detected/&#34;&gt;Turn on lights for 10 minutes after motion detected - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Home Assistantで人感センサーを使って照明を自動点灯する</title>
+      <link>http://uyorum.github.io/blog/2017/04/23/home-assistant-gpio/</link>
+      <pubDate>Sun, 23 Apr 2017 21:33:54 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2017/04/23/home-assistant-gpio/</guid>
+      <description>
+
+&lt;p&gt;Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2 id=&#34;使用製品&#34;&gt;使用製品&lt;/h2&gt;
+
+&lt;p&gt;今回使用するセンサー，機器は以下の通り&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Raspbery Pi 2 Model B&lt;br /&gt;
+Raspbian jessie liteの上にHome Assistantをインストール済み&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;赤外線人感センサー SB612A&lt;br /&gt;
+&lt;a href=&#34;http://akizukidenshi.com/catalog/g/gM-08767/&#34;&gt;秋月電子&lt;/a&gt;で購入．Raspberry Piから電源を取るので3.3Vまたは5Vで動くものなら何でもいいと思う．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;WiFi LED電球 MiLight
+&lt;a href=&#34;http://item.rakuten.co.jp/illumica/c/0000000205/&#34;&gt;楽天のイルミカ&lt;/a&gt;で&lt;a href=&#34;http://item.rakuten.co.jp/illumica/it_m005/&#34;&gt;ブリッジ&lt;/a&gt;と&lt;a href=&#34;http://item.rakuten.co.jp/illumica/it_m003/&#34;&gt;電球&lt;/a&gt;を購入．&lt;br /&gt;
+スマホアプリを使って操作できるところまでセットアップしておく．資金に余裕があるならHueでもいいと思う．&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
+
+&lt;p&gt;やりたいことは以下の通り&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;人感センサーを使って人が近づいたことを検知できるようにしておく&lt;/li&gt;
+&lt;li&gt;センサーに反応があった場合，MiLightへリクエストを発行し電球を点灯&lt;/li&gt;
+&lt;li&gt;センサーに反応がなくなってしばらく経ってからMiLightへリクエストを発行し電球を消灯&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;home-assistantでgpioを使う&#34;&gt;Home AssistantでGPIOを使う&lt;/h2&gt;
+
+&lt;p&gt;秋月のサイトにあるSB612Aのデータシートを見ると以下のことがわかる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;VCC端子に電源を接続する(DC3.3〜12V)&lt;/li&gt;
+&lt;li&gt;センサーの反応はTEST端子から取れる．TEST端子の電位がそれぞれ反応あり=3.3V，反応なし=0Vになる．ただし実際には，センサーに反応がなくなってから0Vになるまではタイムラグがある&lt;/li&gt;
+&lt;li&gt;上記タイムラグ(Delay Time)は2秒〜80分で調整できる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;今回の設計は以下のようにする&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;VCC端子を3.3V端子(ピン1)へ接続&lt;/li&gt;
+&lt;li&gt;TEST端子をGPIO 4端子へ接続&lt;/li&gt;
+&lt;li&gt;GND端子をGND(ピン6)へ接続&lt;/li&gt;
+&lt;li&gt;Delay timeは最短の2秒とする&lt;/li&gt;
+&lt;li&gt;TEST=0Vの状態を確実にGPIOのLOW状態とするためにRaspberryPiに内蔵のプルダウン抵抗を有効にする&lt;/li&gt;
+&lt;li&gt;bouncetimeは50msとする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://uyorum.github.io/home-assistant-gpio/01.jpg&#34; alt=&#34;01.jpg&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Home Assistantの設定は以下のようになる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;binary_sensor:
+  - platform: rpi_gpio
+    ports:
+      4: PIR Sensor
+    pull_mode: down
+    bouncetime: 50
+    invert_logic: false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを&lt;code&gt;gpio&lt;/code&gt;グループに所属させればよい．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo usermod -a -G gpio ha
+$ sudo systemctl restart home-assistant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;home-assistantでmilightを使う&#34;&gt;Home AssistantでMiLightを使う&lt;/h2&gt;
+
+&lt;p&gt;MiLight(中身はLimitlessLED)ははじめからComponentとして提供されているためこれを利用する．&lt;a href=&#34;https://home-assistant.io/components/light.limitlessled/&#34;&gt;LimitlessLED - Home Assistant&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configuration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;light:
+  - platform: limitlessled
+    bridges:
+      - host: x.x.x.x
+        version: 5
+        port: 8899
+        groups:
+          - number: 1
+            name: MiLight
+            type: rgbw
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;イルミカで購入できるWiFiブリッジはVersion 5，カラー電球のタイプはrgbw(rgbwwではない)&lt;/li&gt;
+&lt;li&gt;グループ番号はタイプごとに1~4のいずれかになる．今回はrgbwグループのグループ1に登録している&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;なお，Home AssistantはWebインターフェースで設定ファイルを読み直すことができるが，プロセスの再起動を行わないと反映されないものが多い．
+確実に設定を反映させるため，プロセスの再起動を行う．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo systemctl restart home-assistant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;automationを設定する&#34;&gt;Automationを設定する&lt;/h2&gt;
+
+&lt;p&gt;ここまでで，WebインターフェースではセンサーのON/OFFが表示され，MiLightを操作できるようになっているはず．
+次に，これらを組み合わせて以下の動作を実現する．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;センサーに反応があった場合にMiLightを点灯する&lt;/li&gt;
+&lt;li&gt;明るさは255段階(Home Assistant上での値)中，150とする&lt;br /&gt;
+ただしMiLightとしては，v4のWiFiブリッジでRGBWを使用する場合は25段階にしか調節できないそうなので，実際には25段階中15くらい&lt;/li&gt;
+&lt;li&gt;センサーに反応がない状態が1分後続くと消灯する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;設定は以下のようになる&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configuration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;- alias: Turn on light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;on&#39;
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.milight
+    data:
+      brightness: 150
+- alias: Turn off light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;off&#39;
+    for:
+      minutes: 1
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.milight
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ハマった箇所をいくつか&lt;/p&gt;
+
+&lt;h3 id=&#34;entity-idの命名規則&#34;&gt;entity_idの命名規則&lt;/h3&gt;
+
+&lt;p&gt;entity_idに指定する名前はそれぞれのComponentで設定した&lt;code&gt;name&lt;/code&gt;値になる．空白や大文字はスネークケースへ変換される．
+つまり，nameを「PIR Sensor」のようにした場合，entity_idでは「pir_sensor」のように指定する&lt;/p&gt;
+
+&lt;h3 id=&#34;ある状態が一定時間続く-をトリガーにする&#34;&gt;「ある状態が一定時間続く」をトリガーにする&lt;/h3&gt;
+
+&lt;p&gt;action内では一定時間の経過を待つ&lt;code&gt;delay&lt;/code&gt;文が使える&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;- alias: Turn off light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;off&#39;
+  action:
+    - delay: 0:01
+    - service: homeassistant.turn_off
+      entity_id: light.milight
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;だが，これでは「センサーに反応がなくなってから1分後」になるため，例えば30秒後にセンサーに反応が戻っても結局そのまま消灯してしまう．&lt;br /&gt;
+しばらく悩んでいたのだが，Triggerで&lt;code&gt;for&lt;/code&gt;を使うことで希望の動作ができることがわかったので簡単に希望の動作を実現できた．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://takashiski.hatenablog.com/entry/2016/01/12/000658&#34;&gt;プログラマブル電球milightで遊ぼう(RGBW/DW) - takashiskiのブログ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/binary_sensor.rpi_gpio/&#34;&gt;Raspberry PI GPIO Binary Sensor - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/light.limitlessled/&#34;&gt;LimitlessLED - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/docs/automation/&#34;&gt;Automating Home Assistant - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/cookbook/turn_on_light_for_10_minutes_when_motion_detected/&#34;&gt;Turn on lights for 10 minutes after motion detected - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Home Assistantでつくるホームオートメーション(導入編)</title>
-      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</link>
+      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-install/</link>
       <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</guid>
+      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-install/</guid>
       <description>
 
 &lt;p&gt;ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて&lt;/p&gt;
@@ -126,10 +506,10 @@ Netatmo，Zabbix，OpenWeatherMapなど，数値や文字列を取得できる�
     
     <item>
       <title>Home Assistantでつくるホームオートメーション(導入編)</title>
-      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</link>
+      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-install/</link>
       <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</guid>
+      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-install/</guid>
       <description>
 
 &lt;p&gt;ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて&lt;/p&gt;

@@ -7,15 +7,205 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sat, 22 Apr 2017 21:48:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 23 Apr 2017 21:33:54 +0900</lastBuildDate>
     <atom:link href="http://uyorum.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Home Assistantで人感センサーを使って照明を自動点灯する</title>
+      <link>http://uyorum.github.io/blog/2017/04/23/home-assistant-gpio/</link>
+      <pubDate>Sun, 23 Apr 2017 21:33:54 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/2017/04/23/home-assistant-gpio/</guid>
+      <description>
+
+&lt;p&gt;Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2 id=&#34;使用製品&#34;&gt;使用製品&lt;/h2&gt;
+
+&lt;p&gt;今回使用するセンサー，機器は以下の通り&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Raspbery Pi 2 Model B&lt;br /&gt;
+Raspbian jessie liteの上にHome Assistantをインストール済み&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;赤外線人感センサー SB612A&lt;br /&gt;
+&lt;a href=&#34;http://akizukidenshi.com/catalog/g/gM-08767/&#34;&gt;秋月電子&lt;/a&gt;で購入．Raspberry Piから電源を取るので3.3Vまたは5Vで動くものなら何でもいいと思う．&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;WiFi LED電球 MiLight
+&lt;a href=&#34;http://item.rakuten.co.jp/illumica/c/0000000205/&#34;&gt;楽天のイルミカ&lt;/a&gt;で&lt;a href=&#34;http://item.rakuten.co.jp/illumica/it_m005/&#34;&gt;ブリッジ&lt;/a&gt;と&lt;a href=&#34;http://item.rakuten.co.jp/illumica/it_m003/&#34;&gt;電球&lt;/a&gt;を購入．&lt;br /&gt;
+スマホアプリを使って操作できるところまでセットアップしておく．資金に余裕があるならHueでもいいと思う．&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
+
+&lt;p&gt;やりたいことは以下の通り&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;人感センサーを使って人が近づいたことを検知できるようにしておく&lt;/li&gt;
+&lt;li&gt;センサーに反応があった場合，MiLightへリクエストを発行し電球を点灯&lt;/li&gt;
+&lt;li&gt;センサーに反応がなくなってしばらく経ってからMiLightへリクエストを発行し電球を消灯&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;home-assistantでgpioを使う&#34;&gt;Home AssistantでGPIOを使う&lt;/h2&gt;
+
+&lt;p&gt;秋月のサイトにあるSB612Aのデータシートを見ると以下のことがわかる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;VCC端子に電源を接続する(DC3.3〜12V)&lt;/li&gt;
+&lt;li&gt;センサーの反応はTEST端子から取れる．TEST端子の電位がそれぞれ反応あり=3.3V，反応なし=0Vになる．ただし実際には，センサーに反応がなくなってから0Vになるまではタイムラグがある&lt;/li&gt;
+&lt;li&gt;上記タイムラグ(Delay Time)は2秒〜80分で調整できる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;今回の設計は以下のようにする&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;VCC端子を3.3V端子(ピン1)へ接続&lt;/li&gt;
+&lt;li&gt;TEST端子をGPIO 4端子へ接続&lt;/li&gt;
+&lt;li&gt;GND端子をGND(ピン6)へ接続&lt;/li&gt;
+&lt;li&gt;Delay timeは最短の2秒とする&lt;/li&gt;
+&lt;li&gt;TEST=0Vの状態を確実にGPIOのLOW状態とするためにRaspberryPiに内蔵のプルダウン抵抗を有効にする&lt;/li&gt;
+&lt;li&gt;bouncetimeは50msとする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://uyorum.github.io/home-assistant-gpio/01.jpg&#34; alt=&#34;01.jpg&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Home Assistantの設定は以下のようになる．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;binary_sensor:
+  - platform: rpi_gpio
+    ports:
+      4: PIR Sensor
+    pull_mode: down
+    bouncetime: 50
+    invert_logic: false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを&lt;code&gt;gpio&lt;/code&gt;グループに所属させればよい．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo usermod -a -G gpio ha
+$ sudo systemctl restart home-assistant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;home-assistantでmilightを使う&#34;&gt;Home AssistantでMiLightを使う&lt;/h2&gt;
+
+&lt;p&gt;MiLight(中身はLimitlessLED)ははじめからComponentとして提供されているためこれを利用する．&lt;a href=&#34;https://home-assistant.io/components/light.limitlessled/&#34;&gt;LimitlessLED - Home Assistant&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configuration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;light:
+  - platform: limitlessled
+    bridges:
+      - host: x.x.x.x
+        version: 5
+        port: 8899
+        groups:
+          - number: 1
+            name: MiLight
+            type: rgbw
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;イルミカで購入できるWiFiブリッジはVersion 5，カラー電球のタイプはrgbw(rgbwwではない)&lt;/li&gt;
+&lt;li&gt;グループ番号はタイプごとに1~4のいずれかになる．今回はrgbwグループのグループ1に登録している&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;なお，Home AssistantはWebインターフェースで設定ファイルを読み直すことができるが，プロセスの再起動を行わないと反映されないものが多い．
+確実に設定を反映させるため，プロセスの再起動を行う．&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ sudo systemctl restart home-assistant
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;automationを設定する&#34;&gt;Automationを設定する&lt;/h2&gt;
+
+&lt;p&gt;ここまでで，WebインターフェースではセンサーのON/OFFが表示され，MiLightを操作できるようになっているはず．
+次に，これらを組み合わせて以下の動作を実現する．&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;センサーに反応があった場合にMiLightを点灯する&lt;/li&gt;
+&lt;li&gt;明るさは255段階(Home Assistant上での値)中，150とする&lt;br /&gt;
+ただしMiLightとしては，v4のWiFiブリッジでRGBWを使用する場合は25段階にしか調節できないそうなので，実際には25段階中15くらい&lt;/li&gt;
+&lt;li&gt;センサーに反応がない状態が1分後続くと消灯する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;設定は以下のようになる&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;configuration.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;- alias: Turn on light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;on&#39;
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.milight
+    data:
+      brightness: 150
+- alias: Turn off light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;off&#39;
+    for:
+      minutes: 1
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.milight
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ハマった箇所をいくつか&lt;/p&gt;
+
+&lt;h3 id=&#34;entity-idの命名規則&#34;&gt;entity_idの命名規則&lt;/h3&gt;
+
+&lt;p&gt;entity_idに指定する名前はそれぞれのComponentで設定した&lt;code&gt;name&lt;/code&gt;値になる．空白や大文字はスネークケースへ変換される．
+つまり，nameを「PIR Sensor」のようにした場合，entity_idでは「pir_sensor」のように指定する&lt;/p&gt;
+
+&lt;h3 id=&#34;ある状態が一定時間続く-をトリガーにする&#34;&gt;「ある状態が一定時間続く」をトリガーにする&lt;/h3&gt;
+
+&lt;p&gt;action内では一定時間の経過を待つ&lt;code&gt;delay&lt;/code&gt;文が使える&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;- alias: Turn off light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_sensor
+    state: &#39;off&#39;
+  action:
+    - delay: 0:01
+    - service: homeassistant.turn_off
+      entity_id: light.milight
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;だが，これでは「センサーに反応がなくなってから1分後」になるため，例えば30秒後にセンサーに反応が戻っても結局そのまま消灯してしまう．&lt;br /&gt;
+しばらく悩んでいたのだが，Triggerで&lt;code&gt;for&lt;/code&gt;を使うことで希望の動作ができることがわかったので簡単に希望の動作を実現できた．&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://takashiski.hatenablog.com/entry/2016/01/12/000658&#34;&gt;プログラマブル電球milightで遊ぼう(RGBW/DW) - takashiskiのブログ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/binary_sensor.rpi_gpio/&#34;&gt;Raspberry PI GPIO Binary Sensor - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/components/light.limitlessled/&#34;&gt;LimitlessLED - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/docs/automation/&#34;&gt;Automating Home Assistant - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://home-assistant.io/cookbook/turn_on_light_for_10_minutes_when_motion_detected/&#34;&gt;Turn on lights for 10 minutes after motion detected - Home Assistant&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Home Assistantでつくるホームオートメーション(導入編)</title>
-      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</link>
+      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-install/</link>
       <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-01/</guid>
+      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-install/</guid>
       <description>
 
 &lt;p&gt;ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて&lt;/p&gt;
@@ -2468,162 +2658,6 @@ irb(main):002:0&amp;gt; Base32.encode(&amp;quot;12345678901234567890&amp;quot;)
 &lt;/ul&gt;
 
 &lt;p&gt;図を書くのにはどのソフトがいいんだろう…&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>MacのxhyveでDockerを使う</title>
-      <link>http://uyorum.github.io/blog/2015/07/21/boot2docker-xhyve/</link>
-      <pubDate>Tue, 21 Jul 2015 23:52:37 +0900</pubDate>
-      
-      <guid>http://uyorum.github.io/blog/2015/07/21/boot2docker-xhyve/</guid>
-      <description>&lt;p&gt;xhyve(いまだに発音がわからない)の仕組みは全く理解してないけど，xhyveとboot2dockerを使ってdockerコマンドを叩くまで．&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/mist64/xhyve&#34;&gt;mist64/xhyve&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.pagetable.com/?p=831&#34;&gt;xhyve – Lightweight Virtualization on OS X Based on bhyve | pagetable.com&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/ailispaw/boot2docker-xhyve&#34;&gt;ailispaw/boot2docker-xhyve&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;環境
-
-&lt;ul&gt;
-&lt;li&gt;Mac mini (Mid2011)&lt;/li&gt;
-&lt;li&gt;OS X Yosemite (10.10.4)&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;いちおう背景とか
-
-&lt;ul&gt;
-&lt;li&gt;Dockerとは最近流行りのコンテナ型仮想化ユーティリティ&lt;/li&gt;
-&lt;li&gt;Dockerを使うにはLinuxが必要(Linuxカーネルの機能を使うため)&lt;/li&gt;
-&lt;li&gt;MacでDockerを使いたかったら仮想環境などで別途Linuxを用意する必要がある&lt;/li&gt;
-&lt;li&gt;そのあたりを勝手にやってくれる&lt;a href=&#34;http://boot2docker.io/&#34;&gt;Boot2docker&lt;/a&gt;というプロダクトがあった
-
-&lt;ul&gt;
-&lt;li&gt;仮想環境として&lt;a href=&#34;https://www.virtualbox.org/&#34;&gt;VirtualBox&lt;/a&gt;を使用している&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.linux-kvm.org/page/Main_Page&#34;&gt;KVM&lt;/a&gt;をFreeBSDに移植した&lt;a href=&#34;http://bhyve.org/&#34;&gt;bhyve&lt;/a&gt;をOS Xへ移植した&lt;a href=&#34;https://github.com/mist64/xhyve&#34;&gt;xhyve&lt;/a&gt;(かなり語弊があると思う)というプロダクトが最近リリースされた&lt;/li&gt;
-&lt;li&gt;VirtualBoxの代わりにxhyveをバックエンドとする&lt;a href=&#34;https://github.com/ailispaw/boot2docker-xhyve&#34;&gt;boot2docker-xhyve&lt;/a&gt;がリリースされたので使ってみた&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
-
-&lt;h3 id=&#34;xhyve&#34;&gt;xhyve&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/mist64/xhyve
-$ cd xhyve
-$ make
-$ sudo cp build/xhyve /usr/local/bin
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;boot2docker-xhyve&#34;&gt;boot2docker-xhyve&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/ailispaw/boot2docker-xhyve
-$ cd boot2docker-xhyve
-$ make
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Dockerがセットアップ済みのTiny Core Linuxが起動する&lt;/p&gt;
-
-&lt;h3 id=&#34;docker&#34;&gt;Docker&lt;/h3&gt;
-
-&lt;p&gt;boot2dockerを使ってみた系の記事を見てるとLinuxへSSHしてdockerコマンドを叩きましょう，みたいなことがたまり書かれてたりするけどDockerはクラサバ型だからMac上にDockerクライアントがインストールされていればよい．&lt;br /&gt;
-Homebrewで入れるのが一番簡単かな．&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo brew install docker
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Dockerサーバはlocalhostではないので別途情報を設定する必要がある．
-boot2docker-xhyveディレクトリへ移動して以下のコマンドを叩く．&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ export DOCKER_HOST=tcp://`make ip`:2375
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;dockerコマンドを叩いてみる&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ docker info
-Containers: 0
-Images: 0
-Storage Driver: aufs
- Root Dir: /mnt/vda1/var/lib/docker/aufs
- Backing Filesystem: extfs
- Dirs: 2
- Dirperm1 Supported: true
-Execution Driver: native-0.2
-Logging Driver: json-file
-Kernel Version: 4.0.5-boot2docker
-Operating System: Boot2Docker 1.7.0 (TCL 6.3); master : 7960f90 - Thu Jun 18 18:31:45 UTC 2015
-(略)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;できた．&lt;/p&gt;
-
-&lt;h2 id=&#34;boot2docker-xhyveの使い方&#34;&gt;boot2docker-xhyveの使い方&lt;/h2&gt;
-
-&lt;p&gt;makeコマンドはboot2docker-xhyveディレクトリへ移動してから叩く&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;起動&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ make run
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;または&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo ./xhyverun.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;停止&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ make halt
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;またはTiny Coreへログインして&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo halt
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Tiny Coreへログイン&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ make ssh
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;ユーザ/パスワードは docker/tcuser だが入力は自動でやってくれる．&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;tips&#34;&gt;Tips&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;環境変数DOCKER_HOSTをいちいち設定するのが面倒&lt;br /&gt;
-.bashrcなり.zshrcなりに以下を追記(pathは環境に合わせて書き変える)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;b2d_xhyve_root=&amp;quot;/path/to/boot2docker-xhyve&amp;quot;
-if [ -f ${b2d_xhyve_root}/.mac_address ]; then
-  export DOCKER_HOST=tcp://`${b2d_xhyve_root}/uuid2ip/mac2ip.sh $(cat ${b2d_xhyve_root}/.mac_address)`:2375
-fi
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;起動，停止も面倒&lt;br /&gt;
-同様に以下を追記&lt;br /&gt;
-&lt;code&gt;start-docker&lt;/code&gt;で起動，&lt;code&gt;halt-docker&lt;/code&gt;で停止&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;alias start-docker=&#39; \
-  pushd ${b2d_xhyve_root} &amp;gt;/dev/null; \
-  make run; \
-  popd &amp;gt;/dev/null&#39;
-alias halt-docker=&#39; \
-  pushd ${b2d_xhyve_root} &amp;gt;/dev/null; \
-  make halt; \
-  popd &amp;gt;/dev/null&#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;</description>
     </item>
     
   </channel>
