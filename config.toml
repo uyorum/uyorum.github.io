@@ -23,4 +23,4 @@ googleAnalytics = "UA-43857839-1"
   email = "uyorum.pub@gmail.com"
 
 [permalinks]
-  post = "/blog/:year/:month/:day/:filename/"
+  post = "/blog/:filename/"

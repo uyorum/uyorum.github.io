@@ -84,11 +84,15 @@ $ echo '// example_script.js' >  vendor/assets/javascripts/example_script.js
 $ echo '/* example_style.css */' > vendor/assets/stylesheets/example_style.css
 ```
 
-``` javascript:app/assets/javascripts/application.js
+* app/assets/javascripts/application.js
+
+``` javascript
 //= require example_script
 ```
 
-``` css:app/assets/stylesheets/application.css
+* app/assets/stylesheets/application.css
+
+``` css
 /*
  *= require example_style
  */
@@ -141,17 +145,23 @@ production環境では動的にアセットを処理することはなく，事�
 ## プリコンパイル
 RailsをProdution環境で動作させるには事前にプリコンパイルを行なう必要がある．そのためのRakeタスクがあらかじめ用意されており，コマンドひとつでプリコンパイルは完了する．
 
-``` javascript:app/assets/javascripts/application.js
+* app/assets/javascripts/application.js
+
+``` javascript
 //= require example_script
 var application = foo;
 ```
 
-``` javascript:app/assets/javascripts/example_script.js
+* app/assets/javascripts/example_script.js
+
+``` javascript
 // example_script.js
 var example_script = bar;
 ```
 
-``` css:app/assets/stylesheets/application.css
+* app/assets/stylesheets/application.css
+
+``` css
 /*
  *= require example_style
  */
@@ -160,7 +170,9 @@ h1 {
 }
 ```
 
-``` css:app/assets/stylesheets/example_style.css
+* app/assets/stylesheets/example_style.css
+
+``` css
 /* example_style.css */
 h2 {
   font-size: 1.2em;
@@ -175,8 +187,7 @@ I, [2017-03-05T16:32:17.558124 #10704]  INFO -- : Writing /Users/uyorum/play-rub
 I, [2017-03-05T16:32:17.558406 #10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css.gz
 ```
 
-なお，`config.assets.digest = false`を設定しているにも関わらずファイル名にダイジェストが含まれてしまうのは仕様のようだ．  
-参考: [Rails4のdigestにまつわる論争 - Qiita](http://qiita.com/munazo/items/15f9c143bc4ecdd74220)
+なお，`config.assets.digest = false`を設定しているにも関わらずファイル名にダイジェストが含まれてしまうのは仕様のようだ．[^1]
 
 production環境でRailsを起動してアクセスしてみるとレスポンスは以下のようになっている．(環境変数`SECRET_KEY_BASE`と`RAILS_SERVE_STATIC_FILES`についての説明はここでは省略する．)
 
@@ -224,11 +235,15 @@ var example_script=bar,application=foo;
 `application.js`と`application.css`にインクルードしてアセットを配信するのならこれでよいのだが，そうでない場合(特定のページでだけでアセットを配信したい場合など)は注意が必要である．
 例として`application.js`にはインクルードしないJavaScriptコード(`addon_script.js`)をひとつ追加して`application.html.erb`にエントリを追加する
 
-``` javascript:app/assets/javascripts/addon_script.js
+* app/assets/javascripts/addon_script.js
+
+``` javascript
 var addon_script = hoge;
 ```
 
-``` html:app/views/layouts/application.html.erb
+* app/views/layouts/application.html.erb
+
+``` html
 <!DOCTYPE html>
 <html>
 <head>
@@ -250,6 +265,7 @@ var addon_script = hoge;
 
 ``` shell
 $ RAILS_ENV=production bundle exec rake assets:precompile
+(何も出力されない)
 ```
 
 なぜこのようなことが起こるかというと，Assets Pipelineにはインクルードされたアセットの探索パス(`config.assets.paths`)とは別にプリコンパイル対象とするアセットの探索パスが設定されているためである．
@@ -278,3 +294,5 @@ I, [2017-03-05T17:19:41.051197 #45578]  INFO -- : Writing /Users/uyorum/play-rub
 * [アセットパイプライン(Asset Pipeline) - - Railsドキュメント](http://railsdoc.com/asset_pipeline)
 * [Rails Asset Pipelineがうまくいかないときの問題の切り分けかた - Qiita](http://qiita.com/metheglin/items/c5c756246b7afbd34ae2)
 * [Only compile non-js/css under app/assets by default by josh · Pull Request #7968 · rails/rails](https://github.com/rails/rails/pull/7968)
+
+[^1]: [Rails4のdigestにまつわる論争 - Qiita](http://qiita.com/munazo/items/15f9c143bc4ecdd74220)
