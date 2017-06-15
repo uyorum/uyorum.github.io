@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://uyorum.github.io/blog/infrastructure-as-code-chap3/</loc>
+    <lastmod>2017-06-15T23:14:55+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://uyorum.github.io/blog/infrastructure-as-code-chap2/</loc>
     <lastmod>2017-06-12T20:48:25+09:00</lastmod>
   </url>
@@ -164,13 +169,13 @@
   
   <url>
     <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2017-06-12T20:48:25+09:00</lastmod>
+    <lastmod>2017-06-15T23:14:55+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://uyorum.github.io/</loc>
-    <lastmod>2017-06-12T20:48:25+09:00</lastmod>
+    <lastmod>2017-06-15T23:14:55+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -181,7 +186,7 @@
   
   <url>
     <loc>http://uyorum.github.io/post/</loc>
-    <lastmod>2017-06-12T20:48:25+09:00</lastmod>
+    <lastmod>2017-06-15T23:14:55+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -199,7 +204,7 @@
   
   <url>
     <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2017-06-12T20:48:25+09:00</lastmod>
+    <lastmod>2017-06-15T23:14:55+09:00</lastmod>
     <priority>0</priority>
   </url>
   
