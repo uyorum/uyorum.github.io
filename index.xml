@@ -14,30 +14,30 @@
     
     <item>
       <title>Infrastructure as Code 感想 (2章)</title>
-      <link>http://uyorum.github.io/blog/2017/06/12/infrastructure-as-code-chap2/</link>
+      <link>http://uyorum.github.io/blog/infrastructure-as-code-chap2/</link>
       <pubDate>Mon, 12 Jun 2017 20:48:25 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/06/12/infrastructure-as-code-chap2/</guid>
+      <guid>http://uyorum.github.io/blog/infrastructure-as-code-chap2/</guid>
       <description> オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．斜字体になっているのは本文からの引用．
 ダイナミックインフラストラクチャの要件  NISTのクラウドの要件より広い．  「オンプレミスで，ただひとつのシステムを稼動させるためのインフラ」も考慮に入れているからだろう   プラットフォームから提供されるリソース  計算リソース ストレージリソース  ブロックストレージ オブジェクトストレージ ネットワーク化されたファイルシステム  NFS，SMB  これらのテクノロジは，サーバーが頻繁に追加，削除されるような環境にはうまく適合しない  GlusterFS，HDFS，Ceph  上記の課題に対応できるよう設計されているが，自分の環境でそれがうまくいっていることをきちんとテストすることが重要 代わりにアプリケーションレベルやブロックレベルのレプリケーションで事足りる場合もある    ネットワークリソース  特定のデバイスが高価過ぎて，チームがテストインスタンスを確保できない場合がある．そのような状況に置かれたチームは，優先順位を考えてもっと安いデバイスを使うようにすべきだ  確かに，結局のところ同じハードを同じだけ用意しないとテストできないのだが，そのために使うデバイスを安いものにしろ，という言説は初めて見た．だいたいは仮想化してお茶を濁すのに．    独自クラウドを構築するためのトータルコスト  既存のインフラ，データセンター，知識にかけたコストも自前のホスティングを続ける理由としてよく挙げられる．(中略) しかし，これはサンクコストの呪縛というものだ．  クラウドのポータビリティ  クラウドインフラへの移行を計画するときによく浮上する要件のひとつに，ひとつのクラウドベンダーによる囲い込みを避けるというものがある．(中略) しかし，この要件に時間と金を注ぎ込みすぎないよう注意しなければならない  確かに，クラウドの一部の機能をサードパーティ製のツールで置き換えたところで依然として移行のコストは大きいし，だいたいの場合は運用のコストが上がる あるクラウドでのやり方が(将来にわたって)それが別のクラウドでそのまま利用できるとは限らない  例えば，TerraformでEC2とGCEにインスタンスを作るだけで全く文法が違う(Terraformの批判をしているわけではない) クラウドやツールが将来仕様変更をするかもしれないし  サードパーティ製のものを使うことでよりよりワークフローを得られる可能性がある場合は検討すべき(CodeCommitとCodeBuildの代わりにGithubとTravisCIとか)  自動テストプロセスを継続して維持・使用することで，自信をもって移行を実施できるようにしておくのが現実的な方策  クラウドと仮想マシンに対するマシンレベルの共感  そのプラットフォームで最大のパフォーマンスを引き出すための話？ 必要性は分かるが，ポータビリティとは真逆の話に見える  あまりにそのクラウドに最適化してしまうとポータビリティを落とす要因になりそう  オンプレの場合でも，構成に応じて最適化しつつそれらを管理するのは大変そう．妥協して汎用的なサーバーを横に並べる形になりそう  参考文献  Kief Morris, Infrastructure as Code クラウドにおけるサーバ管理の原則とプラクティス, 長尾高弘訳, オライリー・ジャパン, 2017  </description>
     </item>
     
     <item>
       <title>Infrastructure as Code 感想 (1章)</title>
-      <link>http://uyorum.github.io/blog/2017/06/11/infrastructure-as-code-chap1/</link>
+      <link>http://uyorum.github.io/blog/infrastructure-as-code-chap1/</link>
       <pubDate>Sun, 11 Jun 2017 19:05:42 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/06/11/infrastructure-as-code-chap1/</guid>
+      <guid>http://uyorum.github.io/blog/infrastructure-as-code-chap1/</guid>
       <description> オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．斜字体になっているのは本文からの引用．
 Infrastructure as Codeの目標  ざっくり言うと「(頻繁な)変化に柔軟に対応できるようになること」ということかなと思った そのために  システム変更が日常茶飯事の出来事になること 失敗を完全に防ぐという前提は捨てる．失敗しても素早く修正できるようになることを目指す 反復的なタスクは自動化すること 継続的な改善をすること  会議やドキュメントでソリューションを論ずることなく，実装，テスト，計測を通じてソリューションの効果が証明できるようになること  Infrastructure as Codeでこれを目指す，というのがピンと来なかった   課題  サーバースプロール，構成ドリフト，スノーフレークサーバーは自分の環境ではほとんどないかな  いちおうChefを使っている ロールごとにVMを作成して役割が混ざらないようにしている  オートメーション恐怖症…これはある  サーバーに統一性がない→オートメーションにより何かが壊れないかが心配→オートメーションツールの外で変更を加える→… の悪循環 この循環から抜けるには「自動化された変更」のリリースプロセスの確立とテストの充実が必要になると最近は考えている  「この変更」を「この方法」で適用するのは安全である，と自動的に言えるようになればいい   ペットから家畜へ  数年前からよく聞くようになった サーバ名にテーマを設け，自分がプロビジョニングした新しいサーバーの名前をじっくり考えていた時代が懐しい．しかし，担当するすべてのサーバーを手作業で調整し，サーバーのご期限をうかがわなけれあならなかった時代は懐しくない  おもしろい    統一的なシステム  一部のサーバーでより大きなディスクが必要になった場合  すべてのサーバーを同じように拡張する xl-file-serverのような新しいロールを追加する  自分だと深く考えずに(ロールを分けずに)そのサーバーだけ拡張してしまいそうだと思った(ディスクサイズだけ変数化しておけばいいじゃん)  その些細な差異が積み重なって管理システムと人に負荷を与えることになる．気をつけたい   反復的なシステム  「パーティションの分割」のような些細なタスクであろうとも，手動でやってしまうと差異が生じる可能性がある．  サイズ，ファイルシステム，そのパラメータ etc.  スクリプトで実行できるシステムはかならずスクリプトにする  そして，将来同様のタスクをするとになったときにそのスクリプトを使う ←これが難しい．スクリプトを書くだけでなく管理システムに組み込まなければならない  スクリプトにするのが難しい場合は問題を掘り下げて，役に立つテクニックやツールがないか，別の方法がないかを検討する  継続的にサービスを利用可能状態に保つ  永続化が必要なデータの定義を広げることが大切．通常はアプリケーションの構成/設定，ログファイルなども保護対象に含める  サーバーを家畜のように扱うことを前提に，サーバー上のほとんどの情報はいつ失われてもよい状態にしておく   参考文献  Kief Morris, Infrastructure as Code クラウドにおけるサーバ管理の原則とプラクティス, 長尾高弘訳, オライリー・ジャパン, 2017  </description>
     </item>
     
     <item>
       <title>Home AssistantとAmazon Dash Buttonを連携させる</title>
-      <link>http://uyorum.github.io/blog/2017/06/10/home-assistant-with-dash-button/</link>
+      <link>http://uyorum.github.io/blog/home-assistant-with-dash-button/</link>
       <pubDate>Sat, 10 Jun 2017 20:20:04 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/06/10/home-assistant-with-dash-button/</guid>
+      <guid>http://uyorum.github.io/blog/home-assistant-with-dash-button/</guid>
       <description>Amazon Dash Button間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．
 Amazon Dash Buttonのハック ネットに情報は溢れているため詳しい説明は省略する．
 本来のAmazon Dash Buttonはボタンを押すことであらかじめ設定した商品を注文するためのものだが，その過程で発生するパケットをトリガーに利用して， ボタンを押すことで任意の処理を実行させようというもの．
@@ -52,10 +52,10 @@ Amazon Dash Component? · Issue #484 · home-assistant/home-assistant
     
     <item>
       <title>Home Assistantで人感センサーを使って照明を自動点灯する</title>
-      <link>http://uyorum.github.io/blog/2017/04/23/home-assistant-gpio/</link>
+      <link>http://uyorum.github.io/blog/home-assistant-gpio/</link>
       <pubDate>Sun, 23 Apr 2017 21:33:54 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/04/23/home-assistant-gpio/</guid>
+      <guid>http://uyorum.github.io/blog/home-assistant-gpio/</guid>
       <description>Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．
 使用製品 今回使用するセンサー，機器は以下の通り
  Raspbery Pi 2 Model B
@@ -73,10 +73,10 @@ Raspbian jessie liteの上にHome Assistantをインストール済み
     
     <item>
       <title>Home Assistantでつくるホームオートメーション(導入編)</title>
-      <link>http://uyorum.github.io/blog/2017/04/22/home-assistant-install/</link>
+      <link>http://uyorum.github.io/blog/home-assistant-install/</link>
       <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/04/22/home-assistant-install/</guid>
+      <guid>http://uyorum.github.io/blog/home-assistant-install/</guid>
       <description>ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて
 Home Assitantとは  Home Assistant home-assistant/home-assistant: Open-source home automation platform running on Python 3  ホームオートメーションを実現するためのソフトウェア．Githubで開発されており，Python3で書かれている． 様々なサービス，センサー，家電に対応しておりブラウザでそれらの状態を確認，操作するためのUIが提供されている． また，特定のトリガーとアクションをあらかじめ定義しておくことでそれらを自動制御することもできる．
 同様のソフトウェアとして，以下のようなソフトウェアもある
@@ -91,10 +91,10 @@ systemdのユニットファイルも提供されている．自分は多少変�
     
     <item>
       <title>Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作</title>
-      <link>http://uyorum.github.io/blog/2017/03/01/rails-asset-pipeline-1/</link>
+      <link>http://uyorum.github.io/blog/rails-asset-pipeline-1/</link>
       <pubDate>Wed, 01 Mar 2017 23:01:28 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/03/01/rails-asset-pipeline-1/</guid>
+      <guid>http://uyorum.github.io/blog/rails-asset-pipeline-1/</guid>
       <description>Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった． いろいろと知識を詰め込んだので復習も兼ねてまとめていく． おそらくRailsを使い慣れている人にとっては基本的すぎる内容．
 環境 $ ruby -v geruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-darwin15] $ gem list -l ^rails$ *** LOCAL GEMS *** rails (4.2.8)  アセットとは 定義が見つからなかったが，おそらく以下のような感じ．
 Railsのサーバから配信するコンテンツのうち，Viewにより生成されたもの以外  具体的にはJavaScript，CSS，画像ファイルなど．あまりないだろうが，静的なhtmlもこれらと同様に扱うことはできそう．
@@ -110,10 +110,10 @@ $ cat /dev/null &amp;gt; app/assets/javascripts/application.js $ cat /dev/null &
     
     <item>
       <title>Erato Audio Apollo7 レビュー</title>
-      <link>http://uyorum.github.io/blog/2016/10/09/apollo7-1/</link>
+      <link>http://uyorum.github.io/blog/apollo7-1/</link>
       <pubDate>Sun, 09 Oct 2016 17:39:14 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2016/10/09/apollo7-1/</guid>
+      <guid>http://uyorum.github.io/blog/apollo7-1/</guid>
       <description>Erato Audio社の完全ワイヤレスイヤホンApollo7を買って1週間ほど使ったので使用感とかレビューを書いておきます．
 なぜ今買ったか 完全ワイヤレスイヤホンという分野を知ったのは2014年にKickstarterでEARINが発表されたときでした． そのときは非常に気になっていたのですが，スペック的にいくつか気になるところもあり，まだ新しい分野でもあったので買うのはもう少し製品が成熟してからにしようと思って手を出しませんでした． 以降はこの分野については特にウォッチはせずに忘れていたのですが，最近AppleからAirPodsが発表されたのを見て思い出して再度調べてみたのがきっかけでした． いくつかのメーカーから同様の製品が発売されていることを知り，その中でよさそうなApolloo7を選択しました．
 なぜApollo7を選択したか とりあえず2ちゃんねるの該当スレで評判を見ていきました． ざっと眺めたところ，スレ内ではEARIN，Apollo7，The Dashがよく話題に挙がる機種のようでした． 各機種の特徴と評判は以下の通り．
@@ -126,10 +126,10 @@ EARIN  BA型ドライバを搭載 人の多いところで接続が切れやす�
     
     <item>
       <title>XtraBackupによるバックアップ設計</title>
-      <link>http://uyorum.github.io/blog/2016/09/12/xtrabackup-1/</link>
+      <link>http://uyorum.github.io/blog/xtrabackup-1/</link>
       <pubDate>Mon, 12 Sep 2016 19:19:36 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2016/09/12/xtrabackup-1/</guid>
+      <guid>http://uyorum.github.io/blog/xtrabackup-1/</guid>
       <description>&lt;p&gt;最近，自宅で動かしているとあるサービスのMariaDBのバックアップを取ろうとふと思い立った．
 使ったことがなかったのでXtraBackupでバックアップ設計することにした．&lt;/p&gt;
 
@@ -138,10 +138,10 @@ EARIN  BA型ドライバを搭載 人の多いところで接続が切れやす�
     
     <item>
       <title>CROSS2016 まとめ</title>
-      <link>http://uyorum.github.io/blog/2016/02/06/cross2016/</link>
+      <link>http://uyorum.github.io/blog/cross2016/</link>
       <pubDate>Sat, 06 Feb 2016 20:44:03 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2016/02/06/cross2016/</guid>
+      <guid>http://uyorum.github.io/blog/cross2016/</guid>
       <description>&lt;p&gt;メモ&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -149,10 +149,10 @@ EARIN  BA型ドライバを搭載 人の多いところで接続が切れやす�
     
     <item>
       <title>Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する</title>
-      <link>http://uyorum.github.io/blog/2015/11/09/get-ip-in-hyperv/</link>
+      <link>http://uyorum.github.io/blog/get-ip-in-hyperv/</link>
       <pubDate>Mon, 09 Nov 2015 23:28:41 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/11/09/get-ip-in-hyperv/</guid>
+      <guid>http://uyorum.github.io/blog/get-ip-in-hyperv/</guid>
       <description>&lt;p&gt;「内部ネットワーク」を使用している場合，Hyper-VのGuestOSはDHCPでIPアドレスが振られる．
 HostからGuestへアクセスするときにアドレスが変わると困る．
 Guestを固定アドレスにすればいいのかも知れないが，何かの拍子でセグメントが変わったら面倒なので自動で取得できるようする．&lt;/p&gt;
@@ -162,10 +162,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>ffmpeg(avconv)でmp3からブランクスクリーン(黒)のmp4を作成する</title>
-      <link>http://uyorum.github.io/blog/2015/10/15/create-blank-video-with-ffmpeg/</link>
+      <link>http://uyorum.github.io/blog/create-blank-video-with-ffmpeg/</link>
       <pubDate>Thu, 15 Oct 2015 21:15:02 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/10/15/create-blank-video-with-ffmpeg/</guid>
+      <guid>http://uyorum.github.io/blog/create-blank-video-with-ffmpeg/</guid>
       <description>&lt;p&gt;逆(mp4からmp3を抽出する)はよく見つかるけど日本語の情報がなかったのでまとめておく．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -173,10 +173,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>CoreOS入門1 etcd</title>
-      <link>http://uyorum.github.io/blog/2015/09/04/learning-coreos-01/</link>
+      <link>http://uyorum.github.io/blog/learning-coreos-01/</link>
       <pubDate>Fri, 04 Sep 2015 23:01:54 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/09/04/learning-coreos-01/</guid>
+      <guid>http://uyorum.github.io/blog/learning-coreos-01/</guid>
       <description>&lt;p&gt;最近CoreOSを触りはじめたので学んだことをまとめていく．まずはetcdから．
 最終的にはKubernetesでCoreOSをコントロールするところまでいきたいなーと思ってるが，いつになることやら．&lt;/p&gt;
 
@@ -185,10 +185,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>YAPC::Asia Tokyo 2015に行ってきた</title>
-      <link>http://uyorum.github.io/blog/2015/08/23/yapc2015/</link>
+      <link>http://uyorum.github.io/blog/yapc2015/</link>
       <pubDate>Sun, 23 Aug 2015 21:12:10 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/08/23/yapc2015/</guid>
+      <guid>http://uyorum.github.io/blog/yapc2015/</guid>
       <description>&lt;p&gt;YAPC::Asia Tokyo 2015に行ってきたのでまとめ&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -196,10 +196,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>Go言語のお勉強 その4</title>
-      <link>http://uyorum.github.io/blog/2015/08/02/learning-go-04/</link>
+      <link>http://uyorum.github.io/blog/learning-go-04/</link>
       <pubDate>Sun, 02 Aug 2015 22:17:45 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/08/02/learning-go-04/</guid>
+      <guid>http://uyorum.github.io/blog/learning-go-04/</guid>
       <description>&lt;p&gt;4日目&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -207,10 +207,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>Go言語のお勉強 その3</title>
-      <link>http://uyorum.github.io/blog/2015/08/02/learning-go-03/</link>
+      <link>http://uyorum.github.io/blog/learning-go-03/</link>
       <pubDate>Sun, 02 Aug 2015 01:19:12 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/08/02/learning-go-03/</guid>
+      <guid>http://uyorum.github.io/blog/learning-go-03/</guid>
       <description>&lt;p&gt;今日の分．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -218,10 +218,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>Go言語のお勉強 その2</title>
-      <link>http://uyorum.github.io/blog/2015/07/29/learning-go-02/</link>
+      <link>http://uyorum.github.io/blog/learning-go-02/</link>
       <pubDate>Wed, 29 Jul 2015 23:07:42 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/07/29/learning-go-02/</guid>
+      <guid>http://uyorum.github.io/blog/learning-go-02/</guid>
       <description>&lt;p&gt;今日のまとめ&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -229,10 +229,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>Go言語のお勉強 その1</title>
-      <link>http://uyorum.github.io/blog/2015/07/29/learning-go-01/</link>
+      <link>http://uyorum.github.io/blog/learning-go-01/</link>
       <pubDate>Wed, 29 Jul 2015 00:30:49 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/07/29/learning-go-01/</guid>
+      <guid>http://uyorum.github.io/blog/learning-go-01/</guid>
       <description>&lt;p&gt;Go言語を勉強中．今日やったことまとめ．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -240,10 +240,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP</title>
-      <link>http://uyorum.github.io/blog/2015/07/24/hotp/</link>
+      <link>http://uyorum.github.io/blog/hotp/</link>
       <pubDate>Fri, 24 Jul 2015 22:57:11 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/07/24/hotp/</guid>
+      <guid>http://uyorum.github.io/blog/hotp/</guid>
       <description>&lt;p&gt;今後，OTPを扱うことになりそうなので予習しておく．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -251,10 +251,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>MacのxhyveでDockerを使う</title>
-      <link>http://uyorum.github.io/blog/2015/07/21/boot2docker-xhyve/</link>
+      <link>http://uyorum.github.io/blog/boot2docker-xhyve/</link>
       <pubDate>Tue, 21 Jul 2015 23:52:37 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/07/21/boot2docker-xhyve/</guid>
+      <guid>http://uyorum.github.io/blog/boot2docker-xhyve/</guid>
       <description>&lt;p&gt;xhyve(いまだに発音がわからない)の仕組みは全く理解してないけど，xhyveとboot2dockerを使ってdockerコマンドを叩くまで．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -262,10 +262,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>最近のBerkshelfの使い方(2015)</title>
-      <link>http://uyorum.github.io/blog/2015/07/16/how-to-berkshelf/</link>
+      <link>http://uyorum.github.io/blog/how-to-berkshelf/</link>
       <pubDate>Thu, 16 Jul 2015 21:50:16 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/07/16/how-to-berkshelf/</guid>
+      <guid>http://uyorum.github.io/blog/how-to-berkshelf/</guid>
       <description>&lt;p&gt;今さらながらBerkshelfを使ったのだけれどネットには最新の情報がなくて習得に手こずったのでまとめておく。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -273,10 +273,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>DD-WRTでOpenVPNの設定</title>
-      <link>http://uyorum.github.io/blog/2015/03/29/openvpn-on-dd-wrt/</link>
+      <link>http://uyorum.github.io/blog/openvpn-on-dd-wrt/</link>
       <pubDate>Sun, 29 Mar 2015 20:56:18 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/03/29/openvpn-on-dd-wrt/</guid>
+      <guid>http://uyorum.github.io/blog/openvpn-on-dd-wrt/</guid>
       <description>&lt;p&gt;色々はまったのでメモ。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -284,10 +284,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>Octopressセットアップメモ</title>
-      <link>http://uyorum.github.io/blog/2015/02/22/setup-octopress/</link>
+      <link>http://uyorum.github.io/blog/setup-octopress/</link>
       <pubDate>Sun, 22 Feb 2015 22:16:12 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/02/22/setup-octopress/</guid>
+      <guid>http://uyorum.github.io/blog/setup-octopress/</guid>
       <description>&lt;p&gt;わけあってOctopress環境を作り直したのでメモ&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -295,10 +295,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>Xmonadのmodキーを半角/全角キーに変更する</title>
-      <link>http://uyorum.github.io/blog/2015/02/22/xmonad-change-modmask/</link>
+      <link>http://uyorum.github.io/blog/xmonad-change-modmask/</link>
       <pubDate>Sun, 22 Feb 2015 19:04:51 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2015/02/22/xmonad-change-modmask/</guid>
+      <guid>http://uyorum.github.io/blog/xmonad-change-modmask/</guid>
       <description>&lt;p&gt;Xmonadを使い始めました．
 いろいろ設定方法を紹介しているページは見つかるのですがmodキーをAltまたはWindowsキー以外に設定する方法が見つからなかったのでメモ．&lt;/p&gt;
 
@@ -307,10 +307,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>Octopressでmarkdownのファイル名規則を変更する</title>
-      <link>http://uyorum.github.io/blog/2014/04/22/custom-octopress/</link>
+      <link>http://uyorum.github.io/blog/custom-octopress/</link>
       <pubDate>Tue, 22 Apr 2014 23:10:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2014/04/22/custom-octopress/</guid>
+      <guid>http://uyorum.github.io/blog/custom-octopress/</guid>
       <description>&lt;p&gt;少しいじりました．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -318,10 +318,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>RaspeberryPi用のGoogle製Web開発プラットフォームCoder for RaspberryPiを導入してみた</title>
-      <link>http://uyorum.github.io/blog/2013/10/06/coder-for-pi/</link>
+      <link>http://uyorum.github.io/blog/coder-for-pi/</link>
       <pubDate>Sun, 06 Oct 2013 11:20:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2013/10/06/coder-for-pi/</guid>
+      <guid>http://uyorum.github.io/blog/coder-for-pi/</guid>
       <description>&lt;p&gt;先日リリースされたCoder for RaspberryPiを導入してみたのでその手順をまとめておきます．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -329,10 +329,10 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
     
     <item>
       <title>Intel DC3217IYEへVMware vSphere hypervisor5.5をインストールする</title>
-      <link>http://uyorum.github.io/blog/2013/09/24/esxi-03/</link>
+      <link>http://uyorum.github.io/blog/esxi-03/</link>
       <pubDate>Tue, 24 Sep 2013 22:01:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2013/09/24/esxi-03/</guid>
+      <guid>http://uyorum.github.io/blog/esxi-03/</guid>
       <description>&lt;p&gt;先日購入したDC3217IYEにVMware vSphere hypervisorをインストールしようとしたところドライバがないと言われました．
 IntelのNICだから認識するだろうとタカをくくっていましたがダメでした．方法を調べたので手順をまとめておきます．&lt;/p&gt;
 
@@ -341,10 +341,10 @@ IntelのNICだから認識するだろうとタカをくくっていましたが
     
     <item>
       <title>IntelのNUCベアボーン DC3217IYE を買いました</title>
-      <link>http://uyorum.github.io/blog/2013/09/23/esxi-02/</link>
+      <link>http://uyorum.github.io/blog/esxi-02/</link>
       <pubDate>Mon, 23 Sep 2013 22:58:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2013/09/23/esxi-02/</guid>
+      <guid>http://uyorum.github.io/blog/esxi-02/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;http://uyorum.github.io/blog/2013/09/23/esxi-01/&#34;&gt;前回&lt;/a&gt;の続きです．
 ESXiをインストールするために購入したIntelのNUCベアボーン DC3217IYE が届いたので軽くレビューしておきます．&lt;/p&gt;
 
@@ -353,10 +353,10 @@ ESXiをインストールするために購入したIntelのNUCベアボーン D
     
     <item>
       <title>ESXiサーバ構築誌 - 機器構成</title>
-      <link>http://uyorum.github.io/blog/2013/09/23/esxi-01/</link>
+      <link>http://uyorum.github.io/blog/esxi-01/</link>
       <pubDate>Mon, 23 Sep 2013 22:28:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2013/09/23/esxi-01/</guid>
+      <guid>http://uyorum.github.io/blog/esxi-01/</guid>
       <description>&lt;p&gt;かねてから自宅サーバ兼，検証用マシン用にESXiサーバが自宅にほしいと思っていました．
 しかし，なかなかハードウェアが決まらず二の足を踏んでいたのですが，たまたまネットを眺めていたらなかなかよい構成を
 思いついたので構築に踏みきることにしました．
@@ -367,10 +367,10 @@ ESXiをインストールするために購入したIntelのNUCベアボーン D
     
     <item>
       <title>RPMコマンドのオプション</title>
-      <link>http://uyorum.github.io/blog/2013/09/21/about-rpm/</link>
+      <link>http://uyorum.github.io/blog/about-rpm/</link>
       <pubDate>Sat, 21 Sep 2013 21:59:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2013/09/21/about-rpm/</guid>
+      <guid>http://uyorum.github.io/blog/about-rpm/</guid>
       <description>&lt;p&gt;最近LPIC-1を取ろうと勉強中です．
 その中でRedHat系のパッケージ操作コマンドであるrpmコマンドのオプションについて出てきたので備忘録のためにまとめておくことにします．&lt;/p&gt;
 
@@ -379,10 +379,10 @@ ESXiをインストールするために購入したIntelのNUCベアボーン D
     
     <item>
       <title>org-googlecl.elの導入と改造</title>
-      <link>http://uyorum.github.io/blog/2013/09/21/install-org-googlecl/</link>
+      <link>http://uyorum.github.io/blog/install-org-googlecl/</link>
       <pubDate>Sat, 21 Sep 2013 09:55:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2013/09/21/install-org-googlecl/</guid>
+      <guid>http://uyorum.github.io/blog/install-org-googlecl/</guid>
       <description>&lt;p&gt;EmacsからBloggerに直接投稿できる上にorg-modeの文法が利用できるorg-googlecl.elをむかし導入しました．
 さっそく試してみたところ文章がやたらと改行されていたのでそれを直すためにorg-googlecl.elを改造しました．
 そのログが残っていたのでとりあえずあげておきます．
@@ -393,10 +393,10 @@ ESXiをインストールするために購入したIntelのNUCベアボーン D
     
     <item>
       <title>Android上でDebianを動かす</title>
-      <link>http://uyorum.github.io/blog/2013/09/20/debian-on-android/</link>
+      <link>http://uyorum.github.io/blog/debian-on-android/</link>
       <pubDate>Fri, 20 Sep 2013 22:44:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2013/09/20/debian-on-android/</guid>
+      <guid>http://uyorum.github.io/blog/debian-on-android/</guid>
       <description>&lt;p&gt;AndroidでもEmacsと戯れたかったので調べてみました．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -404,10 +404,10 @@ ESXiをインストールするために購入したIntelのNUCベアボーン D
     
     <item>
       <title>はじめまして</title>
-      <link>http://uyorum.github.io/blog/2013/09/20/first-post/</link>
+      <link>http://uyorum.github.io/blog/first-post/</link>
       <pubDate>Fri, 20 Sep 2013 22:42:00 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2013/09/20/first-post/</guid>
+      <guid>http://uyorum.github.io/blog/first-post/</guid>
       <description>ブログを始めました． 日々の作業や調べたことをログを兼ねてアップしていこうと思います．
 これからよろしくお願いします．</description>
     </item>

@@ -14,10 +14,10 @@
     
     <item>
       <title>Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作</title>
-      <link>http://uyorum.github.io/blog/2017/03/01/rails-asset-pipeline-1/</link>
+      <link>http://uyorum.github.io/blog/rails-asset-pipeline-1/</link>
       <pubDate>Wed, 01 Mar 2017 23:01:28 +0900</pubDate>
       
-      <guid>http://uyorum.github.io/blog/2017/03/01/rails-asset-pipeline-1/</guid>
+      <guid>http://uyorum.github.io/blog/rails-asset-pipeline-1/</guid>
       <description>Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった． いろいろと知識を詰め込んだので復習も兼ねてまとめていく． おそらくRailsを使い慣れている人にとっては基本的すぎる内容．
 環境 $ ruby -v geruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-darwin15] $ gem list -l ^rails$ *** LOCAL GEMS *** rails (4.2.8)  アセットとは 定義が見つからなかったが，おそらく以下のような感じ．
 Railsのサーバから配信するコンテンツのうち，Viewにより生成されたもの以外  具体的にはJavaScript，CSS，画像ファイルなど．あまりないだろうが，静的なhtmlもこれらと同様に扱うことはできそう．
