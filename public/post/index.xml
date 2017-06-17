@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Thu, 15 Jun 2017 23:14:55 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 17 Jun 2017 18:17:36 +0900</lastBuildDate>
     
 	<atom:link href="http://uyorum.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Infrastructure as Code 感想 (4章)</title>
+      <link>http://uyorum.github.io/blog/infrastructure-as-code-chap4/</link>
+      <pubDate>Sat, 17 Jun 2017 18:17:36 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/infrastructure-as-code-chap4/</guid>
+      <description>&lt;p&gt;オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．&lt;strong&gt;太字は自分の感想&lt;/strong&gt;， &lt;em&gt;斜字体は本からの引用&lt;/em&gt; ，そのほかは本の要約など．&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Infrastructure as Code 感想 (3章)</title>
