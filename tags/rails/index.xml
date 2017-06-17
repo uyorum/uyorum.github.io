@@ -18,17 +18,11 @@
       <pubDate>Wed, 01 Mar 2017 23:01:28 +0900</pubDate>
       
       <guid>http://uyorum.github.io/blog/rails-asset-pipeline-1/</guid>
-      <description>Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった． いろいろと知識を詰め込んだので復習も兼ねてまとめていく． おそらくRailsを使い慣れている人にとっては基本的すぎる内容．
-環境 $ ruby -v geruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-darwin15] $ gem list -l ^rails$ *** LOCAL GEMS *** rails (4.2.8)  アセットとは 定義が見つからなかったが，おそらく以下のような感じ．
-Railsのサーバから配信するコンテンツのうち，Viewにより生成されたもの以外  具体的にはJavaScript，CSS，画像ファイルなど．あまりないだろうが，静的なhtmlもこれらと同様に扱うことはできそう．
-アセットパイプラインとは サーバ上に存在するアセットをクライアントへ配信する仕組みのこと．アセットパイプラインはsprockets-railsgemにより提供されている．配信までの途中でいくつかの処理を経る場合がほとんど．例えば以下．
- JavaScriptおよびCSSの結合，最小化 ブラウザが理解しない書式(CoffeeScript, SASS, ERBなど)で書かれたコードを素のコードへ変換する ファイル名へMD5ダイジェストの付与 アセットの圧縮  それぞれの処理の内容はアセットパイプライン | Rails ガイドが詳しいので省略する
-いくつかの処理はRailsが動作するモード(Environment)により異なる．
-通常，アセットは{app,lib,vendor}/assets/{javascripts,stylesheets,images}のいずれかに配置する． それぞれの使い分けは下記を参照
-2.2 アセットの編成 - アセットパイプライン | Rails ガイド
-以下，簡単のためconfig.assets.digest = falseを設定する(ファイル名にダイジェストが含まれなくなる)
-インクルード 通常，クライアントへ配信されるのはapp/assets/javascripts/application.jsとapp/assets/stylesheets/application.cssである． 実際，デフォルトの内容を削除してみると，レスポンスに含まれるstylesheetとscriptはapplication.cssおよびapplication.jsのみである．
-$ cat /dev/null &amp;gt; app/assets/javascripts/application.js $ cat /dev/null &amp;gt; app/assets/stylesheets/application.</description>
+      <description>&lt;p&gt;Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった．
+いろいろと知識を詰め込んだので復習も兼ねてまとめていく．
+おそらくRailsを使い慣れている人にとっては基本的すぎる内容．&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

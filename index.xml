@@ -49,16 +49,9 @@ Infrastructure as Codeの目標  ざっくり言うと「(頻繁な)変化に柔
       <pubDate>Sat, 10 Jun 2017 20:20:04 +0900</pubDate>
       
       <guid>http://uyorum.github.io/blog/home-assistant-with-dash-button/</guid>
-      <description>Amazon Dash Button間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．
-Amazon Dash Buttonのハック ネットに情報は溢れているため詳しい説明は省略する．
-本来のAmazon Dash Buttonはボタンを押すことであらかじめ設定した商品を注文するためのものだが，その過程で発生するパケットをトリガーに利用して， ボタンを押すことで任意の処理を実行させようというもの．
-仕組みの概要 Amazon Dash Buttonと連携するComponentは過去に提案されている．
-Amazon Dash Component? · Issue #484 · home-assistant/home-assistant
-主に以下の理由により却下されている
- Dash ButtonのためだけにHome Assistantをrootで動かすのは受け入れられない Dash Buttonの代わりにAWS IoTボタンやESP8266を使えば同じようなことが実現できる  このIssueの中ではmaddox/dasherを使うよう提案されているが，いくつかの個人的な理由によりツールを自作した．
- 検知対象に利用しているARP probeパケットが自分の環境ではほとんどキャプチャできなかった Home Assistant用として使うには設定ファイルが複雑すぎる Node.jsがよくわからない  作成したコードはGithubで公開している．
- ARP probeの代わりにDHCP Discoverパケットをキャプチャする 設定ファイルに書く内容は，Home Assistantと組み合わせて使用するための最低限の項目に絞っている Python製  仕組みは以下の通り
- dash-haサーバでボタン押下を検知 ボタンのMACアドレスに応じて，Home AssistantへREST APIでイベントを発火させる Home AssistantのAutomationでそのイベントをトリガーにアクションが実行されるようにしておく ボタンを押すとそのAutomationが実行される  ボタン押下を検知するサーバの用意 ボタン検知を検知するためのサーバを用意し，専用のプログラムを走らせておく．自分はHome Assistantが稼動しているRaspbery Pi 2 Model Bで動かしている． 以下のような感じでインストールする．</description>
+      <description>&lt;p&gt;Amazon Dash Button間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -67,19 +60,9 @@ Amazon Dash Component? · Issue #484 · home-assistant/home-assistant
       <pubDate>Sun, 23 Apr 2017 21:33:54 +0900</pubDate>
       
       <guid>http://uyorum.github.io/blog/home-assistant-gpio/</guid>
-      <description>Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．
-使用製品 今回使用するセンサー，機器は以下の通り
- Raspbery Pi 2 Model B
-Raspbian jessie liteの上にHome Assistantをインストール済み
- 赤外線人感センサー SB612A
-秋月電子で購入．Raspberry Piから電源を取るので3.3Vまたは5Vで動くものなら何でもいいと思う．
- WiFi LED電球 MiLight 楽天のイルミカでブリッジと電球を購入．
-スマホアプリを使って操作できるところまでセットアップしておく．資金に余裕があるならHueでもいいと思う．
-  概要 やりたいことは以下の通り
- 人感センサーを使って人が近づいたことを検知できるようにしておく センサーに反応があった場合，MiLightへリクエストを発行し電球を点灯 センサーに反応がなくなってしばらく経ってからMiLightへリクエストを発行し電球を消灯  Home AssistantでGPIOを使う 秋月のサイトにあるSB612Aのデータシートを見ると以下のことがわかる．
- VCC端子に電源を接続する(DC3.3〜12V) センサーの反応はTEST端子から取れる．TEST端子の電位がそれぞれ反応あり=3.3V，反応なし=0Vになる．ただし実際には，センサーに反応がなくなってから0Vになるまではタイムラグがある 上記タイムラグ(Delay Time)は2秒〜80分で調整できる  今回の設計は以下のようにする
- VCC端子を3.3V端子(ピン1)へ接続 TEST端子をGPIO 4端子へ接続 GND端子をGND(ピン6)へ接続 Delay timeは最短の2秒とする TEST=0Vの状態を確実にGPIOのLOW状態とするためにRaspberryPiに内蔵のプルダウン抵抗を有効にする bouncetimeは50msとする  Home Assistantの設定は以下のようになる．
- configration.yaml  binary_sensor: - platform: rpi_gpio ports: 4: PIR Sensor pull_mode: down bouncetime: 50 invert_logic: false  なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザをgpioグループに所属させればよい．</description>
+      <description>&lt;p&gt;Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -88,16 +71,9 @@ Raspbian jessie liteの上にHome Assistantをインストール済み
       <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
       
       <guid>http://uyorum.github.io/blog/home-assistant-install/</guid>
-      <description>ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて
-Home Assitantとは  Home Assistant home-assistant/home-assistant: Open-source home automation platform running on Python 3  ホームオートメーションを実現するためのソフトウェア．Githubで開発されており，Python3で書かれている． 様々なサービス，センサー，家電に対応しておりブラウザでそれらの状態を確認，操作するためのUIが提供されている． また，特定のトリガーとアクションをあらかじめ定義しておくことでそれらを自動制御することもできる．
-同様のソフトウェアとして，以下のようなソフトウェアもある
- openHAB Domoticz HomeBridge  2017/4/22時点でGithubのスター数は以下のような感じでHome Assistantが一番人気がありそう．
- Home Assistant…6583 openHAB…241 Domoticz…651 HomeBridge…4903  公式サイトでデモ画面を見ることができる．Home Assistant Demo
-インストール Installation of Home Assistant - Home Assistant
-様々のインストール方法が提供されている．自分はRaspberryPiでGPIOを使いたかったためRaspbianへのManual Installを選択した．
-systemdのユニットファイルも提供されている．自分は多少変更して以下のようにした．
- /etc/systemd/system/home-assistant.service  [Unit] Description=Home Assistant After=network.target [Service] Type=simple User=ha ExecStart=/srv/homeassistant/bin/hass -c &amp;quot;/home/ha/.homeassistant&amp;quot; [Install] WantedBy=multi-user.target  「ha」という名前でシステムユーザを作成し，このユーザでHome Assistantを実行するようにしている．
-参考: Autostart using systemd - Home Assistant</description>
+      <description>&lt;p&gt;ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -106,17 +82,11 @@ systemdのユニットファイルも提供されている．自分は多少変�
       <pubDate>Wed, 01 Mar 2017 23:01:28 +0900</pubDate>
       
       <guid>http://uyorum.github.io/blog/rails-asset-pipeline-1/</guid>
-      <description>Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった． いろいろと知識を詰め込んだので復習も兼ねてまとめていく． おそらくRailsを使い慣れている人にとっては基本的すぎる内容．
-環境 $ ruby -v geruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-darwin15] $ gem list -l ^rails$ *** LOCAL GEMS *** rails (4.2.8)  アセットとは 定義が見つからなかったが，おそらく以下のような感じ．
-Railsのサーバから配信するコンテンツのうち，Viewにより生成されたもの以外  具体的にはJavaScript，CSS，画像ファイルなど．あまりないだろうが，静的なhtmlもこれらと同様に扱うことはできそう．
-アセットパイプラインとは サーバ上に存在するアセットをクライアントへ配信する仕組みのこと．アセットパイプラインはsprockets-railsgemにより提供されている．配信までの途中でいくつかの処理を経る場合がほとんど．例えば以下．
- JavaScriptおよびCSSの結合，最小化 ブラウザが理解しない書式(CoffeeScript, SASS, ERBなど)で書かれたコードを素のコードへ変換する ファイル名へMD5ダイジェストの付与 アセットの圧縮  それぞれの処理の内容はアセットパイプライン | Rails ガイドが詳しいので省略する
-いくつかの処理はRailsが動作するモード(Environment)により異なる．
-通常，アセットは{app,lib,vendor}/assets/{javascripts,stylesheets,images}のいずれかに配置する． それぞれの使い分けは下記を参照
-2.2 アセットの編成 - アセットパイプライン | Rails ガイド
-以下，簡単のためconfig.assets.digest = falseを設定する(ファイル名にダイジェストが含まれなくなる)
-インクルード 通常，クライアントへ配信されるのはapp/assets/javascripts/application.jsとapp/assets/stylesheets/application.cssである． 実際，デフォルトの内容を削除してみると，レスポンスに含まれるstylesheetとscriptはapplication.cssおよびapplication.jsのみである．
-$ cat /dev/null &amp;gt; app/assets/javascripts/application.js $ cat /dev/null &amp;gt; app/assets/stylesheets/application.</description>
+      <description>&lt;p&gt;Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった．
+いろいろと知識を詰め込んだので復習も兼ねてまとめていく．
+おそらくRailsを使い慣れている人にとっては基本的すぎる内容．&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
