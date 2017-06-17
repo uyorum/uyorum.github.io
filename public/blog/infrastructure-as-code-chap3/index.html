@@ -52,7 +52,7 @@
       <section itemprop="entry-text">
         
 
-<p>オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．斜字体になっているのは本文からの引用．</p>
+<p>オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．<strong>太字は自分の感想</strong>， <em>斜字体は本からの引用</em> ，そのほかは本の要約など．</p>
 
 <h2 id="ツールの要件">ツールの要件</h2>
 
@@ -91,37 +91,41 @@
 <li>HTTP等で配布．こうすることで可用性，スケーリングしやすい．管理が単純</li>
 <li>頻繁に更新されて複雑になる部分は分割やシャーディングで対応する</li>
 </ul></li>
-<li>こうした場合，例えばAnsibleへはどうやって渡せばいいんだろうか
+<li><strong>こうした場合，例えばAnsibleへはどうやって渡せばいいんだろうか</strong>
 
 <ul>
-<li><code>ansible-playbook</code>実行前にyaml組んで<code>var_file</code>などに渡す
+<li><strong><code>ansible-playbook</code>実行前にyaml組んで<code>var_file</code>などに渡す</strong>
 
 <ul>
-<li>ダイナミックインベントリみたいなことはできなさそう．一回ファイルに吐き出す必要がある？</li>
+<li><strong>ダイナミックインベントリみたいなことはできなさそう．一回ファイルに吐き出す必要がある？</strong></li>
 </ul></li>
-<li>json組み立てて<code>ansible-playbook</code>の<code>--extra-vars</code>オプションに渡す</li>
-<li>Ansible TowerのAPIでも渡せるかも</li>
+<li><strong>json組み立てて<code>ansible-playbook</code>の<code>--extra-vars</code>オプションに渡す</strong></li>
+<li><strong>Ansible TowerのAPIでも渡せるかも</strong></li>
 </ul></li>
 <li>Consumer Driven Contract Testing
 
 <ul>
-<li>Itamaeの<code>node.validate!</code>はまさにこれだと思う<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup></li>
-<li>こんな記事出てきた <a href="https://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts: A Service Evolution Pattern</a></li>
-<li><a href="https://docs.pact.io/">Pact</a>のようなツールで容易に書けそう</li>
+<li><strong>Itamaeの<code>node.validate!</code>はまさにこれだと思う</strong><sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup></li>
+<li><strong>こんな記事出てきた</strong> <a href="https://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts: A Service Evolution Pattern</a></li>
+<li><strong><a href="https://docs.pact.io/">Pact</a>のようなツールで容易に書けそう</strong></li>
 </ul></li>
 </ul>
 
 <h2 id="cmdb">CMDB</h2>
 
 <ul>
-<li><p>CMDBとInfrastructure as Codeは構成管理に対するアプローチが正反対．両者を同一視してはならない</p>
+<li>CMDBとInfrastructure as Codeは構成管理に対するアプローチが正反対．両者を同一視してはならない
 
 <ul>
 <li>ただしすべてを自動化するならInfrastructure as CodeはCMDBを兼ねることができる．またはInfrastructure as CodeがCMDBも管理することができる</li>
 <li><strong>ハードウェアも含めてすべてを自動化はけっこうハードル高そう</strong></li>
 </ul></li>
+</ul>
 
-<li><p><strong>インフラを完全に管理，自動化するために，やり方を変えるだけでなく自動化しやすいようにタスクそのものを見直すメンタルを忘れてはいけない</strong></p></li>
+<h2 id="その他">その他</h2>
+
+<ul>
+<li><strong>インフラを完全に管理，自動化するために，やり方を変えるだけでなく自動化しやすいようにタスクそのものを見直すメンタルを忘れてはいけない</strong></li>
 </ul>
 
 <p>以上</p>

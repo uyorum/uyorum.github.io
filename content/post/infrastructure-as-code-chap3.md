@@ -6,7 +6,7 @@ title = "Infrastructure as Code 感想 (3章)"
 
 +++
 
-オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．斜字体になっているのは本文からの引用．
+オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．**太字は自分の感想**， _斜字体は本からの引用_ ，そのほかは本の要約など．
 
 ## ツールの要件
 * 他のツールを連携しやすいこと
@@ -28,21 +28,22 @@ title = "Infrastructure as Code 感想 (3章)"
 * S3やVCS上のファイル
     * HTTP等で配布．こうすることで可用性，スケーリングしやすい．管理が単純
     * 頻繁に更新されて複雑になる部分は分割やシャーディングで対応する
-* こうした場合，例えばAnsibleへはどうやって渡せばいいんだろうか
-    * `ansible-playbook`実行前にyaml組んで`var_file`などに渡す
-        * ダイナミックインベントリみたいなことはできなさそう．一回ファイルに吐き出す必要がある？
-    * json組み立てて`ansible-playbook`の`--extra-vars`オプションに渡す
-    * Ansible TowerのAPIでも渡せるかも
+* **こうした場合，例えばAnsibleへはどうやって渡せばいいんだろうか**
+    * **`ansible-playbook`実行前にyaml組んで`var_file`などに渡す**
+        * **ダイナミックインベントリみたいなことはできなさそう．一回ファイルに吐き出す必要がある？**
+    * **json組み立てて`ansible-playbook`の`--extra-vars`オプションに渡す**
+    * **Ansible TowerのAPIでも渡せるかも**
 * Consumer Driven Contract Testing
-    * Itamaeの`node.validate!`はまさにこれだと思う[^1]
-    * こんな記事出てきた [Consumer-Driven Contracts: A Service Evolution Pattern](https://martinfowler.com/articles/consumerDrivenContracts.html)
-    * [Pact](https://docs.pact.io/)のようなツールで容易に書けそう
+    * **Itamaeの`node.validate!`はまさにこれだと思う**[^1]
+    * **こんな記事出てきた** [Consumer-Driven Contracts: A Service Evolution Pattern](https://martinfowler.com/articles/consumerDrivenContracts.html)
+    * **[Pact](https://docs.pact.io/)のようなツールで容易に書けそう**
 
 ## CMDB
 * CMDBとInfrastructure as Codeは構成管理に対するアプローチが正反対．両者を同一視してはならない
     * ただしすべてを自動化するならInfrastructure as CodeはCMDBを兼ねることができる．またはInfrastructure as CodeがCMDBも管理することができる
     * **ハードウェアも含めてすべてを自動化はけっこうハードル高そう**
 
+## その他
 * **インフラを完全に管理，自動化するために，やり方を変えるだけでなく自動化しやすいようにタスクそのものを見直すメンタルを忘れてはいけない**
 
 以上
