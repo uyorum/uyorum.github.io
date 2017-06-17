@@ -8,7 +8,7 @@ title = "Home AssistantとAmazon Dash Buttonを連携させる"
 
 Amazon Dash Button間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．
 
-<!-- more -->
+<!--more-->
 
 ## Amazon Dash Buttonのハック
 ネットに情報は溢れているため詳しい説明は省略する．  

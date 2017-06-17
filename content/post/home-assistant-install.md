@@ -8,7 +8,7 @@ date = "2017-04-22T21:48:00+09:00"
 
 ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて
 
-<!-- more -->
+<!--more-->
 
 ## Home Assitantとは
 * [Home Assistant](https://home-assistant.io/)

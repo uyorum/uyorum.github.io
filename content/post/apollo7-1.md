@@ -8,7 +8,7 @@ title = "Erato Audio Apollo7 レビュー"
 
 [Erato Audio社](http://eratolife.com/)の完全ワイヤレスイヤホン[Apollo7](http://eratolife.com/apollo-7)を買って1週間ほど使ったので使用感とかレビューを書いておきます．
 
-<!-- more  -->
+<!--more -->
 
 ## なぜ今買ったか
 完全ワイヤレスイヤホンという分野を知ったのは2014年にKickstarterでEARINが発表されたときでした．
