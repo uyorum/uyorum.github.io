@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Wed, 21 Jun 2017 22:47:39 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 29 Jun 2017 21:52:49 +0900</lastBuildDate>
     
 	<atom:link href="http://uyorum.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Infrastructure as Code 感想 (6章)</title>
+      <link>http://uyorum.github.io/blog/infrastructure-as-code-chap6/</link>
+      <pubDate>Thu, 29 Jun 2017 21:52:49 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/infrastructure-as-code-chap6/</guid>
+      <description> オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．太字は自分の感想， 斜字体は本からの引用 ，そのほかは本の要約など．
+サーバーのライフライクル  サーバーテンプレートのパッケージング サーバーのデプロイ サーバーのアップデート(編集) サーバーの交換  サーバーのスケールアップ/ダウンのための再起動もこれに含める  サーバーの削除  サーバーに含まれるもの  ソフトウェア  サーバーへインストールするもの  構成/設定  その構成情報/設定情報  データ  ソフトウェアが生成・更新するファイル ログファイルはここに含まれる インフラストラクチャはデータの維持に責任を持つが，内容を管理はしない  インフラストラクチャはサーバのアップデート，交換，削除のプロセスを通して，一貫して「データ」へのアクセス性を提供しなければならない プロセスのさまざまな部分にかかる時間を計測するようにしなければならない  これはいろんなところに言えそう．次からは時間を計測することを考えるようにしよう   サーバーロールのパターン  きめの細かいロールを定義し，それらを組み合わせてサーバを構成するパターン ロールの継承階層を作るパターン  OSの基本設定，監視エージェントなどは他のロールから継承されることになる   サーバー作成のパターン  ここは「テンプレートからの作成」一択．ただし，サーバー作成オプションはスクリプトでラッピングする アンチパターン  手作りサーバー…無人実行のプラクティスに反する 毎回編集しなければならないようなスクリプト…同上 ホットクローン…構成ドリフトの原因になる スノーフレークファクトリ   新サーバーのブートストラップのパターン  プッシュブートストラップ  SSHでログインするための特権IDが必要．クラウドによってはサーバー作成時にIDを発行できる．  プルブートストラップ  ロールを新サーバーへ伝える必要がある．AWSのUser Dataとcloud-initの組み合わせなど．  いずれにしてもプロビジョングしたサーバーは自動的にテストされなければならない  参考文献  Kief Morris, Infrastructure as Code クラウドにおけるサーバ管理の原則とプラクティス, 長尾高弘訳, オライリー・ジャパン, 2017  </description>
+    </item>
     
     <item>
       <title>Infrastructure as Code 感想 (5章)</title>
