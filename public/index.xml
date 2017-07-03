@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Thu, 29 Jun 2017 21:52:49 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 03 Jul 2017 21:10:46 +0900</lastBuildDate>
     
 	<atom:link href="http://uyorum.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fitbit Charge2用サードパーティ製バンドを買った</title>
+      <link>http://uyorum.github.io/blog/fitbit-charge2-bands/</link>
+      <pubDate>Mon, 03 Jul 2017 21:10:46 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/fitbit-charge2-bands/</guid>
+      <description>&lt;p&gt;今年の2月末に購入したFitbit Charge2のバンドのゴムがコネクタ部分から浮いてきてしまった．使用上は問題ないのだが気になってしまうので替えのバンドを購入した．&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Infrastructure as Code 感想 (6-9章)</title>
