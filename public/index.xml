@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Wed, 02 Aug 2017 20:53:04 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 02 Sep 2017 10:41:35 +0900</lastBuildDate>
     
 	<atom:link href="http://uyorum.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ESP32とMongooseOSを使ってTSL2561で照度を取得する(実装編)</title>
+      <link>http://uyorum.github.io/blog/tsl2561-with-mongoose-os-on-esp32-02/</link>
+      <pubDate>Sat, 02 Sep 2017 10:41:35 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/tsl2561-with-mongoose-os-on-esp32-02/</guid>
+      <description>前回の続き． Mongoose OSの設定とTSL2561を使うためのコードを書いていく．
+設計 今回は1分ごとにTSL2561で照度を取得し，MQTTで値をPublishすることにする． 細かいパラメータ等は以下のようにする．
+TSL2561 前回参考にした記事1でも説明されている通り，TSL2561にはGainとIntegration Timeという設定項目がある． 本来は，使用する環境下で想定される照度に合わせて適切な値を選択するか現在の照度に応じて自動で調整すべきものである． 今回はひとまず，それぞれデフォルト値で使用する．
+ Gain: 1x Integration Time: 402ms Scale: (16 / Gain) * (402 / Integration Time) = 16  MQTT 今回は自分で立てたBrokerを使う．Topicは任意だがこの記事内では以下のようにする．
+ ホスト名: broker.example.com:1883 認証: なし Topic: home/brightness QoS: 0  センサーの接続 I2Cデバイスのピンをどのピンに接続すればよいのかわからずにここで結構時間を使った． mosで起動するMongoose OSのWeb UIからDevice Config→Expert ViewからI2Cようの設定を見ることができる．自分の環境ではデフォルトで以下のようになっていた． sda端子を32ピン，scl端子を33ピンに接続すればよいことがわかる．
+&amp;quot;i2c&amp;quot;: { &amp;quot;enable&amp;quot;: true, &amp;quot;freq&amp;quot;: 100000, &amp;quot;debug&amp;quot;: false, &amp;quot;sda_gpio&amp;quot;: 32, &amp;quot;scl_gpio&amp;quot;: 33 },  その他にVinを3.3V端子，GNDを適当なGNDピンに接続した．
+MQTTの設定 Brokerと認証の設定を行う． Device Config→Simple View→MQTT Settingsで設定を行うのがおそらく最も簡単．</description>
+    </item>
     
     <item>
       <title>ESP32とMongooseOSを使ってTSL2561で照度を取得する(準備編)</title>
