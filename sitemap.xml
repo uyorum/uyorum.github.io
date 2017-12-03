@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://uyorum.github.io/blog/trago-smart-cap/</loc>
+    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://uyorum.github.io/blog/tsl2561-with-mongoose-os-on-esp32-02/</loc>
     <lastmod>2017-09-02T10:41:35+09:00</lastmod>
   </url>
@@ -204,13 +209,13 @@
   
   <url>
     <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2017-09-02T10:41:35+09:00</lastmod>
+    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://uyorum.github.io/</loc>
-    <lastmod>2017-09-02T10:41:35+09:00</lastmod>
+    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -221,7 +226,7 @@
   
   <url>
     <loc>http://uyorum.github.io/post/</loc>
-    <lastmod>2017-09-02T10:41:35+09:00</lastmod>
+    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -239,7 +244,7 @@
   
   <url>
     <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2017-09-02T10:41:35+09:00</lastmod>
+    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
     <priority>0</priority>
   </url>
   
