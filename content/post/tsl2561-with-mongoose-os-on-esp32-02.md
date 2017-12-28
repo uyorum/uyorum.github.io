@@ -9,6 +9,8 @@ title = "ESP32とMongooseOSを使ってTSL2561で照度を取得する(実装編
 [前回](../tsl2561-with-mongoose-os-on-esp32-01/)の続き．
 Mongoose OSの設定とTSL2561を使うためのコードを書いていく．
 
+<!--more-->
+
 ## 設計
 今回は1分ごとにTSL2561で照度を取得し，MQTTで値をPublishすることにする．
 細かいパラメータ等は以下のようにする．

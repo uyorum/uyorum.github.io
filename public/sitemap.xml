@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://uyorum.github.io/blog/rspec-faker-1/</loc>
+    <lastmod>2017-12-28T18:19:55+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://uyorum.github.io/blog/trago-smart-cap/</loc>
     <lastmod>2017-12-03T17:48:36+09:00</lastmod>
   </url>
@@ -209,13 +214,13 @@
   
   <url>
     <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
+    <lastmod>2017-12-28T18:19:55+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://uyorum.github.io/</loc>
-    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
+    <lastmod>2017-12-28T18:19:55+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -226,7 +231,7 @@
   
   <url>
     <loc>http://uyorum.github.io/post/</loc>
-    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
+    <lastmod>2017-12-28T18:19:55+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -244,7 +249,7 @@
   
   <url>
     <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2017-12-03T17:48:36+09:00</lastmod>
+    <lastmod>2017-12-28T18:19:55+09:00</lastmod>
     <priority>0</priority>
   </url>
   
