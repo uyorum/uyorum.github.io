@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Fri, 29 Dec 2017 17:17:00 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 30 Dec 2017 00:15:15 +0900</lastBuildDate>
     
 	<atom:link href="http://uyorum.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ホームオートメーションの現状まとめ@2017</title>
+      <link>http://uyorum.github.io/blog/home-automation-2017/</link>
+      <pubDate>Sat, 30 Dec 2017 00:15:15 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/home-automation-2017/</guid>
+      <description>&lt;p&gt;今年はホームオートメーションにたくさん取り組んだ年だった．
+年末ということでキリもよいので現状の我が家がどうなっているかまとめておく．&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>FactoryBotでテストのはじめにデータを用意する</title>
@@ -164,7 +176,7 @@ Infrastructure as Codeの目標  ざっくり言うと「(頻繁な)変化に柔
       <pubDate>Sat, 10 Jun 2017 20:20:04 +0900</pubDate>
       
       <guid>http://uyorum.github.io/blog/home-assistant-with-dash-button/</guid>
-      <description>&lt;p&gt;Amazon Dash Button間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．&lt;/p&gt;
+      <description>&lt;p&gt;Amazon Dash Buttonは間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
