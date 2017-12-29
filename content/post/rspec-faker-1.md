@@ -179,6 +179,9 @@ Fakerは同じ値を生成するようになった．
 
 以上．
 
+なお，ここで挙げたコードはGitHubに上げてある．  
+[uyorum/play-ruby-on-rails](https://github.com/uyorum/play-ruby-on-rails/tree/rspec/faker-srand)
+
 [^1]: [GitHub - stympy/faker: A library for generating fake data such as names, addresses, and phone numbers.](https://github.com/stympy/faker)
 [^2]: [faker/name.md at master · stympy/faker](https://github.com/stympy/faker/blob/master/doc/name.md)
 [^3]: [Randomization can be reproduced across test runs - Command line - RSpec Core - RSpec - Relish](https://relishapp.com/rspec/rspec-core/docs/command-line/randomization-can-be-reproduced-across-test-runs)
