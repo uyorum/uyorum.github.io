@@ -7,10 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 27 May 2018 18:23:33 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 12 Jun 2018 10:19:17 +0900</lastBuildDate>
     
 	<atom:link href="http://uyorum.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>必要最低限の設定で監視エージェントに監視させる</title>
+      <link>http://uyorum.github.io/blog/security-settings-for-zabbix-agent/</link>
+      <pubDate>Tue, 12 Jun 2018 10:19:17 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/security-settings-for-zabbix-agent/</guid>
+      <description>&lt;p&gt;監視エージェントで監視をする際に，&lt;strong&gt;必要最低限の&lt;/strong&gt;権限設定で監視できるようにしてみる．&lt;br /&gt;
+Zabbix Agentを例にとって記述するが，他の監視エージェントでも同様のことが言えると思う．&lt;/p&gt;
+
+&lt;p&gt;なお，ここでは監視に必要な必要最低限の権限を付与するという点を最優先した設定を考える．運用を考えると必ずしも最適とは言えない可能性があるため注意が必要．&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>FP技能検定3級を受けた</title>
