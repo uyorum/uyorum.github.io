@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Wed, 16 Jan 2019 13:06:37 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 04 Jun 2019 22:38:40 +0900</lastBuildDate>
     
 	<atom:link href="http://uyorum.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>バッファローのイーサネットコンバータでトラブった話</title>
+      <link>http://uyorum.github.io/blog/buffalo-ethernet-converter/</link>
+      <pubDate>Tue, 04 Jun 2019 22:38:40 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/buffalo-ethernet-converter/</guid>
+      <description>まとめ  Buffaloの無線ルータWEX-G300をイーサネットコンバータとして使っていた この機器が上流(WiFi親機)へのパケットを転送するときに，パケットの送信元MACを自分のMACに変えてしまう ペイロードにMACアドレスが含まれるような通信ではこれが原因で問題が発生しうる  構成  下図のようにWiFiルータ(AP)にBuffaloのWEX-G300を接続，さらに有線ポートにPC(以下，Host A)を接続している． 同じWiFiルータに無線LANを内蔵したPC(以下，Host B)を接続している． Host AとHost Bは同一のL2ネットワークに属している．  Pingで確認 Host A → Host B へPingを打ってみる．
+Host Aでパケットキャプチャ $ sudo tcpdump -i eno1 -n -e icmp tcpdump: verbose output suppressed, use -v or -vv for full protocol decode listening on eno1, link-type EN10MB (Ethernet), capture size 262144 bytes 21:43:06.274393 ec:a8:6b:f9:7a:60 &amp;gt; 28:cf:da:02:a5:40, ethertype IPv4 (0x0800), length 98: 10.0.0.3 &amp;gt; 10.0.0.153: ICMP echo request, id 1749, seq 1, length 64 21:43:06.</description>
+    </item>
     
     <item>
       <title>ファシリティまわりの設計時に考慮すること(続き)</title>

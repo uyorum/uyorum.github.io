@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.21" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" href="http://uyorum.github.io/favicon.ico">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+
+<title>バッファローのイーサネットコンバータでトラブった話 - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+  <main role="main">
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 class="entry-title" itemprop="headline">バッファローのイーサネットコンバータでトラブった話</h1>
+      <span class="entry-meta">
+        <time itemprop="datePublished" datetime="2019-06-04">June 04, 2019
+        </time>
+      </span>
+      <span class="pull-right">
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2fbuffalo-ethernet-converter%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=%e3%83%90%e3%83%83%e3%83%95%e3%82%a1%e3%83%ad%e3%83%bc%e3%81%ae%e3%82%a4%e3%83%bc%e3%82%b5%e3%83%8d%e3%83%83%e3%83%88%e3%82%b3%e3%83%b3%e3%83%90%e3%83%bc%e3%82%bf%e3%81%a7%e3%83%88%e3%83%a9%e3%83%96%e3%81%a3%e3%81%9f%e8%a9%b1 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fbuffalo-ethernet-converter%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fbuffalo-ethernet-converter%2f&amp;title=%e3%83%90%e3%83%83%e3%83%95%e3%82%a1%e3%83%ad%e3%83%bc%e3%81%ae%e3%82%a4%e3%83%bc%e3%82%b5%e3%83%8d%e3%83%83%e3%83%88%e3%82%b3%e3%83%b3%e3%83%90%e3%83%bc%e3%82%bf%e3%81%a7%e3%83%88%e3%83%a9%e3%83%96%e3%81%a3%e3%81%9f%e8%a9%b1 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=%e3%83%90%e3%83%83%e3%83%95%e3%82%a1%e3%83%ad%e3%83%bc%e3%81%ae%e3%82%a4%e3%83%bc%e3%82%b5%e3%83%8d%e3%83%83%e3%83%88%e3%82%b3%e3%83%b3%e3%83%90%e3%83%bc%e3%82%bf%e3%81%a7%e3%83%88%e3%83%a9%e3%83%96%e3%81%a3%e3%81%9f%e8%a9%b1 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2fbuffalo-ethernet-converter%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </span>
+      <section itemprop="entry-text">
+        
+
+<h2 id="まとめ">まとめ</h2>
+
+<ul>
+<li>Buffaloの無線ルータWEX-G300をイーサネットコンバータとして使っていた</li>
+<li>この機器が上流(WiFi親機)へのパケットを転送するときに，パケットの送信元MACを自分のMACに変えてしまう</li>
+<li>ペイロードにMACアドレスが含まれるような通信ではこれが原因で問題が発生しうる</li>
+</ul>
+
+<!-- more -->
+
+<h2 id="構成">構成</h2>
+
+<ul>
+<li>下図のようにWiFiルータ(AP)にBuffaloのWEX-G300を接続，さらに有線ポートにPC(以下，Host A)を接続している．</li>
+<li>同じWiFiルータに無線LANを内蔵したPC(以下，Host B)を接続している．</li>
+<li>Host AとHost Bは同一のL2ネットワークに属している．</li>
+</ul>
+
+<p><img src="/buffalo-ethernet-converter/network.jpg" alt="network.jpg" /></p>
+
+<h2 id="pingで確認">Pingで確認</h2>
+
+<p>Host A → Host B へPingを打ってみる．</p>
+
+<h3 id="host-aでパケットキャプチャ">Host Aでパケットキャプチャ</h3>
+
+<pre><code class="language-shell">$ sudo tcpdump -i eno1 -n -e icmp
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eno1, link-type EN10MB (Ethernet), capture size 262144 bytes
+21:43:06.274393 ec:a8:6b:f9:7a:60 &gt; 28:cf:da:02:a5:40, ethertype IPv4 (0x0800), length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP echo request, id 1749, seq 1, length 64
+21:43:06.276067 28:cf:da:02:a5:40 &gt; ec:a8:6b:f9:7a:60, ethertype IPv4 (0x0800), length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP echo reply, id 1749, seq 1, length 64
+</code></pre>
+
+<h3 id="host-bでパケットキャプチャ">Host Bでパケットキャプチャ</h3>
+
+<pre><code class="language-shell">$ sudo tcpdump -i en1 -n -e icmp
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on en1, link-type EN10MB (Ethernet), capture size 262144 bytes
+21:43:06.299805 34:3d:c4:ee:aa:61 &gt; 28:cf:da:02:a5:40, ethertype IPv4 (0x0800), length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP echo request, id 1749, seq 1, length 64
+21:43:06.299877 28:cf:da:02:a5:40 &gt; 34:3d:c4:ee:aa:61, ethertype IPv4 (0x0800), length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP echo reply, id 1749, seq 1, length 64
+</code></pre>
+
+<p>ICMP echo requestの送信元MACが異なる値となっている．
+元のパケットの送信元MAC(<code>ec:a8:6b:f9:7a:60</code>)はHost AのNICのMACアドレスなのだが，Host Bが受け取ったパケットの送信元MAC(<code>34:3d:c4:ee:aa:61</code>)はWEX-G300のMACアドレスである．(WEX-G300のMACアドレスはWeb UIから確認できる)</p>
+
+<p>またICMP echo replyの宛先MACも異なる値となっている．おそらくWEX-G300自身が内部でIPアドレスとMACアドレスの対応表(またはARPテーブル)を持っており，その対応表をもとに正しいMACアドレスと考えられる．</p>
+
+<p>ほとんどの通信ではこの仕様でも問題は発生しないだろうが，ペイロードにMACアドレスが含まれるような通信では問題となりうる．
+自分の環境では，DHCP<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup>で払い出したはずのIPアドレスを別のMACアドレスが使っている(ARPスプーフィング)と誤検知し，ルータでパケットをドロップするという事象が発生した．</p>
+
+<p>以上</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:1">DHCPではEthernetヘッダではなくUDP上のDHCPペイロード内に含まれるMACアドレスを使用しており，かつWEX-G300ではここの書き換えには対応していないからだと考えられる
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+      </section>
+      <aside>
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2fbuffalo-ethernet-converter%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=%e3%83%90%e3%83%83%e3%83%95%e3%82%a1%e3%83%ad%e3%83%bc%e3%81%ae%e3%82%a4%e3%83%bc%e3%82%b5%e3%83%8d%e3%83%83%e3%83%88%e3%82%b3%e3%83%b3%e3%83%90%e3%83%bc%e3%82%bf%e3%81%a7%e3%83%88%e3%83%a9%e3%83%96%e3%81%a3%e3%81%9f%e8%a9%b1 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fbuffalo-ethernet-converter%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fbuffalo-ethernet-converter%2f&amp;title=%e3%83%90%e3%83%83%e3%83%95%e3%82%a1%e3%83%ad%e3%83%bc%e3%81%ae%e3%82%a4%e3%83%bc%e3%82%b5%e3%83%8d%e3%83%83%e3%83%88%e3%82%b3%e3%83%b3%e3%83%90%e3%83%bc%e3%82%bf%e3%81%a7%e3%83%88%e3%83%a9%e3%83%96%e3%81%a3%e3%81%9f%e8%a9%b1 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=%e3%83%90%e3%83%83%e3%83%95%e3%82%a1%e3%83%ad%e3%83%bc%e3%81%ae%e3%82%a4%e3%83%bc%e3%82%b5%e3%83%8d%e3%83%83%e3%83%88%e3%82%b3%e3%83%b3%e3%83%90%e3%83%bc%e3%82%bf%e3%81%a7%e3%83%88%e3%83%a9%e3%83%96%e3%81%a3%e3%81%9f%e8%a9%b1 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2fbuffalo-ethernet-converter%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </aside>
+      
+        <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'uyorum';
+    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/buffalo-ethernet-converter\/';
+    var disqus_title = 'バッファローのイーサネットコンバータでトラブった話';
+    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/buffalo-ethernet-converter\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      
+    </article>
+  </main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+			
+			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+			
+      
+		</div>
+		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+	</footer>
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-43857839-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+
