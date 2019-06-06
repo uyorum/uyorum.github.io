@@ -78,6 +78,15 @@ server {
 # certbot renew --webroot -w /var/www/certbot --post-hook '/usr/bin/systemctl restart nginx'
 ```
 
+追記：自分の環境では`/var/www`をここで作成したせいか，SELinuxのコンテキストが`unconfined_u:object_r:var_t:s0`になってしまいNginxから参照できなくなってしまった．
+そのためコンテキストの修正が必要だった．
+
+``` shell
+# restorecon -R /var/www
+```
+
+(追記終わり)
+
 自分の場合はanacronを使って週次で実行するようにした．証明書の有効期限が1ヶ月を切っていた場合のみ証明書が更新される．
 
 ``` shell
