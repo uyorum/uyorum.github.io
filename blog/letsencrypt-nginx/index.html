@@ -147,6 +147,14 @@ Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(
 # certbot renew --webroot -w /var/www/certbot --post-hook '/usr/bin/systemctl restart nginx'
 </code></pre>
 
+<p>追記：自分の環境では<code>/var/www</code>をここで作成したせいか，SELinuxのコンテキストが<code>unconfined_u:object_r:var_t:s0</code>になってしまいNginxから参照できなくなってしまった．
+そのためコンテキストの修正が必要だった．</p>
+
+<pre><code class="language-shell"># restorecon -R /var/www
+</code></pre>
+
+<p>(追記終わり)</p>
+
 <p>自分の場合はanacronを使って週次で実行するようにした．証明書の有効期限が1ヶ月を切っていた場合のみ証明書が更新される．</p>
 
 <pre><code class="language-shell"># cat &lt;&lt;'EOF' &gt;/etc/cron.weekly/certbot
