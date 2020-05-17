@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -50,100 +50,84 @@
 
       </span>
       <section itemprop="entry-text">
-        
-
-<p>オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．<strong>太字は自分の感想</strong>， <em>斜字体は本からの引用</em> ，そのほかは本の要約など．</p>
-
+        <p>オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．<strong>太字は自分の感想</strong>， <em>斜字体は本からの引用</em> ，そのほかは本の要約など．</p>
 <h2 id="ツールの要件">ツールの要件</h2>
-
 <ul>
 <li>他のツールを連携しやすいこと
-
 <ul>
 <li>コマンドライン引数や環境変数などでの入力，パースしやすい結果出力</li>
 <li>設定の外在化</li>
-</ul></li>
+</ul>
+</li>
 <li>自動実行しやすいこと
-
 <ul>
 <li>冪等性など</li>
 <li>失敗したらわかる</li>
-</ul></li>
+</ul>
+</li>
 <li><strong>周辺のツールとの連携しやすさは意識して考慮に入れてなかった</strong></li>
 <li><strong>考え方はすごくよくわかる．UNIX哲学に通じている</strong></li>
 </ul>
-
 <h2 id="構成レジストリ">構成レジストリ</h2>
-
 <ul>
 <li>コンフィグ定義ツールが提供するもの(Chef Server, Ansible Towerなど)</li>
 <li>Zookeeper/Consul/etcd</li>
 <li><em>プログラムによるレジストリエントリの追加，更新，削除をサポートしていること</em></li>
 <li><strong>こういうのほしいと前から思っていたけどどうやって実装すればいいか，定義ツールとどう連携させればいいかイメージついてない</strong></li>
 </ul>
-
 <h3 id="軽い構成レジストリ">軽い構成レジストリ</h3>
-
 <ul>
 <li>S3やVCS上のファイル
-
 <ul>
 <li>HTTP等で配布．こうすることで可用性，スケーリングしやすい．管理が単純</li>
 <li>頻繁に更新されて複雑になる部分は分割やシャーディングで対応する</li>
-</ul></li>
+</ul>
+</li>
 <li><strong>こうした場合，例えばAnsibleへはどうやって渡せばいいんだろうか</strong>
-
 <ul>
 <li><strong><code>ansible-playbook</code>実行前にyaml組んで<code>var_file</code>などに渡す</strong>
-
 <ul>
 <li><strong>ダイナミックインベントリみたいなことはできなさそう．一回ファイルに吐き出す必要がある？</strong></li>
-</ul></li>
+</ul>
+</li>
 <li><strong>json組み立てて<code>ansible-playbook</code>の<code>--extra-vars</code>オプションに渡す</strong></li>
 <li><strong>Ansible TowerのAPIでも渡せるかも</strong></li>
-</ul></li>
+</ul>
+</li>
 <li>Consumer Driven Contract Testing
-
 <ul>
-<li><strong>Itamaeの<code>node.validate!</code>はまさにこれだと思う</strong><sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup></li>
+<li><strong>Itamaeの<code>node.validate!</code>はまさにこれだと思う</strong><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
 <li><strong>こんな記事出てきた</strong> <a href="https://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts: A Service Evolution Pattern</a></li>
 <li><strong><a href="https://docs.pact.io/">Pact</a>のようなツールで容易に書けそう</strong></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="cmdb">CMDB</h2>
-
 <ul>
 <li>CMDBとInfrastructure as Codeは構成管理に対するアプローチが正反対．両者を同一視してはならない
-
 <ul>
 <li>ただしすべてを自動化するならInfrastructure as CodeはCMDBを兼ねることができる．またはInfrastructure as CodeがCMDBも管理することができる</li>
 <li><strong>ハードウェアも含めてすべてを自動化はけっこうハードル高そう</strong></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="その他">その他</h2>
-
 <ul>
 <li><strong>インフラを完全に管理，自動化するために，やり方を変えるだけでなく自動化しやすいようにタスクそのものを見直すメンタルを忘れてはいけない</strong></li>
 </ul>
-
 <p>以上</p>
-
 <h2 id="参考文献">参考文献</h2>
-
 <ol>
 <li>Kief Morris, Infrastructure as Code クラウドにおけるサーバ管理の原則とプラクティス, 長尾高弘訳, オライリー・ジャパン, 2017</li>
 </ol>
-<div class="footnotes">
-
-<hr />
-
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1"><a href="https://github.com/itamae-kitchen/itamae/wiki/Best-Practice#use-nodevalidate-in-recipes-that-will-be-included">Best Practice · itamae-kitchen/itamae Wiki</a>
- <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://github.com/itamae-kitchen/itamae/wiki/Best-Practice#use-nodevalidate-in-recipes-that-will-be-included">Best Practice · itamae-kitchen/itamae Wiki</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div>
+</section>
 
       </section>
       <aside>
@@ -164,20 +148,25 @@
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/infrastructure-as-code-chap3\/';
-    var disqus_title = 'Infrastructure as Code 感想 (3章)';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/infrastructure-as-code-chap3\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -198,14 +187,17 @@
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -50,92 +50,64 @@
 
       </span>
       <section itemprop="entry-text">
-        
-
-<p><a href="../designing-facility-layer-01">前回</a>は主にラックと電源についてまとめた．その続き．</p>
-
+        <p><a href="../designing-facility-layer-01">前回</a>は主にラックと電源についてまとめた．その続き．</p>
 <h1 id="ネットワーク">ネットワーク</h1>
-
 <p>イーサネットを前提としてまとめる．</p>
-
 <h2 id="規格">規格</h2>
-
 <p>必要な帯域を確保できるようイーサネットの規格を選択する．イーサネットの規格によってケーブルの種類が決まってくる．ケーブルの種類は以下のような要素に影響してくるので，それらも考慮して決める．</p>
-
 <ul>
 <li>ケーブルの最大長</li>
 <li>ケーブルの太さ</li>
 <li>ケーブルの固さ</li>
 <li>ケーブルの価格</li>
 </ul>
-
 <p>ケーブルの太さや固さケーブリングのしやすさに大きく影響してくるので特に気をつけたい．
 また機器側がSFPポートの場合は，ケーブル規格に適合するSFPトランシーバーを選択しなければならない．</p>
-
 <h2 id="長さ">長さ</h2>
-
 <p>エアフローの確保やメンテナンス性を考え，ケーブルはポート間を最短距離で結ぶのではなく，ラックの両脇を通すことになる．それを考慮してケーブルの長さを決める．そのため同一ラック内の場合でもケーブルの長さは最低でも3〜5mくらいにしておいた方が無難．
 ラック間の接続の場合はさらに注意が必要．データセンターによってはラック間のケーブルを通す場所を通す場所が決まっていることがある．隣接ラックの場合はラック側面のパネルを全部または一部外すことで，ほぼ最短距離でケーブルを設置することができるが，データセンターによってはそれを許可していないことがあるため，事前に確認しておいた方がよい．それが禁止されている場合またはラックが隣接していない場合はケーブルを天井または床下に通すことになる．その場合も必要な長さをデータセンターに確認した方がよい．(データセンターに依頼しなければラック間のケーブルを敷設をしてはいけないこともある)</p>
-
 <h1 id="保守サポート">保守サポート</h1>
-
 <h2 id="サポート内容">サポート内容</h2>
-
 <p>提供されている保守サポートは製品によって異なる．必要な保守内容をよく検討した上で保守を契約する．製品によっては保守の内容がハードウェア/ソフトウェアの2つに分かれている場合があるので確認する．</p>
-
 <ul>
 <li>ハードウェア保守
-
 <ul>
 <li>部品の故障などに対応する</li>
-</ul></li>
+</ul>
+</li>
 <li>ソフトウェア保守
-
 <ul>
 <li>OSやファームウェアの不具合などに対応する</li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="受付時間">受付時間</h2>
-
 <p>サポート窓口の受付時間もいくつかの種類がある．よくある種別は以下の2通り．</p>
-
 <ul>
 <li>24時間365日</li>
 <li>平日日中</li>
 </ul>
-
 <p>クリティカルな機器のサポート受付時間が平日日中のみとならないようよく確認する．</p>
-
-<h2 id="センドバック-オンサイト">センドバック/オンサイト</h2>
-
+<h2 id="センドバックオンサイト">センドバック/オンサイト</h2>
 <p>部品の故障が発生した場合は部品交換または機器ごと交換となるが，その方法は大きく分けて2通りある．</p>
-
 <ul>
-<li>センドバック保守<br />
+<li>センドバック保守<br>
 機器または部品を返送し，修理済の機器や交換用の機器を送り返してもらう．修理までに時間がかかるうえ，機器を送り返してもらうまでその機器は使用できない．</li>
-<li>オンサイト保守<br />
+<li>オンサイト保守<br>
 機器が設置されている場所に保守技術者が来てくれ，その場で機器または部品の交換を行う．センドバック保守より修理までの時間が早いが，保守料金はこちらの方が高い．</li>
 </ul>
-
 <h1 id="その他">その他</h1>
-
 <h2 id="エアフロー">エアフロー</h2>
-
 <p>ケーブリングをしやすくするため，ポート面を揃えた方がよい．かつ冷却性を高めるため排気面も揃えるべき．
 機器によっては注文時に吸気面，排気面を選択できるが，選択できない機器もあるため設置する機器でポート面と排気面を揃えるように選定する．</p>
-
 <h2 id="付属品">付属品</h2>
-
 <p>機器によっては以下のようなパーツは別売りとなっている場合がある．データシートなどで付属品を確認し，漏れがないようにする．</p>
-
 <ul>
 <li>ラックマウントキット(羽，レールなど)</li>
 <li>電源ケーブル</li>
 <li>SFPトランシーバー</li>
 <li>(サーバなど)フロントパネル</li>
 </ul>
-
 <p>以上</p>
 
       </section>
@@ -157,20 +129,25 @@
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/designing-facility-layer-02\/';
-    var disqus_title = 'ファシリティまわりの設計時に考慮すること(続き)';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/designing-facility-layer-02\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -191,14 +168,17 @@
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

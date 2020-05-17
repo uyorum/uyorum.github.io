@@ -14,7 +14,7 @@ prepare: public
 ## Create new post
 post:
 	$(eval FILENAME := $(shell bash -c 'read -p "Enter filename: " filename; echo $$filename'))
-	hugo new post/$(FILENAME).md --editor="emacsclient"
+	hugo new post/$(FILENAME).md
 
 ## Deploy blog and push source
 deploy:

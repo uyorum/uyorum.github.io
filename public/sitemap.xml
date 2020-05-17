@@ -1,6 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://uyorum.github.io/</loc>
+    <lastmod>2020-05-17T21:12:10+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/post/</loc>
+    <lastmod>2020-05-17T21:12:10+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/blog/ubuntu-multitouch/</loc>
+    <lastmod>2020-05-17T21:12:10+09:00</lastmod>
+  </url>
   
   <url>
     <loc>http://uyorum.github.io/blog/fail2ban-1/</loc>
@@ -133,7 +148,22 @@
   </url>
   
   <url>
+    <loc>http://uyorum.github.io/tags/rails/</loc>
+    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/tags/ruby/</loc>
+    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://uyorum.github.io/blog/rails-asset-pipeline-1/</loc>
+    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/tags/</loc>
     <lastmod>2017-03-01T23:01:28+09:00</lastmod>
   </url>
   
@@ -268,44 +298,7 @@
   </url>
   
   <url>
-    <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2019-07-04T20:32:07+09:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://uyorum.github.io/</loc>
-    <lastmod>2019-07-04T20:32:07+09:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://uyorum.github.io/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://uyorum.github.io/post/</loc>
-    <lastmod>2019-07-04T20:32:07+09:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://uyorum.github.io/tags/rails/</loc>
-    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://uyorum.github.io/tags/ruby/</loc>
-    <lastmod>2017-03-01T23:01:28+09:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://uyorum.github.io/tags/</loc>
-    <lastmod>2019-07-04T20:32:07+09:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>

@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -54,20 +54,13 @@
 しかし，なかなかハードウェアが決まらず二の足を踏んでいたのですが，たまたまネットを眺めていたらなかなかよい構成を
 思いついたので構築に踏みきることにしました．
 その経過を何回かにわけて記録に残しておくことにします．</p>
-
-<p></p>
-
 <h2 id="きっかけ">きっかけ</h2>
-
 <p>想定しているESXiの用途としては，自宅サーバ用にLinuxマシン1台に加えて検証用にLinuxが2台ほど動かすことでした．
 また，ついでにファイルサーバも一新したいと考えていました．現在はバッファローの簡易NAS機能でHDDを2台動かしているのですが，
 容量が足りなくなってきたことに加えて，冗長性がない，HDDを使い始めて4年ほど，とそろそろデータ損失が心配になってきたのです．</p>
-
 <h2 id="構成">構成</h2>
-
 <ul>
 <li>サーバ
-
 <ul>
 <li>本体
 Intel NUC BOXDC3217IYE</li>
@@ -75,21 +68,20 @@ Intel NUC BOXDC3217IYE</li>
 A-DATA mSATA SSD ASP310S3-64GM-C</li>
 <li>RAM
 CFD W3N1600Q-8G * 2</li>
-</ul></li>
+</ul>
+</li>
 <li>ストレージ
-
 <ul>
 <li>NAS
 NETGEAR ReadyNAS 104</li>
 <li>HDD
 WESTERN DIGITAL WD30EFRX * 4</li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>ReadyNAS 104を見つけたのが今回の構成を思いついたきっかけでした．
 この機種はsmb(CIFS)はもちろんNFSやiSCSIでも共有できるのでESXiのデータストアにちょうどいいのです．
 BOXDC3217IYEは消費電力とコンパクトさで選択しました．欲を言えばNICがふたつあればよかった．</p>
-
 <p>とりあえず構成は決まったのであとは注文するだけです．構築の記録を今後もあげていこうと思います．</p>
       </section>
       <aside>
@@ -110,20 +102,25 @@ BOXDC3217IYEは消費電力とコンパクトさで選択しました．欲を�
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/esxi-01\/';
-    var disqus_title = 'ESXiサーバ構築誌 - 機器構成';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/esxi-01\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -144,14 +141,17 @@ BOXDC3217IYEは消費電力とコンパクトさで選択しました．欲を�
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

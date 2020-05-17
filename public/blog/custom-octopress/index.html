@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -51,23 +51,16 @@
       </span>
       <section itemprop="entry-text">
         <p>少しいじりました．</p>
-
-<p></p>
-
 <h2 id="参考">参考</h2>
-
 <ul>
 <li><a href="http://blog.awairo.net/blog/2014/01/01/customizing-octopress-rakefile/">OctopressのRakefileのカスタマイズ</a></li>
 </ul>
-
-<h2 id="拡張子を-mdにする">拡張子を.mdにする</h2>
-
-<p>拡張子がmarkdownて長すぎると思うので．<br />
+<h2 id="拡張子をmdにする">拡張子を.mdにする</h2>
+<p>拡張子がmarkdownて長すぎると思うので．<br>
 Rakefileを編集</p>
-
 <pre><code>    % diff -u Rakefile.bak Rakefile
-    --- Rakefile.bak    2014-04-20 23:00:27.660893177 +0900
-    +++ Rakefile    2014-04-20 23:01:19.592893607 +0900
+    --- Rakefile.bak	2014-04-20 23:00:27.660893177 +0900
+    +++ Rakefile	2014-04-20 23:01:19.592893607 +0900
     @@ -23,8 +23,8 @@
      stash_dir       = &quot;_stash&quot;    # directory to stash posts for speedy generation
      posts_dir       = &quot;_posts&quot;    # directory for blog files
@@ -78,12 +71,9 @@ Rakefileを編集</p>
     +new_page_ext    = &quot;md&quot;        # default new page file extension when using the new_page task
      server_port     = &quot;4000&quot;      # port for preview server eg. localhost:4000
 </code></pre>
-
 <h2 id="ディレクトリ掘る">ディレクトリ掘る</h2>
-
-<p>_posts/YYYY/MM/にディレクトリを掘って.mdを保存する<br />
+<p>_posts/YYYY/MM/にディレクトリを掘って.mdを保存する<br>
 上と同様Rakefileを編集</p>
-
 <pre><code>    % diff -u Rakefile.bak Rakefile
     @@ -98,8 +98,9 @@
          title = get_stdin(&quot;Enter a title for your post: &quot;)
@@ -116,20 +106,25 @@ Rakefileを編集</p>
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/custom-octopress\/';
-    var disqus_title = 'Octopressでmarkdownのファイル名規則を変更する';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/custom-octopress\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -150,14 +145,17 @@ Rakefileを編集</p>
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

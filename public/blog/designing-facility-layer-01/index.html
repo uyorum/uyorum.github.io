@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -50,126 +50,88 @@
 
       </span>
       <section itemprop="entry-text">
-        
-
-<p>最近とあるシステムを新規構築するにあたりファシリティまわりの設計をすることになった．
+        <p>最近とあるシステムを新規構築するにあたりファシリティまわりの設計をすることになった．
 個人的に初めてのレイヤで，かつ暗黙知が多すぎて苦労したので備忘録的にまとめておく．</p>
-
 <h1 id="筆者の知識">筆者の知識</h1>
-
 <ul>
 <li>ラッキング，ケーブリング作業は行ったことがある</li>
 <li>機器選定やラック設計は行ったことがない</li>
 </ul>
-
 <h1 id="扱う領域">扱う領域</h1>
-
 <p>このエントリでは自分が考慮した以下の領域についてまとめる．ただし現場ごとの習慣や組織構造などによって考慮すべきことが異なるはずなので注意．</p>
-
 <ul>
 <li>ラック設計</li>
 <li>機器選定</li>
 <li>ケーブル規格</li>
 </ul>
-
 <h1 id="前提">前提</h1>
-
 <ul>
 <li>機器はデータセンターに設置する</li>
 <li>データセンターは自社所有だが異なる部署が管理している(基本的に設備は勝手にいじれない)</li>
 <li>サーバ室はコロケーション</li>
 </ul>
-
 <h1 id="ラック">ラック</h1>
-
 <h2 id="ラック寸法">ラック寸法</h2>
-
 <p>機器を設置する部分の幅と高さはEIA規格という規格に準拠して設計されていることが多い(JIS規格というものもあるようだが自分は見たことがない)．
 EIA規格では幅19インチ，高さが1.75インチの倍数と定めており，だいたいの機器の寸法もこれに従って設計されている．この1.75インチを1単位として1U(ユニット)と呼ぶ．
 機器を設置しようとしているラックがEIA規格に準拠していることを確認すればよい．またはEIA準拠のラックを調達する．</p>
-
 <p>ここで注意なのが，EIA規格は機器を設置する部分の幅と高さを定めているが，奥行については定めていないということ．設置しようとしている機器の奥行がラックに収まるサイズかは別途チェックする必要がある．
 また，ラックの扉の構造や(機器を取り付ける部分ではなく)ラック自体の横幅もラックによって異なる．
 通常はネットワークケーブルや電源コードが機器の前後にせり出すうえ，左右にケーブルを這わせたりするため十分なスペースがあるか実物を見て確認しておいた方がよいかもしれない．</p>
-
 <h2 id="耐荷重">耐荷重</h2>
-
 <p>通常はラック(というよりはデータセンターか)に対して設置できる機器の総重量が定められている．(自分のまわりではデータセンターにより500kg~1000kgほどの幅がある)
 機器のメーカサイトで公開されているデータシートに重量が記載されているため耐荷重を超えていないか確認すべき．</p>
-
 <h1 id="電源">電源</h1>
-
 <p>データセンターは電力会社含め，電源設備の故障に備えて複数系統の電源をラック内に設置できることが多い．電源を設置する際には以下の点を考慮する．</p>
-
 <h2 id="電圧">電圧</h2>
-
 <p>機器によって対応する電圧が異なる．100Vか200Vまたはその両方に対応する機器が存在する．これも機器のデータシートに記載されているため確認しておく．
 当然使用する電圧ごとに電源系統をラック内に電源をひきこんでおく必要がある．(ラック内で変圧するような機器もあるかもしれないが自分は知らない)</p>
-
 <p>機器が100Vと200Vの両方に対応する場合にどちらを使えばよいか，自分の場合は主に以下の2点を考慮して決めた</p>
-
 <h3 id="伝送効率">伝送効率</h3>
-
-<p>同じ消費電力(W)の場合，100Vと200Vでは200Vの方が電流が小さい分，伝送路の抵抗による電圧降下が小さくなる．(=伝送効率がよくなる)<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup>
+<p>同じ消費電力(W)の場合，100Vと200Vでは200Vの方が電流が小さい分，伝送路の抵抗による電圧降下が小さくなる．(=伝送効率がよくなる)<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>
 サーバのような消費電力の大きい機器の場合はできるだけ200Vで動かすようにした．</p>
-
 <h3 id="電源敷設の手間">電源敷設の手間</h3>
-
 <p>同一ラック内で100Vと200Vの機器が混在する場合，そのラックへは100Vと200Vの電源を両方ひきこまなければならない．使用する電圧はできるだけ統一した方が電源設備がシンプルになるうえ，コストダウンにつながる．
 ただし電源を200Vしか用意しない場合，ノートPCなどで作業を行う場合の電源は別途考えなければならない．</p>
-
 <h2 id="電源口の設置場所">電源口の設置場所</h2>
-
 <p>電源口は<a href="https://www.sanwa.co.jp/product/oatap/server/index.html">コンセントバー</a>や<a href="https://www.networld.co.jp/product/schneider/pro_info/pdu/">PDU</a>と呼ばれる機器をラック内に設置することで確保する．
 設置方法はラック側面に設置する方法とラックにマウントする方法がある．</p>
-
-<p>ラック側面に設置する場合，接続口が上下に広く配置されるので電源コードが届かないということはまずない．しかし，コンセントバー自身やそれに挿さる電源コードが機器の出し入れ等の作業の邪魔になることがある．<br />
+<p>ラック側面に設置する場合，接続口が上下に広く配置されるので電源コードが届かないということはまずない．しかし，コンセントバー自身やそれに挿さる電源コードが機器の出し入れ等の作業の邪魔になることがある．<br>
 ラックにマウントする場合，ユニットを消費するうえ，設置位置と電源コードの長さによっては電源コードが届かないということが発生しうる．しかしそれに挿さる電源コード自身が邪魔になるということは少ない．</p>
-
 <h2 id="電源容量">電源容量</h2>
-
 <p>はラックごとに使用できる電源の容量が設定されている．もしこれをオーバーして電力を消費した場合，ブレーカーが落ちてしまう．
 ラック内の機器の配置を考えるときは機器の消費電力の合計がこの容量を超えないようにする必要がある．</p>
-
-<h3 id="消費電力-有効電力-皮相電力-力率">消費電力，有効電力，皮相電力，力率</h3>
-
+<h3 id="消費電力有効電力皮相電力力率">消費電力，有効電力，皮相電力，力率</h3>
 <ul>
-<li>消費電力(有効電力)<br />
-ある機器でどれくらいの電力を消費するか．単位はW．だいたいはデータシートに記載されている．ワークロードの量によって消費する電力は変動するため，実際に機器がどれくらいの電力を消費するか事前に見積もるのは難しい．(データシートには標準電力，最大電力のように分けて記載されているものもあり，参考にはなる)<br />
+<li>消費電力(有効電力)<br>
+ある機器でどれくらいの電力を消費するか．単位はW．だいたいはデータシートに記載されている．ワークロードの量によって消費する電力は変動するため，実際に機器がどれくらいの電力を消費するか事前に見積もるのは難しい．(データシートには標準電力，最大電力のように分けて記載されているものもあり，参考にはなる)<br>
 自分の場合は最大電力の50%くらいで見積もった．消費電力を測る機能を持つPDUもあるため，設置後も消費電力をモニタリングし続けるのがいいだろう．</li>
-<li>皮相電力<br />
+<li>皮相電力<br>
 電源設備が供給することのできる電力．単位はVA．例えば6000VAの場合は200Vで合計60Aの電流を流すことができるということになる．</li>
-<li>力率<br />
-交流回路では必ずしも6000VAの皮相電力で6000Wの有効電力が得られるわけではない．機器ごとに力率という値が存在し，「皮相電力x力率」の値が実際に機器で使用できる電力となる．<br />
-つまり皮相電力6000VAのラックに消費電力6000Wの機器は設置できない(1台でこれだけ電力を消費する機器はなかなかないと思うが)ということ．設置する機器の力率を考慮する必要がある．(しかし多くの場合，力率はデータシートにも記載されていない)<br />
+<li>力率<br>
+交流回路では必ずしも6000VAの皮相電力で6000Wの有効電力が得られるわけではない．機器ごとに力率という値が存在し，「皮相電力x力率」の値が実際に機器で使用できる電力となる．<br>
+つまり皮相電力6000VAのラックに消費電力6000Wの機器は設置できない(1台でこれだけ電力を消費する機器はなかなかないと思うが)ということ．設置する機器の力率を考慮する必要がある．(しかし多くの場合，力率はデータシートにも記載されていない)<br>
 皮相電力6000VAのラックには，例えば力率60%/消費電力3600Wの機器まで設置できることになる．</li>
 </ul>
-
 <h2 id="電源端子の規格">電源端子の規格</h2>
-
-<p>家庭用機器にある平型2P以外にも，データセンターにおいては様々な端子を扱う．端子形状はデータシートに記載されているためプラグとソケットに規格を合わせるように気をつける．<br />
+<p>家庭用機器にある平型2P以外にも，データセンターにおいては様々な端子を扱う．端子形状はデータシートに記載されているためプラグとソケットに規格を合わせるように気をつける．<br>
 電源端子の形状については以下のページがよくまとまっている．</p>
-
 <p><a href="http://www.aim-ele.co.jp/products/custom-powercable/">特注電源ケーブル　|　エイム電子株式会社</a></p>
-
 <p>長くなったので今回はここまで</p>
-
 <h1 id="参考">参考</h1>
-
-<p><a href="https://www.sanwa.co.jp/product/desk_rack/server/server_select_eia.html">サーバーラック　EIA規格について - サンワサプライ株式会社</a><br />
-<a href="https://www.sanwa.co.jp/product/oatap/server/index.html">サーバーラック用コンセント - サンワサプライ株式会社</a><br />
-<a href="https://www.apc.com/shop/jp/ja/categories/power-distribution/rack-power-distribution/switched-rack-pdu/N-17k76am">Switched Rack PDU - APC Japan</a><br />
-<a href="https://electric-facilities.jp/denki4/watt.html">W（ワット）とVA（ボルトアンペア）の換算・計算 | 消費電力の計測・皮相電力と無効電力</a><br />
+<p><a href="https://www.sanwa.co.jp/product/desk_rack/server/server_select_eia.html">サーバーラック　EIA規格について - サンワサプライ株式会社</a><br>
+<a href="https://www.sanwa.co.jp/product/oatap/server/index.html">サーバーラック用コンセント - サンワサプライ株式会社</a><br>
+<a href="https://www.apc.com/shop/jp/ja/categories/power-distribution/rack-power-distribution/switched-rack-pdu/N-17k76am">Switched Rack PDU - APC Japan</a><br>
+<a href="https://electric-facilities.jp/denki4/watt.html">W（ワット）とVA（ボルトアンペア）の換算・計算 | 消費電力の計測・皮相電力と無効電力</a><br>
 <a href="http://www.aim-ele.co.jp/products/custom-powercable/">特注電源ケーブル　|　エイム電子株式会社</a></p>
-<div class="footnotes">
-
-<hr />
-
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1"><a href="http://jp.fujitsu.com/platform/server/primergy/technical/pcserver-description/power.html#p2">PRIMERGY（プライマジー）入力電源と電源ユニット : 富士通</a>
- <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p><a href="http://jp.fujitsu.com/platform/server/primergy/technical/pcserver-description/power.html#p2">PRIMERGY（プライマジー）入力電源と電源ユニット : 富士通</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div>
+</section>
 
       </section>
       <aside>
@@ -190,20 +152,25 @@ EIA規格では幅19インチ，高さが1.75インチの倍数と定めてお�
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/designing-facility-layer-01\/';
-    var disqus_title = 'ファシリティまわりの設計時に考慮すること';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/designing-facility-layer-01\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -224,14 +191,17 @@ EIA規格では幅19インチ，高さが1.75インチの倍数と定めてお�
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

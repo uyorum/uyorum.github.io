@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.70.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" href="http://uyorum.github.io/favicon.ico">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+
+<title>Ubuntu 20.04でMagic Trackpadのマルチタッチジェスチャーを使う - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+  <main role="main">
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 class="entry-title" itemprop="headline">Ubuntu 20.04でMagic Trackpadのマルチタッチジェスチャーを使う</h1>
+      <span class="entry-meta">
+        <time itemprop="datePublished" datetime="2020-05-17">May 17, 2020
+        </time>
+      </span>
+      <span class="pull-right">
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2fubuntu-multitouch%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Ubuntu%2020.04%e3%81%a7Magic%20Trackpad%e3%81%ae%e3%83%9e%e3%83%ab%e3%83%81%e3%82%bf%e3%83%83%e3%83%81%e3%82%b8%e3%82%a7%e3%82%b9%e3%83%81%e3%83%a3%e3%83%bc%e3%82%92%e4%bd%bf%e3%81%86 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fubuntu-multitouch%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fubuntu-multitouch%2f&amp;title=Ubuntu%2020.04%e3%81%a7Magic%20Trackpad%e3%81%ae%e3%83%9e%e3%83%ab%e3%83%81%e3%82%bf%e3%83%83%e3%83%81%e3%82%b8%e3%82%a7%e3%82%b9%e3%83%81%e3%83%a3%e3%83%bc%e3%82%92%e4%bd%bf%e3%81%86 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Ubuntu%2020.04%e3%81%a7Magic%20Trackpad%e3%81%ae%e3%83%9e%e3%83%ab%e3%83%81%e3%82%bf%e3%83%83%e3%83%81%e3%82%b8%e3%82%a7%e3%82%b9%e3%83%81%e3%83%a3%e3%83%bc%e3%82%92%e4%bd%bf%e3%81%86 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2fubuntu-multitouch%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </span>
+      <section itemprop="entry-text">
+        <p>久しぶにデスクトップをUbuntuにしてみたところ、Magic Trackpadのジェスチャーの設定に苦戦したのでメモ。</p>
+<!-- raw HTML omitted -->
+<h2 id="環境">環境</h2>
+<ul>
+<li>Ubuntu 20.04</li>
+<li>X11</li>
+<li>GNOME</li>
+<li>Magic Trackpad (2じゃない)</li>
+</ul>
+<h2 id="設定">設定</h2>
+<p>普通にペアリングしてタッチパッドの設定から以下の動作は設定できるようになる。</p>
+<ul>
+<li>スクロール方向</li>
+<li>左右クリック</li>
+<li>2本指スクロール</li>
+</ul>
+<p>基本的にはこれでも十分使えるのだが、自分の場合は3本指スワイプで戻る・進む動作をさせたかったので方法を調べてみた。
+<a href="https://wiki.ubuntu.com/Multitouch/AppleMagicTrackpad">Ubuntu wiki</a>ではginnというツールが紹介されている。
+またいろいろとググっているとtoucheggというツールも見つかる。
+どちらも試してみたが自分の環境ではどちらも期待通りに動かなかった。</p>
+<h2 id="ドライバまわりの話">ドライバまわりの話</h2>
+<p>自分の中でLinuxでタッチパッド周りのドライバといえばSynapticsだったが現在はSynapticsは開発されておらず、
+代わりにlibinputというドライバが使われるようになっているらしい。</p>
+<p>実際にMagic Trackpadにはlibinputが使われている模様。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ xinput list | grep -i trackpad
+⎜   ↳ Magic Trackpad                            id<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>   <span style="color:#f92672">[</span>slave  pointer  <span style="color:#f92672">(</span>2<span style="color:#f92672">)]</span>
+$ xinput list-props <span style="color:#ae81ff">10</span>
+Device <span style="color:#e6db74">&#39;Magic Trackpad&#39;</span>:
+        Device Enabled <span style="color:#f92672">(</span>168<span style="color:#f92672">)</span>:   <span style="color:#ae81ff">1</span>
+        Coordinate Transformation Matrix <span style="color:#f92672">(</span>170<span style="color:#f92672">)</span>: 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000
+        libinput Tapping Enabled <span style="color:#f92672">(</span>303<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span>
+        libinput Tapping Enabled Default <span style="color:#f92672">(</span>304<span style="color:#f92672">)</span>: <span style="color:#ae81ff">0</span>
+        libinput Tapping Drag Enabled <span style="color:#f92672">(</span>305<span style="color:#f92672">)</span>:    <span style="color:#ae81ff">1</span>
+        libinput Tapping Drag Enabled Default <span style="color:#f92672">(</span>306<span style="color:#f92672">)</span>:    <span style="color:#ae81ff">1</span>
+        libinput Tapping Drag Lock Enabled <span style="color:#f92672">(</span>307<span style="color:#f92672">)</span>:       <span style="color:#ae81ff">0</span>
+        libinput Tapping Drag Lock Enabled Default <span style="color:#f92672">(</span>308<span style="color:#f92672">)</span>:       <span style="color:#ae81ff">0</span>
+        libinput Tapping Button Mapping Enabled <span style="color:#f92672">(</span>309<span style="color:#f92672">)</span>:  1, <span style="color:#ae81ff">0</span>
+        libinput Tapping Button Mapping Default <span style="color:#f92672">(</span>310<span style="color:#f92672">)</span>:  1, <span style="color:#ae81ff">0</span>
+        libinput Natural Scrolling Enabled <span style="color:#f92672">(</span>311<span style="color:#f92672">)</span>:       <span style="color:#ae81ff">0</span>
+        libinput Natural Scrolling Enabled Default <span style="color:#f92672">(</span>312<span style="color:#f92672">)</span>:       <span style="color:#ae81ff">0</span>
+        libinput Scroll Methods Available <span style="color:#f92672">(</span>313<span style="color:#f92672">)</span>:        1, 1, <span style="color:#ae81ff">0</span>
+        libinput Scroll Method Enabled <span style="color:#f92672">(</span>314<span style="color:#f92672">)</span>:   1, 0, <span style="color:#ae81ff">0</span>
+        libinput Scroll Method Enabled Default <span style="color:#f92672">(</span>315<span style="color:#f92672">)</span>:   1, 0, <span style="color:#ae81ff">0</span>
+        libinput Click Methods Available <span style="color:#f92672">(</span>316<span style="color:#f92672">)</span>: 1, <span style="color:#ae81ff">1</span>
+        libinput Click Method Enabled <span style="color:#f92672">(</span>317<span style="color:#f92672">)</span>:    0, <span style="color:#ae81ff">1</span>
+        libinput Click Method Enabled Default <span style="color:#f92672">(</span>318<span style="color:#f92672">)</span>:    0, <span style="color:#ae81ff">1</span>
+        libinput Middle Emulation Enabled <span style="color:#f92672">(</span>319<span style="color:#f92672">)</span>:        <span style="color:#ae81ff">0</span>
+        libinput Middle Emulation Enabled Default <span style="color:#f92672">(</span>320<span style="color:#f92672">)</span>:        <span style="color:#ae81ff">0</span>
+        libinput Accel Speed <span style="color:#f92672">(</span>321<span style="color:#f92672">)</span>:     0.551471
+        libinput Accel Speed Default <span style="color:#f92672">(</span>322<span style="color:#f92672">)</span>:     0.000000
+        libinput Left Handed Enabled <span style="color:#f92672">(</span>323<span style="color:#f92672">)</span>:     <span style="color:#ae81ff">0</span>
+        libinput Left Handed Enabled Default <span style="color:#f92672">(</span>324<span style="color:#f92672">)</span>:     <span style="color:#ae81ff">0</span>
+        libinput Send Events Modes Available <span style="color:#f92672">(</span>288<span style="color:#f92672">)</span>:     1, <span style="color:#ae81ff">0</span>
+        libinput Send Events Mode Enabled <span style="color:#f92672">(</span>289<span style="color:#f92672">)</span>:        0, <span style="color:#ae81ff">0</span>
+        libinput Send Events Mode Enabled Default <span style="color:#f92672">(</span>290<span style="color:#f92672">)</span>:        0, <span style="color:#ae81ff">0</span>
+        Device Node <span style="color:#f92672">(</span>291<span style="color:#f92672">)</span>:      <span style="color:#e6db74">&#34;/dev/input/event5&#34;</span>
+        Device Product ID <span style="color:#f92672">(</span>292<span style="color:#f92672">)</span>:        1452, <span style="color:#ae81ff">782</span>
+        libinput Drag Lock Buttons <span style="color:#f92672">(</span>325<span style="color:#f92672">)</span>:       &lt;no items&gt;
+        libinput Horizontal Scroll Enabled <span style="color:#f92672">(</span>326<span style="color:#f92672">)</span>:       <span style="color:#ae81ff">1</span>
+</code></pre></div><p>ginnもtoucheggもsynaptics用に作られているからlibinputの環境では動かないということだろうか？
+ともかく、libinputの場合にマルチタッチジェスチャーをするためのツールは[Arch wiki](<a href="https://wiki.archlinux.jp/index.php/Libinput#.E3.82.B8.E3.82.A7.E3.82.B9.E3.83.81.E3.83.A3.E3.83.BC">https://wiki.archlinux.jp/index.php/Libinput#.E3.82.B8.E3.82.A7.E3.82.B9.E3.83.81.E3.83.A3.E3.83.BC</a>が詳しい。
+説明を読んだ感じだとGnomeExtendedGesturesがよさそうだが、Ubuntuにはパッケージがなかったのでlibinput-gesturesを選択した。</p>
+<h2 id="libinput-gestures">libinput-gestures</h2>
+<p>libinput-gesturesもパッケージはないので<a href="https://github.com/bulletmark/libinput-gestures">GitHub</a>からダウンロードしてくる。
+インストール方法もREADME.mdに記載の通り。</p>
+<p>ひとまず設定ファイルは以下のようにした。</p>
+<ul>
+<li>3本指左右スワイプで戻る・進む</li>
+<li>4本指左右スワイプでワークスペース切替</li>
+<li>3本指または4本指上下スワイプですべてのウィンドウを表示</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat .config/libinput-gestures.conf
+gesture swipe left <span style="color:#ae81ff">3</span> xdotool key alt+Left
+gesture swipe right <span style="color:#ae81ff">3</span> xdotool key alt+Right
+
+gesture swipe left <span style="color:#ae81ff">4</span> xdotool key super+Page_Up
+gesture swipe right <span style="color:#ae81ff">4</span> xdotool key super+Page_Down
+
+gesture swipe up <span style="color:#ae81ff">3</span> xdotool key alt+F1
+gesture swipe down <span style="color:#ae81ff">3</span> xdotool key alt+F1
+gesture swipe up <span style="color:#ae81ff">4</span> xdotool key alt+F1
+gesture swipe down <span style="color:#ae81ff">4</span> xdotool key alt+F1
+</code></pre></div><p><code>libinput-gestures -d</code>でジェスチャーを認識しているか確認できる。
+<code>libinput-gestures-setup start</code>で起動、<code>libinput-gestures-setup autostart</code>で自動起動設定</p>
+<p>もっと凝ったジェスチャーも設定できそうだがひとまずこれで使ってみることにする。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://github.com/bulletmark/libinput-gestures">GitHub - bulletmark/libinput-gestures: Actions gestures on your touchpad using libinput</a></li>
+<li><a href="https://wiki.archlinux.jp/index.php/Libinput">libinput - ArchWiki</a></li>
+<li><a href="https://jun-networks.hatenablog.com/entry/2018/05/06/071813">Linux Mint(Cinnamon) で Touchpad gestures を使えるようにした - JUNのブログ</a></li>
+</ul>
+
+      </section>
+      <aside>
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2fubuntu-multitouch%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Ubuntu%2020.04%e3%81%a7Magic%20Trackpad%e3%81%ae%e3%83%9e%e3%83%ab%e3%83%81%e3%82%bf%e3%83%83%e3%83%81%e3%82%b8%e3%82%a7%e3%82%b9%e3%83%81%e3%83%a3%e3%83%bc%e3%82%92%e4%bd%bf%e3%81%86 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fubuntu-multitouch%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fubuntu-multitouch%2f&amp;title=Ubuntu%2020.04%e3%81%a7Magic%20Trackpad%e3%81%ae%e3%83%9e%e3%83%ab%e3%83%81%e3%82%bf%e3%83%83%e3%83%81%e3%82%b8%e3%82%a7%e3%82%b9%e3%83%81%e3%83%a3%e3%83%bc%e3%82%92%e4%bd%bf%e3%81%86 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Ubuntu%2020.04%e3%81%a7Magic%20Trackpad%e3%81%ae%e3%83%9e%e3%83%ab%e3%83%81%e3%82%bf%e3%83%83%e3%83%81%e3%82%b8%e3%82%a7%e3%82%b9%e3%83%81%e3%83%a3%e3%83%bc%e3%82%92%e4%bd%bf%e3%81%86 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2fubuntu-multitouch%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </aside>
+      
+        <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      
+    </article>
+  </main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+			
+			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+			
+      
+		</div>
+		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+	</footer>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

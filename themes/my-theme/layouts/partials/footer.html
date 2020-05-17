@@ -7,8 +7,8 @@
 			{{ with .Site.Params.facebook }}<a href="https://www.facebook.com/{{ . }}" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>{{ end }}
 			{{ with .Site.Params.github }}<a href="https://github.com/{{ . }}" target="_blank"><i class="fa fa-github fa-2x"></i></a>{{ end }}
 			{{ with .Site.Params.linkedin }}<a href="https://linkedin.com/{{ . }}" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>{{ end }}
-      {{ if .RSSLink }}
-      <a href="{{ .RSSLink }}"><i class="fa fa-rss fa-2x"></i></a>
+      {{ if .OutputFormats.Get "RSS" }}
+      <a href="{{ .OutputFormats.Get "RSS" }}"><i class="fa fa-rss fa-2x"></i></a>
       {{ end }}
 		</div>
 		<div class="copyright">Copyright &copy; {{ .Site.Copyright | safeHTML }}</div>

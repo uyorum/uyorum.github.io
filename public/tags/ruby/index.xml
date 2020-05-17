@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ruby on @uyorumの雑記帳</title>
+    <title>ruby on @uyorumの雑記帳</title>
     <link>http://uyorum.github.io/tags/ruby/</link>
-    <description>Recent content in Ruby on @uyorumの雑記帳</description>
+    <description>Recent content in ruby on @uyorumの雑記帳</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
@@ -20,9 +20,7 @@
       <guid>http://uyorum.github.io/blog/rails-asset-pipeline-1/</guid>
       <description>&lt;p&gt;Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった．
 いろいろと知識を詰め込んだので復習も兼ねてまとめていく．
-おそらくRailsを使い慣れている人にとっては基本的すぎる内容．&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+おそらくRailsを使い慣れている人にとっては基本的すぎる内容．&lt;/p&gt;</description>
     </item>
     
   </channel>

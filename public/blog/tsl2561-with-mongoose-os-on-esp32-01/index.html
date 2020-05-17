@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -50,45 +50,30 @@
 
       </span>
       <section itemprop="entry-text">
-        <p>かねてから触ってみたいと思っていたMongooseOSと以前買ったTSL2561照度センサーモジュールがあったのでESP32にMongooseOSを入れて照度を取得してみようと思った．<br />
-そもそもI2Cデバイスを触るのが初めてだったため、いきなりMongooseOSでそれを扱おうとするのはハードルが高すぎると考え、まずはその準備編として情報の多いRaspberryPiで照度を取得してみることにした．<br />
+        <p>かねてから触ってみたいと思っていたMongooseOSと以前買ったTSL2561照度センサーモジュールがあったのでESP32にMongooseOSを入れて照度を取得してみようと思った．<br>
+そもそもI2Cデバイスを触るのが初めてだったため、いきなりMongooseOSでそれを扱おうとするのはハードルが高すぎると考え、まずはその準備編として情報の多いRaspberryPiで照度を取得してみることにした．<br>
 最後にESP32へのMongooseOSのインストールも行っておく．</p>
-
-<p></p>
-
 <h2 id="環境">環境</h2>
-
 <h3 id="作業端末">作業端末</h3>
-
-<pre><code class="language-shell">$ sw_vers
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sw_vers
 ProductName:    Mac OS X
 ProductVersion: 10.11.6
 BuildVersion:   15G1611
-</code></pre>
-
-<h3 id="ハードウェア">ハードウェア</h3>
-
+</code></pre></div><h3 id="ハードウェア">ハードウェア</h3>
 <ul>
 <li><a href="http://akizukidenshi.com/catalog/g/gM-08219/">ＴＳＬ２５６１使用　照度センサーモジュール: センサ一般 秋月電子通商 電子部品 ネット通販</a></li>
 <li><a href="http://akizukidenshi.com/catalog/g/gM-11819/">ＥＳＰ３２－ＤｅｖＫｉｔＣ　ＥＳＰ－ＷＲＯＯＭ－３２開発ボード: 無線、高周波関連商品 秋月電子通商 電子部品 ネット通販</a></li>
 </ul>
-
 <h2 id="raspberrypiでtsl2561を扱う">RaspberryPiでTSL2561を扱う</h2>
-
 <h3 id="rasbianのセットアップ">Rasbianのセットアップ</h3>
-
-<p>I2C向けのセットアップは以下の書籍を参考にした．<br />
+<p>I2C向けのセットアップは以下の書籍を参考にした．<br>
 <a href="http://bluebacks.kodansha.co.jp/special/rspi.html">Raspberry Piで学ぶ電子工作　超小型コンピュータで電子回路を制御する　サポートページ｜ブルーバックス｜講談社BOOK倶楽部</a></p>
-
-<pre><code class="language-shell">$ sudo raspi-config
-(Interfacing -&gt; I2C -&gt; enable)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo raspi-config
+<span style="color:#f92672">(</span>Interfacing -&gt; I2C -&gt; enable<span style="color:#f92672">)</span>
 $ sudo reboot
 $ sudo apt-get update
 $ sudo apt-get install -y i2c-tools python-smbus
-</code></pre>
-
-<p>センサーモジュールの各端子はRaspberryPiの以下のピンに接続する</p>
-
+</code></pre></div><p>センサーモジュールの各端子はRaspberryPiの以下のピンに接続する</p>
 <table>
 <thead>
 <tr>
@@ -96,59 +81,42 @@ $ sudo apt-get install -y i2c-tools python-smbus
 <th align="left">RasPi</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="left">Vin</td>
 <td align="left">3.3V (1ピン)</td>
 </tr>
-
 <tr>
 <td align="left">GND</td>
 <td align="left">GND (6ピン)</td>
 </tr>
-
 <tr>
 <td align="left">SDA</td>
 <td align="left">I2C SDA (3ピン)</td>
 </tr>
-
 <tr>
 <td align="left">SDL</td>
 <td align="left">I2C SCL (5ピン)</td>
 </tr>
 </tbody>
 </table>
-
 <h3 id="コードの実装">コードの実装</h3>
-
-<p>続いて以下のエントリとデータシートを参照し、Pythonで照度を取得するコードを書いてみた<br />
-<a href="http://qiita.com/boyaki_machine/items/a238e9d03455a2eea26e">Raspberry pi 3でストロベリー・リナックス社製「TSL2561 照度センサ・モジュール メーカー品番：TSL2561」を使う（試行錯誤編） - Qiita</a><br />
+<p>続いて以下のエントリとデータシートを参照し、Pythonで照度を取得するコードを書いてみた<br>
+<a href="http://qiita.com/boyaki_machine/items/a238e9d03455a2eea26e">Raspberry pi 3でストロベリー・リナックス社製「TSL2561 照度センサ・モジュール メーカー品番：TSL2561」を使う（試行錯誤編） - Qiita</a><br>
 段階を踏んでセンサーデータの取得からルクスの計算まで説明されており非常に参考になった</p>
-
 <p>書いたコードは→ <a href="https://gist.github.com/uyorum/966af625bd9893ea3b2877e4e40600df">tsl2561.py</a></p>
-
 <h2 id="mongoose-osのインストール">Mongoose OSのインストール</h2>
-
 <ul>
 <li><a href="https://mongoose-os.com/software.html">Mongoose OS - Downloads</a> の内容に従ってコマンドラインツール<code>mos</code>をインストールしておく</li>
 <li><a href="https://jp.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers">USB - UART ブリッジ VCP ドライバ|Silicon Labs</a> からドライバをダウンロード、インストールしておく</li>
 </ul>
-
 <p>ESP32へのMongooseOSのインストールは公式サイト記載の方法ではうまくいかなった．いろいろ調べたところ以下の方法でインストールできた．</p>
-
-<pre><code class="language-shell">$ mos flash --firmware https://mongoose-os.com/downloads/mos-esp32.zip
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mos flash --firmware https://mongoose-os.com/downloads/mos-esp32.zip
 $ mos wifi &lt;SSID&gt; &lt;PASSWORD&gt;
-</code></pre>
-
-<p>コマンド<code>mos</code>を実行するとブラウザが起動してGUIからMongooseOSを操作できるようになる．コードもここで書いていくことになる．</p>
-
+</code></pre></div><p>コマンド<code>mos</code>を実行するとブラウザが起動してGUIからMongooseOSを操作できるようになる．コードもここで書いていくことになる．</p>
 <p>ここまででTSL2561の扱いの理解とMongooseOSでコードを書く準備ができた．続いてMongooseOS用のコードを実装していく．</p>
-
 <p>続く</p>
-
 <h2 id="参考資料">参考資料</h2>
-
 <ul>
 <li><a href="http://bluebacks.kodansha.co.jp/special/rspi.html">Raspberry Piで学ぶ電子工作　超小型コンピュータで電子回路を制御する　サポートページ｜ブルーバックス｜講談社BOOK倶楽部</a></li>
 <li><a href="http://qiita.com/boyaki_machine/items/a238e9d03455a2eea26e">Raspberry pi 3でストロベリー・リナックス社製「TSL2561 照度センサ・モジュール メーカー品番：TSL2561」を使う（試行錯誤編） - Qiita</a></li>
@@ -172,20 +140,25 @@ $ mos wifi &lt;SSID&gt; &lt;PASSWORD&gt;
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/tsl2561-with-mongoose-os-on-esp32-01\/';
-    var disqus_title = 'ESP32とMongooseOSを使ってTSL2561で照度を取得する(準備編)';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/tsl2561-with-mongoose-os-on-esp32-01\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -206,14 +179,17 @@ $ mos wifi &lt;SSID&gt; &lt;PASSWORD&gt;
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 
