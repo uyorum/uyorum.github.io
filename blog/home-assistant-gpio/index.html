@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -51,47 +51,38 @@
       </span>
       <section itemprop="entry-text">
         <p>Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．</p>
-
-<p></p>
-
 <h2 id="使用製品">使用製品</h2>
-
 <p>今回使用するセンサー，機器は以下の通り</p>
-
 <ul>
-<li><p>Raspbery Pi 2 Model B<br />
-Raspbian jessie liteの上にHome Assistantをインストール済み</p></li>
-
-<li><p>赤外線人感センサー SB612A<br />
-<a href="http://akizukidenshi.com/catalog/g/gM-08767/">秋月電子</a>で購入．Raspberry Piから電源を取るので3.3Vまたは5Vで動くものなら何でもいいと思う．</p></li>
-
-<li><p>WiFi LED電球 MiLight
-<a href="http://item.rakuten.co.jp/illumica/c/0000000205/">楽天のイルミカ</a>で<a href="http://item.rakuten.co.jp/illumica/it_m005/">ブリッジ</a>と<a href="http://item.rakuten.co.jp/illumica/it_m003/">電球</a>を購入．<br />
-スマホアプリを使って操作できるところまでセットアップしておく．資金に余裕があるならHueでもいいと思う．</p></li>
+<li>
+<p>Raspbery Pi 2 Model B<br>
+Raspbian jessie liteの上にHome Assistantをインストール済み</p>
+</li>
+<li>
+<p>赤外線人感センサー SB612A<br>
+<a href="http://akizukidenshi.com/catalog/g/gM-08767/">秋月電子</a>で購入．Raspberry Piから電源を取るので3.3Vまたは5Vで動くものなら何でもいいと思う．</p>
+</li>
+<li>
+<p>WiFi LED電球 MiLight
+<a href="http://item.rakuten.co.jp/illumica/c/0000000205/">楽天のイルミカ</a>で<a href="http://item.rakuten.co.jp/illumica/it_m005/">ブリッジ</a>と<a href="http://item.rakuten.co.jp/illumica/it_m003/">電球</a>を購入．<br>
+スマホアプリを使って操作できるところまでセットアップしておく．資金に余裕があるならHueでもいいと思う．</p>
+</li>
 </ul>
-
 <h2 id="概要">概要</h2>
-
 <p>やりたいことは以下の通り</p>
-
 <ol>
 <li>人感センサーを使って人が近づいたことを検知できるようにしておく</li>
 <li>センサーに反応があった場合，MiLightへリクエストを発行し電球を点灯</li>
 <li>センサーに反応がなくなってしばらく経ってからMiLightへリクエストを発行し電球を消灯</li>
 </ol>
-
 <h2 id="home-assistantでgpioを使う">Home AssistantでGPIOを使う</h2>
-
 <p>秋月のサイトにあるSB612Aのデータシートを見ると以下のことがわかる．</p>
-
 <ul>
 <li>VCC端子に電源を接続する(DC3.3〜12V)</li>
 <li>センサーの反応はTEST端子から取れる．TEST端子の電位がそれぞれ反応あり=3.3V，反応なし=0Vになる．ただし実際には，センサーに反応がなくなってから0Vになるまではタイムラグがある</li>
 <li>上記タイムラグ(Delay Time)は2秒〜80分で調整できる</li>
 </ul>
-
 <p>今回の設計は以下のようにする</p>
-
 <ul>
 <li>VCC端子を3.3V端子(ピン1)へ接続</li>
 <li>TEST端子をGPIO 4端子へ接続</li>
@@ -100,128 +91,94 @@ Raspbian jessie liteの上にHome Assistantをインストール済み</p></li>
 <li>TEST=0Vの状態を確実にGPIOのLOW状態とするためにRaspberryPiに内蔵のプルダウン抵抗を有効にする</li>
 <li>bouncetimeは50msとする</li>
 </ul>
-
-<p><img src="/home-assistant-gpio/01.jpg" alt="01.jpg" /></p>
-
+<p><img src="/home-assistant-gpio/01.jpg" alt="01.jpg"></p>
 <p>Home Assistantの設定は以下のようになる．</p>
-
 <ul>
 <li>configration.yaml</li>
 </ul>
-
-<pre><code class="language-yaml">binary_sensor:
-  - platform: rpi_gpio
-    ports:
-      4: PIR Sensor
-    pull_mode: down
-    bouncetime: 50
-    invert_logic: false
-</code></pre>
-
-<p>なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを<code>gpio</code>グループに所属させればよい．</p>
-
-<pre><code class="language-shell">$ sudo usermod -a -G gpio ha
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">binary_sensor</span>:
+  - <span style="color:#66d9ef">platform</span>: rpi_gpio
+    <span style="color:#66d9ef">ports</span>:
+      <span style="color:#66d9ef">4</span>: PIR Sensor
+    <span style="color:#66d9ef">pull_mode</span>: down
+    <span style="color:#66d9ef">bouncetime</span>: <span style="color:#ae81ff">50</span>
+    <span style="color:#66d9ef">invert_logic</span>: <span style="color:#66d9ef">false</span>
+</code></pre></div><p>なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを<code>gpio</code>グループに所属させればよい．</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo usermod -a -G gpio ha
 $ sudo systemctl restart home-assistant
-</code></pre>
-
-<h2 id="home-assistantでmilightを使う">Home AssistantでMiLightを使う</h2>
-
+</code></pre></div><h2 id="home-assistantでmilightを使う">Home AssistantでMiLightを使う</h2>
 <p>MiLight(中身はLimitlessLED)ははじめからComponentとして提供されているためこれを利用する．<a href="https://home-assistant.io/components/light.limitlessled/">LimitlessLED - Home Assistant</a></p>
-
 <ul>
 <li>configuration.yaml</li>
 </ul>
-
-<pre><code class="language-yaml">light:
-  - platform: limitlessled
-    bridges:
-      - host: x.x.x.x
-        version: 5
-        port: 8899
-        groups:
-          - number: 1
-            name: MiLight
-            type: rgbw
-</code></pre>
-
-<ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">light</span>:
+  - <span style="color:#66d9ef">platform</span>: limitlessled
+    <span style="color:#66d9ef">bridges</span>:
+      - <span style="color:#66d9ef">host</span>: x.x.x.x
+        <span style="color:#66d9ef">version</span>: <span style="color:#ae81ff">5</span>
+        <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">8899</span>
+        <span style="color:#66d9ef">groups</span>:
+          - <span style="color:#66d9ef">number</span>: <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">name</span>: MiLight
+            <span style="color:#66d9ef">type</span>: rgbw
+</code></pre></div><ul>
 <li>イルミカで購入できるWiFiブリッジはVersion 5，カラー電球のタイプはrgbw(rgbwwではない)</li>
 <li>グループ番号はタイプごとに1~4のいずれかになる．今回はrgbwグループのグループ1に登録している</li>
 </ul>
-
 <p>なお，Home AssistantはWebインターフェースで設定ファイルを読み直すことができるが，プロセスの再起動を行わないと反映されないものが多い．
 確実に設定を反映させるため，プロセスの再起動を行う．</p>
-
-<pre><code class="language-shell">$ sudo systemctl restart home-assistant
-</code></pre>
-
-<h2 id="automationを設定する">Automationを設定する</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo systemctl restart home-assistant
+</code></pre></div><h2 id="automationを設定する">Automationを設定する</h2>
 <p>ここまでで，WebインターフェースではセンサーのON/OFFが表示され，MiLightを操作できるようになっているはず．
 次に，これらを組み合わせて以下の動作を実現する．</p>
-
 <ul>
 <li>センサーに反応があった場合にMiLightを点灯する</li>
-<li>明るさは255段階(Home Assistant上での値)中，150とする<br />
+<li>明るさは255段階(Home Assistant上での値)中，150とする<br>
 ただしMiLightとしては，v4のWiFiブリッジでRGBWを使用する場合は25段階にしか調節できないそうなので，実際には25段階中15くらい</li>
 <li>センサーに反応がない状態が1分後続くと消灯する</li>
 </ul>
-
 <p>設定は以下のようになる</p>
-
 <ul>
 <li>configuration.yaml</li>
 </ul>
-
-<pre><code class="language-yaml">- alias: Turn on light
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_sensor
-    state: 'on'
-  action:
-    service: homeassistant.turn_on
-    entity_id: light.milight
-    data:
-      brightness: 150
-- alias: Turn off light
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_sensor
-    state: 'off'
-    for:
-      minutes: 1
-  action:
-    service: homeassistant.turn_off
-    entity_id: light.milight
-</code></pre>
-
-<p>ハマった箇所をいくつか</p>
-
-<h3 id="entity-idの命名規則">entity_idの命名規則</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#66d9ef">alias</span>: Turn on light
+  <span style="color:#66d9ef">trigger</span>:
+    <span style="color:#66d9ef">platform</span>: state
+    <span style="color:#66d9ef">entity_id</span>: binary_sensor.pir_sensor
+    <span style="color:#66d9ef">state</span>: <span style="color:#e6db74">&#39;on&#39;</span>
+  <span style="color:#66d9ef">action</span>:
+    <span style="color:#66d9ef">service</span>: homeassistant.turn_on
+    <span style="color:#66d9ef">entity_id</span>: light.milight
+    <span style="color:#66d9ef">data</span>:
+      <span style="color:#66d9ef">brightness</span>: <span style="color:#ae81ff">150</span>
+- <span style="color:#66d9ef">alias</span>: Turn off light
+  <span style="color:#66d9ef">trigger</span>:
+    <span style="color:#66d9ef">platform</span>: state
+    <span style="color:#66d9ef">entity_id</span>: binary_sensor.pir_sensor
+    <span style="color:#66d9ef">state</span>: <span style="color:#e6db74">&#39;off&#39;</span>
+    <span style="color:#66d9ef">for</span>:
+      <span style="color:#66d9ef">minutes</span>: <span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">action</span>:
+    <span style="color:#66d9ef">service</span>: homeassistant.turn_off
+    <span style="color:#66d9ef">entity_id</span>: light.milight
+</code></pre></div><p>ハマった箇所をいくつか</p>
+<h3 id="entity_idの命名規則">entity_idの命名規則</h3>
 <p>entity_idに指定する名前はそれぞれのComponentで設定した<code>name</code>値になる．空白や大文字はスネークケースへ変換される．
 つまり，nameを「PIR Sensor」のようにした場合，entity_idでは「pir_sensor」のように指定する</p>
-
-<h3 id="ある状態が一定時間続く-をトリガーにする">「ある状態が一定時間続く」をトリガーにする</h3>
-
+<h3 id="ある状態が一定時間続くをトリガーにする">「ある状態が一定時間続く」をトリガーにする</h3>
 <p>action内では一定時間の経過を待つ<code>delay</code>文が使える</p>
-
-<pre><code class="language-yaml">- alias: Turn off light
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_sensor
-    state: 'off'
-  action:
-    - delay: 0:01
-    - service: homeassistant.turn_off
-      entity_id: light.milight
-</code></pre>
-
-<p>だが，これでは「センサーに反応がなくなってから1分後」になるため，例えば30秒後にセンサーに反応が戻っても結局そのまま消灯してしまう．<br />
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#66d9ef">alias</span>: Turn off light
+  <span style="color:#66d9ef">trigger</span>:
+    <span style="color:#66d9ef">platform</span>: state
+    <span style="color:#66d9ef">entity_id</span>: binary_sensor.pir_sensor
+    <span style="color:#66d9ef">state</span>: <span style="color:#e6db74">&#39;off&#39;</span>
+  <span style="color:#66d9ef">action</span>:
+    - <span style="color:#66d9ef">delay</span>: <span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">01</span>
+    - <span style="color:#66d9ef">service</span>: homeassistant.turn_off
+      <span style="color:#66d9ef">entity_id</span>: light.milight
+</code></pre></div><p>だが，これでは「センサーに反応がなくなってから1分後」になるため，例えば30秒後にセンサーに反応が戻っても結局そのまま消灯してしまう．<br>
 しばらく悩んでいたのだが，Triggerで<code>for</code>を使うことで希望の動作ができることがわかったので簡単に希望の動作を実現できた．</p>
-
 <h2 id="参考">参考</h2>
-
 <ul>
 <li><a href="http://takashiski.hatenablog.com/entry/2016/01/12/000658">プログラマブル電球milightで遊ぼう(RGBW/DW) - takashiskiのブログ</a></li>
 <li><a href="https://home-assistant.io/components/binary_sensor.rpi_gpio/">Raspberry PI GPIO Binary Sensor - Home Assistant</a></li>
@@ -248,20 +205,25 @@ $ sudo systemctl restart home-assistant
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/home-assistant-gpio\/';
-    var disqus_title = 'Home Assistantで人感センサーを使って照明を自動点灯する';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/home-assistant-gpio\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -282,14 +244,17 @@ $ sudo systemctl restart home-assistant
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

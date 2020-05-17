@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -52,61 +52,55 @@
       <section itemprop="entry-text">
         <p>先日購入したDC3217IYEにVMware vSphere hypervisorをインストールしようとしたところドライバがないと言われました．
 IntelのNICだから認識するだろうとタカをくくっていましたがダメでした．方法を調べたので手順をまとめておきます．</p>
-
-<p></p>
-
 <h3 id="参考">参考</h3>
-
 <p><a href="http://www.tekhead.org/blog/2013/01/nanolab-running-vmware-vsphere-on-intel-nuc-part-2-2/">NanoLab – Running VMware vSphere on Intel NUC – Part 2</a></p>
-
 <h3 id="用意するもの">用意するもの</h3>
-
 <p>バージョンなどの番号は異なることがあります．適宜読みかえてください．</p>
-
 <ol>
-<li>インストーラ(VMware-VMvisor-Installer-5.5.0-1331820.x86_64.iso)<br />
-ダウンロードにはVMwareのアカウントが必要です<br /></li>
-<li>ESXi-Customizer(ESXi-Customizer-v2.7.1.exe)<br />
+<li>インストーラ(VMware-VMvisor-Installer-5.5.0-1331820.x86_64.iso)<br>
+ダウンロードにはVMwareのアカウントが必要です</li>
+<li>ESXi-Customizer(ESXi-Customizer-v2.7.1.exe)<br>
 <a href="http://www.v-front.de/p/esxi-customizer.html">ここ</a>から最新版をダウンロードしておきます．</li>
 <li>Intel 82579V Gigabit Ethernet Controllerのドライバ</li>
 </ol>
-
 <h3 id="作業">作業</h3>
-
 <p>ダウンロードしたインストーラの中にドライバを組み込んで、新しいインストーラを作成します．</p>
-
 <ol>
-<li>ESXi-Customizer-v2.7.1.exeを実行します．</li>
-<li>解凍する場所を指定します．(例: C:\tmp)</li>
-<li>解凍先のディレクトリにあるESXi-Customizer.cmdを実行します．ウィンドウが表示されるので以下の値を指定します．
-
+<li>
+<p>ESXi-Customizer-v2.7.1.exeを実行します．</p>
+</li>
+<li>
+<p>解凍する場所を指定します．(例: C:\tmp)</p>
+</li>
+<li>
+<p>解凍先のディレクトリにあるESXi-Customizer.cmdを実行します．ウィンドウが表示されるので以下の値を指定します．</p>
 <ul>
-<li>ESXi ISO<br />
+<li>ESXi ISO<br>
 ダウンロードしたESXiのインストーラを指定します</li>
-<li>OEM.tgz<br />
+<li>OEM.tgz<br>
 ダウンロードしたドライバを指定します</li>
-<li>working directory<br />
+<li>working directory<br>
 作成したインストーラの出力先ディレクトリを指定します．</li>
-</ul></li>
-
-<li><p>下のチェックボックスは以下のように選択します．</p>
-
+</ul>
+</li>
+<li>
+<p>下のチェックボックスは以下のように選択します．</p>
 <ul>
 <li>Force repackingを<strong>選択</strong></li>
 <li>Create (U)EFI-bootable ISOは<strong>選択しない</strong></li>
 <li>Enable automatic update checkは<strong>選択しない</strong></li>
-</ul></li>
-
-<li><p>選択したら下の&rdquo;Run!&ldquo;をクリックして実行します．
-途中のダイアログは&rdquo;はい&rdquo;を選択します．</p></li>
+</ul>
+</li>
+<li>
+<p>選択したら下の&quot;Run!&ldquo;をクリックして実行します．
+途中のダイアログは&quot;はい&quot;を選択します．</p>
+</li>
 </ol>
-
-<p>成功すると&rdquo;working directory&rdquo;に指定したディレクトリに&rdquo;ESXi-5.x-Custom.iso&rdquo;というファイルが作成されています．
+<p>成功すると&quot;working directory&quot;に指定したディレクトリに&quot;ESXi-5.x-Custom.iso&quot;というファイルが作成されています．
 あとはCDに焼くなり、USBメモリに焼くなりしてインストールをします．</p>
-
-<p>以上、IntelのNUCベアボーンDC3217IYにVMware vSphere hypervisor5.5をインストールする方法(正確にはインストーラを作成する方法ですが)でした．<br />
-実は別のショップで注文したSSDがまだ届いていないので実際にはインストールせずに、インストールの途中で&rdquo;NICが見つからない&rdquo;のエラーが出ないことを確認しただけです．
-なのでインストール中、またはインストール後に何か不具合が発生するかもしれません．<br />
+<p>以上、IntelのNUCベアボーンDC3217IYにVMware vSphere hypervisor5.5をインストールする方法(正確にはインストーラを作成する方法ですが)でした．<br>
+実は別のショップで注文したSSDがまだ届いていないので実際にはインストールせずに、インストールの途中で&quot;NICが見つからない&quot;のエラーが出ないことを確認しただけです．
+なのでインストール中、またはインストール後に何か不具合が発生するかもしれません．<br>
 余談ですがvSphere5.5がリリースされていることを知ったのはこのためにインストーラをダウンロードしようとしたときのことでした．</p>
       </section>
       <aside>
@@ -127,20 +121,25 @@ IntelのNICだから認識するだろうとタカをくくっていましたが
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/esxi-03\/';
-    var disqus_title = 'Intel DC3217IYEへVMware vSphere hypervisor5.5をインストールする';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/esxi-03\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -161,14 +160,17 @@ IntelのNICだから認識するだろうとタカをくくっていましたが
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

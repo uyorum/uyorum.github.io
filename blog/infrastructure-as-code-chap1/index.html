@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -50,104 +50,90 @@
 
       </span>
       <section itemprop="entry-text">
-        
-
-<p>オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．<strong>太字は自分の感想</strong>， <em>斜字体は本からの引用</em> ，そのほかは本の要約など．</p>
-
+        <p>オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．<strong>太字は自分の感想</strong>， <em>斜字体は本からの引用</em> ，そのほかは本の要約など．</p>
 <h2 id="infrastructure-as-codeの目標">Infrastructure as Codeの目標</h2>
-
 <ul>
 <li><strong>ざっくり言うと「(頻繁な)変化に柔軟に対応できるようになること」ということかなと思った</strong></li>
 <li>そのために
-
 <ul>
 <li>システム変更が日常茶飯事の出来事になること</li>
 <li>失敗を完全に防ぐという前提は捨てる．失敗しても素早く修正できるようになることを目指す</li>
 <li>反復的なタスクは自動化すること</li>
 <li>継続的な改善をすること</li>
-</ul></li>
+</ul>
+</li>
 <li><em>会議やドキュメントでソリューションを論ずることなく，実装，テスト，計測を通じてソリューションの効果が証明できるようになること</em>
-
 <ul>
 <li><strong>Infrastructure as Codeでこれを目指す，というのがピンと来なかった</strong></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="課題">課題</h2>
-
 <ul>
 <li><strong>サーバースプロール，構成ドリフト，スノーフレークサーバーは自分の環境ではほとんどないかな</strong>
-
 <ul>
 <li><strong>いちおうChefを使っている</strong></li>
 <li><strong>ロールごとにVMを作成して役割が混ざらないようにしている</strong></li>
-</ul></li>
+</ul>
+</li>
 <li><strong>オートメーション恐怖症…これはある</strong>
-
 <ul>
 <li><strong>サーバーに統一性がない→オートメーションにより何かが壊れないかが心配→オートメーションツールの外で変更を加える→…</strong> の悪循環</li>
 <li><strong>この循環から抜けるには「自動化された変更」のリリースプロセスの確立とテストの充実が必要になると最近は考えている</strong>
-
 <ul>
 <li><strong>「この変更」を「この方法」で適用するのは安全である，と自動的に言えるようになればいい</strong></li>
-</ul></li>
-</ul></li>
+</ul>
+</li>
+</ul>
+</li>
 <li>ペットから家畜へ
-
 <ul>
 <li><strong>数年前からよく聞くようになった</strong></li>
 <li><em>サーバ名にテーマを設け，自分がプロビジョニングした新しいサーバーの名前をじっくり考えていた時代が懐しい．しかし，担当するすべてのサーバーを手作業で調整し，サーバーのご期限をうかがわなけれあならなかった時代は懐しくない</em>
-
 <ul>
 <li><strong>おもしろい</strong></li>
-</ul></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="統一的なシステム">統一的なシステム</h2>
-
 <ul>
 <li>一部のサーバーでより大きなディスクが必要になった場合
-
 <ul>
 <li>すべてのサーバーを同じように拡張する</li>
 <li><code>xl-file-server</code>のような新しいロールを追加する</li>
-</ul></li>
+</ul>
+</li>
 <li><strong>自分だと深く考えずに(ロールを分けずに)そのサーバーだけ拡張してしまいそうだと思った(ディスクサイズだけ変数化しておけばいいじゃん)</strong>
-
 <ul>
 <li><strong>その些細な差異が積み重なって管理システムと人に負荷を与えることになる．気をつけたい</strong></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="反復的なシステム">反復的なシステム</h2>
-
 <ul>
 <li>「パーティションの分割」のような些細なタスクであろうとも，手動でやってしまうと差異が生じる可能性がある．
-
 <ul>
 <li>サイズ，ファイルシステム，そのパラメータ etc.</li>
-</ul></li>
+</ul>
+</li>
 <li>スクリプトで実行できるシステムはかならずスクリプトにする
-
 <ul>
 <li>そして，将来同様のタスクをするとになったときにそのスクリプトを使う <strong>←これが難しい．スクリプトを書くだけでなく管理システムに組み込まなければならない</strong></li>
-</ul></li>
+</ul>
+</li>
 <li>スクリプトにするのが難しい場合は問題を掘り下げて，役に立つテクニックやツールがないか，別の方法がないかを検討する</li>
 </ul>
-
 <h2 id="継続的にサービスを利用可能状態に保つ">継続的にサービスを利用可能状態に保つ</h2>
-
 <ul>
 <li><em>永続化が必要なデータの定義を広げることが大切．通常はアプリケーションの構成/設定，ログファイルなども保護対象に含める</em>
-
 <ul>
 <li><strong>サーバーを家畜のように扱うことを前提に，サーバー上のほとんどの情報はいつ失われてもよい状態にしておくということか</strong></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="参考文献">参考文献</h2>
-
 <ol>
 <li>Kief Morris, Infrastructure as Code クラウドにおけるサーバ管理の原則とプラクティス, 長尾高弘訳, オライリー・ジャパン, 2017</li>
 </ol>
@@ -171,20 +157,25 @@
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/infrastructure-as-code-chap1\/';
-    var disqus_title = 'Infrastructure as Code 感想 (1章)';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/infrastructure-as-code-chap1\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -205,14 +196,17 @@
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

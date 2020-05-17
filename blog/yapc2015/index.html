@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -51,29 +51,20 @@
       </span>
       <section itemprop="entry-text">
         <p>YAPC::Asia Tokyo 2015に行ってきたのでまとめ</p>
-
-<p></p>
-
-<p>Perlのイベント(？)ですが，インフラの話題も多く，また最近プログラミングもやるようにしているので勉強のために行ってきました．<br />
+<p>Perlのイベント(？)ですが，インフラの話題も多く，また最近プログラミングもやるようにしているので勉強のために行ってきました．<br>
 主に以下のテーマをチェック</p>
-
 <ul>
 <li>ITインフラ構築・運用</li>
 <li>Docker</li>
 <li>特定言語に限らないプログラミング全般のノウハウ</li>
 <li>Golang(最近書いているため)</li>
 </ul>
-
 <h2 id="managing-containers-at-scale-with-coreos-and-kubernetes">Managing Containers at Scale with CoreOS and Kubernetes</h2>
-
-<p>CoreOS, Inc.のKelsey Hightower氏による話．<br />
+<p>CoreOS, Inc.のKelsey Hightower氏による話．<br>
 寝坊して10分ほど遅刻したけど席がたくさん空いていた．会場が広いせいもあるんだろうけど．</p>
-
-<p>内容はCoreOSとKubernetesのデモ．<br />
+<p>内容はCoreOSとKubernetesのデモ．<br>
 KubernetesのWebUIはとても綺麗だった．</p>
-
 <p>最後の質疑メモ</p>
-
 <pre><code>Q. DBインスタンス等を立ち上げる場合，ストレージはどのようのに扱えばよいか？
 A.
 DockerはStatelessであることを前提としてデザインしてある
@@ -81,67 +72,46 @@ DockerはStatelessであることを前提としてデザインしてある
 NFSやクラウドストレージにデータを置き，Dockerホストでそれをマウントするようにする
 → etcdを使ってホスト間でマウントポイント等を同期する
 </code></pre>
-
 <h2 id="consulと自作ossを活用した100台規模のwebサービス運用-fujiwara">Consulと自作OSSを活用した100台規模のWebサービス運用 @fujiwara</h2>
-
 <p>自分はConsulを触ったことがないので初歩的なことなのかも知れないが以下の点は要注意だと思った．</p>
-
 <ul>
-<li>Consulクラスタノード障害時の注意点<br />
-Consulのクラスタを維持するには最低3ノード必要．障害によりこれを下回った場合，クラスタが崩壊しConsulのKVSのデータが失われる．<br />
-また，クラスタのLeaderノードがダウンした場合，新しいLeader選出までは問い合わせに返答できなくなる．<br />
-(デフォルトではクエリが一度Leaderへ転送され，Leaderが返答するようになっているから)<br />
-それを防ぐにはConsulを&rdquo;Stale&rdquo;モードで動作するように変更する</li>
+<li>Consulクラスタノード障害時の注意点<br>
+Consulのクラスタを維持するには最低3ノード必要．障害によりこれを下回った場合，クラスタが崩壊しConsulのKVSのデータが失われる．<br>
+また，クラスタのLeaderノードがダウンした場合，新しいLeader選出までは問い合わせに返答できなくなる．<br>
+(デフォルトではクエリが一度Leaderへ転送され，Leaderが返答するようになっているから)<br>
+それを防ぐにはConsulを&quot;Stale&quot;モードで動作するように変更する</li>
 </ul>
-
 <p>Strecherのように，インフラエンジニアのお仕事を手助けするものをつくりたい．と，自分がプログラミングを勉強する目的を再確認．</p>
-
-<h2 id="polyglotのためのdocker-我々はどこから来てどこへ向かうのか">PolyglotのためのDocker - 我々はどこから来てどこへ向かうのか</h2>
-
-<p>Docker Inc.のNathan LeClaire氏．<br />
-Polyglotとは複数のプログラミング言語を扱うエンジニアのこと．サービスインフラとしてのDockerではなく，Polyglotが扱う，開発環境としてのDockerに視点を向けた話．<br />
+<h2 id="polyglotのためのdocker---我々はどこから来てどこへ向かうのか">PolyglotのためのDocker - 我々はどこから来てどこへ向かうのか</h2>
+<p>Docker Inc.のNathan LeClaire氏．<br>
+Polyglotとは複数のプログラミング言語を扱うエンジニアのこと．サービスインフラとしてのDockerではなく，Polyglotが扱う，開発環境としてのDockerに視点を向けた話．<br>
 あの言語を学びたい，このライブラリを試してみたいとなったときに実行環境をDockerfileで記述してあれば環境構築に煩わされることもないという趣旨．</p>
-
-<p>個人的にはそれをやろうとすると，プログラムを実行するためのコマンドをどう叩けばいいかということでいつも困る．<br />
+<p>個人的にはそれをやろうとすると，プログラムを実行するためのコマンドをどう叩けばいいかということでいつも困る．<br>
 コンテナに入ってコマンドを叩くのはやりたくないし，ローカルのコマンドを叩くのと同じように扱うにはどうやればいいんだろう．(どなたか教えてほしい)</p>
-
 <h2 id="我々はどのように冗長化を失敗したのか-kenjiskywalker">我々はどのように冗長化を失敗したのか @kenjiskywalker</h2>
-
 <p>Consulを使ってMySQLのFailoverを実装しようとした(失敗した)話．</p>
-
-<p>どうにもDBの性能が落ちる時間帯があり，クラウド事業者に頼んでホストを移行してもらったら解消した，という話題(おそらく同じホスト上の別のVMが負荷のかかる処理を行なっていた)<br />
-クラウドやってる身の人間としては，そういうのもクラウドの性質だから我慢して使ってねと思う一方，影響をこうむる他のユーザを考えると非常に悩ましい状態．<br />
+<p>どうにもDBの性能が落ちる時間帯があり，クラウド事業者に頼んでホストを移行してもらったら解消した，という話題(おそらく同じホスト上の別のVMが負荷のかかる処理を行なっていた)<br>
+クラウドやってる身の人間としては，そういうのもクラウドの性質だから我慢して使ってねと思う一方，影響をこうむる他のユーザを考えると非常に悩ましい状態．<br>
 どのVMが原因なのかは調べればすぐわかるけど，使用を控えてくれとは言えないですし．</p>
-
 <h2 id="docker３兄弟について-toritori0318">Docker３兄弟について @toritori0318</h2>
-
-<p>DockerとDocker Composeの使い分け．<br />
+<p>DockerとDocker Composeの使い分け．<br>
 「Docker Composeなら<code>docker-compose up</code>だけで起動できるから楽」なるほどなー</p>
-
 <h2 id="adventures-in-refactoring">Adventures in Refactoring</h2>
-
-<p>GitHubのBen Lavender氏．<br />
-かなり喋りが速くて同時通訳の方がとても大変そうだったが見事に最後までやりきっていた．さすが．<br />
+<p>GitHubのBen Lavender氏．<br>
+かなり喋りが速くて同時通訳の方がとても大変そうだったが見事に最後までやりきっていた．さすが．<br>
 ちなみに今回同時通訳を行なってくださったのは<a href="http://www.kytrade.co.jp/">ケイワイトレード</a>の方々．きちんと専門用語も翻訳できていた．</p>
-
-<p>変数やメソッド名に<code>_</code>を入れている場合，構造的には間に新たなオブジェクトを求めていることになる．<br />
-e.g.) <code>git.pull_valid?</code> → <code>git.pull.valid?</code><br />
+<p>変数やメソッド名に<code>_</code>を入れている場合，構造的には間に新たなオブジェクトを求めていることになる．<br>
+e.g.) <code>git.pull_valid?</code> → <code>git.pull.valid?</code><br>
 今度からはこのことを意識して設計してみようと思った．</p>
-
-<h2 id="profiling-optimizing-in-go">Profiling &amp; Optimizing in Go</h2>
-
+<h2 id="profiling--optimizing-in-go">Profiling &amp; Optimizing in Go</h2>
 <p>Brad Fitzpatrick氏．</p>
-
-<p>個人的には2日間で一番アツかった講演．<br />
-GolangのProfiling機能でプログラムをより軽く，より速くしていく過程をライブで実演<br />
-同機能の充実ぷりにも驚いたが，氏がEmacsを使っているのでテンションがあがった．<br />
+<p>個人的には2日間で一番アツかった講演．<br>
+GolangのProfiling機能でプログラムをより軽く，より速くしていく過程をライブで実演<br>
+同機能の充実ぷりにも驚いたが，氏がEmacsを使っているのでテンションがあがった．<br>
 Golangは使い始めたばかりでこの機能をほとんど知らないので一回では理解しきれなかった．動画でもう一度見たい．</p>
-
 <h2 id="lt">LT</h2>
-
-<p>たくさん笑わせてもらった．<br />
+<p>たくさん笑わせてもらった．<br>
 とくに参考になったのが<a href="https://twitter.com/yoku0825">@yoku0825</a>さんの「<a href="http://www.slideshare.net/yoku0825/mysql-57-51945745">MySQL 5.7の罠があなたを狙っている</a>」．</p>
-
 <p>非常に充実した2日間でした．スタッフの方々，スピーカーの方々，ありがとうございました．</p>
       </section>
       <aside>
@@ -162,20 +132,25 @@ Golangは使い始めたばかりでこの機能をほとんど知らないの�
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/yapc2015\/';
-    var disqus_title = 'YAPC::Asia Tokyo 2015に行ってきた';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/yapc2015\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -196,14 +171,17 @@ Golangは使い始めたばかりでこの機能をほとんど知らないの�
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

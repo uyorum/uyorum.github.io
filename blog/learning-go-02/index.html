@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -51,126 +51,105 @@
       </span>
       <section itemprop="entry-text">
         <p>今日のまとめ</p>
-
-<p></p>
-
 <h2 id="構造体">構造体</h2>
-
-<pre><code class="language-go">type User struct {
-  name string
-  age int
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+  <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+  <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>
 }
 
-func main() {
-   var user1 User
-   user1.name = &quot;ichiro&quot;
-   // ichiro 0
-   fmt.Println(user1.name, user1.age)
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+   <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user1</span> <span style="color:#a6e22e">User</span>
+   <span style="color:#a6e22e">user1</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;ichiro&#34;</span>
+   <span style="color:#75715e">// ichiro 0
+</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user1</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user1</span>.<span style="color:#a6e22e">age</span>)
 
-   user2 := User{&quot;jiro&quot;, 30}
-   // jiro 30
-   fmt.Println(user2.name, user2.age)
+   <span style="color:#a6e22e">user2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">User</span>{<span style="color:#e6db74">&#34;jiro&#34;</span>, <span style="color:#ae81ff">30</span>}
+   <span style="color:#75715e">// jiro 30
+</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user2</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user2</span>.<span style="color:#a6e22e">age</span>)
 
-   user3 := User{name: &quot;saburo&quot;, age: 20}
-   // saburo 20
-   fmt.Println(user3.name, user3.age)
+   <span style="color:#a6e22e">user3</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">User</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;saburo&#34;</span>, <span style="color:#a6e22e">age</span>: <span style="color:#ae81ff">20</span>}
+   <span style="color:#75715e">// saburo 20
+</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user3</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user3</span>.<span style="color:#a6e22e">age</span>)
 }
-</code></pre>
-
-<ul>
+</code></pre></div><ul>
 <li>Goの構造体は以下の特徴を持っている
-
 <ul>
 <li>構造体はフィールド(フィールド名と値の組)の集まりである</li>
 <li>構造体にメソッドを定義することができる</li>
 <li>構造体に構造体を埋め込むことができる</li>
-</ul></li>
+</ul>
+</li>
 <li><code>type 構造体名 struct</code>形式で宣言する．</li>
 <li><code>構造体名.フィールド名</code>でフィールドの値にアクセスすることができる</li>
 <li>フィールドの初期化の方法はいくつかある
-
 <ul>
 <li>構造体を初期化してから順に値を入れる</li>
 <li>構造体の初期化時にフィールドの値を列挙する</li>
 <li>構造体の初期化時に<code>フィールド名: 値</code>を列挙する</li>
-</ul></li>
+</ul>
+</li>
 <li><strong>ここで気付いたけど，変数は始めから何かしらの値が入っているようだ</strong></li>
 <li><strong>構造体って初めて扱ったけどvalueに色々な型を持てるハッシュみたいなもの？</strong></li>
 </ul>
-
 <h3 id="ポインタ型で初期化">ポインタ型で初期化</h3>
-
-<pre><code class="language-go">user4 := &amp;User{name: &quot;shiro&quot;, age: 15}
-// shiro 15
-// {shiro 15}
-fmt.Println(user4.name, user4.age)
-fmt.Println(*user4)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">user4</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;shiro&#34;</span>, <span style="color:#a6e22e">age</span>: <span style="color:#ae81ff">15</span>}
+<span style="color:#75715e">// shiro 15
+</span><span style="color:#75715e">// {shiro 15}
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user4</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user4</span>.<span style="color:#a6e22e">age</span>)
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">user4</span>)
  
-user5 := new(User)
-user5.name = &quot;goro&quot;
-// goro 0
-// {goro 0}
-fmt.Println(user5.name, user5.age)
-fmt.Println(*user5)
-</code></pre>
-
-<ul>
+<span style="color:#a6e22e">user5</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">User</span>)
+<span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;goro&#34;</span>
+<span style="color:#75715e">// goro 0
+</span><span style="color:#75715e">// {goro 0}
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">age</span>)
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">user5</span>)
+</code></pre></div><ul>
 <li><code>&amp;構造体名</code>または<code>new(構造体名)</code>で初期化するとポインタ型で受け取ることができる．</li>
 </ul>
-
 <h3 id="関数による初期化">関数による初期化</h3>
-
-<pre><code class="language-go">func newUser(name string, age int) *User {
-  u := new(User)
-  u.name = name
-  u.age = age
-  return u
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newUser</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">User</span> {
+  <span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">User</span>)
+  <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">name</span> = <span style="color:#a6e22e">name</span>
+  <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">age</span> = <span style="color:#a6e22e">age</span>
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">u</span>
 }
  
-var user *User = newUser(&quot;taro&quot;,30)
-</code></pre>
-
-<h3 id="ネスト構造体">ネスト構造体</h3>
-
-<pre><code class="language-go">type Foo struct {
-  hoge string
-  huga string
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">User</span> = <span style="color:#a6e22e">newUser</span>(<span style="color:#e6db74">&#34;taro&#34;</span>,<span style="color:#ae81ff">30</span>)
+</code></pre></div><h3 id="ネスト構造体">ネスト構造体</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Foo</span> <span style="color:#66d9ef">struct</span> {
+  <span style="color:#a6e22e">hoge</span> <span style="color:#66d9ef">string</span>
+  <span style="color:#a6e22e">huga</span> <span style="color:#66d9ef">string</span>
 }
 
-type Bar struct {
-  Foo
-  huga string
-  piyo string
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Bar</span> <span style="color:#66d9ef">struct</span> {
+  <span style="color:#a6e22e">Foo</span>
+  <span style="color:#a6e22e">huga</span> <span style="color:#66d9ef">string</span>
+  <span style="color:#a6e22e">piyo</span> <span style="color:#66d9ef">string</span>
 }
 
-user5 := new(User)
-user5.name = &quot;goro&quot;
-fmt.Println(user5.name, user5.age)
-fmt.Println(*user5)
+<span style="color:#a6e22e">user5</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">User</span>)
+<span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;goro&#34;</span>
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">age</span>)
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">user5</span>)
 
-str1 := Foo{hoge: &quot;HOGE&quot;, huga: &quot;HUGA&quot;}
-str2 := Bar{Foo: str1, huga: &quot;Huga&quot;, piyo: &quot;Piyo&quot;}
-// HOGE Huga HUGA Piyo
-fmt.Println(str2.hoge, str2.huga, str2.Foo.huga, str2.piyo)
-</code></pre>
-
-<ul>
+<span style="color:#a6e22e">str1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Foo</span>{<span style="color:#a6e22e">hoge</span>: <span style="color:#e6db74">&#34;HOGE&#34;</span>, <span style="color:#a6e22e">huga</span>: <span style="color:#e6db74">&#34;HUGA&#34;</span>}
+<span style="color:#a6e22e">str2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Bar</span>{<span style="color:#a6e22e">Foo</span>: <span style="color:#a6e22e">str1</span>, <span style="color:#a6e22e">huga</span>: <span style="color:#e6db74">&#34;Huga&#34;</span>, <span style="color:#a6e22e">piyo</span>: <span style="color:#e6db74">&#34;Piyo&#34;</span>}
+<span style="color:#75715e">// HOGE Huga HUGA Piyo
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">str2</span>.<span style="color:#a6e22e">hoge</span>, <span style="color:#a6e22e">str2</span>.<span style="color:#a6e22e">huga</span>, <span style="color:#a6e22e">str2</span>.<span style="color:#a6e22e">Foo</span>.<span style="color:#a6e22e">huga</span>, <span style="color:#a6e22e">str2</span>.<span style="color:#a6e22e">piyo</span>)
+</code></pre></div><ul>
 <li>フィールドに構造体を指定することで構造体をネストすることができる</li>
 <li>ネストした構造体のフィールドへアクセスするには<code>str2.Foo.huga</code>のように指定する</li>
 <li>フィールド名が重複していなければ<code>str2.huga</code>のように構造体名を省略できる</li>
 </ul>
-
 <h3 id="メソッド定義">メソッド定義</h3>
-
-<pre><code class="language-go">func (u User) greet() string {
-	return &quot;hello, &quot; + u.name
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">User</span>) <span style="color:#a6e22e">greet</span>() <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">name</span>
 }
 
-u := User{&quot;taro&quot;, 30}
-fmt.Println(u.greet())
-</code></pre>
-
-<ul>
+<span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">User</span>{<span style="color:#e6db74">&#34;taro&#34;</span>, <span style="color:#ae81ff">30</span>}
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">greet</span>())
+</code></pre></div><ul>
 <li><code>func (レシーバ名 レシーバの型) メソッド名(引数) 返り値</code>形式で記述する</li>
 </ul>
       </section>
@@ -192,20 +171,25 @@ fmt.Println(u.greet())
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/learning-go-02\/';
-    var disqus_title = 'Go言語のお勉強 その2';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/learning-go-02\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -226,14 +210,17 @@ fmt.Println(u.greet())
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

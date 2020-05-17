@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -52,36 +52,24 @@
       <section itemprop="entry-text">
         <p>Xmonadを使い始めました．
 いろいろ設定方法を紹介しているページは見つかるのですがmodキーをAltまたはWindowsキー以外に設定する方法が見つからなかったのでメモ．</p>
-
-<p></p>
-
 <h2 id="経緯">経緯</h2>
-
 <p>いろいろググってみてもmodキーをWindowsキーに変更しているページしか見つかりませんでした．
 Windowsキーのあるキーボードの右下はなかなか指が届きづらいため別のキーにしたいと考えました．
 自分はSKKを使っているので全角/半角キーは使いません．この位置ならば割と容易に届くためmodキーにこのキーを使うことにしました．</p>
-
 <h2 id="設定方法">設定方法</h2>
-
 <ul>
 <li>xmonad.hs</li>
 </ul>
-
 <p>よく紹介されているようにmodMaskをmod4Maskに割り当てます</p>
-
 <pre><code>modMask = mod4Mask
 </code></pre>
-
 <ul>
 <li>Xmodmap</li>
 </ul>
-
 <p>mod4に全角/半角キーを追加します</p>
-
 <pre><code>keysym Zenkaku_Hankaku = Super_L
 add mod4 = Zenkaku_Hankaku
 </code></pre>
-
 <p>あとは設定を読み込ませてやればOKです．
 なんでmod4MaskでWindowsキーになるのか不思議だったのですがXmodmapで割り当てられていたんですね．</p>
       </section>
@@ -103,20 +91,25 @@ add mod4 = Zenkaku_Hankaku
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/xmonad-change-modmask\/';
-    var disqus_title = 'Xmonadのmodキーを半角\/全角キーに変更する';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/xmonad-change-modmask\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -137,14 +130,17 @@ add mod4 = Zenkaku_Hankaku
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -50,119 +50,105 @@
 
       </span>
       <section itemprop="entry-text">
-        
-
-<p>オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．<strong>太字は自分の感想</strong>， <em>斜字体は本からの引用</em> ，そのほかは本の要約など．</p>
-
+        <p>オライリーの「Infrastructure as Code」を読んで思ったことや自分的メモをまとめておく．<strong>太字は自分の感想</strong>， <em>斜字体は本からの引用</em> ，そのほかは本の要約など．</p>
 <p>6~9章は各領域での設計パターンやプラクティスを整理している</p>
-
 <h2 id="サーバーのプロビジョニング">サーバーのプロビジョニング</h2>
-
 <ul>
 <li>サーバーに含まれるもの
-
 <ul>
 <li>ソフトウェア</li>
 <li>構成/設定</li>
 <li>データ
-
 <ul>
 <li>ログもここに含まれる</li>
-</ul></li>
-</ul></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><strong>インフラストラクチャはサーバのアップデート，交換，削除のプロセスを通して，一貫して「データ」へのアクセス性を提供しなければならない</strong></li>
 <li><em>プロセスのさまざまな部分にかかる時間を計測するようにしなければならない</em>
-
 <ul>
 <li><strong>これはいろんなところに言えそう．次からは時間を計測することを考えるようにしようと思う</strong></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="サーバーのテンプレート管理">サーバーのテンプレート管理</h2>
-
 <ul>
 <li>構築方法
-
 <ul>
 <li>原始イメージでサーバーを作成し設定を変更する</li>
 <li>ほかのサーバーに原始イメージディスクをマウントし変更を加える
-
 <ul>
 <li>chrootを使う</li>
 <li>ブート，シャットダウンの時間を省略できる</li>
 <li>テンプレート上にログが作成されないのでわざわざ削除する必要がない</li>
 <li><a href="https://github.com/Netflix/aminator">Netflix/aminator: A tool for creating EBS AMIs. This tool currently works for CentOS/RedHat Linux images and is intended to run on an EC2 instance.</a></li>
 <li><strong>このやり方は思い付かなかった</strong></li>
-</ul></li>
-</ul></li>
+</ul>
+</li>
+</ul>
+</li>
 <li>テンプレート自体にもバージョン番号を付け，各サーバーがどのテンプレートから作成されたか追跡できるようにする</li>
 <li>テンプレートをアップデートしたら既存のサーバーも作成しなおせ，さもないと構成ドリフトが発生する
-
 <ul>
 <li><strong>これをやるのはすごく難しいと思うのだが．サービスを停止せずにサーバーを入れ替えなければならない</strong></li>
 <li><strong>テンプレートに変更を加えたら既存サーバーにも同じ変更を加えるようにするのが妥協ラインかな…</strong></li>
-</ul></li>
 </ul>
-
-<h2 id="サーバーのアップデート-変更">サーバーのアップデート/変更</h2>
-
+</li>
+</ul>
+<h2 id="サーバーのアップデート変更">サーバーのアップデート/変更</h2>
 <ul>
 <li>プッシュ同期</li>
 <li>プル同期
-
 <ul>
 <li><strong>変更後のテストもサーバーから自発的に実行できる必要がある？</strong>
-
 <ul>
 <li>サーバー上で動かしても問題なさそう：<a href="https://github.com/aelsabbahy/goss">aelsabbahy/goss: Quick and Easy server testing/validation</a></li>
 <li>あるいはモニタリングにまかせる</li>
-</ul></li>
+</ul>
+</li>
 <li><strong>異常が起こった場合の切り戻しはどうやってトリガーする？</strong></li>
-</ul></li>
+</ul>
+</li>
 <li>マスターレス構成管理
-
 <ul>
 <li>SPoFがなくなる</li>
-</ul></li>
+</ul>
+</li>
 <li><strong>サーバー作成直後の設定とサーバーのアップデートは必ずしも同一の仕組みとは限らない，という前提でこの本は書かれている気がする</strong></li>
 </ul>
-
 <h2 id="インフラストラクチャ定義">インフラストラクチャ定義</h2>
-
 <ul>
 <li>適切なスタックにインフラを分割し，定義，実装する</li>
 <li><em>人々が変更を加えるのを恐れるようになったら，インフラストラクチャ定義がモノリシックになってきていると考えることができる</em></li>
 <li>スタックの共有(DBサーバの共有など)は避けるべき
-
 <ul>
 <li>5章で説明された通りどうしても共有されるサービスは存在する．その場合はサービスレベルを定める</li>
-</ul></li>
+</ul>
+</li>
 <li>アプリケーションコードとインフラストラクチャコードを統一的に管理する
-
 <ul>
-<li><strong>Googleのような巨大リポジトリでの開発には，呼び出し先の変更と同時に呼び出し元も変更できるという利点がある．</strong><sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup> <strong>これと似たような考え方か．</strong></li>
-</ul></li>
+<li><strong>Googleのような巨大リポジトリでの開発には，呼び出し先の変更と同時に呼び出し元も変更できるという利点がある．</strong><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <strong>これと似たような考え方か．</strong></li>
+</ul>
+</li>
 <li>既存の設計パターンを当てはめようとすると，かえって複雑になる場合がある．設計を見直すことも必要
-
 <ul>
 <li><strong>管理しやすようにやり方を変える．手段と目的が逆転してるように感じるが大事</strong></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h2 id="参考文献">参考文献</h2>
-
 <ol>
 <li>Kief Morris, Infrastructure as Code クラウドにおけるサーバ管理の原則とプラクティス, 長尾高弘訳, オライリー・ジャパン, 2017</li>
 </ol>
-<div class="footnotes">
-
-<hr />
-
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1"><a href="http://2013.8-p.info/japanese/07-30-google-mainline.html">Google の巨大レポジトリとブランチ無し運用 - Kato Kazuyoshi</a>
- <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p><a href="http://2013.8-p.info/japanese/07-30-google-mainline.html">Google の巨大レポジトリとブランチ無し運用 - Kato Kazuyoshi</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div>
+</section>
 
       </section>
       <aside>
@@ -183,20 +169,25 @@
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/infrastructure-as-code-chap6-9\/';
-    var disqus_title = 'Infrastructure as Code 感想 (6-9章)';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/infrastructure-as-code-chap6-9\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -217,14 +208,17 @@
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

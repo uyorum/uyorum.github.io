@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -53,92 +53,67 @@
         <p>「内部ネットワーク」を使用している場合，Hyper-VのGuestOSはDHCPでIPアドレスが振られる．
 HostからGuestへアクセスするときにアドレスが変わると困る．
 Guestを固定アドレスにすればいいのかも知れないが，何かの拍子でセグメントが変わったら面倒なので自動で取得できるようする．</p>
-
-<p></p>
-
 <h2 id="環境">環境</h2>
-
 <h3 id="host">Host</h3>
-
-<pre><code class="language-shell">&gt; systeminfo
-(抜粋)
-OS Name:                   Microsoft Windows 10 Pro
-OS Version:                10.0.10240 N/A Build 10240
-</code></pre>
-
-<h3 id="guest">Guest</h3>
-
-<pre><code class="language-shell">$ lsb_release -a
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; systeminfo
+<span style="color:#f92672">(</span>抜粋<span style="color:#f92672">)</span>
+OS Name:                   Microsoft Windows <span style="color:#ae81ff">10</span> Pro
+OS Version:                10.0.10240 N/A Build <span style="color:#ae81ff">10240</span>
+</code></pre></div><h3 id="guest">Guest</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ lsb_release -a
 No LSB modules are available.
 Distributor ID: Debian
-Description:    Debian GNU/Linux unstable (sid)
+Description:    Debian GNU/Linux unstable <span style="color:#f92672">(</span>sid<span style="color:#f92672">)</span>
 Release:        unstable
 Codename:       sid
-</code></pre>
-
-<h2 id="準備">準備</h2>
-
+</code></pre></div><h2 id="準備">準備</h2>
 <p>Guest OSにAgentをインストール</p>
-
-<pre><code class="language-shell">$ sudo apt-get install hyperv-daemons
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt-get install hyperv-daemons
 $ dpkg -l hyperv-daemons
-要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)保持
-| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストール/(W)トリガ待ち/(T)トリガ保留
-|/ エラー?=(空欄)無/(R)要再インストール (状態,エラーの大文字=異常)
-||/ 名前                          バージョン          アーキテクチャ      説明
-+++-=============================-===================-===================-================================================================
-ii  hyperv-daemons                4.2-2               amd64               Support daemons for Linux running on Hyper-V
+要望<span style="color:#f92672">=(</span>U<span style="color:#f92672">)</span>不明/<span style="color:#f92672">(</span>I<span style="color:#f92672">)</span>インストール/<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span>削除/<span style="color:#f92672">(</span>P<span style="color:#f92672">)</span>完全削除/<span style="color:#f92672">(</span>H<span style="color:#f92672">)</span>保持
+| 状態<span style="color:#f92672">=(</span>N<span style="color:#f92672">)</span>無/<span style="color:#f92672">(</span>I<span style="color:#f92672">)</span>インストール済/<span style="color:#f92672">(</span>C<span style="color:#f92672">)</span>設定/<span style="color:#f92672">(</span>U<span style="color:#f92672">)</span>展開/<span style="color:#f92672">(</span>F<span style="color:#f92672">)</span>設定失敗/<span style="color:#f92672">(</span>H<span style="color:#f92672">)</span>半インストール/<span style="color:#f92672">(</span>W<span style="color:#f92672">)</span>トリガ待ち/<span style="color:#f92672">(</span>T<span style="color:#f92672">)</span>トリガ保留
+|/ エラー?<span style="color:#f92672">=(</span>空欄<span style="color:#f92672">)</span>無/<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span>要再インストール <span style="color:#f92672">(</span>状態,エラーの大文字<span style="color:#f92672">=</span>異常<span style="color:#f92672">)</span>
+<span style="color:#f92672">||</span>/ 名前                          バージョン          アーキテクチャ      説明
++++-<span style="color:#f92672">=============================</span>-<span style="color:#f92672">===================</span>-<span style="color:#f92672">===================</span>-<span style="color:#f92672">================================================================</span>
+ii  hyperv-daemons                4.2-2               amd64               Support daemons <span style="color:#66d9ef">for</span> Linux running on Hyper-V
 $ systemctl status hyperv-daemons.hv-fcopy-daemon.service
-● hyperv-daemons.hv-fcopy-daemon.service - Hyper-V file copy service (FCOPY) daemon
-   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-fcopy-daemon.service; enabled; vendor preset: enabled)
-   Active: inactive (dead)
-Condition: start condition failed at 金 2015-11-06 22:31:17 JST; 3 days ago
+● hyperv-daemons.hv-fcopy-daemon.service - Hyper-V file copy service <span style="color:#f92672">(</span>FCOPY<span style="color:#f92672">)</span> daemon
+   Loaded: loaded <span style="color:#f92672">(</span>/lib/systemd/system/hyperv-daemons.hv-fcopy-daemon.service; enabled; vendor preset: enabled<span style="color:#f92672">)</span>
+   Active: inactive <span style="color:#f92672">(</span>dead<span style="color:#f92672">)</span>
+Condition: start condition failed at 金 2015-11-06 22:31:17 JST; <span style="color:#ae81ff">3</span> days ago
 $ systemctl status hyperv-daemons.hv-kvp-daemon.service
-● hyperv-daemons.hv-kvp-daemon.service - Hyper-V key-value pair (KVP) daemon
-   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-kvp-daemon.service; enabled; vendor preset: enabled)
-   Active: active (running) since 金 2015-11-06 22:31:17 JST; 3 days ago
- Main PID: 673 (hv_kvp_daemon)
+● hyperv-daemons.hv-kvp-daemon.service - Hyper-V key-value pair <span style="color:#f92672">(</span>KVP<span style="color:#f92672">)</span> daemon
+   Loaded: loaded <span style="color:#f92672">(</span>/lib/systemd/system/hyperv-daemons.hv-kvp-daemon.service; enabled; vendor preset: enabled<span style="color:#f92672">)</span>
+   Active: active <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span> since 金 2015-11-06 22:31:17 JST; <span style="color:#ae81ff">3</span> days ago
+ Main PID: <span style="color:#ae81ff">673</span> <span style="color:#f92672">(</span>hv_kvp_daemon<span style="color:#f92672">)</span>
    CGroup: /system.slice/hyperv-daemons.hv-kvp-daemon.service
            └─673 /usr/sbin/hv_kvp_daemon -n
 $ systemctl status hyperv-daemons.hv-vss-daemon.service
-● hyperv-daemons.hv-vss-daemon.service - Hyper-V volume shadow copy service (VSS) daemon
-   Loaded: loaded (/lib/systemd/system/hyperv-daemons.hv-vss-daemon.service; enabled; vendor preset: enabled)
-   Active: active (running) since 金 2015-11-06 22:31:17 JST; 3 days ago
- Main PID: 667 (hv_vss_daemon)
+● hyperv-daemons.hv-vss-daemon.service - Hyper-V volume shadow copy service <span style="color:#f92672">(</span>VSS<span style="color:#f92672">)</span> daemon
+   Loaded: loaded <span style="color:#f92672">(</span>/lib/systemd/system/hyperv-daemons.hv-vss-daemon.service; enabled; vendor preset: enabled<span style="color:#f92672">)</span>
+   Active: active <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span> since 金 2015-11-06 22:31:17 JST; <span style="color:#ae81ff">3</span> days ago
+ Main PID: <span style="color:#ae81ff">667</span> <span style="color:#f92672">(</span>hv_vss_daemon<span style="color:#f92672">)</span>
    CGroup: /system.slice/hyperv-daemons.hv-vss-daemon.service
            └─667 /usr/sbin/hv_vss_daemon -n
-</code></pre>
-
-<p>daemonのひとつで起動に失敗しているがとりあえず放置．それぞれの役割はこんな感じ．</p>
-
+</code></pre></div><p>daemonのひとつで起動に失敗しているがとりあえず放置．それぞれの役割はこんな感じ．</p>
 <blockquote>
 <p>hv_fcopy_daemon provides the file copy service, allowing the host to copy files into the guest.
 hv_kvp_daemon provides the key-value pair (KVP) service, allowing the host to get and set the IP networking configuration of the guest. (This requires helper scripts which are not currently included.)
 hv_vss_daemon provides the volume shadow copy service (VSS), allowing the host to freeze the guest filesystems while taking a snapshot.</p>
 </blockquote>
-
 <p><a href="https://packages.debian.org/sid/hyperv-daemons">Debian &ndash; Details of package hyperv-daemons in sid</a></p>
-
 <p>今回必要なのはおそらく<code>hv_kvp_daemon</code></p>
-
 <h2 id="ホスト側のpowershellでコマンドを実行">ホスト側のPowerShellでコマンドを実行</h2>
-
 <p>管理者権限がないと値を取得できないので注意</p>
-
-<pre><code class="language-shell">&gt; Get-VMNetworkAdapter -VMName &lt;VM Name&gt; | Select IPAddresses
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; Get-VMNetworkAdapter -VMName &lt;VM Name&gt; | Select IPAddresses
 IPAddresses
 -----------
-{192.168.137.214, fe80::215:5dff:fe02:103}
-</code></pre>
-
-<p>以下のような感じでIPv4アドレスだけ取得できた</p>
-
-<pre><code class="language-shell">&gt; $vm = Get-VMNetworkAdapter -VMName Phoebe
-&gt; $vm.IPAddresses -match &quot;^\d+\.\d+\.\d+\.\d+$&quot;
+<span style="color:#f92672">{</span>192.168.137.214, fe80::215:5dff:fe02:103<span style="color:#f92672">}</span>
+</code></pre></div><p>以下のような感じでIPv4アドレスだけ取得できた</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; $vm <span style="color:#f92672">=</span> Get-VMNetworkAdapter -VMName Phoebe
+&gt; $vm.IPAddresses -match <span style="color:#e6db74">&#34;^\d+\.\d+\.\d+\.\d+</span>$<span style="color:#e6db74">&#34;</span>
 192.168.137.214
-</code></pre>
-
-<p>以上．</p>
+</code></pre></div><p>以上．</p>
       </section>
       <aside>
         <div class="share-box">
@@ -158,20 +133,25 @@ IPAddresses
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/get-ip-in-hyperv\/';
-    var disqus_title = 'Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/get-ip-in-hyperv\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -192,14 +172,17 @@ IPAddresses
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

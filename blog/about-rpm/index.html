@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -52,15 +52,9 @@
       <section itemprop="entry-text">
         <p>最近LPIC-1を取ろうと勉強中です．
 その中でRedHat系のパッケージ操作コマンドであるrpmコマンドのオプションについて出てきたので備忘録のためにまとめておくことにします．</p>
-
-<p></p>
-
 <p>rpmのオプションには大きく分けると「インストール/アップグレード」「アンインストール」「照会」の3つに分けられます．</p>
-
-<h2 id="インストール-アップグレード">インストール/アップグレード</h2>
-
+<h2 id="インストールアップグレード">インストール/アップグレード</h2>
 <p>インストール/アップグレードモードでは以下のいずれかのオプションを使用する</p>
-
 <table>
 <thead>
 <tr>
@@ -68,27 +62,22 @@
 <th align="left">説明</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="left">-i (&ndash;install) &lt;パッケージファイル名&gt;</td>
 <td align="left">パッケージをインストールする</td>
 </tr>
-
 <tr>
 <td align="left">-U (&ndash;upgrade) &lt;パッケージファイル名&gt;</td>
 <td align="left">パッケージを更新する．インストールされていなければ新規にインストールする</td>
 </tr>
-
 <tr>
 <td align="left">-F (&ndash;freshen) &lt;パッケージファイル名&gt;</td>
 <td align="left">パッケージを更新する．インストールされていなければなにもしない</td>
 </tr>
 </tbody>
 </table>
-
 <p>これらのオプションを使用したときは以下のオプションも併用できる</p>
-
 <table>
 <thead>
 <tr>
@@ -96,39 +85,30 @@
 <th align="left">説明</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="left">-v</td>
 <td align="left">詳細な情報を表示する</td>
 </tr>
-
 <tr>
 <td align="left">-h (&ndash;hash)</td>
 <td align="left">進行状況を「#」で表示する</td>
 </tr>
-
 <tr>
 <td align="left">&ndash;nodeps</td>
 <td align="left">依存関係を無視してインストールする</td>
 </tr>
-
 <tr>
 <td align="left">&ndash;test</td>
 <td align="left">実際にはインストールせずにテストを実施する</td>
 </tr>
 </tbody>
 </table>
-
 <p>パッケージをファイルからインストールするときは以下のようにオプションを組み合わせているのをよく見る気がします．</p>
-
 <pre><code>    # rpm -ivh &lt;package&gt;
 </code></pre>
-
 <h2 id="アンインストール">アンインストール</h2>
-
 <p>こちらはあまり種類がないようで，</p>
-
 <table>
 <thead>
 <tr>
@@ -136,7 +116,6 @@
 <th align="left">説明</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="left">-e (&ndash;erace) &lt;パッケージ名&gt;</td>
@@ -144,12 +123,9 @@
 </tr>
 </tbody>
 </table>
-
 <p>ちなみに-eオプションを渡したときも&ndash;nodepsオプションを使用できます．
 効果は「依存関係を無視してアンインストールする」です．</p>
-
 <h2 id="照会">照会</h2>
-
 <table>
 <thead>
 <tr>
@@ -157,7 +133,6 @@
 <th align="left">説明</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="left">-q &lt;パッケージ名&gt;</td>
@@ -165,9 +140,7 @@
 </tr>
 </tbody>
 </table>
-
 <p>このモードでは以下のオプションが併用できる</p>
-
 <table>
 <thead>
 <tr>
@@ -175,59 +148,45 @@
 <th align="left">説明</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="left">-a (-all)</td>
 <td align="left">インストール済みのすべてのパッケージを表示する</td>
 </tr>
-
 <tr>
 <td align="left">-f &lt;ファイル名&gt;</td>
 <td align="left">指定したファイルを含むパッケージ名を表示する</td>
 </tr>
-
 <tr>
 <td align="left">-p &lt;パッケージファイル名&gt;</td>
 <td align="left">対象としてパッケージファイル名を指定する</td>
 </tr>
-
 <tr>
 <td align="left">-i (&ndash;info)</td>
 <td align="left">インストール済みのパッケージ情報を表示する</td>
 </tr>
-
 <tr>
 <td align="left">-l (&ndash;list)</td>
 <td align="left">指定したパッケージに含まれるファイルを表示する</td>
 </tr>
-
 <tr>
 <td align="left">-R (&ndash;requires)</td>
 <td align="left">指定したパッケージが依存しているファイル等を表示する</td>
 </tr>
-
 <tr>
 <td align="left">&ndash;changelog</td>
 <td align="left">変更履歴を表示する</td>
 </tr>
 </tbody>
 </table>
-
 <p>あるパッケージがインストールされているかどうかを調べたかったら以下のように実行すればよいわけですね</p>
-
 <pre><code>    $ rpm -qa | grep &lt;package&gt;
 </code></pre>
-
-<p>deb系で言う&rdquo;dpkg -l&rdquo;みたいな感じ．</p>
-
+<p>deb系で言う&quot;dpkg -l&quot;みたいな感じ．</p>
 <p>出典: <a href="http://www.amazon.co.jp/dp/4798127922">Linux教科書 LPIC レベル1 第5版 [翔泳社]</a></p>
-
 <h2 id="なんでこんなものをまとめているのかと言うと">なんでこんなものをまとめているのかと言うと</h2>
-
 <p>私はDebianユーザなのでRedHatやCentOSの環境が手元にありません．本で読んでいるばかりだとなかなか頭に残らないので
 手を動かして覚えようということでまとめてみました．</p>
-
 <p>やっぱり手元にESXi環境とかあったらこういうとき必要な環境をささっと準備できて便利なんだろうなーと思いつつ
 いざそれ用に新しいマシンを買うとなると10万はいっちゃいそうでなかなか踏み出せずにいます…</p>
       </section>
@@ -249,20 +208,25 @@
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/about-rpm\/';
-    var disqus_title = 'RPMコマンドのオプション';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/about-rpm\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -283,14 +247,17 @@
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

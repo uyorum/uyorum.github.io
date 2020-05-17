@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -50,106 +50,75 @@
 
       </span>
       <section itemprop="entry-text">
-        <p>RSpecでFaker<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup>を使ってテストデータを用意している場合，テストデータが毎回ランダムになるゆえに，特に工夫をしないとテストを再現させることができなくなる．<br />
+        <p>RSpecでFaker<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>を使ってテストデータを用意している場合，テストデータが毎回ランダムになるゆえに，特に工夫をしないとテストを再現させることができなくなる．<br>
 パスしなかったテストを再現できないとトラブルシュートが難しくなってしまうが，それをある程度解決する方法を見つけたのでメモしておく</p>
-
-<p></p>
-
 <h2 id="どんな状況か">どんな状況か</h2>
-
 <p>自分が出会ったのはRailsでFactoryBotとFakerを組み合わせて使っている場合に出会った．
 あまりいい例ではないが，以下に具体的な状況を設定する</p>
-
 <p><strong>models/user.rb</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApplicationRecord</span>
+  validates <span style="color:#e6db74">:name</span>, format: <span style="color:#e6db74">/\A[a-zA-Z0-9 ]+\z/</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p><strong>factories/user.rb</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">FactoryBot</span><span style="color:#f92672">.</span>define <span style="color:#66d9ef">do</span>
+  factory <span style="color:#e6db74">:user</span> <span style="color:#66d9ef">do</span>
+    name { <span style="color:#66d9ef">Faker</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Name</span><span style="color:#f92672">.</span>name }
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p><strong>spec/models/user_spec.rb</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">require <span style="color:#e6db74">&#39;rails_helper&#39;</span>
 
-<pre><code class="language-ruby">class User &lt; ApplicationRecord
-  validates :name, format: /\A[a-zA-Z0-9 ]+\z/
-end
-</code></pre>
+<span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>describe <span style="color:#66d9ef">User</span>, <span style="color:#e6db74">type</span>: <span style="color:#e6db74">:model</span> <span style="color:#66d9ef">do</span>
+  let!(<span style="color:#e6db74">:user</span>) { <span style="color:#66d9ef">FactoryBot</span><span style="color:#f92672">.</span>create(<span style="color:#e6db74">:user</span>) }
 
-<p><strong>factories/user.rb</strong></p>
-
-<pre><code class="language-ruby">FactoryBot.define do
-  factory :user do
-    name { Faker::Name.name }
-  end
-end
-</code></pre>
-
-<p><strong>spec/models/user_spec.rb</strong></p>
-
-<pre><code class="language-ruby">require 'rails_helper'
-
-RSpec.describe User, type: :model do
-  let!(:user) { FactoryBot.create(:user) }
-
-  it &quot;can be destroyed&quot; do
+  it <span style="color:#e6db74">&#34;can be destroyed&#34;</span> <span style="color:#66d9ef">do</span>
     expect {
-      user.destroy
-    }.to change(User, :count).by(-1)
-  end
-end
-</code></pre>
-
-<p><code>User</code>の<code>name</code>属性はバリデーションとして正規表現で<code>/\A[a-zA-Z0-9 ]+\z/</code>にマッチすることと設定している．<br />
-しかし<code>Faker::Name.name</code>は値に「.」を含むことがある．<sup class="footnote-ref" id="fnref:2"><a rel="footnote" href="#fn:2">2</a></sup><br />
-その場合にテスト中の<code>let!(:user) { FactoryBot.create(:user) }</code>に失敗し，結果的にテストがパスしないことになる．<br />
+      user<span style="color:#f92672">.</span>destroy
+    }<span style="color:#f92672">.</span>to change(<span style="color:#66d9ef">User</span>, <span style="color:#e6db74">:count</span>)<span style="color:#f92672">.</span>by(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p><code>User</code>の<code>name</code>属性はバリデーションとして正規表現で<code>/\A[a-zA-Z0-9 ]+\z/</code>にマッチすることと設定している．<br>
+しかし<code>Faker::Name.name</code>は値に「.」を含むことがある．<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><br>
+その場合にテスト中の<code>let!(:user) { FactoryBot.create(:user) }</code>に失敗し，結果的にテストがパスしないことになる．<br>
 しかもその際に表示されるメッセージは以下のようになり，原因がはっきりと表示されない．</p>
-
-<pre><code class="language-shell">$ bin/rspec
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ bin/rspec
 F
 
 Failures:
 
-  1) User can destroy
-     Failure/Error: let!(:user) { FactoryBot.create(:user) }
+  1<span style="color:#f92672">)</span> User can destroy
+     Failure/Error: let!<span style="color:#f92672">(</span>:user<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> FactoryBot.create<span style="color:#f92672">(</span>:user<span style="color:#f92672">)</span> <span style="color:#f92672">}</span>
 
      ActiveRecord::RecordInvalid:
        Validation failed: Name is invalid
-</code></pre>
-
-<p>この例ははただの設定ミスであり，原因も単純なので「Fakerの生成した値が悪かったのかな」と推測もできるのだが，そのような状況ばかりではないだろう．</p>
-
-<p>ちなみにRSpecのテストを再現させる方法というと，テストが通らなかったときと同じseed値を指定してRSpecを実行するという方法がある．<br />
+</code></pre></div><p>この例ははただの設定ミスであり，原因も単純なので「Fakerの生成した値が悪かったのかな」と推測もできるのだが，そのような状況ばかりではないだろう．</p>
+<p>ちなみにRSpecのテストを再現させる方法というと，テストが通らなかったときと同じseed値を指定してRSpecを実行するという方法がある．<br>
 しかしこれはあくまでテストの実行順を再現させるだけであり，その他のランダム化されている箇所は再現できない．当然Fakerの生成する値も再現できない．</p>
-
 <h2 id="解決方法">解決方法</h2>
-
 <p>Fakerはその値の生成に<code>Random.rand</code>や<code>Kernel.rand</code>を使っているようなのでそのシード値を与えてやればよい．
-この方法はRSpecのドキュメントでも提案されており<sup class="footnote-ref" id="fnref:3"><a rel="footnote" href="#fn:3">3</a></sup>，デフォルトの<code>spec_helper.rb</code>にもコメントアウトされた状態で書かれている．<sup class="footnote-ref" id="fnref:4"><a rel="footnote" href="#fn:4">4</a></sup></p>
-
+この方法はRSpecのドキュメントでも提案されており<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>，デフォルトの<code>spec_helper.rb</code>にもコメントアウトされた状態で書かれている．<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
 <p><strong>spec/spec_helper.rb</strong></p>
-
-<pre><code class="language-ruby">RSpec.configure do |config|
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>configure <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
   :
-  Kernel.srand config.seed
+  <span style="color:#66d9ef">Kernel</span><span style="color:#f92672">.</span>srand config<span style="color:#f92672">.</span>seed
   :
-end
-</code></pre>
-
-<p><code>Kernel.srand</code>に整数値を渡すことで<code>Kernel.rand</code>や<code>Random.rand</code>のシード値を設定することができる<sup class="footnote-ref" id="fnref:5"><a rel="footnote" href="#fn:5">5</a></sup></p>
-
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p><code>Kernel.srand</code>に整数値を渡すことで<code>Kernel.rand</code>や<code>Random.rand</code>のシード値を設定することができる<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
 <h2 id="試してみる">試してみる</h2>
-
 <p>実際にこの設定の動作を確認してみるために以下のようなテストコードを用意する．</p>
-
 <p><strong>spec/random_data_spec.rb</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">require <span style="color:#e6db74">&#39;rails_helper&#39;</span>
 
-<pre><code class="language-ruby">require 'rails_helper'
-
-RSpec.describe 'Randomized data' do
-  it 'prints some random strings' do
-    5.times { puts Faker::Name.name }
-  end
-end
-</code></pre>
-
-<p><code>Faker::Name.name</code>を実行し値を出力する
+<span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>describe <span style="color:#e6db74">&#39;Randomized data&#39;</span> <span style="color:#66d9ef">do</span>
+  it <span style="color:#e6db74">&#39;prints some random strings&#39;</span> <span style="color:#66d9ef">do</span>
+    <span style="color:#ae81ff">5</span><span style="color:#f92672">.</span>times { puts <span style="color:#66d9ef">Faker</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Name</span><span style="color:#f92672">.</span>name }
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p><code>Faker::Name.name</code>を実行し値を出力する
 まずは上記設定を行なっていない状態でRSpecのseedを指定して実行する</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ bin/rspec spec/random_data_spec.rb --seed <span style="color:#ae81ff">1234</span>
 
-<pre><code class="language-shell">$ bin/rspec spec/random_data_spec.rb --seed 1234
-
-Randomized with seed 1234
+Randomized with seed <span style="color:#ae81ff">1234</span>
 Jackson Erdman DVM
 Miss Angelina Nolan
 Nicholaus Walker PhD
@@ -157,14 +126,14 @@ Terrence Pacocha
 Camren Denesik
 .
 
-Finished in 0.54782 seconds (files took 0.50447 seconds to load)
-1 example, 0 failures
+Finished in 0.54782 seconds <span style="color:#f92672">(</span>files took 0.50447 seconds to load<span style="color:#f92672">)</span>
+<span style="color:#ae81ff">1</span> example, <span style="color:#ae81ff">0</span> failures
 
-Randomized with seed 1234
+Randomized with seed <span style="color:#ae81ff">1234</span>
 
-$ bin/rspec spec/random_data_spec.rb --seed 1234
+$ bin/rspec spec/random_data_spec.rb --seed <span style="color:#ae81ff">1234</span>
 
-Randomized with seed 1234
+Randomized with seed <span style="color:#ae81ff">1234</span>
 Kirsten Ondricka
 Thora Jenkins
 Lenny Mertz MD
@@ -172,19 +141,15 @@ John Sauer
 Liliana Heathcote
 .
 
-Finished in 0.53317 seconds (files took 0.50113 seconds to load)
-1 example, 0 failures
+Finished in 0.53317 seconds <span style="color:#f92672">(</span>files took 0.50113 seconds to load<span style="color:#f92672">)</span>
+<span style="color:#ae81ff">1</span> example, <span style="color:#ae81ff">0</span> failures
 
-Randomized with seed 1234
-</code></pre>
-
-<p>当然Fakerは毎回異なる値を生成する．</p>
-
+Randomized with seed <span style="color:#ae81ff">1234</span>
+</code></pre></div><p>当然Fakerは毎回異なる値を生成する．</p>
 <p>それでは上記設定を行なった状態で同じように実行してみる．</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ bin/rspec spec/random_data_spec.rb --seed <span style="color:#ae81ff">1234</span>
 
-<pre><code class="language-shell">$ bin/rspec spec/random_data_spec.rb --seed 1234
-
-Randomized with seed 1234
+Randomized with seed <span style="color:#ae81ff">1234</span>
 Ian Bruen
 Dallas Gutkowski
 Augusta Kulas DVM
@@ -192,14 +157,14 @@ Glen Kuphal
 Jamarcus Watsica
 .
 
-Finished in 0.61383 seconds (files took 0.59588 seconds to load)
-1 example, 0 failures
+Finished in 0.61383 seconds <span style="color:#f92672">(</span>files took 0.59588 seconds to load<span style="color:#f92672">)</span>
+<span style="color:#ae81ff">1</span> example, <span style="color:#ae81ff">0</span> failures
 
-Randomized with seed 1234
+Randomized with seed <span style="color:#ae81ff">1234</span>
 
-$ bin/rspec spec/random_data_spec.rb --seed 1234
+$ bin/rspec spec/random_data_spec.rb --seed <span style="color:#ae81ff">1234</span>
 
-Randomized with seed 1234
+Randomized with seed <span style="color:#ae81ff">1234</span>
 Ian Bruen
 Dallas Gutkowski
 Augusta Kulas DVM
@@ -207,36 +172,35 @@ Glen Kuphal
 Jamarcus Watsica
 .
 
-Finished in 0.57579 seconds (files took 0.52938 seconds to load)
-1 example, 0 failures
+Finished in 0.57579 seconds <span style="color:#f92672">(</span>files took 0.52938 seconds to load<span style="color:#f92672">)</span>
+<span style="color:#ae81ff">1</span> example, <span style="color:#ae81ff">0</span> failures
 
-Randomized with seed 1234
-</code></pre>
-
-<p>Fakerは同じ値を生成するようになった．
+Randomized with seed <span style="color:#ae81ff">1234</span>
+</code></pre></div><p>Fakerは同じ値を生成するようになった．
 この状態でCIを行い，テストが通らなかったらそのときのseed値を指定すれば手元でも(Fakerや<code>rand</code>を使った値に関しては)再現できるようになる．</p>
-
 <p>以上．</p>
-
-<p>なお，ここで挙げたコードはGitHubに上げてある．<br />
+<p>なお，ここで挙げたコードはGitHubに上げてある．<br>
 <a href="https://github.com/uyorum/play-ruby-on-rails/tree/rspec/faker-srand">uyorum/play-ruby-on-rails</a></p>
-<div class="footnotes">
-
-<hr />
-
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1"><a href="https://github.com/stympy/faker">GitHub - stympy/faker: A library for generating fake data such as names, addresses, and phone numbers.</a>
- <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
-<li id="fn:2"><a href="https://github.com/stympy/faker/blob/master/doc/name.md">faker/name.md at master · stympy/faker</a>
- <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
-<li id="fn:3"><a href="https://relishapp.com/rspec/rspec-core/docs/command-line/randomization-can-be-reproduced-across-test-runs">Randomization can be reproduced across test runs - Command line - RSpec Core - RSpec - Relish</a>
- <a class="footnote-return" href="#fnref:3"><sup>[return]</sup></a></li>
-<li id="fn:4"><a href="https://github.com/rspec/rspec-core/blob/v3.7.0/lib/rspec/core/project_initializer/spec/spec_helper.rb">rspec-core/spec_helper.rb at v3.7.0 · rspec/rspec-core</a>
- <a class="footnote-return" href="#fnref:4"><sup>[return]</sup></a></li>
-<li id="fn:5"><a href="https://docs.ruby-lang.org/ja/latest/class/Kernel.html#M_SRAND">module Kernel (Ruby 2.4.0)</a>
- <a class="footnote-return" href="#fnref:5"><sup>[return]</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://github.com/stympy/faker">GitHub - stympy/faker: A library for generating fake data such as names, addresses, and phone numbers.</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://github.com/stympy/faker/blob/master/doc/name.md">faker/name.md at master · stympy/faker</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://relishapp.com/rspec/rspec-core/docs/command-line/randomization-can-be-reproduced-across-test-runs">Randomization can be reproduced across test runs - Command line - RSpec Core - RSpec - Relish</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://github.com/rspec/rspec-core/blob/v3.7.0/lib/rspec/core/project_initializer/spec/spec_helper.rb">rspec-core/spec_helper.rb at v3.7.0 · rspec/rspec-core</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p><a href="https://docs.ruby-lang.org/ja/latest/class/Kernel.html#M_SRAND">module Kernel (Ruby 2.4.0)</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div>
+</section>
       </section>
       <aside>
         <div class="share-box">
@@ -256,20 +220,25 @@ Randomized with seed 1234
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/rspec-faker-1\/';
-    var disqus_title = 'RSpecでFakerを使うならKernel.srandを設定しておけという話';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/rspec-faker-1\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -290,14 +259,17 @@ Randomized with seed 1234
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

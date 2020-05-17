@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -52,71 +52,51 @@
       <section itemprop="entry-text">
         <p>最近，自宅で動かしているとあるサービスのMariaDBのバックアップを取ろうとふと思い立った．
 使ったことがなかったのでXtraBackupでバックアップ設計することにした．</p>
-
-<p></p>
-
 <h2 id="参考">参考</h2>
-
 <ul>
 <li><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/index.html">Percona XtraBackup - Documentation</a></li>
 </ul>
-
 <h2 id="設計方針">設計方針</h2>
-
 <p>XtraBackupの使い方はネットに情報があふれているのでここでは説明しません．
 こんな感じの方針でバックアップ設計をしていきます．</p>
-
 <ul>
 <li>バックアップ先はいずれかのクラウドがいいが，あまりお金をかけたくない(個人でやっているものなので)</li>
 <li>バックアップの容量をできるだけ小さくしたい</li>
 <li>RTOは数時間レベルでOK</li>
 </ul>
-
 <p>XtraBackupは増分バックアップができるので以下のようにしました．</p>
-
 <ol>
 <li>1週間や2週間に1回くらいの頻度でフルバックアップを取得する</li>
 <li>それ以外の日は前日からの増分バックアップを取得する</li>
 </ol>
-
 <h2 id="コマンド">コマンド</h2>
-
 <ul>
-<li><p>フルバックアップ</p>
-
-<pre><code>$ innobackupex --history=xbhistory --compact --stream=xbstream ./ | gzip - &gt; base.xbstream.gz
-</code></pre></li>
-
-<li><p>増分バックアップ</p>
-
-<pre><code>$ innobackupex --incremental --history=xbhistory --incremental-history-name=xbhistory --compact --stream=xbstream ./ | gzip - &gt; inc.xbstream.gz
-</code></pre></li>
+<li>
+<p>フルバックアップ</p>
+<pre><code>  $ innobackupex --history=xbhistory --compact --stream=xbstream ./ | gzip - &gt; base.xbstream.gz
+</code></pre>
+</li>
+<li>
+<p>増分バックアップ</p>
+<pre><code>  $ innobackupex --incremental --history=xbhistory --incremental-history-name=xbhistory --compact --stream=xbstream ./ | gzip - &gt; inc.xbstream.gz
+</code></pre>
+</li>
 </ul>
-
 <p>以下で各オプションの使用した理由などを解説していきます</p>
-
-<h3 id="stream-xbstream"><code>--stream=xbstream</code></h3>
-
+<h3 id="--streamxbstream"><code>--stream=xbstream</code></h3>
 <p><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/howtos/recipes_ibkx_stream.html">Make a Streaming Backup</a></p>
-
 <p>指定したパスにバックアップをファイルとして出力する代わりに，指定したフォーマットのアーカイブ形式で標準出力に吐き出します．
 形式は<code>tar</code>と<code>xbstream</code>が指定できますが，<code>--incremental</code>オプションと組み合わせる場合は<code>xbstream</code>でなければならないので<code>xbstream</code>を使用します．</p>
-
-<h3 id="history"><code>--history</code></h3>
-
-<p><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/incremental_backups.html">Incremental Backups</a><br />
+<h3 id="--history"><code>--history</code></h3>
+<p><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/incremental_backups.html">Incremental Backups</a><br>
 <a href="https://www.percona.com/doc/percona-xtrabackup/2.4/innobackupex/storing_history.html">Store backup history on the server</a></p>
-
 <p><code>--incremental</code>(増分バックアップ)を使うときは起点とするLSNを指定する必要があります．指定する方法は</p>
-
 <ul>
 <li>前回のバックアップ先ディレクトリを指定する(<code>--incremantal-basedir</code>)</li>
 <li>前回のLSNを指定する(<code>--incremental-lsn</code>)</li>
 <li>前回のバックアップ時の情報を対象のDBに保存する(<code>--history</code>)</li>
 </ul>
-
 <p>前回バックアップ時のLSNはバックアップ先ディレクトリの<code>xtrabackup_checkpoints</code>ファイルに記録されています(<code>to_lsn</code>)</p>
-
 <pre><code>$ cat xtrabackup_checkpoints 
 backup_type = full-backuped
 from_lsn = 0
@@ -125,12 +105,9 @@ last_lsn = 2353547498
 compact = 0
 recover_binlog_info = 0
 </code></pre>
-
 <p>xbstream形式だと特定のファイルのみ展開したりすることができなさそうだし，今回は取得したバックアップはクラウド上にアップロードしてローカルからはすぐに削除するつもりなので，先2つの方法はとれなさそうです．
 よって<code>--history</code>オプションを使用することにします．</p>
-
 <p><code>--history</code>を使用した場合，バックアップの情報は対象インスタンスの<code>PERCONA_SCHEMA.xtrabackup_history</code>に保存されます．</p>
-
 <pre><code>$ innobackupex --history=xbhistory /data/backups
 $ mysql -uroot -ppassword
 &gt; select * from PERCONA_SCHEMA.xtrabackup_history\G
@@ -155,29 +132,20 @@ ibbackup_version: 2.3.5
       compressed: N
        encrypted: N
 </code></pre>
-
 <p>増分バックアップを取得するときは<code>--incremental-history-name</code>オプションを使います．
 <code>--history</code>オプションを付けないとその回はDBに保存されないようなので増分バックアップのときも<code>--history</code>オプションを使います．
 毎回，前回のフルバックアップからの増分を取得する，のようなバックアップ設計のときは<code>--history</code>オプションを付けないと実現できそうです．</p>
-
-<h3 id="compact"><code>--compact</code></h3>
-
-<p><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/innobackupex/compact_backups_innobackupex.html">Compact Backups</a><br />
+<h3 id="--compact"><code>--compact</code></h3>
+<p><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/innobackupex/compact_backups_innobackupex.html">Compact Backups</a><br>
 <a href="http://nippondanji.blogspot.jp/2010/10/innodb.html">漢(オトコ)のコンピュータ道: 知って得するInnoDBセカンダリインデックス活用術！</a></p>
-
 <p>InnoDBのセカンダリインデックスをバックアップに含めない．
 バックアップサイズは削減できるがセカンダリインデックスの再生成が必要になるためprepare処理に時間がかかってしまう．
 今回はRTOよりもバックアップ容量を重視したいのでこのオプションを使用する．</p>
-
-<h3 id="compress"><code>--compress</code></h3>
-
+<h3 id="--compress"><code>--compress</code></h3>
 <p><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/howtos/recipes_ibkx_compressed.html">Making a Compressed Backup</a></p>
-
 <p><code>innobackupex</code>コマンドには<code>--compress</code>というオプションがある．これを使うとバックアップ時に各<code>.ibd</code>ファイルを<code>qpress</code>という形式で圧縮するようになる．
 <code>gzip</code>とどちらを使うのがいいのか，圧縮率と時間を比較してみた．</p>
-
 <p>環境はEC2の<code>t2.micro</code></p>
-
 <table>
 <thead>
 <tr>
@@ -188,7 +156,6 @@ ibbackup_version: 2.3.5
 <th align="left">command</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="center">N</td>
@@ -197,7 +164,6 @@ ibbackup_version: 2.3.5
 <td align="left">1020MB</td>
 <td align="left">innobackupex &ndash;stream=xbstream ./ &gt; 1.xbstream</td>
 </tr>
-
 <tr>
 <td align="center">Y</td>
 <td align="center">N</td>
@@ -205,38 +171,32 @@ ibbackup_version: 2.3.5
 <td align="left">527MB</td>
 <td align="left">innobackupex &ndash;compress &ndash;stream=xbstream ./ &gt; 2.xbstream</td>
 </tr>
-
 <tr>
 <td align="center">N</td>
 <td align="center">Y</td>
 <td align="left">66s</td>
 <td align="left">396MB</td>
-<td align="left">innobackupex &ndash;stream=xbstream ./ &#124; gzip - &gt; 3.xbstream.gz</td>
+<td align="left">innobackupex &ndash;stream=xbstream ./ | gzip - &gt; 3.xbstream.gz</td>
 </tr>
-
 <tr>
 <td align="center">N</td>
 <td align="center">Y</td>
 <td align="left">25s</td>
 <td align="left">404MB</td>
-<td align="left">innobackupex &ndash;stream=xbstream ./ &#124; gzip -1 - &gt; 4.xbstream.gz</td>
+<td align="left">innobackupex &ndash;stream=xbstream ./ | gzip -1 - &gt; 4.xbstream.gz</td>
 </tr>
-
 <tr>
 <td align="center">Y</td>
 <td align="center">Y</td>
 <td align="left">47s</td>
 <td align="left">435MB</td>
-<td align="left">innobackupex &ndash;compress &ndash;stream=xbstream ./ &#124; gzip - &gt; 5.xbstream.gz</td>
+<td align="left">innobackupex &ndash;compress &ndash;stream=xbstream ./ | gzip - &gt; 5.xbstream.gz</td>
 </tr>
 </tbody>
 </table>
-
 <p>データの内容にもよるのだろうが，<code>--compress</code>オプションは結構高速で，オプションをつけないときと時間はほとんど変わらなかった．
 だが，<code>gzip -1</code>だと時間は少しかかってしまうが，容量がさらに2割以上削減できるようなので<code>--compress</code>オプションは使用せずに<code>gzip -1</code>に渡すことにした．</p>
-
 <h3 id="最後に">最後に</h3>
-
 <p>mysqldumpと比べるとバックアップの容量が大きくなると思っていましたが，XtraBackupには増分バックアップ機能があるので結果的には容量を削減できそうです．
 まだドキュメントをすべて読んだわけではないのでもっとよい方法があるのかもしれませんが，ひとまずこの方法で運用してみます．</p>
       </section>
@@ -258,20 +218,25 @@ ibbackup_version: 2.3.5
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/xtrabackup-1\/';
-    var disqus_title = 'XtraBackupによるバックアップ設計';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/xtrabackup-1\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -292,14 +257,17 @@ ibbackup_version: 2.3.5
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

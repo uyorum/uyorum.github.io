@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -51,93 +51,74 @@
       </span>
       <section itemprop="entry-text">
         <p>先日リリースされたCoder for RaspberryPiを導入してみたのでその手順をまとめておきます．</p>
-
-<p></p>
-
 <p><a href="http://googlecreativelab.github.io/coder/">こちら</a>の公式ページに手順が載っていますがいまいち説明不足でわかりにくいところもあったので
 あらためて手順をまとめ直してみました．</p>
-
 <h1 id="用意するもの">用意するもの</h1>
-
 <ol>
-<li>RaspberryPi<br />
+<li>RaspberryPi<br>
 これがないと始まりませんね．私はType.Bの方を使っています．</li>
-<li>SDカード<br />
+<li>SDカード<br>
 公式では4GB以上を推奨しています．
-1．インストーラ<br />
+1．インストーラ<br>
 <a href="http://storage.googleapis.com/coder-images/coder_v0.4.zip">ここ</a>からzipをダウンロード・展開しておきます．</li>
-<li>PC<br />
-Macだと楽にインストールできます．<br />
+<li>PC<br>
+Macだと楽にインストールできます．<br>
 Windowsの場合は<a href="http://googlecreativelab.github.io/coder/#windows">こちら</a>を参考に．私はMacで導入したので詳しいことはわかりませんが．</li>
-<li>ネットワーク<br />
+<li>ネットワーク<br>
 有線で接続するか，USB無線子機を用意します．
 私はPLANEXのGW-USValue-EZをたまたま持っていたのでこれを使いました．</li>
 </ol>
-
 <h1 id="インストール">インストール</h1>
-
 <ol>
-<li>zipを展開してできたディレクトリ内の&rdquo;CoderSetup&rdquo;を実行します．<br />
+<li>zipを展開してできたディレクトリ内の&quot;CoderSetup&quot;を実行します．<br>
 実行すると以下のウィンドウが表示されます．
-<img src="/coder-for-pi/01.jpg" alt="01" />
-表示されている通り，MacからSDカードを抜いた状態で&rdquo;START&rdquo;をクリックします．</li>
-<li>MacにSDカードを挿入してから&rdquo;NEXT&rdquo;をクリックします．
-<img src="/coder-for-pi/02.jpg" alt="02" /></li>
-<li>&ldquo;INSTALL&rdquo;をクリックしてSDカードにインストールします．SDカードはフォーマットされます．
-<img src="/coder-for-pi/03.jpg" alt="03" /></li>
+<img src="/coder-for-pi/01.jpg" alt="01">
+表示されている通り，MacからSDカードを抜いた状態で&quot;START&quot;をクリックします．</li>
+<li>MacにSDカードを挿入してから&quot;NEXT&quot;をクリックします．
+<img src="/coder-for-pi/02.jpg" alt="02"></li>
+<li>&ldquo;INSTALL&quot;をクリックしてSDカードにインストールします．SDカードはフォーマットされます．
+<img src="/coder-for-pi/03.jpg" alt="03"></li>
 <li>以下の画面になったらインストール完了です．
-<img src="/coder-for-pi/04.jpg" alt="04" /></li>
+<img src="/coder-for-pi/04.jpg" alt="04"></li>
 <li>インストールが完了したらSDカードをRaspberryPiに挿入して起動させます．
 RaspberryPiが起動したら次は初期設定です．</li>
 </ol>
-
 <h1 id="初期設定">初期設定</h1>
-
 <p>Coder for RaspberryPiの設定・操作はブラウザから行うことになります．
 そのため，RaspberryPiをネットワークに接続する必要があるのですが，有線はもちろん無線にも対応しています．
 私は前述の通りUSB無線子機を使って無線でセットアップを行ったので無線での手順を記載します．</p>
-
 <ol>
-<li>PCの無線をONにしてネットワークを探します．<br />
-&ldquo;CoderConfig&rdquo;というアドホックネットワークが見つかるので接続します．</li>
+<li>PCの無線をONにしてネットワークを探します．<br>
+&ldquo;CoderConfig&quot;というアドホックネットワークが見つかるので接続します．</li>
 <li>ブラウザで <a href="http://coder.local/">http://coder.local/</a> を開くと以下のページが表示されます．
-<img src="/coder-for-pi/06.jpg" alt="06" /></li>
-<li>パスワードを設定します．<br />
+<img src="/coder-for-pi/06.jpg" alt="06"></li>
+<li>パスワードを設定します．<br>
 以後，このパスワードを使ってCoder for RaspberryPiの画面に入ることになります．</li>
-<li>チュートリアルが表示されます．&rdquo;Got it&rdquo;をクリックして次へ進みます．</li>
+<li>チュートリアルが表示されます．&ldquo;Got it&quot;をクリックして次へ進みます．</li>
 <li>Coder for PaspberryPiのホームが表示されました．
-<img src="/coder-for-pi/08.jpg" alt="08" />
+<img src="/coder-for-pi/08.jpg" alt="08">
 以上で導入は完了です．</li>
 </ol>
-
 <h1 id="自宅の無線lanへ接続">自宅の無線LANへ接続</h1>
-
 <p>今後いちいちアドホック接続するわけにもいかないので自宅の無線LANへ接続する設定を行います．
 上の手順に続いてブラウザから設定します．</p>
-
 <ol>
 <li>ホームの右上の歯車をクリックすると以下の画面になります．
-<img src="/coder-for-pi/09.jpg" alt="09" /></li>
-<li>&ldquo;Wifi Setup&rdquo;をクリックしアクセスポイントのSSIDとパスワードを入力します．</li>
+<img src="/coder-for-pi/09.jpg" alt="09"></li>
+<li>&ldquo;Wifi Setup&quot;をクリックしアクセスポイントのSSIDとパスワードを入力します．</li>
 <li>設定が完了すると自動的にRaspberryPiが再起動して無線LANに接続されているはずです．</li>
 </ol>
-
-<p>あとはRaspberryPiのIPアドレスへブラウザで接続すればCoderの画面へ入れます．<br />
+<p>あとはRaspberryPiのIPアドレスへブラウザで接続すればCoderの画面へ入れます．<br>
 また無線LANの設定が完了すると自動でアドホック接続できなくなるようです．</p>
-
 <h1 id="シャットダウンの方法">シャットダウンの方法</h1>
-
 <p>公式ページにも載っていなかったのですが，さすがにいきなりコンセントを抜いてしまうのはまずいと思って調べてみました．
 RaspberryPiに以下の資格情報でSSH接続します．</p>
-
 <ul>
 <li>ユーザ：pi</li>
 <li>パスワード：Coder for RaspberryPiで設定したパスワード</li>
 </ul>
-
-<p>ログインしたらshutdownコマンドを叩けばシャットダウンできます．<br />
+<p>ログインしたらshutdownコマンドを叩けばシャットダウンできます．<br>
 ちなみにCoder for RaspberryPiの中身はRaspbianのようです．</p>
-
 <p>以上です．</p>
       </section>
       <aside>
@@ -158,20 +139,25 @@ RaspberryPiに以下の資格情報でSSH接続します．</p>
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/coder-for-pi\/';
-    var disqus_title = 'RaspeberryPi用のGoogle製Web開発プラットフォームCoder for RaspberryPiを導入してみた';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/coder-for-pi\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -192,14 +178,17 @@ RaspberryPiに以下の資格情報でSSH接続します．</p>
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

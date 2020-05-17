@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -51,116 +51,85 @@
       </span>
       <section itemprop="entry-text">
         <p>Amazon Dash Buttonは間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．</p>
-
-<p></p>
-
 <h2 id="amazon-dash-buttonのハック">Amazon Dash Buttonのハック</h2>
-
-<p>ネットに情報は溢れているため詳しい説明は省略する．<br />
+<p>ネットに情報は溢れているため詳しい説明は省略する．<br>
 本来のAmazon Dash Buttonはボタンを押すことであらかじめ設定した商品を注文するためのものだが，その過程で発生するパケットをトリガーに利用して，
 ボタンを押すことで任意の処理を実行させようというもの．</p>
-
 <h2 id="仕組みの概要">仕組みの概要</h2>
-
-<p>Amazon Dash Buttonと連携するComponentは過去に提案されている．<br />
+<p>Amazon Dash Buttonと連携するComponentは過去に提案されている．<br>
 <a href="https://github.com/home-assistant/home-assistant/issues/484">Amazon Dash Component? · Issue #484 · home-assistant/home-assistant</a></p>
-
 <p>主に以下の理由により却下されている</p>
-
 <ul>
 <li>Dash ButtonのためだけにHome Assistantをrootで動かすのは受け入れられない</li>
 <li>Dash Buttonの代わりにAWS IoTボタンやESP8266を使えば同じようなことが実現できる</li>
 </ul>
-
 <p>このIssueの中では<a href="https://github.com/maddox/dasher">maddox/dasher</a>を使うよう提案されているが，いくつかの個人的な理由によりツールを自作した．</p>
-
 <ul>
 <li>検知対象に利用している<code>ARP probe</code>パケットが自分の環境ではほとんどキャプチャできなかった</li>
 <li>Home Assistant用として使うには設定ファイルが複雑すぎる</li>
 <li>Node.jsがよくわからない</li>
 </ul>
-
 <p>作成したコードは<a href="https://github.com/uyorum/play-amazon-dash-button/tree/master/home-assistant">Github</a>で公開している．</p>
-
 <ul>
 <li><code>ARP probe</code>の代わりに<code>DHCP Discover</code>パケットをキャプチャする</li>
 <li>設定ファイルに書く内容は，Home Assistantと組み合わせて使用するための最低限の項目に絞っている</li>
 <li>Python製</li>
 </ul>
-
 <p>仕組みは以下の通り</p>
-
 <ol>
 <li><code>dash-ha</code>サーバでボタン押下を検知</li>
 <li>ボタンのMACアドレスに応じて，Home AssistantへREST APIでイベントを発火させる</li>
 <li>Home AssistantのAutomationでそのイベントをトリガーにアクションが実行されるようにしておく</li>
 <li>ボタンを押すとそのAutomationが実行される</li>
 </ol>
-
 <h2 id="ボタン押下を検知するサーバの用意">ボタン押下を検知するサーバの用意</h2>
-
 <p>ボタン検知を検知するためのサーバを用意し，専用のプログラムを走らせておく．自分はHome Assistantが稼動しているRaspbery Pi 2 Model Bで動かしている．
 以下のような感じでインストールする．</p>
-
-<pre><code class="language-shell">$ sudo apt -y install tcpdump python-scapy
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt -y install tcpdump python-scapy
 $ sudo mkdir /srv/dash-ha
 $ cd /srv/dash-ha
 $ sudo wget https://raw.githubusercontent.com/uyorum/play-amazon-dash-button/master/home-assistant/dash-ha.py
 $ sudo chmod +x dash-ha.py
-</code></pre>
-
-<p>設定ファイルは以下のような内容</p>
-
-<pre><code class="language-shell">$ cat /srv/dash-ha/config.yaml
+</code></pre></div><p>設定ファイルは以下のような内容</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat /srv/dash-ha/config.yaml
 home_assistant:
   host: 127.0.0.1
-  port: 8123
+  port: <span style="color:#ae81ff">8123</span>
 buttons:
   - mac: XX:XX:XX:XX:XX:XX
     event: dash_button_nescafe
   - mac: YY:YY:YY:YY:YY:YY
     event: dash_button_evian
-</code></pre>
-
-<p>上の例だと，MACアドレス<code>XX:XX:XX:XX:XX:XX</code>のDash Buttonが押されるとHome Assistantで<code>dash_button_nescafe</code>というイベントが発火するようになる．<br />
+</code></pre></div><p>上の例だと，MACアドレス<code>XX:XX:XX:XX:XX:XX</code>のDash Buttonが押されるとHome Assistantで<code>dash_button_nescafe</code>というイベントが発火するようになる．<br>
 いちおうHome Assistant側で認証を有効にしていた場合も対応できるようしている．(Githubに上げた設定例を参照)</p>
-
 <p>起動，停止はSystemdで管理する．</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ systemctl cat dash-ha
+<span style="color:#75715e"># /etc/systemd/system/dash-ha.service</span>
+<span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+Description<span style="color:#f92672">=</span>Integrate Amazon Dash Button and Home Assistant
+After<span style="color:#f92672">=</span>network.target
 
-<pre><code class="language-shell">$ systemctl cat dash-ha
-# /etc/systemd/system/dash-ha.service
-[Unit]
-Description=Integrate Amazon Dash Button and Home Assistant
-After=network.target
+<span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+Type<span style="color:#f92672">=</span>simple
+User<span style="color:#f92672">=</span>root
+ExecStart<span style="color:#f92672">=</span>/usr/bin/python /srv/dash-ha/dash-ha.py
+Restart<span style="color:#f92672">=</span>always
 
-[Service]
-Type=simple
-User=root
-ExecStart=/usr/bin/python /srv/dash-ha/dash-ha.py
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
+<span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+WantedBy<span style="color:#f92672">=</span>multi-user.target
 $ sudo systemctl enable dash-ha
 $ sudo systemctl start dash-ha
-</code></pre>
-
-<h2 id="home-assitatntの設定">Home Assitatntの設定</h2>
-
+</code></pre></div><h2 id="home-assitatntの設定">Home Assitatntの設定</h2>
 <p>Home Assistant側ではイベント<code>dash_button_nescafe</code>をトリガーとするAutomationを設定しておく．</p>
-
-<pre><code class="language-yaml">automation:
-  - alias: Toggle ceiling light
-    trigger:
-      platform: event
-      event_type: dash_button_nescafe
-    action:
-      service: homeassistant.toggle
-      entity_id: light.livingroom_ceiling_light
-</code></pre>
-
-<p>これでボタン押下を検知したらアクションが実行されるようになる．</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">automation</span>:
+  - <span style="color:#66d9ef">alias</span>: Toggle ceiling light
+    <span style="color:#66d9ef">trigger</span>:
+      <span style="color:#66d9ef">platform</span>: event
+      <span style="color:#66d9ef">event_type</span>: dash_button_nescafe
+    <span style="color:#66d9ef">action</span>:
+      <span style="color:#66d9ef">service</span>: homeassistant.toggle
+      <span style="color:#66d9ef">entity_id</span>: light.livingroom_ceiling_light
+</code></pre></div><p>これでボタン押下を検知したらアクションが実行されるようになる．</p>
 <p>以上．</p>
       </section>
       <aside>
@@ -181,20 +150,25 @@ $ sudo systemctl start dash-ha
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/home-assistant-with-dash-button\/';
-    var disqus_title = 'Home AssistantとAmazon Dash Buttonを連携させる';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/home-assistant-with-dash-button\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -215,14 +189,17 @@ $ sudo systemctl start dash-ha
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 

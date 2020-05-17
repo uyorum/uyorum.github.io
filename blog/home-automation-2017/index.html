@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.21" />
+<meta name="generator" content="Hugo 0.70.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -52,108 +52,80 @@
       <section itemprop="entry-text">
         <p>今年はホームオートメーションにたくさん取り組んだ年だった．
 年末ということでキリもよいので現状の我が家がどうなっているかまとめておく．</p>
-
-<p></p>
-
 <h2 id="アーキテクチャ">アーキテクチャ</h2>
-
-<p><img src="/home-automation-2017/01.png" alt="01.png" /></p>
-
-<p>基本的にHome Assistant<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup>というソフトウェアを中心に構成している．<br />
-Home Assistantについては以前にも記事を書いた．<br />
+<p><img src="/home-automation-2017/01.png" alt="01.png"></p>
+<p>基本的にHome Assistant<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>というソフトウェアを中心に構成している．<br>
+Home Assistantについては以前にも記事を書いた．<br>
 <a href="/blog/home-assistant-install/">Home Assistantでつくるホームオートメーション(導入編) - @uyorumの雑記帳</a></p>
-
-<p>自分の環境ではRaspberry Pi 3BにRaspbianをインストールして使っている．<br />
-上ではHome Assistant，Mosquitto(MQTT Broker)<sup class="footnote-ref" id="fnref:2"><a rel="footnote" href="#fn:2">2</a></sup>やいくつかの自作プログラムが動いている．これらのサービスはすべてDocker上で動かしている．<br />
+<p>自分の環境ではRaspberry Pi 3BにRaspbianをインストールして使っている．<br>
+上ではHome Assistant，Mosquitto(MQTT Broker)<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>やいくつかの自作プログラムが動いている．これらのサービスはすべてDocker上で動かしている．<br>
 ちなみにARM用のHome Assistantの公式イメージはないため，<a href="https://github.com/lroguet/rpi-home-assistant">これ</a>を使っている．</p>
-
 <h3 id="limitless-led">Limitless LED</h3>
-
-<p>照明にはLimitless LED(MiLight)というLED電球を使用している．この手の分野はPhilips Hueが定番だが価格の安さで採用した．<br />
+<p>照明にはLimitless LED(MiLight)というLED電球を使用している．この手の分野はPhilips Hueが定番だが価格の安さで採用した．<br>
 狭い賃貸だがすべてのエリアの照明をこれで置き換えている．</p>
-
 <h3 id="esp32">ESP32</h3>
-
-<p>秋月で買ったESP32-DevKitC<sup class="footnote-ref" id="fnref:3"><a rel="footnote" href="#fn:3">3</a></sup>にMongoose OSというOS<sup class="footnote-ref" id="fnref:4"><a rel="footnote" href="#fn:4">4</a></sup>をインストールして使っている．<br />
+<p>秋月で買ったESP32-DevKitC<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>にMongoose OSというOS<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>をインストールして使っている．<br>
 Mongoose OSを使う必然性はないが，単純に使ってみたかったので採用した．</p>
-
-<p>玄関付近とトイレのドアに設置し，GPIOでIRセンサーと開閉スイッチを制御している．反応があったらMosquittoへPublishするようにしている．<br />
-Mongoose OSはJavaScriptでコードを書けるのとライブラリが充実しているので実装はかなり楽だった．<br />
-Home AssistantはMosquittoをSubscribeしており，値を見てLimitless LEDの点灯・消灯を制御している．<br />
+<p>玄関付近とトイレのドアに設置し，GPIOでIRセンサーと開閉スイッチを制御している．反応があったらMosquittoへPublishするようにしている．<br>
+Mongoose OSはJavaScriptでコードを書けるのとライブラリが充実しているので実装はかなり楽だった．<br>
+Home AssistantはMosquittoをSubscribeしており，値を見てLimitless LEDの点灯・消灯を制御している．<br>
 <a href="/blog/home-assistant-gpio/">Home Assistantで人感センサーを使って照明を自動点灯する - @uyorumの雑記帳</a></p>
-
 <h3 id="sonoff">Sonoff</h3>
-
-<p>Sonoffとは，ITEAD Studio社が販売しているWi-Fiスイッチ．100Vケーブルの途中にこれを挟むことでネットワーク越しに電源のON/OFFを制御できる．<br />
+<p>Sonoffとは，ITEAD Studio社が販売しているWi-Fiスイッチ．100Vケーブルの途中にこれを挟むことでネットワーク越しに電源のON/OFFを制御できる．<br>
 中身はESP8266であり，コンソールをひっぱり出して独自のソフトウェアを焼くハックがいくつか存在する．</p>
-
-<p>自分はこれをHome Assistantから操作したかったので<a href="https://github.com/arendst/Sonoff-Tasmota">こちら</a>を焼いて使っている．<br />
+<p>自分はこれをHome Assistantから操作したかったので<a href="https://github.com/arendst/Sonoff-Tasmota">こちら</a>を焼いて使っている．<br>
 これによりWebAPIとMQTTから操作できるようになる．</p>
-
-<h3 id="irkit-5">IRKit<sup class="footnote-ref" id="fnref:5"><a rel="footnote" href="#fn:5">5</a></sup></h3>
-
+<h3 id="irkit5">IRKit<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></h3>
 <p>主にエアコン，ディスプレイ，AVアンプのON/OFFのために設置している．
-IRKitのAPIは赤外線情報をPOSTするという仕様だが，それだと少々使いづらいため，コマンドを指定するとあらかじめ定義した赤外線情報をIRKitのAPIへPOSTしてくれるプロキシサーバを作った．<a href="https://github.com/uyorum/irkit-ha">uyorum/irkit-ha: Home-Assistant-compatible irkit server</a><br />
+IRKitのAPIは赤外線情報をPOSTするという仕様だが，それだと少々使いづらいため，コマンドを指定するとあらかじめ定義した赤外線情報をIRKitのAPIへPOSTしてくれるプロキシサーバを作った．<a href="https://github.com/uyorum/irkit-ha">uyorum/irkit-ha: Home-Assistant-compatible irkit server</a><br>
 これをHome Assistantの<a href="https://home-assistant.io/components/notify.rest/">REST Component</a>からつっついている．</p>
-
 <p>ちなみに実装した後から気づいたのだがHome Assistantには<a href="https://home-assistant.io/components/remote/">Remote Component</a>があるので，これにならってIRKit用のComponentを実装すればこのようなサーバは必要なかった．</p>
-
 <h3 id="amazon-dash-button">Amazon Dash Button</h3>
-
 <p>正規の使い方はしておらず，Home Assistantと連携させて電球やディスプレイのON/OFFに使用している．
 <a href="/blog/home-assistant-with-dash-button/">Home AssistantとAmazon Dash Buttonを連携させる - @uyorumの雑記帳</a></p>
-
 <p>ただし最近はGoogle HomeとHome Assistantを連携させたので，Dash Buttonはほとんど使っていない．</p>
-
 <h3 id="在宅管理">在宅管理</h3>
-
-<p>Home Assistantの<a href="https://home-assistant.io/components/device_tracker.bluetooth_tracker/">Bluetooth Tracker</a>というComponentを使って自分のスマートフォンを検知するようにしている．<br />
+<p>Home Assistantの<a href="https://home-assistant.io/components/device_tracker.bluetooth_tracker/">Bluetooth Tracker</a>というComponentを使って自分のスマートフォンを検知するようにしている．<br>
 自分が帰宅したら電気をつけ，外出したら電気を消すようにしている．</p>
-
 <h3 id="google-home">Google Home</h3>
-
 <p>Home Assistantの<a href="https://home-assistant.io/components/google_assistant/">Google Assistant Component</a>を使って，Google Assistantから電球，エアコン，ディスプレイを操作できるようにしている．
 (エアコンとディスプレイは前述のIRKit経由で)</p>
-
 <h2 id="問題点">問題点</h2>
-
 <h3 id="ネットワークがspof">ネットワークがSPoF</h3>
-
-<p>現状，ネットワークSPoFになってしまっている．そのためルーターがダウンした場合，下手をすると電気をつけることすらできなくなってしまう．<br />
+<p>現状，ネットワークSPoFになってしまっている．そのためルーターがダウンした場合，下手をすると電気をつけることすらできなくなってしまう．<br>
 さすがにこれでは不便なので，物理的なインターフェースを適宜残しておく必要がありそう．</p>
-
 <h3 id="home-assistant経由で操作しないと状態の不一致が起こる">Home Assistant経由で操作しないと状態の不一致が起こる</h3>
-
-<p>Home Assistantは例えば電球などの電源状態を管理しており，Home Assistantを介さずに操作してしまうと状態の不一致が起こってしまい予期せぬ動作の原因となる．<br />
+<p>Home Assistantは例えば電球などの電源状態を管理しており，Home Assistantを介さずに操作してしまうと状態の不一致が起こってしまい予期せぬ動作の原因となる．<br>
 そのため，基本的にはHome Assistantを介して操作することになり，それが理由で使用できるデバイスに制約が発生したりする．</p>
-
-<p>例えば，自分はIRKitのグレードアップ版のNatureRemoも持っているのだが，NatureRemoはまだAPIが実装されていないためHome Assistantから操作することができず<sup class="footnote-ref" id="fnref:6"><a rel="footnote" href="#fn:6">6</a></sup>，NatureRemoは今のところほとんど使えていない．</p>
-
+<p>例えば，自分はIRKitのグレードアップ版のNatureRemoも持っているのだが，NatureRemoはまだAPIが実装されていないためHome Assistantから操作することができず<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>，NatureRemoは今のところほとんど使えていない．</p>
 <h2 id="最後に">最後に</h2>
-
-<p>非常にざっくりとだが現状をまとめた．ちなみにここで紹介した以外にも，導入したが活用できていないセンサー類やデバイスが数多くある．<br />
-気の利いたことをしようとすると，いろいろと試行錯誤や開発が必要になるが，例えば照明はHueとIFTTT，Google Home(またはAlexa)を使えば非常に簡単に自動化，音声操作できるようになる．<br />
+<p>非常にざっくりとだが現状をまとめた．ちなみにここで紹介した以外にも，導入したが活用できていないセンサー類やデバイスが数多くある．<br>
+気の利いたことをしようとすると，いろいろと試行錯誤や開発が必要になるが，例えば照明はHueとIFTTT，Google Home(またはAlexa)を使えば非常に簡単に自動化，音声操作できるようになる．<br>
 現在の我が家は，寝るとき以外はほぼ全て自動で適切なタイミングで電気が点灯・消灯するようになっている．(寝るときは「OK Google, 電気を消して」とGoogle Homeに話しかける)
 これだけでもかなり便利になるのでぜひやってみてほしい．</p>
-<div class="footnotes">
-
-<hr />
-
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1"><a href="https://home-assistant.io/">Home Assistant</a>
- <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
-<li id="fn:2"><a href="https://mosquitto.org/">An Open Source MQTT v3.1 Broker</a>
- <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
-<li id="fn:3"><a href="http://akizukidenshi.com/catalog/g/gM-11819/">ＥＳＰ３２－ＤｅｖＫｉｔＣ ＥＳＰ－ＷＲＯＯＭ－３２開発ボード: 無線、高周波関連商品 秋月電子通商 電子部品 ネット通販</a>
- <a class="footnote-return" href="#fnref:3"><sup>[return]</sup></a></li>
-<li id="fn:4"><a href="https://mongoose-os.com/">Mongoose OS - reduce IoT firmware development time up to 90%</a>
- <a class="footnote-return" href="#fnref:4"><sup>[return]</sup></a></li>
-<li id="fn:5"><a href="http://getirkit.com/">IRKit - Open Source WiFi Connected Infrared Remote Controller</a>
- <a class="footnote-return" href="#fnref:5"><sup>[return]</sup></a></li>
-<li id="fn:6">IFTTTを経由するようにすればHome Assistantからも操作できるが，コマンドの数だけAppletを作ることになり現実的ではない
- <a class="footnote-return" href="#fnref:6"><sup>[return]</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://home-assistant.io/">Home Assistant</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://mosquitto.org/">An Open Source MQTT v3.1 Broker</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="http://akizukidenshi.com/catalog/g/gM-11819/">ＥＳＰ３２－ＤｅｖＫｉｔＣ ＥＳＰ－ＷＲＯＯＭ－３２開発ボード: 無線、高周波関連商品 秋月電子通商 電子部品 ネット通販</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://mongoose-os.com/">Mongoose OS - reduce IoT firmware development time up to 90%</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p><a href="http://getirkit.com/">IRKit - Open Source WiFi Connected Infrared Remote Controller</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6" role="doc-endnote">
+<p>IFTTTを経由するようにすればHome Assistantからも操作できるが，コマンドの数だけAppletを作ることになり現実的ではない <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div>
+</section>
       </section>
       <aside>
         <div class="share-box">
@@ -173,20 +145,25 @@ IRKitのAPIは赤外線情報をPOSTするという仕様だが，それだと�
       
         <div class="disqus-comments">
         <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'uyorum';
-    var disqus_identifier = 'http:\/\/uyorum.github.io\/blog\/home-automation-2017\/';
-    var disqus_title = 'ホームオートメーションの現状まとめ@2017';
-    var disqus_url = 'http:\/\/uyorum.github.io\/blog\/home-automation-2017\/';
-
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
       
     </article>
@@ -207,14 +184,17 @@ IRKitのAPIは赤外線情報をPOSTするという仕様だが，それだと�
 	</footer>
 
   
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-43857839-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
 
