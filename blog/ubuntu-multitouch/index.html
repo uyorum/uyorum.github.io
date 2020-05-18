@@ -110,8 +110,8 @@ Device <span style="color:#e6db74">&#39;Magic Trackpad&#39;</span>:
         libinput Drag Lock Buttons <span style="color:#f92672">(</span>325<span style="color:#f92672">)</span>:       &lt;no items&gt;
         libinput Horizontal Scroll Enabled <span style="color:#f92672">(</span>326<span style="color:#f92672">)</span>:       <span style="color:#ae81ff">1</span>
 </code></pre></div><p>ginnもtoucheggもsynaptics用に作られているからlibinputの環境では動かないということだろうか？
-ともかく、libinputの場合にマルチタッチジェスチャーをするためのツールは[Arch wiki](<a href="https://wiki.archlinux.jp/index.php/Libinput#.E3.82.B8.E3.82.A7.E3.82.B9.E3.83.81.E3.83.A3.E3.83.BC">https://wiki.archlinux.jp/index.php/Libinput#.E3.82.B8.E3.82.A7.E3.82.B9.E3.83.81.E3.83.A3.E3.83.BC</a>が詳しい。
-説明を読んだ感じだとGnomeExtendedGesturesがよさそうだが、Ubuntuにはパッケージがなかったのでlibinput-gesturesを選択した。</p>
+ともかく、libinputの場合にマルチタッチジェスチャーをするためのツールは<a href="https://wiki.archlinux.jp/index.php/Libinput#.E3.82.B8.E3.82.A7.E3.82.B9.E3.83.81.E3.83.A3.E3.83.BC">Arch wiki</a>が詳しい。
+説明を読んだ感じだとGnomeExtendedGesturesがよさそうだが、Ubuntuにはパッケージがないうえ、<a href="https://github.com/mpiannucci/gnome-shell-extended-gestures">GitHub</a>を見るとWaylandが必要とのことだったのでlibinput-gesturesを選択した。</p>
 <h2 id="libinput-gestures">libinput-gestures</h2>
 <p>libinput-gesturesもパッケージはないので<a href="https://github.com/bulletmark/libinput-gestures">GitHub</a>からダウンロードしてくる。
 インストール方法もREADME.mdに記載の通り。</p>
