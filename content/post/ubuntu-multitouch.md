@@ -76,8 +76,8 @@ Device 'Magic Trackpad':
 ```
 
 ginnもtoucheggもsynaptics用に作られているからlibinputの環境では動かないということだろうか？
-ともかく、libinputの場合にマルチタッチジェスチャーをするためのツールは[Arch wiki](https://wiki.archlinux.jp/index.php/Libinput#.E3.82.B8.E3.82.A7.E3.82.B9.E3.83.81.E3.83.A3.E3.83.BCが詳しい。
-説明を読んだ感じだとGnomeExtendedGesturesがよさそうだが、Ubuntuにはパッケージがなかったのでlibinput-gesturesを選択した。
+ともかく、libinputの場合にマルチタッチジェスチャーをするためのツールは[Arch wiki](https://wiki.archlinux.jp/index.php/Libinput#.E3.82.B8.E3.82.A7.E3.82.B9.E3.83.81.E3.83.A3.E3.83.BC)が詳しい。
+説明を読んだ感じだとGnomeExtendedGesturesがよさそうだが、Ubuntuにはパッケージがないうえ、[GitHub](https://github.com/mpiannucci/gnome-shell-extended-gestures)を見るとWaylandが必要とのことだったのでlibinput-gesturesを選択した。
 
 ## libinput-gestures
 
