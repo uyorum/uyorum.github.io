@@ -3,17 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://uyorum.github.io/blog/3d-printer-1/</loc>
-    <lastmod>2020-09-06T13:34:00+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://uyorum.github.io/</loc>
-    <lastmod>2020-09-06T13:34:00+09:00</lastmod>
+    <lastmod>2020-09-16T20:36:56+09:00</lastmod>
   </url>
   
   <url>
     <loc>http://uyorum.github.io/post/</loc>
+    <lastmod>2020-09-16T20:36:56+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/blog/install-octoprint-raspbian/</loc>
+    <lastmod>2020-09-16T20:36:56+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://uyorum.github.io/blog/3d-printer-1/</loc>
     <lastmod>2020-09-06T13:34:00+09:00</lastmod>
   </url>
   
