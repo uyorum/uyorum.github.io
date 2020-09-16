@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 06 Sep 2020 13:34:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2020 20:36:56 +0900</lastBuildDate>
     
 	<atom:link href="http://uyorum.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Raspberry Pi OS(Raspbian)にOctoPrintをインストールする</title>
+      <link>http://uyorum.github.io/blog/install-octoprint-raspbian/</link>
+      <pubDate>Wed, 16 Sep 2020 20:36:56 +0900</pubDate>
+      
+      <guid>http://uyorum.github.io/blog/install-octoprint-raspbian/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../3d-printer-1/&#34;&gt;前回&lt;/a&gt;、3Dプリンターを買って以降いろいろと調べている。
+よく知らなかったが3Dプリンタは自作や改造ができたりするらしく、ちょうど開催されていた技術書典9で見つけた本を買ってみたところ
+OctoPrintなるソフトウェアを使うことでネットワーク経由で印刷をすることができることがわかった。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>3Dプリンタ IUSE IUM1 を買った</title>
