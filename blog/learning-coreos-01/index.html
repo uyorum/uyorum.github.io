@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.74.3" />
+<meta name="generator" content="Hugo 0.80.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -104,26 +104,26 @@ Go OS/Arch: linux/amd64
 <table>
 <thead>
 <tr>
-<th align="left">name</th>
-<th align="left">client port</th>
-<th align="left">peer port</th>
+<th style="text-align:left">name</th>
+<th style="text-align:left">client port</th>
+<th style="text-align:left">peer port</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">machine1</td>
-<td align="left">2379</td>
-<td align="left">2380</td>
+<td style="text-align:left">machine1</td>
+<td style="text-align:left">2379</td>
+<td style="text-align:left">2380</td>
 </tr>
 <tr>
-<td align="left">machine2</td>
-<td align="left">22379</td>
-<td align="left">22380</td>
+<td style="text-align:left">machine2</td>
+<td style="text-align:left">22379</td>
+<td style="text-align:left">22380</td>
 </tr>
 <tr>
-<td align="left">machine2</td>
-<td align="left">32379</td>
-<td align="left">32380</td>
+<td style="text-align:left">machine2</td>
+<td style="text-align:left">32379</td>
+<td style="text-align:left">32380</td>
 </tr>
 </tbody>
 </table>
@@ -226,16 +226,16 @@ $ curl http://127.0.0.1:2379/v2/keys/foo
 <ul>
 <li>cloud-config.yml</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">coreos</span>:
-  <span style="color:#66d9ef">units</span>:
-    - <span style="color:#66d9ef">name</span>: etcd2.service
-      <span style="color:#66d9ef">command</span>: start
-  <span style="color:#66d9ef">etcd2</span>:
-    <span style="color:#66d9ef">discovery</span>: https://discovery.etcd.io/&lt;token<span style="color:#e6db74">&gt;
-</span><span style="color:#e6db74">    listen-client-urls: http://0.0.0.0:2379</span>
-    <span style="color:#66d9ef">advertise-client-urls</span>: http://$private_ipv4:<span style="color:#ae81ff">2379</span>
-    <span style="color:#66d9ef">listen-peer-urls</span>: http://$private_ipv4:<span style="color:#ae81ff">2380</span>
-    <span style="color:#66d9ef">initial-advertise-peer-urls</span>: http://$private_ipv4:<span style="color:#ae81ff">2380</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">coreos</span>:
+  <span style="color:#f92672">units</span>:
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">etcd2.service</span>
+      <span style="color:#f92672">command</span>: <span style="color:#ae81ff">start</span>
+  <span style="color:#f92672">etcd2</span>:
+    <span style="color:#f92672">discovery</span>: <span style="color:#ae81ff">https://discovery.etcd.io/&lt;token&gt;</span>
+    <span style="color:#f92672">listen-client-urls</span>: <span style="color:#ae81ff">http://0.0.0.0:2379</span>
+    <span style="color:#f92672">advertise-client-urls</span>: <span style="color:#ae81ff">http://$private_ipv4:2379</span>
+    <span style="color:#f92672">listen-peer-urls</span>: <span style="color:#ae81ff">http://$private_ipv4:2380</span>
+    <span style="color:#f92672">initial-advertise-peer-urls</span>: <span style="color:#ae81ff">http://$private_ipv4:2380</span>
 </code></pre></div><p>tokenはもう一度取得しなおすこと．起動させてからコマンドで確認してみると．</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ fleetctl list-machines -l
 MACHINE                                 IP              METADATA
@@ -268,24 +268,24 @@ COREOS_PRIVATE_IPV4<span style="color:#f92672">=</span>10.0.0.100
 <ul>
 <li>cloud-config.yml</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">coreos</span>:
-  <span style="color:#66d9ef">update</span>:
-    <span style="color:#66d9ef">reboot-strategy</span>: reboot
-    <span style="color:#66d9ef">group</span>: master
-  <span style="color:#66d9ef">units</span>:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">coreos</span>:
+  <span style="color:#f92672">update</span>:
+    <span style="color:#f92672">reboot-strategy</span>: <span style="color:#ae81ff">reboot</span>
+    <span style="color:#f92672">group</span>: <span style="color:#ae81ff">master</span>
+  <span style="color:#f92672">units</span>:
     <span style="color:#75715e"># Create etcd2 parameters</span>
-    - <span style="color:#66d9ef">name</span>: create-etcd-env.service
-      <span style="color:#66d9ef">command</span>: start
-      <span style="color:#66d9ef">content</span>: <span style="color:#e6db74">|
-</span><span style="color:#e6db74">        [Unit]</span>
-        Description=creates etcd environment
-        Before=etcd2.service
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">create-etcd-env.service</span>
+      <span style="color:#f92672">command</span>: <span style="color:#ae81ff">start</span>
+      <span style="color:#f92672">content</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">        [Unit]
+</span><span style="color:#e6db74">        Description=creates etcd environment
+</span><span style="color:#e6db74">        Before=etcd2.service</span>        
  
-        [Service]
-        Type=oneshot
-        ExecStart=/bin/bash -c <span style="color:#e6db74">&#34;echo COREOS_PUBLIC_IPV4=`curl -s ipinfo.io | jq -r &#39;.ip&#39;` &gt; /etc/environment&#34;</span>
-        ExecStart=/bin/bash -c <span style="color:#e6db74">&#34;echo COREOS_PRIVATE_IPV4=`ip addr show eth0 | grep -o &#39;inet [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+&#39; | grep -o [0-9].*` &gt;&gt; /etc/environment&#34;</span>
-        Execstart=/bin/systemctl restart user-configdrive.service
+        [<span style="color:#ae81ff">Service]</span>
+        <span style="color:#ae81ff">Type=oneshot</span>
+        <span style="color:#ae81ff">ExecStart=/bin/bash -c &#34;echo COREOS_PUBLIC_IPV4=`curl -s ipinfo.io | jq -r &#39;.ip&#39;` &gt; /etc/environment&#34;</span>
+        <span style="color:#ae81ff">ExecStart=/bin/bash -c &#34;echo COREOS_PRIVATE_IPV4=`ip addr show eth0 | grep -o &#39;inet [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+&#39; | grep -o [0-9].*` &gt;&gt; /etc/environment&#34;</span>
+        <span style="color:#ae81ff">Execstart=/bin/systemctl restart user-configdrive.service</span>
 </code></pre></div><p>※ 最後に<code>user-configdrive.service</code>を再起動し設定ファイルを生成し直すようにしたいがなぜかうまくいかない．手で叩くとうまくいくのだが？？</p>
       </section>
       <aside>
