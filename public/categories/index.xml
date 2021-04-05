@@ -6,10 +6,6 @@
     <description>Recent content in Categories on @uyorumの雑記帳</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <copyright>uyorum All Right Reserved.</copyright>
-    
-	<atom:link href="http://uyorum.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <copyright>uyorum All Right Reserved.</copyright><atom:link href="http://uyorum.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

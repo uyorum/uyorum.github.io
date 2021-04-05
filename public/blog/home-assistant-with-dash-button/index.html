@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.74.3" />
+<meta name="generator" content="Hugo 0.80.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -121,14 +121,14 @@ $ sudo systemctl enable dash-ha
 $ sudo systemctl start dash-ha
 </code></pre></div><h2 id="home-assitatntの設定">Home Assitatntの設定</h2>
 <p>Home Assistant側ではイベント<code>dash_button_nescafe</code>をトリガーとするAutomationを設定しておく．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">automation</span>:
-  - <span style="color:#66d9ef">alias</span>: Toggle ceiling light
-    <span style="color:#66d9ef">trigger</span>:
-      <span style="color:#66d9ef">platform</span>: event
-      <span style="color:#66d9ef">event_type</span>: dash_button_nescafe
-    <span style="color:#66d9ef">action</span>:
-      <span style="color:#66d9ef">service</span>: homeassistant.toggle
-      <span style="color:#66d9ef">entity_id</span>: light.livingroom_ceiling_light
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">automation</span>:
+  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Toggle ceiling light</span>
+    <span style="color:#f92672">trigger</span>:
+      <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">event</span>
+      <span style="color:#f92672">event_type</span>: <span style="color:#ae81ff">dash_button_nescafe</span>
+    <span style="color:#f92672">action</span>:
+      <span style="color:#f92672">service</span>: <span style="color:#ae81ff">homeassistant.toggle</span>
+      <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">light.livingroom_ceiling_light</span>
 </code></pre></div><p>これでボタン押下を検知したらアクションが実行されるようになる．</p>
 <p>以上．</p>
       </section>

@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.74.3" />
+<meta name="generator" content="Hugo 0.80.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -59,7 +59,7 @@
 方法は<a href="http://hitsumabushi-pc.blogspot.jp/2011/12/org-googleclel.html">ここ</a>や<a href="http://kikukawatei.blogspot.jp/2011/01/org-googleclel-blogger_4570.html">ここ</a>を参考にすれば難しくないので割愛します．</p>
 <h2 id="改造">改造</h2>
 <p>早速試してみたのですが，文章がやたらと改行されてしまって見ににくいことこの上ない．<br>
-いろいろ調べたり試したりしたところ，orgから生成したhtmlをアップロードするときにソース内の改行を&quot;<!-- raw HTML omitted -->&quot;に置換している模様．<br>
+いろいろ調べたり試したりしたところ，orgから生成したhtmlをアップロードするときにソース内の改行を&quot;<!-- raw HTML omitted -->&ldquo;に置換している模様．<br>
 どうしてこんなことになっているのかは不明ですが，とりあえずupload時にソース内の改行をすべて消してしまうことにします．<br>
 自分はelispを読み書きできないので<a href="http://kikukawatei.blogspot.jp/2011/01/org-googleclel.html">ここ</a>を参考org-googlecl.elを編集します．</p>
 <pre><code>    (with-temp-file  tmpfile

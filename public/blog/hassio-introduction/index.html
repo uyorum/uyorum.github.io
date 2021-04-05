@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.74.3" />
+<meta name="generator" content="Hugo 0.80.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -94,21 +94,21 @@ Home AssistantからこのAPIを叩いてFireTVを制御する．</p>
 <p>Raspbery Pi3のBluetoothを使うために必要．Bluetooth Tracker Componentで使う</p>
 <h4 id="mosquitto-broker">Mosquitto broker</h4>
 <p>MQTTはいくつかのデバイスで使っているため入れる．Home Assistantの設定は以下のような感じにした．ホスト名を<code>core-mosquitto</code>と指定するのがポイント</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">mqtt</span>:
-  <span style="color:#66d9ef">broker</span>: core-mosquitto
-  <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">1883</span>
-  <span style="color:#66d9ef">client_id</span>: hass
-  <span style="color:#66d9ef">keepalive</span>: <span style="color:#ae81ff">60</span>
-  <span style="color:#66d9ef">birth_message</span>:
-    <span style="color:#66d9ef">topic</span>: <span style="color:#e6db74">&#34;home/hass/state&#34;</span>
-    <span style="color:#66d9ef">payload</span>: <span style="color:#e6db74">&#34;Online&#34;</span>
-    <span style="color:#66d9ef">qos</span>: <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">retain</span>: <span style="color:#66d9ef">true</span>
-  <span style="color:#66d9ef">will_message</span>:
-    <span style="color:#66d9ef">topic</span>: <span style="color:#e6db74">&#34;home/hass/state&#34;</span>
-    <span style="color:#66d9ef">payload</span>: <span style="color:#e6db74">&#34;Offline&#34;</span>
-    <span style="color:#66d9ef">qos</span>: <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">retain</span>: <span style="color:#66d9ef">true</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">mqtt</span>:
+  <span style="color:#f92672">broker</span>: <span style="color:#ae81ff">core-mosquitto</span>
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">1883</span>
+  <span style="color:#f92672">client_id</span>: <span style="color:#ae81ff">hass</span>
+  <span style="color:#f92672">keepalive</span>: <span style="color:#ae81ff">60</span>
+  <span style="color:#f92672">birth_message</span>:
+    <span style="color:#f92672">topic</span>: <span style="color:#e6db74">&#34;home/hass/state&#34;</span>
+    <span style="color:#f92672">payload</span>: <span style="color:#e6db74">&#34;Online&#34;</span>
+    <span style="color:#f92672">qos</span>: <span style="color:#ae81ff">1</span>
+    <span style="color:#f92672">retain</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">will_message</span>:
+    <span style="color:#f92672">topic</span>: <span style="color:#e6db74">&#34;home/hass/state&#34;</span>
+    <span style="color:#f92672">payload</span>: <span style="color:#e6db74">&#34;Offline&#34;</span>
+    <span style="color:#f92672">qos</span>: <span style="color:#ae81ff">1</span>
+    <span style="color:#f92672">retain</span>: <span style="color:#66d9ef">true</span>
 </code></pre></div><h3 id="自作サービスのadd-on化">自作サービスのAdd-on化</h3>
 <p>続いて上述の2つのサービスをHass.ioのAdd-onとして実装していく．
 Add-onの作り方は<a href="https://developers.home-assistant.io/docs/en/hassio_addon_index.html">開発者用のドキュメント</a>があるので，これを参照する．

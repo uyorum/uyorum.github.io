@@ -2,7 +2,7 @@
 <html lang="ja-jp">
 <head>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.74.3" />
+<meta name="generator" content="Hugo 0.80.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -149,48 +149,48 @@ ibbackup_version: 2.3.5
 <table>
 <thead>
 <tr>
-<th align="center"><code>--compress</code></th>
-<th align="center"><code>gzip</code></th>
-<th align="left">time</th>
-<th align="left">size</th>
-<th align="left">command</th>
+<th style="text-align:center"><code>--compress</code></th>
+<th style="text-align:center"><code>gzip</code></th>
+<th style="text-align:left">time</th>
+<th style="text-align:left">size</th>
+<th style="text-align:left">command</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">N</td>
-<td align="center">N</td>
-<td align="left">16s</td>
-<td align="left">1020MB</td>
-<td align="left">innobackupex &ndash;stream=xbstream ./ &gt; 1.xbstream</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">N</td>
+<td style="text-align:left">16s</td>
+<td style="text-align:left">1020MB</td>
+<td style="text-align:left">innobackupex &ndash;stream=xbstream ./ &gt; 1.xbstream</td>
 </tr>
 <tr>
-<td align="center">Y</td>
-<td align="center">N</td>
-<td align="left">16s</td>
-<td align="left">527MB</td>
-<td align="left">innobackupex &ndash;compress &ndash;stream=xbstream ./ &gt; 2.xbstream</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">N</td>
+<td style="text-align:left">16s</td>
+<td style="text-align:left">527MB</td>
+<td style="text-align:left">innobackupex &ndash;compress &ndash;stream=xbstream ./ &gt; 2.xbstream</td>
 </tr>
 <tr>
-<td align="center">N</td>
-<td align="center">Y</td>
-<td align="left">66s</td>
-<td align="left">396MB</td>
-<td align="left">innobackupex &ndash;stream=xbstream ./ | gzip - &gt; 3.xbstream.gz</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:left">66s</td>
+<td style="text-align:left">396MB</td>
+<td style="text-align:left">innobackupex &ndash;stream=xbstream ./ | gzip - &gt; 3.xbstream.gz</td>
 </tr>
 <tr>
-<td align="center">N</td>
-<td align="center">Y</td>
-<td align="left">25s</td>
-<td align="left">404MB</td>
-<td align="left">innobackupex &ndash;stream=xbstream ./ | gzip -1 - &gt; 4.xbstream.gz</td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:left">25s</td>
+<td style="text-align:left">404MB</td>
+<td style="text-align:left">innobackupex &ndash;stream=xbstream ./ | gzip -1 - &gt; 4.xbstream.gz</td>
 </tr>
 <tr>
-<td align="center">Y</td>
-<td align="center">Y</td>
-<td align="left">47s</td>
-<td align="left">435MB</td>
-<td align="left">innobackupex &ndash;compress &ndash;stream=xbstream ./ | gzip - &gt; 5.xbstream.gz</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:left">47s</td>
+<td style="text-align:left">435MB</td>
+<td style="text-align:left">innobackupex &ndash;compress &ndash;stream=xbstream ./ | gzip - &gt; 5.xbstream.gz</td>
 </tr>
 </tbody>
 </table>
