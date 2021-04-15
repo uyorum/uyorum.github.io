@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/css/normalize.css">
 <link rel="stylesheet" href="/css/skeleton.css">
 <link rel="stylesheet" href="/css/custom.css">
-<link rel="icon" href="http://uyorum.github.io/favicon.ico">
+<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 <link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 
 <title>ffmpeg(avconv)でmp3からブランクスクリーン(黒)のmp4を作成する - @uyorumの雑記帳</title>
@@ -37,13 +37,13 @@
       <span class="pull-right">
         <div class="share-box">
   <ul class="share">
-    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2fcreate-blank-video-with-ffmpeg%2f" target="_blank">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fblog%2fcreate-blank-video-with-ffmpeg%2f" target="_blank">
       <i class="fa fa-facebook fa-lg"></i></a>
-    <a class="twitter" href="https://twitter.com/intent/tweet?text=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fcreate-blank-video-with-ffmpeg%2f" target="_blank">
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fblog%2fcreate-blank-video-with-ffmpeg%2f" target="_blank">
       <i class="fa fa-twitter fa-lg"></i></a>
-    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fcreate-blank-video-with-ffmpeg%2f&amp;title=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fblog%2fcreate-blank-video-with-ffmpeg%2f&amp;title=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
       <i class="fa fa-linkedin fa-lg"></i></a>
-    <a class="email" href="mailto:?subject=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2fcreate-blank-video-with-ffmpeg%2f">
+    <a class="email" href="mailto:?subject=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fblog%2fcreate-blank-video-with-ffmpeg%2f">
       <i class="fa fa-envelope fa-lg"></i></a>
   </ul>
 </div>
@@ -121,13 +121,13 @@ inputを指定する．映像とか音声とか自動で判別してくれる模
       <aside>
         <div class="share-box">
   <ul class="share">
-    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2fcreate-blank-video-with-ffmpeg%2f" target="_blank">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fblog%2fcreate-blank-video-with-ffmpeg%2f" target="_blank">
       <i class="fa fa-facebook fa-lg"></i></a>
-    <a class="twitter" href="https://twitter.com/intent/tweet?text=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fcreate-blank-video-with-ffmpeg%2f" target="_blank">
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fblog%2fcreate-blank-video-with-ffmpeg%2f" target="_blank">
       <i class="fa fa-twitter fa-lg"></i></a>
-    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fcreate-blank-video-with-ffmpeg%2f&amp;title=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fblog%2fcreate-blank-video-with-ffmpeg%2f&amp;title=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
       <i class="fa fa-linkedin fa-lg"></i></a>
-    <a class="email" href="mailto:?subject=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2fcreate-blank-video-with-ffmpeg%2f">
+    <a class="email" href="mailto:?subject=ffmpeg%28avconv%29%e3%81%a7mp3%e3%81%8b%e3%82%89%e3%83%96%e3%83%a9%e3%83%b3%e3%82%af%e3%82%b9%e3%82%af%e3%83%aa%e3%83%bc%e3%83%b3%28%e9%bb%92%29%e3%81%aemp4%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fblog%2fcreate-blank-video-with-ffmpeg%2f">
       <i class="fa fa-envelope fa-lg"></i></a>
   </ul>
 </div>

@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/css/normalize.css">
 <link rel="stylesheet" href="/css/skeleton.css">
 <link rel="stylesheet" href="/css/custom.css">
-<link rel="icon" href="http://uyorum.github.io/favicon.ico">
+<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 <link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 
 <title>Intel DC3217IYEへVMware vSphere hypervisor5.5をインストールする - @uyorumの雑記帳</title>
@@ -37,13 +37,13 @@
       <span class="pull-right">
         <div class="share-box">
   <ul class="share">
-    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2fesxi-03%2f" target="_blank">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fblog%2fesxi-03%2f" target="_blank">
       <i class="fa fa-facebook fa-lg"></i></a>
-    <a class="twitter" href="https://twitter.com/intent/tweet?text=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fesxi-03%2f" target="_blank">
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fblog%2fesxi-03%2f" target="_blank">
       <i class="fa fa-twitter fa-lg"></i></a>
-    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fesxi-03%2f&amp;title=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fblog%2fesxi-03%2f&amp;title=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
       <i class="fa fa-linkedin fa-lg"></i></a>
-    <a class="email" href="mailto:?subject=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2fesxi-03%2f">
+    <a class="email" href="mailto:?subject=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fblog%2fesxi-03%2f">
       <i class="fa fa-envelope fa-lg"></i></a>
   </ul>
 </div>
@@ -106,13 +106,13 @@ IntelのNICだから認識するだろうとタカをくくっていましたが
       <aside>
         <div class="share-box">
   <ul class="share">
-    <a class="facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fuyorum.github.io%2fblog%2fesxi-03%2f" target="_blank">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fblog%2fesxi-03%2f" target="_blank">
       <i class="fa fa-facebook fa-lg"></i></a>
-    <a class="twitter" href="https://twitter.com/intent/tweet?text=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fesxi-03%2f" target="_blank">
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fblog%2fesxi-03%2f" target="_blank">
       <i class="fa fa-twitter fa-lg"></i></a>
-    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fuyorum.github.io%2fblog%2fesxi-03%2f&amp;title=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fblog%2fesxi-03%2f&amp;title=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
       <i class="fa fa-linkedin fa-lg"></i></a>
-    <a class="email" href="mailto:?subject=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=http%3a%2f%2fuyorum.github.io%2fblog%2fesxi-03%2f">
+    <a class="email" href="mailto:?subject=Intel%20DC3217IYE%e3%81%b8VMware%20vSphere%20hypervisor5.5%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fblog%2fesxi-03%2f">
       <i class="fa fa-envelope fa-lg"></i></a>
   </ul>
 </div>

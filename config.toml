@@ -1,4 +1,4 @@
-baseurl = "http://uyorum.github.io"
+baseurl = "https://blog.uyorum.net"
 contentdir = "content"
 layoutdir = "layouts"
 publishdir = "public"
