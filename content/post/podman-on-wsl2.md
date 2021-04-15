@@ -10,7 +10,7 @@ date = "2021-04-14T21:55:17+09:00"
 
 <!--more-->
 
-[How to run Podman on Windows with WSL2 | Enable Sysadmin](https://www.redhat.com/sysadmin/podman-windows-wsl2)
+[How to run Podman on Windows with WSL2 | Enable Sysadmin](https://www.redhat.com/sysadmin/podman-windows-wsl2)  
 基本的にはこの記事どおりなのだが一部この記事の通りではいかない箇所があった。
 
 
