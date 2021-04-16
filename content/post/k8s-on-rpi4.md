@@ -14,13 +14,17 @@ Kubernetesの状況を加味した構成と手順。できるだけ一次情報�
 
 * Raspberry Pi 4B（RAM4GB版）* 3
 * 電源  
-    https://www.amazon.co.jp/gp/product/B075TBCKYX
+    [Omars USB充電器 ACアダプター（60W 6ポート）](https://amzn.to/2QzF5Ig)
 * スイッチングハブ  
-    https://www.amazon.co.jp/gp/product/B017SFTMFS
+    [エレコム スイッチングハブ ギガビット 5ポート](https://amzn.to/3e9TYJm)
 * スタッキングケース  
-    https://www.aliexpress.com/item/32918557708.html  
-    いま見たらなぜか送料が高騰している
-* 適当なUSBケーブル、LANケーブル
+    [GeeekPi Raspberry Pi4クラスターケース](https://amzn.to/2QvC5fE)
+* USB Type-Cケーブル  
+    [USB Type C 充電ケーブル0.3m](https://amzn.to/3dmd2EQ)  
+    L字でかさばらないし長さもちょうどよい
+* LANケーブル  
+    [エレコム LANケーブル 0.3m](https://amzn.to/32kOMwB)  
+    CAT6である必要はないが柔らかくて扱いやすく、長さもちょうどよかった
 
 ## ソフトウェア構成
 

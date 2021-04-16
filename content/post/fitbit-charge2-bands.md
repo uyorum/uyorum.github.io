@@ -22,7 +22,7 @@ Charge2を購入して以来，シャワーと充電以外はほとんど付け�
 Amazonにはサードパーティ製のバンドが多く出品されている．前述の通り純正品の付け心地が気に入っていたため同じような素材のものを探した．
 
 いくつか探してみたところ，以下の製品が最も純正品に近そうだった．  
-[Vancle バンド for Fitbit Charge 2](https://www.amazon.co.jp/dp/B01NBU9B2F)
+[Vancle バンド for Fitbit Charge 2](https://amzn.to/3uVlpgB)
 
 だが以下の理由によりこの商品は見送った
 
@@ -32,7 +32,7 @@ Amazonにはサードパーティ製のバンドが多く出品されている�
 ## 代替品2
 次に候補に上がったのは以下の製品
 
-[Hanlesi Fitbit Charge 2 交換用バンド（TPUシリーズ）](https://www.amazon.co.jp/dp/B01MRKNWEJ)
+[Hanlesi Fitbit Charge 2 交換用バンド（TPUシリーズ）](https://amzn.to/3trepHY)
 
 正直2つも必要なかったのだが他に候補がないのでこれを購入
 
