@@ -91,7 +91,7 @@ sda端子を32ピン，scl端子を33ピンに接続すればよいことがわ�
 <h2 id="コード">コード</h2>
 <p><code>Device Files</code>→<code>init.js</code>へ移動し，コードを書いていく．
 基本的には<a href="../tsl2561-with-mongoose-os-on-esp32-01/">前回</a>実装したアルゴリズムを移植するだけ．I2Cデバイス操作用の関数はいくつかMongoose OSで用意されている．詳細はドキュメント<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>を参照．</p>
-<!-- raw HTML omitted -->
+<script src="https://gist.github.com/uyorum/f988ab4bd4ae90fb5dd7c6950e6c7110.js"></script>
 <p>コードを書いたら画面上の<code>Save + Reboot</code>でESP32上にコードをデプロイする．1分ごとに照度を取得しBrokerにPublishするようになる．</p>
 <h2 id="やりたいこと">やりたいこと</h2>
 <ul>

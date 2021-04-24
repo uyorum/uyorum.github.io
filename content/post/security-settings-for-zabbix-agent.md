@@ -140,6 +140,9 @@ $ sudo semodule -i my-zabbixagentd.pp
 
 監視内容によってはまだ追加の設定が必要になると思うが，基本的には上の考え方を応用すれば設定できるはず．
 
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=uyorum-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B085KTYH49&linkId=7556aa52a54d25a47637393fcce218d6"></iframe>
+
 ## 参考
+
 * [5.2. Setting Access ACLs - Red Hat Customer Portal](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/acls-setting)
 * [8.3. Fixing Problems - Red Hat Customer Portal](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security-enhanced_linux/sect-security-enhanced_linux-troubleshooting-fixing_problems)

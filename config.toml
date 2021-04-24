@@ -14,6 +14,9 @@ googleAnalytics = "UA-43857839-1"
   category = "categories"
   tag = "tags"
 
+[markup.goldmark.renderer]
+  unsafe = true
+
 [Params]
   logo = "https://avatars2.githubusercontent.com/u/2661975"
   description = "uyorum's tech blog"
