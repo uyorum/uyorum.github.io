@@ -91,8 +91,8 @@ Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># certbot certonly --standalone -d &lt;DOMAIN NAME&gt; -m &lt;MAIL ADDRESS&gt; --agree-tos -n</span>
 </code></pre></div><p>これにより以下のファイルが作成される</p>
 <ul>
-<li>サーバ証明書…/etc/letsencrypt/live/<!-- raw HTML omitted -->/fullchain.pem</li>
-<li>秘密鍵…/etc/letsencrypt/live/<!-- raw HTML omitted -->/privkey.pem</li>
+<li>サーバ証明書…/etc/letsencrypt/live/<DOMAIN NAME>/fullchain.pem</li>
+<li>秘密鍵…/etc/letsencrypt/live/<DOMAIN NAME>/privkey.pem</li>
 </ul>
 <p>これらを使用するようNginxを設定すればよい．</p>
 <h1 id="証明書の更新">証明書の更新</h1>
