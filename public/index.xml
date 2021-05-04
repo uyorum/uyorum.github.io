@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Wed, 14 Apr 2021 21:55:17 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 04 May 2021 20:05:25 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugoで特定ページをリダイレクトする</title>
+      <link>https://blog.uyorum.net/post/redirect-on-hugo/</link>
+      <pubDate>Tue, 04 May 2021 20:05:25 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/redirect-on-hugo/</guid>
+      <description>&lt;p&gt;Hugoで書いている本ブログのパスを変えたかった。静的サイトではできないんじゃないのと思っていたができたのでまとめておく。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>WSL2にPodmanを入れる</title>
       <link>https://blog.uyorum.net/post/podman-on-wsl2/</link>
