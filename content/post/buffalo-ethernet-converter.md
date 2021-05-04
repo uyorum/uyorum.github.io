@@ -3,6 +3,7 @@ date = "2019-06-04T22:38:40+09:00"
 slug = ""
 tags = ["",""]
 title = "バッファローのイーサネットコンバータでトラブった話"
+aliases = ["/blog/buffalo-ethernet-converter/"]
 
 +++
 

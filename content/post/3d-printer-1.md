@@ -3,6 +3,7 @@ slug = ""
 tags = ["", ""]
 title = "3Dプリンタ IUSE IUM1 を買った"
 date = "2020-09-06T13:34:00+09:00"
+aliases = ["/blog/3d-printer-1/"]
 
 +++
 

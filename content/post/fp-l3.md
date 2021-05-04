@@ -3,6 +3,7 @@ date = "2018-05-27T18:23:33+09:00"
 slug = ""
 tags = ["",""]
 title = "FP技能検定3級を受けた"
+aliases = ["/blog/fp-l3/"]
 
 +++
 

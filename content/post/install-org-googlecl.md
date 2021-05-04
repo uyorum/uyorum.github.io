@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "org-googlecl.elの導入と改造"
 date = "2013-09-21T09:55:00+09:00"
+aliases = ["/blog/install-org-googlecl/"]
 
 +++
 

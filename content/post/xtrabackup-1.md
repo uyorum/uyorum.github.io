@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 date = "2016-09-12T19:19:36+09:00"
 title = "XtraBackupによるバックアップ設計"
+aliases = ["/blog/xtrabackup-1/"]
 
 +++
 

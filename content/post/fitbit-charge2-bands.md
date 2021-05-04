@@ -3,6 +3,7 @@ date = "2017-07-03T21:10:46+09:00"
 slug = ""
 tags = ["",""]
 title = "Fitbit Charge2用サードパーティ製バンドを買った"
+aliases = ["/blog/fitbit-charge2-bands/"]
 
 +++
 

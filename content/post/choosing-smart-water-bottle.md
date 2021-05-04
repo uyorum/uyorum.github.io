@@ -3,6 +3,7 @@ date = "2017-06-18T16:56:40+09:00"
 slug = ""
 tags = ["",""]
 title = "スマートボトルの選定"
+aliases = ["/blog/choosing-smart-water-bottle/"]
 
 +++
 

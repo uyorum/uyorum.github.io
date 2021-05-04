@@ -3,6 +3,7 @@ date = "2017-04-23T21:33:54+09:00"
 title = "Home Assistantで人感センサーを使って照明を自動点灯する"
 tags = ["",""]
 slug = ""
+aliases = ["/blog/home-assistant-gpio/"]
 
 +++
 

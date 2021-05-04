@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "CROSS2016 まとめ"
 date = "2016-02-06T20:44:03+09:00"
+aliases = ["/blog/cross2016/"]
 
 +++
 

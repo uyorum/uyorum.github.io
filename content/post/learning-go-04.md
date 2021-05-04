@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "Go言語のお勉強 その4"
 date = "2015-08-02T22:17:45+09:00"
+aliases = ["/blog/learning-go-04/"]
 
 +++
 

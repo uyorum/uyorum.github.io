@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP"
 date = "2015-07-24T22:57:11+09:00"
+aliases = ["/blog/hotp/"]
 
 +++
 

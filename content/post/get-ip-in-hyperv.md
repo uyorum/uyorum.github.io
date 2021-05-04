@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する"
 date = "2015-11-09T23:28:41+09:00"
+aliases = ["/blog/get-ip-in-hyperv/"]
 
 +++
 

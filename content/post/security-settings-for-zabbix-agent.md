@@ -3,6 +3,7 @@ date = "2018-06-12T10:19:17+09:00"
 slug = ""
 tags = ["",""]
 title = "必要最低限の設定で監視エージェントに監視させる"
+aliases = ["/blog/security-settings-for-zabbix-agent/"]
 
 +++
 

@@ -3,6 +3,7 @@ date = "2017-12-30T00:15:15+09:00"
 slug = ""
 tags = ["",""]
 title = "ホームオートメーションの現状まとめ@2017"
+aliases = ["/blog/home-automation-2017/"]
 
 +++
 

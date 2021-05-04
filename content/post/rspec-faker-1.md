@@ -3,6 +3,7 @@ date = "2017-12-28T18:19:55+09:00"
 slug = ""
 tags = ["",""]
 title = "RSpecでFakerを使うならKernel.srandを設定しておけという話"
+aliases = ["/blog/rspec-faker-1/"]
 
 +++
 

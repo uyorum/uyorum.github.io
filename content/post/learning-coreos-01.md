@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "CoreOS入門1 etcd"
 date = "2015-09-04T23:01:54+09:00"
+aliases = ["/blog/learning-coreos-01/"]
 
 +++
 

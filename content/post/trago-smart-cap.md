@@ -3,6 +3,7 @@ date = "2017-12-03T17:48:36+09:00"
 slug = ""
 tags = ["",""]
 title = "Trago Capを使ってみて"
+aliases = ["/blog/trago-smart-cap/"]
 
 +++
 

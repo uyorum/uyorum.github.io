@@ -3,6 +3,7 @@ date = "2019-07-04T20:32:07+09:00"
 slug = ""
 tags = ["",""]
 title = "fail2banでBotからsshdとNginxを守る"
+aliases = ["/blog/fail2ban-1/"]
 
 +++
 

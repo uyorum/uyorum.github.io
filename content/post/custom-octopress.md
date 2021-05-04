@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "Octopressでmarkdownのファイル名規則を変更する"
 date = "2014-04-22T23:10:00+09:00"
+aliases = ["/blog/custom-octopress/"]
 
 +++
 

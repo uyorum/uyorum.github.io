@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "ffmpeg(avconv)でmp3からブランクスクリーン(黒)のmp4を作成する"
 date = "2015-10-15T21:15:02+09:00"
+aliases = ["/blog/create-blank-video-with-ffmpeg/"]
 
 +++
 

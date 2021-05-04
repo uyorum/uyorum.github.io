@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "IntelのNUCベアボーン DC3217IYE を買いました"
 date = "2013-09-23T22:58:00+09:00"
+aliases = ["/blog/esxi-02/"]
 
 +++
 

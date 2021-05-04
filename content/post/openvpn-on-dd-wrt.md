@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "DD-WRTでOpenVPNの設定"
 date = "2015-03-29T20:56:18+09:00"
+aliases = ["/blog/openvpn-on-dd-wrt/"]
 
 +++
 

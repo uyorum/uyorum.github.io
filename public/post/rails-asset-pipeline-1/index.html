@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+
+<title>Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作 - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+  <main role="main">
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 class="entry-title" itemprop="headline">Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作</h1>
+      <span class="entry-meta">
+        <time itemprop="datePublished" datetime="2017-03-01">March 01, 2017
+        </time>
+      </span>
+      <span class="pull-right">
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2frails-asset-pipeline-1%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Ruby%20on%20Rails%e3%81%aeAsset%20Pipeline%e3%81%a8%e3%82%a4%e3%83%b3%e3%82%af%e3%83%ab%e3%83%bc%e3%83%89%e3%81%a8%e3%83%97%e3%83%aa%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%ab%e3%81%ae%e5%8b%95%e4%bd%9c - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2frails-asset-pipeline-1%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2frails-asset-pipeline-1%2f&amp;title=Ruby%20on%20Rails%e3%81%aeAsset%20Pipeline%e3%81%a8%e3%82%a4%e3%83%b3%e3%82%af%e3%83%ab%e3%83%bc%e3%83%89%e3%81%a8%e3%83%97%e3%83%aa%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%ab%e3%81%ae%e5%8b%95%e4%bd%9c - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Ruby%20on%20Rails%e3%81%aeAsset%20Pipeline%e3%81%a8%e3%82%a4%e3%83%b3%e3%82%af%e3%83%ab%e3%83%bc%e3%83%89%e3%81%a8%e3%83%97%e3%83%aa%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%ab%e3%81%ae%e5%8b%95%e4%bd%9c - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2frails-asset-pipeline-1%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </span>
+      <section itemprop="entry-text">
+        <p>Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった．
+いろいろと知識を詰め込んだので復習も兼ねてまとめていく．
+おそらくRailsを使い慣れている人にとっては基本的すぎる内容．</p>
+<h2 id="環境">環境</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ruby -v
+geruby 2.4.0p0 <span style="color:#f92672">(</span>2016-12-24 revision 57164<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>x86_64-darwin15<span style="color:#f92672">]</span>
+$ gem list -l ^rails$
+
+*** LOCAL GEMS ***
+
+rails <span style="color:#f92672">(</span>4.2.8<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="アセットとは">アセットとは</h2>
+<p>定義が見つからなかったが，おそらく以下のような感じ．</p>
+<pre><code>Railsのサーバから配信するコンテンツのうち，Viewにより生成されたもの以外
+</code></pre>
+<p>具体的にはJavaScript，CSS，画像ファイルなど．あまりないだろうが，静的なhtmlもこれらと同様に扱うことはできそう．</p>
+<h2 id="アセットパイプラインとは">アセットパイプラインとは</h2>
+<p>サーバ上に存在するアセットをクライアントへ配信する仕組みのこと．アセットパイプラインは<code>sprockets-rails</code>gemにより提供されている．配信までの途中でいくつかの処理を経る場合がほとんど．例えば以下．</p>
+<ul>
+<li>JavaScriptおよびCSSの結合，最小化</li>
+<li>ブラウザが理解しない書式(CoffeeScript, SASS, ERBなど)で書かれたコードを素のコードへ変換する</li>
+<li>ファイル名へMD5ダイジェストの付与</li>
+<li>アセットの圧縮</li>
+</ul>
+<p>それぞれの処理の内容は<a href="https://railsguides.jp/asset_pipeline.html">アセットパイプライン | Rails ガイド</a>が詳しいので省略する</p>
+<p>いくつかの処理はRailsが動作するモード(Environment)により異なる．</p>
+<p>通常，アセットは<code>{app,lib,vendor}/assets/{javascripts,stylesheets,images}</code>のいずれかに配置する．
+それぞれの使い分けは下記を参照<br>
+<a href="https://railsguides.jp/asset_pipeline.html#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E7%B7%A8%E6%88%90">2.2 アセットの編成 - アセットパイプライン | Rails ガイド</a></p>
+<p>以下，簡単のため<code>config.assets.digest = false</code>を設定する(ファイル名にダイジェストが含まれなくなる)</p>
+<h2 id="インクルード">インクルード</h2>
+<p>通常，クライアントへ配信されるのは<code>app/assets/javascripts/application.js</code>と<code>app/assets/stylesheets/application.css</code>である．
+実際，デフォルトの内容を削除してみると，レスポンスに含まれるstylesheetとscriptは<code>application.css</code>および<code>application.js</code>のみである．</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat /dev/null &gt; app/assets/javascripts/application.js
+$ cat /dev/null &gt; app/assets/stylesheets/application.css
+$ rails s &amp;
+$ curl localhost:3000
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;PlayRubyOnRails&lt;/title&gt;
+  &lt;link rel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> media<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;all&#34;</span> href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application.self.css?body=1&#34;</span> /&gt;
+  &lt;script src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
+  &lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-param&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;authenticity_token&#34;</span> /&gt;
+&lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-token&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;y6ytycY6X3PLUW5E6YTxIcEAC9CovDLYNqdipEqLvE/GXPGQIVq2LRvMMSQvauxmmVNEVvwlhSp3cQ1je+HWVw==&#34;</span> /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Sample Page&lt;/h1&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><p>ただし特別な文法により，これらのファイルに別のファイルを<code>挿入</code>することができる．
+例として以下の<code>example_script.js</code>と<code>example_style.css</code>をそれぞれ<code>application.js</code>と<code>application.css</code>に挿入する．</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#39;// example_script.js&#39;</span> &gt;  vendor/assets/javascripts/example_script.js
+$ echo <span style="color:#e6db74">&#39;/* example_style.css */&#39;</span> &gt; vendor/assets/stylesheets/example_style.css
+</code></pre></div><ul>
+<li>app/assets/javascripts/application.js</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">//= require example_script
+</span></code></pre></div><ul>
+<li>app/assets/stylesheets/application.css</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> *= require example_style
+</span><span style="color:#75715e"> */</span>
+</code></pre></div><p>サーバからのレスポンスは以下のように変わる</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl localhost:3000
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;PlayRubyOnRails&lt;/title&gt;
+  &lt;link rel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> media<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;all&#34;</span> href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/example_style.self.css?body=1&#34;</span> /&gt;
+&lt;link rel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> media<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;all&#34;</span> href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application.self.css?body=1&#34;</span> /&gt;
+  &lt;script src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/example_script.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
+&lt;script src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
+  &lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-param&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;authenticity_token&#34;</span> /&gt;
+&lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-token&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;gbwYN47/sxpRHGPNzTr0hSqyDnZJL2L21r+9R77Inc3ytUyGKTjhpXe9JYKdafnLgXqaYUdEKqJgtwSvNt8Qmg==&#34;</span> /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Sample Page&lt;/h1&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><p><code>example_style.css</code>と<code>example_script.js</code>が追加されている．それぞれの内容も先ほど作成した通りである</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl <span style="color:#e6db74">&#39;localhost:3000/assets/example_style.self.css?body=1&#39;</span>
+/* example_style.css */
+
+$ curl <span style="color:#e6db74">&#39;localhost:3000/assets/example_script.self.js?body=1&#39;</span>
+// example_script.js
+</code></pre></div><p>以上がインクルード機能である．なおインクルード対象のアセットの探索場所はあらかじめ設定されており，<code>Rails.application.config.assets.paths</code>で確認することができる．
+確認したところ，<code>Rails.root</code>とGemのインストールディレクトリ以下の<code>{app,lib,vendor}/assets/{javascripts,stylesheets,images}</code>が追加されていた．</p>
+<p>なお当然ながらインクルードを利用せずにクライアントへ配信することも可能である．記述方法は<a href="https://railsguides.jp/asset_pipeline.html#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E6%9B%B8%E3%81%8F">2.3 アセットにリンクするコードを書く - アセットパイプライン | Rails ガイド</a>を参照．</p>
+<p>以上のように，RailsはAssets Pipelineにより動的にアセットを処理しレスポンスを生成する．
+ただし，以上の動作はRailsをdevelopment環境で動作させた場合であり，production環境で動作させた場合は多少動作が異なる．
+production環境では動的にアセットを処理することはなく，事前にアセットを静的に生成しておく必要がある．この処理をプリコンパイルと呼ぶ．
+<code>config.assets.compile = true</code>とすることによりdevelopment環境と同様の動作にすることはできるが，サーバ側のパフォーマンスの観点から通常この設定は使用しない．</p>
+<h2 id="プリコンパイル">プリコンパイル</h2>
+<p>RailsをProdution環境で動作させるには事前にプリコンパイルを行なう必要がある．そのためのRakeタスクがあらかじめ用意されており，コマンドひとつでプリコンパイルは完了する．</p>
+<ul>
+<li>app/assets/javascripts/application.js</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">//= require example_script
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">application</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">foo</span>;
+</code></pre></div><ul>
+<li>app/assets/javascripts/example_script.js</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// example_script.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">example_script</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">bar</span>;
+</code></pre></div><ul>
+<li>app/assets/stylesheets/application.css</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> *= require example_style
+</span><span style="color:#75715e"> */</span>
+<span style="color:#f92672">h1</span> {
+  <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">3</span><span style="color:#66d9ef">em</span>;
+}
+</code></pre></div><ul>
+<li>app/assets/stylesheets/example_style.css</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/* example_style.css */</span>
+<span style="color:#f92672">h2</span> {
+  <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">1.2</span><span style="color:#66d9ef">em</span>;
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ RAILS_ENV<span style="color:#f92672">=</span>production bundle exec rake assets:precompile
+I, <span style="color:#f92672">[</span>2017-03-05T16:32:17.543841 <span style="color:#75715e">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js</span>
+I, <span style="color:#f92672">[</span>2017-03-05T16:32:17.550791 <span style="color:#75715e">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js.gz</span>
+I, <span style="color:#f92672">[</span>2017-03-05T16:32:17.558124 <span style="color:#75715e">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css</span>
+I, <span style="color:#f92672">[</span>2017-03-05T16:32:17.558406 <span style="color:#75715e">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css.gz</span>
+</code></pre></div><p>なお，<code>config.assets.digest = false</code>を設定しているにも関わらずファイル名にダイジェストが含まれてしまうのは仕様のようだ．<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>production環境でRailsを起動してアクセスしてみるとレスポンスは以下のようになっている．(環境変数<code>SECRET_KEY_BASE</code>と<code>RAILS_SERVE_STATIC_FILES</code>についての説明はここでは省略する．)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ RAILS_ENV<span style="color:#f92672">=</span>production SECRET_KEY_BASE<span style="color:#f92672">=</span>secret RAILS_SERVE_STATIC_FILES<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> rails s &amp;
+$ curl localhost:3000
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;PlayRubyOnRails&lt;/title&gt;
+  &lt;link rel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> media<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;all&#34;</span> href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css&#34;</span> /&gt;
+  &lt;script src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js&#34;</span>&gt;&lt;/script&gt;
+  &lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-param&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;authenticity_token&#34;</span> /&gt;
+&lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-token&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;yuRwf5qcdQ81DfCqhYLYItnc7p6RR52Ny5zahm0vrFuL4p6EFVOPOvjtg25PrjTa4OfybypUlqH6cbra4cuqjA==&#34;</span> /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Sample Page&lt;/h1&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><p>development環境ではインクルードしたアセットが列挙されていたが，今回は<code>application.css</code>と<code>application.js</code>だけになっている．
+インクルードした<code>example_script.js</code>と<code>example_style.css</code>はこれらのファイルに挿入されてクラアントへ配信される．</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl localhost:3000/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css
+h2<span style="color:#f92672">{</span>font-size:1.2em<span style="color:#f92672">}</span>h1<span style="color:#f92672">{</span>font-size:3em<span style="color:#f92672">}</span>
+$ curl localhost:3000/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js
+var example_script<span style="color:#f92672">=</span>bar,application<span style="color:#f92672">=</span>foo;
+</code></pre></div><p>ちなみに，単にファイルの内容を結合するだけでなく，以下のような処理が施されているのがわかる．</p>
+<ul>
+<li>不要な改行，空白の削除</li>
+<li>コメントの削除</li>
+<li>記述の結合</li>
+</ul>
+<p>これが，冒頭で述べたAssets Pipelineが行う処理のひとつ，最小化である．</p>
+<h2 id="configassetsprecompile">config.assets.precompile</h2>
+<p><code>application.js</code>と<code>application.css</code>にインクルードしてアセットを配信するのならこれでよいのだが，そうでない場合(特定のページでだけでアセットを配信したい場合など)は注意が必要である．
+例として<code>application.js</code>にはインクルードしないJavaScriptコード(<code>addon_script.js</code>)をひとつ追加して<code>application.html.erb</code>にエントリを追加する</p>
+<ul>
+<li>app/assets/javascripts/addon_script.js</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">addon_script</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hoge</span>;
+</code></pre></div><ul>
+<li>app/views/layouts/application.html.erb</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#f92672">html</span>&gt;
+&lt;<span style="color:#f92672">head</span>&gt;
+  &lt;<span style="color:#f92672">title</span>&gt;PlayRubyOnRails&lt;/<span style="color:#f92672">title</span>&gt;
+  <span style="color:#960050;background-color:#1e0010">&lt;</span>%= stylesheet_link_tag    &#39;application&#39;, media: &#39;all&#39; %&gt;
+  <span style="color:#960050;background-color:#1e0010">&lt;</span>%= javascript_include_tag &#39;application&#39; %&gt;
+  <span style="color:#960050;background-color:#1e0010">&lt;</span>%= javascript_include_tag &#39;addon_script&#39; %&gt;
+  <span style="color:#960050;background-color:#1e0010">&lt;</span>%= csrf_meta_tags %&gt;
+&lt;/<span style="color:#f92672">head</span>&gt;
+&lt;<span style="color:#f92672">body</span>&gt;
+
+<span style="color:#960050;background-color:#1e0010">&lt;</span>%= yield %&gt;
+
+&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p>このとき，development環境では<code>addon_script.js</code>はアセットの探索パスに含まれているため正常に配信されるのだが，このファイルは実はプリコンパイルされないためproduction環境では配信されない．</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ RAILS_ENV<span style="color:#f92672">=</span>production bundle exec rake assets:precompile
+<span style="color:#f92672">(</span>何も出力されない<span style="color:#f92672">)</span>
+</code></pre></div><p>なぜこのようなことが起こるかというと，Assets Pipelineにはインクルードされたアセットの探索パス(<code>config.assets.paths</code>)とは別にプリコンパイル対象とするアセットの探索パスが設定されているためである．
+デフォルトではプリコンパイルは<code>app/assets</code>以下の<code>.js</code>，<code>.css</code>(<code>addon_script.js</code>はこれに合致する)<strong>以外</strong>のファイルが対象となっている．それ以外のファイルをプリコンパイル対象としたい場合は<code>config.assets.precompile</code>で指定する必要がある．(デフォルトだと<code>config/initializers/assets.rb</code>に書くことになっている)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># addon_script.js をプリコンパイル対象に追加</span>
+$ echo <span style="color:#e6db74">&#39;Rails.application.config.assets.precompile += %w( addon_script.js )&#39;</span> &gt;&gt; config/initializers/assets.rb
+$ RAILS_ENV<span style="color:#f92672">=</span>production bundle exec rake assets:precompile
+I, <span style="color:#f92672">[</span>2017-03-05T17:19:41.045142 <span style="color:#75715e">#45578]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/addon_script-1a95c29effd76a7a053372381062d1ff547d51609534712aa469e4682fe94f39.js</span>
+I, <span style="color:#f92672">[</span>2017-03-05T17:19:41.051197 <span style="color:#75715e">#45578]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/addon_script-1a95c29effd76a7a053372381062d1ff547d51609534712aa469e4682fe94f39.js.gz</span>
+</code></pre></div><p><code>addon_script.js</code>がプリコンパイルされた．</p>
+<p>以上のように，アセットの探索パスには含まれているが，プリコンパイルの対象ではないファイル(<code>application.js</code>や<code>application.css</code>にインクルードしていない<code>.js</code>や<code>.css</code>)がある場合は注意が必要である．(開発環境では正常に動いているが，本番環境で異常が発生してしまう)<br>
+私の場合はこの挙動の違いに気づくまで時間がかかってしまった…</p>
+<p>以上</p>
+<p>ここで使用したコードは<a href="https://github.com/uyorum/play-ruby-on-rails/tree/assets-pipeline">uyorum/play-ruby-on-rails at assets-pipeline</a>で公開している．</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://railsguides.jp/asset_pipeline.html">アセットパイプライン | Rails ガイド</a><br>
+とりあえずここ読んどけばいいかな，と思って読んだが実際に触ってみないと細かいところがわからなかった</li>
+<li><a href="http://railsdoc.com/asset_pipeline">アセットパイプライン(Asset Pipeline) - - Railsドキュメント</a></li>
+<li><a href="http://qiita.com/metheglin/items/c5c756246b7afbd34ae2">Rails Asset Pipelineがうまくいかないときの問題の切り分けかた - Qiita</a></li>
+<li><a href="https://github.com/rails/rails/pull/7968">Only compile non-js/css under app/assets by default by josh · Pull Request #7968 · rails/rails</a></li>
+</ul>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="http://qiita.com/munazo/items/15f9c143bc4ecdd74220">Rails4のdigestにまつわる論争 - Qiita</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+      </section>
+      <aside>
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2frails-asset-pipeline-1%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Ruby%20on%20Rails%e3%81%aeAsset%20Pipeline%e3%81%a8%e3%82%a4%e3%83%b3%e3%82%af%e3%83%ab%e3%83%bc%e3%83%89%e3%81%a8%e3%83%97%e3%83%aa%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%ab%e3%81%ae%e5%8b%95%e4%bd%9c - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2frails-asset-pipeline-1%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2frails-asset-pipeline-1%2f&amp;title=Ruby%20on%20Rails%e3%81%aeAsset%20Pipeline%e3%81%a8%e3%82%a4%e3%83%b3%e3%82%af%e3%83%ab%e3%83%bc%e3%83%89%e3%81%a8%e3%83%97%e3%83%aa%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%ab%e3%81%ae%e5%8b%95%e4%bd%9c - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Ruby%20on%20Rails%e3%81%aeAsset%20Pipeline%e3%81%a8%e3%82%a4%e3%83%b3%e3%82%af%e3%83%ab%e3%83%bc%e3%83%89%e3%81%a8%e3%83%97%e3%83%aa%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%ab%e3%81%ae%e5%8b%95%e4%bd%9c - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2frails-asset-pipeline-1%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </aside>
+      
+        <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      
+    </article>
+  </main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+			
+			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+			
+      
+		</div>
+		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+	</footer>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

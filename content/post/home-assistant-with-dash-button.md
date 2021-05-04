@@ -3,6 +3,7 @@ date = "2017-06-10T20:20:04+09:00"
 slug = ""
 tags = ["",""]
 title = "Home AssistantとAmazon Dash Buttonを連携させる"
+aliases = ["/blog/home-assistant-with-dash-button/"]
 
 +++
 

@@ -3,6 +3,7 @@ slug = ""
 tags = []
 title = "Raspberry Pi OS(Raspbian)にOctoPrintをインストールする"
 date = "2020-09-16T20:36:56+09:00"
+aliases = ["/blog/install-octoprint-raspbian/"]
 
 +++
 

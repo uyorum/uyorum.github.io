@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "RPMコマンドのオプション"
 date = "2013-09-21T21:59:00+09:00"
+aliases = ["/blog/about-rpm/"]
 
 +++
 

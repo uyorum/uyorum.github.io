@@ -3,6 +3,7 @@ date = "2017-03-01T23:01:28+09:00"
 slug = ""
 title = "Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作"
 tags = ["rails","ruby"]
+aliases = ["/blog/rails-asset-pipeline-1/"]
 
 +++
 

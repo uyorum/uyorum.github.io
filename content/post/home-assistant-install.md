@@ -3,6 +3,7 @@ title = "Home Assistantでつくるホームオートメーション(導入編)"
 tags = ["",""]
 slug = ""
 date = "2017-04-22T21:48:00+09:00"
+aliases = ["/blog/home-assistant-install/"]
 
 +++
 

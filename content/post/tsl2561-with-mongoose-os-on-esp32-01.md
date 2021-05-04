@@ -3,6 +3,7 @@ date = "2017-08-02T20:53:04+09:00"
 slug = ""
 tags = ["",""]
 title = "ESP32とMongooseOSを使ってTSL2561で照度を取得する(準備編)"
+aliases = ["/blog/tsl2561-with-mongoose-os-on-esp32-01/"]
 
 +++
 

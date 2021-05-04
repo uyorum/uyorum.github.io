@@ -3,6 +3,7 @@ date = "2018-06-28T15:06:06+09:00"
 slug = ""
 tags = ["",""]
 title = "Home AssistantのデプロイをHass.ioにした"
+aliases = ["/blog/hassio-introduction/"]
 
 +++
 

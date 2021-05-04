@@ -3,6 +3,7 @@ categories = []
 Tags = []
 title = "RaspeberryPi用のGoogle製Web開発プラットフォームCoder for RaspberryPiを導入してみた"
 date = "2013-10-06T11:20:00+09:00"
+aliases = ["/blog/coder-for-pi/"]
 
 +++
 

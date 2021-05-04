@@ -3,6 +3,7 @@ date = "2018-10-28T17:52:09+09:00"
 slug = ""
 tags = ["",""]
 title = "インターネット付きマンションでLAN上のホストをインターネット公開する(設計編)"
+aliases = ["/blog/publish-with-openvpn-1/"]
 
 +++
 

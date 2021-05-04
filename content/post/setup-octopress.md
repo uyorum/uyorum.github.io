@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "Octopressセットアップメモ"
 date = "2015-02-22T22:16:12+09:00"
+aliases = ["/blog/setup-octopress/"]
 
 +++
 

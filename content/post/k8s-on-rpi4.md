@@ -3,6 +3,7 @@ slug = ""
 tags = []
 title = "Raspberry Pi 4BにKubernetesをインストール（2021年版）"
 date = "2021-04-04T22:18:27+09:00"
+aliases = ["/blog/k8s-on-rpi4/"]
 
 +++
 

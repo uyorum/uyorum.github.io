@@ -3,6 +3,7 @@ slug = ""
 tags = ["", ""]
 title = "Ubuntu 20.04でキーマップをカスタマイズする"
 date = "2020-05-20T23:43:30+09:00"
+aliases = ["/blog/ubuntu-custom-keymap/"]
 
 +++
 

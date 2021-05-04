@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "最近のBerkshelfの使い方(2015)"
 date = "2015-07-16T21:50:16+09:00"
+aliases = ["/blog/how-to-berkshelf/"]
 
 +++
 

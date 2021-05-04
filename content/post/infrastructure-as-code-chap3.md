@@ -3,6 +3,7 @@ date = "2017-06-15T23:14:55+09:00"
 slug = ""
 tags = ["",""]
 title = "Infrastructure as Code 感想 (3章)"
+aliases = ["/blog/infrastructure-as-code-chap3/"]
 
 +++
 

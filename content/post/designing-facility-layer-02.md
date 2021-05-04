@@ -3,6 +3,7 @@ date = "2019-01-16T13:06:37+09:00"
 slug = ""
 tags = ["",""]
 title = "ファシリティまわりの設計時に考慮すること(続き)"
+aliases = ["/blog/designing-facility-layer-02/"]
 
 +++
 

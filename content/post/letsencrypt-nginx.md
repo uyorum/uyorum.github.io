@@ -3,6 +3,7 @@ date = "2018-12-15T18:19:48+09:00"
 slug = ""
 tags = ["",""]
 title = "NginxでLet's Encryptの証明書を扱う"
+aliases = ["/blog/letsencrypt-nginx/"]
 
 +++
 

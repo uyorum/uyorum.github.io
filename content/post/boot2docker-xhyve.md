@@ -3,6 +3,7 @@ Categories = []
 Tags = []
 title = "MacのxhyveでDockerを使う"
 date = "2015-07-21T23:52:37+09:00"
+aliases = ["/blog/boot2docker-xhyve/"]
 
 +++
 
