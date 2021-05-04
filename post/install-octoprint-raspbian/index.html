@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+
+<title>Raspberry Pi OS(Raspbian)にOctoPrintをインストールする - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+  <main role="main">
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 class="entry-title" itemprop="headline">Raspberry Pi OS(Raspbian)にOctoPrintをインストールする</h1>
+      <span class="entry-meta">
+        <time itemprop="datePublished" datetime="2020-09-16">September 16, 2020
+        </time>
+      </span>
+      <span class="pull-right">
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2finstall-octoprint-raspbian%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Raspberry%20Pi%20OS%28Raspbian%29%e3%81%abOctoPrint%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2finstall-octoprint-raspbian%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2finstall-octoprint-raspbian%2f&amp;title=Raspberry%20Pi%20OS%28Raspbian%29%e3%81%abOctoPrint%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Raspberry%20Pi%20OS%28Raspbian%29%e3%81%abOctoPrint%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2finstall-octoprint-raspbian%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </span>
+      <section itemprop="entry-text">
+        <p><a href="../3d-printer-1/">前回</a>、3Dプリンターを買って以降いろいろと調べている。
+よく知らなかったが3Dプリンタは自作や改造ができたりするらしく、ちょうど開催されていた技術書典9で見つけた本を買ってみたところ
+OctoPrintなるソフトウェアを使うことでネットワーク経由で印刷をすることができることがわかった。</p>
+<p>買ってみた同人誌はこちら
+<a href="https://techbookfest.org/product/5188169897082880?productVariantID=5724024109793280">Ender3で始める自宅3Dプリンタ：くろほん</a></p>
+<h2 id="参考">参考</h2>
+<p><a href="https://octoprint.org/download/">OctoPrint.org - Download &amp; Setup OctoPrint</a><br>
+<a href="https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspbian/2337">Setting up OctoPrint on a Raspberry Pi running Raspbian - OctoPrint Community Forum</a><br>
+<a href="https://qiita.com/ysogabe/items/95b974d13b396cf7479e">raspberry pi zero wでOctoPrintを動かしてみた - Qiita</a></p>
+<h2 id="インストール方法">インストール方法</h2>
+<p>OctoPrintにはいくつかの導入方法が提供されている。</p>
+<ul>
+<li>OctoPi<br>
+RaspbianをベースにOctoPrintをセットアップ済みのイメージ。
+Raspberry Piがあれば、これをSDカードに焼くだけでインストールは終わる。</li>
+<li>手動インストール<br>
+OctoPrintはPythonで書かれており、PyPIで配布されている。そのためPythonとpipを使って手動でインストールすることもできる。
+OctoPrintにはWebカメラなどを使って印刷の様子をブラウザで確認できる機能がある。そのような機能を使う場合はさらにffmpegのインストールなどを別途行う必要がある。</li>
+</ul>
+<p>自分の場合、ちょうどRaspberry Pi 4Bが手元にあったが別の用途でも使用中のため、OctoPrint専用に使うわけにはいかなかった。
+負荷的に同居でも問題なさそうなので、既存のRaspbianの上に手動でインストールを行うことにした。</p>
+<h3 id="環境">環境</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Raspbian
+Description:    Raspbian GNU/Linux <span style="color:#ae81ff">10</span> <span style="color:#f92672">(</span>buster<span style="color:#f92672">)</span>
+Release:        <span style="color:#ae81ff">10</span>
+Codename:       buster
+</code></pre></div><h3 id="設計">設計</h3>
+<ul>
+<li>Pythonはaptで入る3系のものを使う</li>
+<li>OctoPrintはPythonの仮想環境にインストールし、システムを汚さないようにする</li>
+<li>実行ユーザとして専用のユーザ「octoprint」を作成する</li>
+<li>サービスの起動はSystemdで行う</li>
+</ul>
+<h2 id="手順">手順</h2>
+<h3 id="インストール">インストール</h3>
+<p>piユーザで実行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt update
+$ sudo apt install python3-pip python3-dev python3-setuptools python3-venv git libyaml-dev build-essential
+$ sudo mkdir /usr/local/share/octoprint
+$ sudo chown -R pi:pi /usr/local/share/octoprint
+$ cd /usr/local/share/octoprint
+$ python3 -m venv venv
+$ source venv/bin/activate
+$ pip install pip --upgrade
+$ pip install octoprint
+</code></pre></div><h3 id="ユーザの準備">ユーザの準備</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo useradd -r octoprint -d /usr/local/share/octoprint
+$ sudo chown -R octoprint:octoprint /usr/local/share/octoprint
+$ sudo usermod -a -G tty octoprint
+$ sudo usermod -a -G dialout octoprint
+$ cat <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39; | sudo tee /etc/sudoers.d/020_octoprint
+</span><span style="color:#e6db74">octoprint ALL=NOPASSWD: /sbin/shutdown
+</span><span style="color:#e6db74">octoprint ALL=NOPASSWD: /bin/systemctl restart octoprint
+</span><span style="color:#e6db74">EOF</span>
+$ echo <span style="color:#e6db74">&#39;&#39;</span> | sudo tee 
+$ sudo chmod <span style="color:#ae81ff">440</span> /etc/sudoers.d/020_octoprint
+</code></pre></div><h3 id="systemdの設定">Systemdの設定</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39; | sudo tee /etc/systemd/system/octoprint.service
+</span><span style="color:#e6db74">[Unit]
+</span><span style="color:#e6db74">Description=The snappy web interface for your 3D printer
+</span><span style="color:#e6db74">After=network-online.target
+</span><span style="color:#e6db74">Wants=network-online.target
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Service]
+</span><span style="color:#e6db74">Environment=&#34;LC_ALL=C.UTF-8&#34;
+</span><span style="color:#e6db74">Environment=&#34;LANG=C.UTF-8&#34;
+</span><span style="color:#e6db74">Type=simple
+</span><span style="color:#e6db74">User=octoprint
+</span><span style="color:#e6db74">ExecStart=/usr/local/share/octoprint/venv/bin/octoprint
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Install]
+</span><span style="color:#e6db74">WantedBy=multi-user.target
+</span><span style="color:#e6db74">EOF</span>
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable octoprint
+$ sudo systemctl start octoprint
+</code></pre></div><p>以上でOctoPrintが起動する。
+HTTPでRaspbianの5000番ポートへアクセスすることで初回セットアップが始まる。</p>
+<p>設定ファイルなどは実行ユーザの<code>${HOME}/.octoprint</code>に作成される模様。
+今回は<code>/usr/local/share/.octoprint</code>になる。</p>
+<p>ただし、基本的にはブラウザで設定できるようなのでここのファイルにアクセスすることは少なそう。
+ログも<code>journalctl -u octoprint</code>で見れる。</p>
+<h2 id="octoprintの設定">OctoPrintの設定</h2>
+<p>初回アクセス時の設定ウィザードでひととおり設定できたと思うが振り返っておく。
+前回紹介したIUSE IUM1を使う前提の設定なので注意。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">大項目</th>
+<th style="text-align:left">小項目</th>
+<th style="text-align:left">値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Serial Connection</td>
+<td style="text-align:left">Serial Port</td>
+<td style="text-align:left">AUTO</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Baudrate</td>
+<td style="text-align:left">115200</td>
+</tr>
+<tr>
+<td style="text-align:left">Printer Profiles</td>
+<td style="text-align:left">Form Factor</td>
+<td style="text-align:left">Rectangular</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Origin</td>
+<td style="text-align:left">Lower Left</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Heated Bet</td>
+<td style="text-align:left">No</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Heated Chamber</td>
+<td style="text-align:left">No</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Width</td>
+<td style="text-align:left">110mm</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Depth</td>
+<td style="text-align:left">110mm</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Height</td>
+<td style="text-align:left">120mm</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Nozzle Diameter</td>
+<td style="text-align:left">0.4mm</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Number of Extruders</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:left">Server</td>
+<td style="text-align:left">Restart OctoPrint</td>
+<td style="text-align:left">sudo systemctl restart octoprint</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Restart system</td>
+<td style="text-align:left">sudo shutdown -r now</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Shutdown system</td>
+<td style="text-align:left">sudo shutdown -h now</td>
+</tr>
+</tbody>
+</table>
+<p>Printer Profilesで作成したプロファイルをデフォルトプロファイルにしておく。</p>
+<p>USBでRaspberry Piとプリンタを接続しConnectボタンを押すことで接続できる。
+印刷中の温度の推移やGCodeのプレビュー（ヘッドの軌跡を見れたりできる）を確認したり、手動でヘッドを移動することもできる。
+これでPCを繋げなくてもヘッド位置のキャリブレーションができるようになった。</p>
+<p>スライスソフトでスライスし、できた<code>.gcode</code>をブラウザでアップロードすることで印刷を開始することができる。
+SDカードが不要になる。</p>
+<h2 id="curaプラグイン">Curaプラグイン</h2>
+<p>SDカードなしで印刷できるのでこれだけでも便利なのだが、スライスソフトのUltimaker CuraにはOctoPrint用のプラグインが存在し、
+これを使うことでCuraの画面から直接OctoPrintに<code>.gcode</code>をアップロードすることができる。</p>
+<p>インストール方法や使い方は以下が参考になる。
+<a href="https://qiita.com/ysogabe/items/95b974d13b396cf7479e">raspberry pi zero wでOctoPrintを動かしてみた - Qiita</a></p>
+<p>以上</p>
+      </section>
+      <aside>
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2finstall-octoprint-raspbian%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Raspberry%20Pi%20OS%28Raspbian%29%e3%81%abOctoPrint%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2finstall-octoprint-raspbian%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2finstall-octoprint-raspbian%2f&amp;title=Raspberry%20Pi%20OS%28Raspbian%29%e3%81%abOctoPrint%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Raspberry%20Pi%20OS%28Raspbian%29%e3%81%abOctoPrint%e3%82%92%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2finstall-octoprint-raspbian%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </aside>
+      
+        <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      
+    </article>
+  </main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+			
+			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+			
+      
+		</div>
+		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+	</footer>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+

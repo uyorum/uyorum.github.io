@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+
+<title>Home AssistantのデプロイをHass.ioにした - @uyorumの雑記帳</title>
+</head>
+<body>
+
+<div class="container">
+
+	<header role="banner">
+		<div class="header-logo">
+			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+		</div>
+		
+	</header>
+
+
+  <main role="main">
+    <article itemscope itemtype="http://schema.org/BlogPosting">
+      <h1 class="entry-title" itemprop="headline">Home AssistantのデプロイをHass.ioにした</h1>
+      <span class="entry-meta">
+        <time itemprop="datePublished" datetime="2018-06-28">June 28, 2018
+        </time>
+      </span>
+      <span class="pull-right">
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fhassio-introduction%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Home%20Assistant%e3%81%ae%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%82%92Hass.io%e3%81%ab%e3%81%97%e3%81%9f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fhassio-introduction%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fhassio-introduction%2f&amp;title=Home%20Assistant%e3%81%ae%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%82%92Hass.io%e3%81%ab%e3%81%97%e3%81%9f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Home%20Assistant%e3%81%ae%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%82%92Hass.io%e3%81%ab%e3%81%97%e3%81%9f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fhassio-introduction%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </span>
+      <section itemprop="entry-text">
+        <p>これまでHome AssistantはRaspbianにインストールしたDocker上で動かしていたがHass.ioに移行した．<br>
+移行にあたって実施したことをまとめておく．</p>
+<h2 id="hassioとは">Hass.ioとは</h2>
+<p><a href="https://www.home-assistant.io/hassio/">Hass.io - Home Assistant</a></p>
+<p>Home Assistantインストール済みのOSイメージ．Home Assistantに加えて様々な追加機能が実装されており，Home AssistantのUIから制御することができる．</p>
+<h2 id="なぜ移行したか">なぜ移行したか</h2>
+<p>これまでのデプロイ方法では以下の点で課題を感じていた．</p>
+<h3 id="home-assistantのバージョンアップ方法">Home Assistantのバージョンアップ方法</h3>
+<p>これまで使用していたコンテナイメージは，Home Assisstantのリリースごとにタグがわけられていたため，別のバージョンのHome Assistantをデプロイするには以下のようなことをする必要があった．</p>
+<pre><code>1. 新しいタグのイメージをpull
+2. 現在動いている古いタグのコンテナを停止
+3. 新しいタグのイメージを使ってrun
+</code></pre><p>そのためこれまでは新しいバージョンがリリースされるとRaspbianにSSHでログインし，上のコマンドを実行するシェルスクリプトを叩いていた．<br>
+自動化しようにも手順2でHome Assistantを停止するため，一連の操作はHome Assistant自身では完結させることはできず，これをキックする別のデーモンが必要になる．</p>
+<h3 id="別のサービスをhome-assistantから制御できない">別のサービスをHome Assistantから制御できない</h3>
+<p>Home Assistantと合わせていくつかのソフトウェアをHome Assistantと同様にDocker上にデプロイしていた．</p>
+<p>これらはHome Assistantと同じDockerホスト上にデプロイしており，例えば新しいイメージに更新したい場合は上と同様にRaspbianにSSHでログインして<code>docker</code>コマンドを叩いていた．<br>
+Home Assistantから制御するにはHome AssistantにDockerのAPIを叩かせることになり，これは避けたかった．</p>
+<h4 id="uyorumrpi-python-firetvhttpsgithubcomuyorumrpi-python-firetv"><a href="https://github.com/uyorum/rpi-python-firetv">uyorum/rpi-python-firetv</a></h4>
+<p><a href="https://github.com/happyleavesaoc/python-firetv">こちら</a>上で開発されているソフトウェア．Amazon FireTVを操作するREST APIを提供する．<br>
+Home AssistantからこのAPIを叩いてFireTVを制御する．</p>
+<h4 id="uyorumdash-hahttpsgithubcomuyorumdash-ha"><a href="https://github.com/uyorum/dash-ha">uyorum/dash-ha</a></h4>
+<p>mazon Dash ButtonをトリガーにHome Assistantのイベントを発火させる．<a href="/blog/home-assistant-with-dash-button/">詳細は過去に記事を書いた</a></p>
+<h3 id="バックアップ方法">バックアップ方法</h3>
+<p>Home Assistantには自身をバックアップする手段は提供されておらず，定期的なバックアップをするには若干の作り込みが発生する．<br>
+やればいいだけなのだが面倒で後回しにしていた．</p>
+<h2 id="移行にあたって行ったこと">移行にあたって行ったこと</h2>
+<h3 id="microsdカードを追加で買う">MicroSDカードを追加で買う</h3>
+<p>厳密には必要ないが，他でMicroSDを使うあてがあったのと，念のためいつでも切り戻しができるようにしておきたかったためMicroSDカードを追加で購入した．</p>
+<h3 id="ドキュメントに従ってインストール">ドキュメントに従ってインストール</h3>
+<p><a href="https://www.home-assistant.io/hassio/installation/">公式ドキュメント</a>に従ってインストール．<br>
+とはいえイメージをSDカードに焼くだけ．</p>
+<h3 id="過去のデータは破棄する">過去のデータは破棄する</h3>
+<p>作業を簡単にするため，過去の収集データはHass.ioに移行はせず，すべて破棄することにした．<br>
+移行するならHome Assistantのconfigurationディレクトリにある<code>home-assistant_v2.db</code>を持っていくことになるはず(未確認)</p>
+<h3 id="コンフィグを投入">コンフィグを投入</h3>
+<p><a href="https://www.home-assistant.io/addons/configurator/">Web UIから設定できるadd-onがある</a>のだが，自分の環境ではうまく動かなかったのでひとまずは<a href="https://www.home-assistant.io/addons/ssh/">SSH Server add-on</a>でSSHログインして<code>vim</code>で設定を書いていった．<br>
+設定ファイル群にはログイン後の<code>/config</code>あたりからアクセスできる．</p>
+<h3 id="いくつかのadd-onを有効化">いくつかのAdd-onを有効化</h3>
+<p>SSH Add-onに加えていくつかのAdd-onも有効化していく．</p>
+<h4 id="bluetooth-bcm43xx">Bluetooth BCM43xx</h4>
+<p>Raspbery Pi3のBluetoothを使うために必要．Bluetooth Tracker Componentで使う</p>
+<h4 id="mosquitto-broker">Mosquitto broker</h4>
+<p>MQTTはいくつかのデバイスで使っているため入れる．Home Assistantの設定は以下のような感じにした．ホスト名を<code>core-mosquitto</code>と指定するのがポイント</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">mqtt</span>:
+  <span style="color:#f92672">broker</span>: <span style="color:#ae81ff">core-mosquitto</span>
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">1883</span>
+  <span style="color:#f92672">client_id</span>: <span style="color:#ae81ff">hass</span>
+  <span style="color:#f92672">keepalive</span>: <span style="color:#ae81ff">60</span>
+  <span style="color:#f92672">birth_message</span>:
+    <span style="color:#f92672">topic</span>: <span style="color:#e6db74">&#34;home/hass/state&#34;</span>
+    <span style="color:#f92672">payload</span>: <span style="color:#e6db74">&#34;Online&#34;</span>
+    <span style="color:#f92672">qos</span>: <span style="color:#ae81ff">1</span>
+    <span style="color:#f92672">retain</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">will_message</span>:
+    <span style="color:#f92672">topic</span>: <span style="color:#e6db74">&#34;home/hass/state&#34;</span>
+    <span style="color:#f92672">payload</span>: <span style="color:#e6db74">&#34;Offline&#34;</span>
+    <span style="color:#f92672">qos</span>: <span style="color:#ae81ff">1</span>
+    <span style="color:#f92672">retain</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><h3 id="自作サービスのadd-on化">自作サービスのAdd-on化</h3>
+<p>続いて上述の2つのサービスをHass.ioのAdd-onとして実装していく．
+Add-onの作り方は<a href="https://developers.home-assistant.io/docs/en/hassio_addon_index.html">開発者用のドキュメント</a>があるので，これを参照する．
+どうやら中身はDockerコンテナのよう．Dockerでできることはだいたいできそうだった．ただしAdd-on同士の通信やAdd-onとHome Assistantの通信はホスト名の指定に若干のクセがあった．</p>
+<p>できたAdd-onは<a href="https://github.com/uyorum/hassio-addons">こちら</a></p>
+<h2 id="抱えていた課題はどうなったか">抱えていた課題はどうなったか</h2>
+<h3 id="home-assistantのバージョンアップ方法-1">Home Assistantのバージョンアップ方法</h3>
+<ul>
+<li>Web UIからワンクリックで実行できるようになった</li>
+<li>おそらくAPIかコマンドでも実行できるはず(未確認)
+<ul>
+<li>それができれば例えば新しいバージョンがリリースされたら外出中に自動でアップグレードといったことが自動でできる</li>
+</ul>
+</li>
+</ul>
+<h3 id="別のサービスをhome-assistantから制御できない-1">別のサービスをHome Assistantから制御できない</h3>
+<ul>
+<li>すべてHass.ioのAdd-onとして実装できたため，起動/停止/アップグレードなどはHass.ioから制御できるようになった</li>
+</ul>
+<h3 id="バックアップ方法-1">バックアップ方法</h3>
+<ul>
+<li>ローカルへのバックアップWeb UIからワンクリックで実行できるようになった
+<ul>
+<li>Add-onの設定などもバックアップできるので楽になった</li>
+</ul>
+</li>
+<li>Add-onとしてよりリッチなバックアップ(例えばクラウド上にアップロードするなど)も実装できそう</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>OSやPython実行環境のレイヤーがほとんど隠蔽されているため，Hass.ioを使うことでよりHome Assistantを使うことに集中できるようになった．<br>
+また，使い始める前はオールインワンが故に汎用性や自由度の低さを懸念していたが，Add-on機構の完成度が高く，自由度もある．さらにHome Assistantと独立したサービスとしてデプロイするよりは管理がしやすくなった．</p>
+<p>以上</p>
+      </section>
+      <aside>
+        <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fhassio-introduction%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Home%20Assistant%e3%81%ae%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%82%92Hass.io%e3%81%ab%e3%81%97%e3%81%9f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fhassio-introduction%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fhassio-introduction%2f&amp;title=Home%20Assistant%e3%81%ae%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%82%92Hass.io%e3%81%ab%e3%81%97%e3%81%9f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Home%20Assistant%e3%81%ae%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%82%92Hass.io%e3%81%ab%e3%81%97%e3%81%9f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fhassio-introduction%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+      </aside>
+      
+        <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      
+    </article>
+  </main>
+
+
+	<footer role="contentinfo">
+		<div class="hr"></div>
+		<div class="footer-link">
+			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+			
+			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+			
+      
+		</div>
+		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+	</footer>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-43857839-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+
