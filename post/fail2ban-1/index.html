@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -54,7 +54,7 @@
     </span>
     <section itemprop="entry-text">
       <p>久しぶりにfail2banを使ったら設定方法を調べるのに苦戦したのでメモ</p>
-<!-- more -->
+<!-- raw HTML omitted -->
 <h1 id="やりたいこと">やりたいこと</h1>
 <ul>
 <li>以下のようなアクセスを行なったIPアドレスをBotとみなす
@@ -67,17 +67,17 @@
 <li>一度BotとみなしたIPアドレスは永久にブロックする</li>
 </ul>
 <h1 id="環境">環境</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># cat /etc/redhat-release</span>
-CentOS Linux release 7.6.1810 <span style="color:#f92672">(</span>Core<span style="color:#f92672">)</span>
-<span style="color:#75715e"># yum list fail2ban</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cat /etc/redhat-release</span>
+CentOS Linux release 7.6.1810 <span class="o">(</span>Core<span class="o">)</span>
+<span class="c1"># yum list fail2ban</span>
 fail2ban.noarch     0.9.7-1.el7     @epel
 </code></pre></div><h1 id="情報源">情報源</h1>
 <p>いろいろ調べたが結局<code>man</code>が一番参考になるし信用できる．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ man fail2ban
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ man fail2ban
 $ man jail.conf
 $ man ipset
 </code></pre></div><h1 id="インストール">インストール</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># yum install -y fail2ban</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># yum install -y fail2ban</span>
 </code></pre></div><h1 id="設定ファイル類">設定ファイル類</h1>
 <p>設定ファイルは<code>/etc/fail2ban</code>に集まっている．</p>
 <ul>
@@ -108,14 +108,14 @@ IPをブロックする方法(action)を定義する</li>
 <h2 id="sshで認証に失敗したアクセスの送信元アドレスをbotとみなす">SSHで認証に失敗したアクセスの送信元アドレスをBotとみなす</h2>
 <p>jail.confにははじめから以下の内容が書かれている(抜粋)</p>
 <p>jail.conf:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[DEFAULT]</span>
-<span style="color:#a6e22e">enabled</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">false</span>
-<span style="color:#a6e22e">filter</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(__name__)s</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[DEFAULT]</span>
+<span class="na">enabled</span> <span class="o">=</span> <span class="s">false</span>
+<span class="na">filter</span> <span class="o">=</span> <span class="s">%(__name__)s</span>
 
-<span style="color:#66d9ef">[sshd]</span>
-<span style="color:#a6e22e">port</span>    <span style="color:#f92672">=</span> <span style="color:#e6db74">ssh</span>
-<span style="color:#a6e22e">logpath</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(sshd_log)s</span>
-<span style="color:#a6e22e">backend</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(sshd_backend)s</span>
+<span class="k">[sshd]</span>
+<span class="na">port</span>    <span class="o">=</span> <span class="s">ssh</span>
+<span class="na">logpath</span> <span class="o">=</span> <span class="s">%(sshd_log)s</span>
+<span class="na">backend</span> <span class="o">=</span> <span class="s">%(sshd_backend)s</span>
 </code></pre></div><ul>
 <li><code>sshd</code>jailは定義されているが無効化されている</li>
 <li>filter名は<code>sshd</code>(fail名と同名)</li>
@@ -123,27 +123,27 @@ IPをブロックする方法(action)を定義する</li>
 </ul>
 <p>パラメータはこのままでよさそうなのでこのjailを有効化する</p>
 <p>jail.d/sshd.local:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[sshd]</span>
-<span style="color:#a6e22e">enabled</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">true</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[sshd]</span>
+<span class="na">enabled</span> <span class="o">=</span> <span class="s">true</span>
 </code></pre></div><h2 id="httpやhttpsでよくある攻撃対象のパスへアクセスしてきた送信元アドレスをbotとみなす">HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレスをBotとみなす</h2>
 <p>自分の環境ではNginxでこれらのポートをリッスンしている．これもやりたいことを実現できそうなjailがデフォルトで定義されている．</p>
 <p>jail.conf:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[nginx-botsearch]</span>
-<span style="color:#a6e22e">port</span>     <span style="color:#f92672">=</span> <span style="color:#e6db74">http,https</span>
-<span style="color:#a6e22e">logpath</span>  <span style="color:#f92672">=</span> <span style="color:#e6db74">%(nginx_error_log)s</span>
-<span style="color:#a6e22e">maxretry</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">2</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[nginx-botsearch]</span>
+<span class="na">port</span>     <span class="o">=</span> <span class="s">http,https</span>
+<span class="na">logpath</span>  <span class="o">=</span> <span class="s">%(nginx_error_log)s</span>
+<span class="na">maxretry</span> <span class="o">=</span> <span class="s">2</span>
 </code></pre></div><p>error¥_logを見るようになっているが自分の場合はaccess¥_logを見てリクエストのパスから判断したかったのでいくつか設定を変更した．filterも上書きしている．</p>
 <p>filter.d/nginx-botsearch.local:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[Definition]</span>
-<span style="color:#a6e22e">failregex</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">^&lt;HOST&gt; \- \S+ \[\] \&#34;(GET|POST|HEAD) \/&lt;block&gt; \S+\&#34; .+$
-</span><span style="color:#e6db74">            ^ \[error\] \d+#\d+: \*\d+ (\S+ )?\&#34;\S+\&#34; (failed|is not found) \(2\: No such file or directory\), client\: &lt;HOST&gt;\, server\: \S*\, request: \&#34;(GET|POST|HEAD) \/&lt;block&gt; \S+\&#34;\, .*?$
-</span><span style="color:#e6db74">            ^&lt;HOST&gt; -.*&#34;(GET|POST|PUT|HEAD) .*\.(php|jsp) HTTP\/.*$
-</span><span style="color:#e6db74">            ^&lt;HOST&gt; -.*&#34;GET https?\:\/\/.*/latest/meta-data HTTP\/.*$</span>
-<span style="color:#a6e22e">ignoreregex</span> <span style="color:#f92672">=</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Definition]</span>
+<span class="na">failregex</span> <span class="o">=</span> <span class="s">^&lt;HOST&gt; \- \S+ \[\] \&#34;(GET|POST|HEAD) \/&lt;block&gt; \S+\&#34; .+$
+</span><span class="s">            ^ \[error\] \d+#\d+: \*\d+ (\S+ )?\&#34;\S+\&#34; (failed|is not found) \(2\: No such file or directory\), client\: &lt;HOST&gt;\, server\: \S*\, request: \&#34;(GET|POST|HEAD) \/&lt;block&gt; \S+\&#34;\, .*?$
+</span><span class="s">            ^&lt;HOST&gt; -.*&#34;(GET|POST|PUT|HEAD) .*\.(php|jsp) HTTP\/.*$
+</span><span class="s">            ^&lt;HOST&gt; -.*&#34;GET https?\:\/\/.*/latest/meta-data HTTP\/.*$</span>
+<span class="na">ignoreregex</span> <span class="o">=</span>
 </code></pre></div><p>jail.d/nginx-botsearch.local:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[nginx-botsearch]</span>
-<span style="color:#a6e22e">enabled</span>  <span style="color:#f92672">=</span> <span style="color:#e6db74">true</span>
-<span style="color:#a6e22e">logpath</span>  <span style="color:#f92672">=</span> <span style="color:#e6db74">%(nginx_access_log)s</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[nginx-botsearch]</span>
+<span class="na">enabled</span>  <span class="o">=</span> <span class="s">true</span>
+<span class="na">logpath</span>  <span class="o">=</span> <span class="s">%(nginx_access_log)s</span>
 </code></pre></div><h2 id="botとみなしたipアドレスからのアクセスは以後すべてのポートでdropするようにする">BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする</h2>
 <p>これはactionで設定する．
 このサーバではFirewalldを使用しているので，fail2banでもFirwalldを通して設定するようにしたい．また今回の設定では大量のIPアドレスをブロックすることになるのでipsetを使いたい．(iptablesに大量のルールを設定するとパフォーマンスに影響がありそうだったため)
@@ -151,31 +151,31 @@ IPをブロックする方法(action)を定義する</li>
 fail2ban起動時にipsetを作成しDROPするようなルールをFirewalldで設定している(ダイレクトルールを使用)．
 検知時にipsetへIPアドレスを追加するようにする．</p>
 <p>action.d/firewallcmd-ipset.local:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[Definition]</span>
-<span style="color:#a6e22e">actionstart</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">ipset create fail2ban-&lt;name&gt; hash:ip
-</span><span style="color:#e6db74">              firewall-cmd --direct --add-rule ipv4 filter &lt;chain&gt; 0 -m set --match-set fail2ban-&lt;name&gt; src -j &lt;blocktype&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Definition]</span>
+<span class="na">actionstart</span> <span class="o">=</span> <span class="s">ipset create fail2ban-&lt;name&gt; hash:ip
+</span><span class="s">              firewall-cmd --direct --add-rule ipv4 filter &lt;chain&gt; 0 -m set --match-set fail2ban-&lt;name&gt; src -j &lt;blocktype&gt;</span>
 
-<span style="color:#a6e22e">actionstop</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">firewall-cmd --direct --remove-rule ipv4 filter &lt;chain&gt; 0 -m set --match-set fail2ban-&lt;name&gt; src -j &lt;blocktype&gt;
-</span><span style="color:#e6db74">             ipset flush fail2ban-&lt;name&gt;
-</span><span style="color:#e6db74">             ipset destroy fail2ban-&lt;name&gt;</span>
+<span class="na">actionstop</span> <span class="o">=</span> <span class="s">firewall-cmd --direct --remove-rule ipv4 filter &lt;chain&gt; 0 -m set --match-set fail2ban-&lt;name&gt; src -j &lt;blocktype&gt;
+</span><span class="s">             ipset flush fail2ban-&lt;name&gt;
+</span><span class="s">             ipset destroy fail2ban-&lt;name&gt;</span>
 
-<span style="color:#a6e22e">actionban</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">ipset add fail2ban-&lt;name&gt; &lt;ip&gt; -exist</span>
+<span class="na">actionban</span> <span class="o">=</span> <span class="s">ipset add fail2ban-&lt;name&gt; &lt;ip&gt; -exist</span>
 
-<span style="color:#66d9ef">[Init]</span>
-<span style="color:#a6e22e">blocktype</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">DROP</span>
+<span class="k">[Init]</span>
+<span class="na">blocktype</span> <span class="o">=</span> <span class="s">DROP</span>
 </code></pre></div><p>jail.local:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">(抜粋)</span>
-<span style="color:#66d9ef">[DEFAULT]</span>
-<span style="color:#a6e22e">banaction</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">firewallcmd-ipset</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">(抜粋)</span>
+<span class="k">[DEFAULT]</span>
+<span class="na">banaction</span> <span class="o">=</span> <span class="s">firewallcmd-ipset</span>
 </code></pre></div><h2 id="一度botとみなしたipアドレスは永久にブロックする">一度BotとみなしたIPアドレスは永久にブロックする</h2>
 <p><code>jail.conf</code>(<code>jail.local</code>)には<code>bantime</code>というパラメータがある</p>
 <pre><code>bantime
     effective ban duration (in seconds).
 </code></pre><p>永久にBANしたい場合の値が読みとれなかったが，試してみたところ0にするとBANした瞬間にunBANの処理が実行されてしまった．よってここの値は便宜上-1にしておく．</p>
 <p>jail.local:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">(抜粋)</span>
-<span style="color:#66d9ef">[DEFAULT]</span>
-<span style="color:#a6e22e">bantime</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">-1</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">(抜粋)</span>
+<span class="k">[DEFAULT]</span>
+<span class="na">bantime</span> <span class="o">=</span> <span class="s">-1</span>
 </code></pre></div><p>ここの値はactionの中で<code>&lt;bantime&gt;</code>のように書くことで使用できる．今回の場合はactionを自分で定義したが，上で書いた定義で永久BANが実現できている．
 ipsetはtimeoutオプションでエントリの寿命を設定できるが，何も指定しないと永久にエントリが残るようだった．</p>
 <p>以上．</p>

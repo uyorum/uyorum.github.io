@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -54,7 +54,7 @@
     </span>
     <section itemprop="entry-text">
       <p>前回に引き続き、久しぶりにUbuntuを触ったらてこずったのでメモ。</p>
-<!-- more -->
+<!-- raw HTML omitted -->
 <p>Linuxでキーマップをカスタマイズする方法といったらXmodmapだったが<a href="https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions">現在は違うらしい</a>。
 Xmodmapでも一時的にキーマップは変わるが、いつのまにか元に戻ってしまう。
 代わりに現在ではxkbというものを使うらしい。</p>
@@ -76,27 +76,27 @@ Xmodmapでも一時的にキーマップは変わるが、いつのまにか元�
 <li>(Apple Magic Keyboard) <strong>かな</strong> を <strong>Control</strong> へ</li>
 </ul>
 <p>xkbのドキュメントをすべて読めば書き方がわかるのかもしれないが、よくわからなかったのでひとまずネット上の記事を参考にして書いた。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mkdir -p $HOME/.xkb/symbols
-$ cat - <span style="color:#e6db74">&lt;&lt;EOF &gt;$HOME/.xkb/symbols/custom
-</span><span style="color:#e6db74">partial modifier_keys
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">xkb_symbols {
-</span><span style="color:#e6db74">    key &lt;CAPS&gt; { [ Control_L, Control_L ] };
-</span><span style="color:#e6db74">    modifier_map Control { &lt;CAPS&gt; };
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">    key &lt;MUHE&gt; { [ Control_L, Control_L ] };
-</span><span style="color:#e6db74">    modifier_map Control { &lt;MUHE&gt; };
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">    key &lt;HENK&gt; { [ Shift_R ] };
-</span><span style="color:#e6db74">    modifier_map Shift { &lt;HENK&gt; };
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">    key &lt;HJCV&gt; { [ Control_L, Control_L ] };
-</span><span style="color:#e6db74">    modifier_map Control { &lt;HJCV&gt; };
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">    key &lt;HNGL&gt; { [ Shift_R ] };
-</span><span style="color:#e6db74">    modifier_map Shift { &lt;HNGL&gt; };
-</span><span style="color:#e6db74">};
-</span><span style="color:#e6db74">EOF</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ mkdir -p <span class="nv">$HOME</span>/.xkb/symbols
+$ cat - <span class="s">&lt;&lt;EOF &gt;$HOME/.xkb/symbols/custom
+</span><span class="s">partial modifier_keys
+</span><span class="s">
+</span><span class="s">xkb_symbols {
+</span><span class="s">    key &lt;CAPS&gt; { [ Control_L, Control_L ] };
+</span><span class="s">    modifier_map Control { &lt;CAPS&gt; };
+</span><span class="s">
+</span><span class="s">    key &lt;MUHE&gt; { [ Control_L, Control_L ] };
+</span><span class="s">    modifier_map Control { &lt;MUHE&gt; };
+</span><span class="s">
+</span><span class="s">    key &lt;HENK&gt; { [ Shift_R ] };
+</span><span class="s">    modifier_map Shift { &lt;HENK&gt; };
+</span><span class="s">
+</span><span class="s">    key &lt;HJCV&gt; { [ Control_L, Control_L ] };
+</span><span class="s">    modifier_map Control { &lt;HJCV&gt; };
+</span><span class="s">
+</span><span class="s">    key &lt;HNGL&gt; { [ Shift_R ] };
+</span><span class="s">    modifier_map Shift { &lt;HNGL&gt; };
+</span><span class="s">};
+</span><span class="s">EOF</span>
 </code></pre></div><p>CAPS、MUHEなどの文字列は</p>
 <ol>
 <li><code>xev</code>でkeycodeを調べて</li>
@@ -106,25 +106,25 @@ $ cat - <span style="color:#e6db74">&lt;&lt;EOF &gt;$HOME/.xkb/symbols/custom
 <p><code>Control_L, Control_L</code>と書いている箇所の2つめの<code>Control_L</code>はShiftを押しながそのキーを押したときもControlとして動作させるため。
 後述するが期待通り動いていない。</p>
 <p>上で定義した<code>custom</code>シンボルを上書きで読み込めばよい。現在のキーマップを調べて<code>custom</code>を追加する。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ setxkbmap -print
-xkb_keymap <span style="color:#f92672">{</span>
-        xkb_keycodes  <span style="color:#f92672">{</span> include <span style="color:#e6db74">&#34;evdev+aliases(qwerty)&#34;</span> <span style="color:#f92672">}</span>;
-        xkb_types     <span style="color:#f92672">{</span> include <span style="color:#e6db74">&#34;complete&#34;</span>      <span style="color:#f92672">}</span>;
-        xkb_compat    <span style="color:#f92672">{</span> include <span style="color:#e6db74">&#34;complete&#34;</span>      <span style="color:#f92672">}</span>;
-        xkb_symbols   <span style="color:#f92672">{</span> include <span style="color:#e6db74">&#34;pc+jp+us:2+inet(evdev)&#34;</span>        <span style="color:#f92672">}</span>;
-        xkb_geometry  <span style="color:#f92672">{</span> include <span style="color:#e6db74">&#34;pc(pc105)&#34;</span>     <span style="color:#f92672">}</span>;
-<span style="color:#f92672">}</span>;
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ setxkbmap -print
+xkb_keymap <span class="o">{</span>
+        xkb_keycodes  <span class="o">{</span> include <span class="s2">&#34;evdev+aliases(qwerty)&#34;</span> <span class="o">}</span><span class="p">;</span>
+        xkb_types     <span class="o">{</span> include <span class="s2">&#34;complete&#34;</span>      <span class="o">}</span><span class="p">;</span>
+        xkb_compat    <span class="o">{</span> include <span class="s2">&#34;complete&#34;</span>      <span class="o">}</span><span class="p">;</span>
+        xkb_symbols   <span class="o">{</span> include <span class="s2">&#34;pc+jp+us:2+inet(evdev)&#34;</span>        <span class="o">}</span><span class="p">;</span>
+        xkb_geometry  <span class="o">{</span> include <span class="s2">&#34;pc(pc105)&#34;</span>     <span class="o">}</span><span class="p">;</span>
+<span class="o">}</span><span class="p">;</span>
 </code></pre></div><p>の場合は、</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat - <span style="color:#e6db74">&lt;&lt;EOF &gt;$HOME/.keymap.xkb
-</span><span style="color:#e6db74">xkb_keymap {
-</span><span style="color:#e6db74">        xkb_keycodes  { include &#34;evdev+aliases(qwerty)&#34; };
-</span><span style="color:#e6db74">        xkb_types     { include &#34;complete&#34;      };
-</span><span style="color:#e6db74">        xkb_compat    { include &#34;complete&#34;      };
-</span><span style="color:#e6db74">        xkb_symbols   { include &#34;pc+jp+us:2+inet(evdev)+custom&#34; };
-</span><span style="color:#e6db74">        xkb_geometry  { include &#34;pc(pc105)&#34;     };
-</span><span style="color:#e6db74">};
-</span><span style="color:#e6db74">EOF</span>
-$ xkbcomp -I$HOME/.xkb $HOME/.keymap.xkb $DISPLAY 2&gt;/dev/null
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat - <span class="s">&lt;&lt;EOF &gt;$HOME/.keymap.xkb
+</span><span class="s">xkb_keymap {
+</span><span class="s">        xkb_keycodes  { include &#34;evdev+aliases(qwerty)&#34; };
+</span><span class="s">        xkb_types     { include &#34;complete&#34;      };
+</span><span class="s">        xkb_compat    { include &#34;complete&#34;      };
+</span><span class="s">        xkb_symbols   { include &#34;pc+jp+us:2+inet(evdev)+custom&#34; };
+</span><span class="s">        xkb_geometry  { include &#34;pc(pc105)&#34;     };
+</span><span class="s">};
+</span><span class="s">EOF</span>
+$ xkbcomp -I<span class="nv">$HOME</span>/.xkb <span class="nv">$HOME</span>/.keymap.xkb <span class="nv">$DISPLAY</span> 2&gt;/dev/null
 </code></pre></div><p>最後の<code>xkbcomp</code>で適用される。このコマンドをログイン時に自動で実行されるようにすればよい。</p>
 <h2 id="課題">課題</h2>
 <ul>

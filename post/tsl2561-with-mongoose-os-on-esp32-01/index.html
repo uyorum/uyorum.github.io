@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -58,7 +58,7 @@
 最後にESP32へのMongooseOSのインストールも行っておく．</p>
 <h2 id="環境">環境</h2>
 <h3 id="作業端末">作業端末</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sw_vers
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sw_vers
 ProductName:    Mac OS X
 ProductVersion: 10.11.6
 BuildVersion:   15G1611
@@ -71,8 +71,8 @@ BuildVersion:   15G1611
 <h3 id="rasbianのセットアップ">Rasbianのセットアップ</h3>
 <p>I2C向けのセットアップは以下の書籍を参考にした．<br>
 <a href="http://bluebacks.kodansha.co.jp/special/rspi.html">Raspberry Piで学ぶ電子工作　超小型コンピュータで電子回路を制御する　サポートページ｜ブルーバックス｜講談社BOOK倶楽部</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo raspi-config
-<span style="color:#f92672">(</span>Interfacing -&gt; I2C -&gt; enable<span style="color:#f92672">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo raspi-config
+<span class="o">(</span>Interfacing -&gt; I2C -&gt; <span class="nb">enable</span><span class="o">)</span>
 $ sudo reboot
 $ sudo apt-get update
 $ sudo apt-get install -y i2c-tools python-smbus
@@ -114,7 +114,7 @@ $ sudo apt-get install -y i2c-tools python-smbus
 <li><a href="https://jp.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers">USB - UART ブリッジ VCP ドライバ|Silicon Labs</a> からドライバをダウンロード、インストールしておく</li>
 </ul>
 <p>ESP32へのMongooseOSのインストールは公式サイト記載の方法ではうまくいかなった．いろいろ調べたところ以下の方法でインストールできた．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mos flash --firmware https://mongoose-os.com/downloads/mos-esp32.zip
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ mos flash --firmware https://mongoose-os.com/downloads/mos-esp32.zip
 $ mos wifi &lt;SSID&gt; &lt;PASSWORD&gt;
 </code></pre></div><p>コマンド<code>mos</code>を実行するとブラウザが起動してGUIからMongooseOSを操作できるようになる．コードもここで書いていくことになる．</p>
 <p>ここまででTSL2561の扱いの理解とMongooseOSでコードを書く準備ができた．続いてMongooseOS用のコードを実装していく．</p>

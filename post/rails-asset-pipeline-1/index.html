@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -57,13 +57,13 @@
 いろいろと知識を詰め込んだので復習も兼ねてまとめていく．
 おそらくRailsを使い慣れている人にとっては基本的すぎる内容．</p>
 <h2 id="環境">環境</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ruby -v
-geruby 2.4.0p0 <span style="color:#f92672">(</span>2016-12-24 revision 57164<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>x86_64-darwin15<span style="color:#f92672">]</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ruby -v
+geruby 2.4.0p0 <span class="o">(</span>2016-12-24 revision 57164<span class="o">)</span> <span class="o">[</span>x86_64-darwin15<span class="o">]</span>
 $ gem list -l ^rails$
 
 *** LOCAL GEMS ***
 
-rails <span style="color:#f92672">(</span>4.2.8<span style="color:#f92672">)</span>
+rails <span class="o">(</span>4.2.8<span class="o">)</span>
 </code></pre></div><h2 id="アセットとは">アセットとは</h2>
 <p>定義が見つからなかったが，おそらく以下のような感じ．</p>
 <pre><code>Railsのサーバから配信するコンテンツのうち，Viewにより生成されたもの以外
@@ -86,18 +86,18 @@ rails <span style="color:#f92672">(</span>4.2.8<span style="color:#f92672">)</sp
 <h2 id="インクルード">インクルード</h2>
 <p>通常，クライアントへ配信されるのは<code>app/assets/javascripts/application.js</code>と<code>app/assets/stylesheets/application.css</code>である．
 実際，デフォルトの内容を削除してみると，レスポンスに含まれるstylesheetとscriptは<code>application.css</code>および<code>application.js</code>のみである．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat /dev/null &gt; app/assets/javascripts/application.js
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /dev/null &gt; app/assets/javascripts/application.js
 $ cat /dev/null &gt; app/assets/stylesheets/application.css
-$ rails s &amp;
+$ rails s <span class="p">&amp;</span>
 $ curl localhost:3000
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;PlayRubyOnRails&lt;/title&gt;
-  &lt;link rel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> media<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;all&#34;</span> href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application.self.css?body=1&#34;</span> /&gt;
-  &lt;script src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
-  &lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-param&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;authenticity_token&#34;</span> /&gt;
-&lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-token&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;y6ytycY6X3PLUW5E6YTxIcEAC9CovDLYNqdipEqLvE/GXPGQIVq2LRvMMSQvauxmmVNEVvwlhSp3cQ1je+HWVw==&#34;</span> /&gt;
+  &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">media</span><span class="o">=</span><span class="s2">&#34;all&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/assets/application.self.css?body=1&#34;</span> /&gt;
+  &lt;script <span class="nv">src</span><span class="o">=</span><span class="s2">&#34;/assets/application.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
+  &lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;csrf-param&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;authenticity_token&#34;</span> /&gt;
+&lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;csrf-token&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;y6ytycY6X3PLUW5E6YTxIcEAC9CovDLYNqdipEqLvE/GXPGQIVq2LRvMMSQvauxmmVNEVvwlhSp3cQ1je+HWVw==&#34;</span> /&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -108,30 +108,30 @@ $ curl localhost:3000
 &lt;/html&gt;
 </code></pre></div><p>ただし特別な文法により，これらのファイルに別のファイルを<code>挿入</code>することができる．
 例として以下の<code>example_script.js</code>と<code>example_style.css</code>をそれぞれ<code>application.js</code>と<code>application.css</code>に挿入する．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ echo <span style="color:#e6db74">&#39;// example_script.js&#39;</span> &gt;  vendor/assets/javascripts/example_script.js
-$ echo <span style="color:#e6db74">&#39;/* example_style.css */&#39;</span> &gt; vendor/assets/stylesheets/example_style.css
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">echo</span> <span class="s1">&#39;// example_script.js&#39;</span> &gt;  vendor/assets/javascripts/example_script.js
+$ <span class="nb">echo</span> <span class="s1">&#39;/* example_style.css */&#39;</span> &gt; vendor/assets/stylesheets/example_style.css
 </code></pre></div><ul>
 <li>app/assets/javascripts/application.js</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">//= require example_script
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">//= require example_script
 </span></code></pre></div><ul>
 <li>app/assets/stylesheets/application.css</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/*
-</span><span style="color:#75715e"> *= require example_style
-</span><span style="color:#75715e"> */</span>
+<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="c">/*
+</span><span class="c"> *= require example_style
+</span><span class="c"> */</span>
 </code></pre></div><p>サーバからのレスポンスは以下のように変わる</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl localhost:3000
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl localhost:3000
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;PlayRubyOnRails&lt;/title&gt;
-  &lt;link rel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> media<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;all&#34;</span> href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/example_style.self.css?body=1&#34;</span> /&gt;
-&lt;link rel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> media<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;all&#34;</span> href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application.self.css?body=1&#34;</span> /&gt;
-  &lt;script src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/example_script.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
-&lt;script src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
-  &lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-param&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;authenticity_token&#34;</span> /&gt;
-&lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-token&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;gbwYN47/sxpRHGPNzTr0hSqyDnZJL2L21r+9R77Inc3ytUyGKTjhpXe9JYKdafnLgXqaYUdEKqJgtwSvNt8Qmg==&#34;</span> /&gt;
+  &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">media</span><span class="o">=</span><span class="s2">&#34;all&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/assets/example_style.self.css?body=1&#34;</span> /&gt;
+&lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">media</span><span class="o">=</span><span class="s2">&#34;all&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/assets/application.self.css?body=1&#34;</span> /&gt;
+  &lt;script <span class="nv">src</span><span class="o">=</span><span class="s2">&#34;/assets/example_script.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
+&lt;script <span class="nv">src</span><span class="o">=</span><span class="s2">&#34;/assets/application.self.js?body=1&#34;</span>&gt;&lt;/script&gt;
+  &lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;csrf-param&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;authenticity_token&#34;</span> /&gt;
+&lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;csrf-token&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;gbwYN47/sxpRHGPNzTr0hSqyDnZJL2L21r+9R77Inc3ytUyGKTjhpXe9JYKdafnLgXqaYUdEKqJgtwSvNt8Qmg==&#34;</span> /&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -141,10 +141,10 @@ $ echo <span style="color:#e6db74">&#39;/* example_style.css */&#39;</span> &gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre></div><p><code>example_style.css</code>と<code>example_script.js</code>が追加されている．それぞれの内容も先ほど作成した通りである</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl <span style="color:#e6db74">&#39;localhost:3000/assets/example_style.self.css?body=1&#39;</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl <span class="s1">&#39;localhost:3000/assets/example_style.self.css?body=1&#39;</span>
 /* example_style.css */
 
-$ curl <span style="color:#e6db74">&#39;localhost:3000/assets/example_script.self.js?body=1&#39;</span>
+$ curl <span class="s1">&#39;localhost:3000/assets/example_script.self.js?body=1&#39;</span>
 // example_script.js
 </code></pre></div><p>以上がインクルード機能である．なおインクルード対象のアセットの探索場所はあらかじめ設定されており，<code>Rails.application.config.assets.paths</code>で確認することができる．
 確認したところ，<code>Rails.root</code>とGemのインストールディレクトリ以下の<code>{app,lib,vendor}/assets/{javascripts,stylesheets,images}</code>が追加されていた．</p>
@@ -158,46 +158,46 @@ production環境では動的にアセットを処理することはなく，事�
 <ul>
 <li>app/assets/javascripts/application.js</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">//= require example_script
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">application</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">foo</span>;
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">//= require example_script
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">application</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">;</span>
 </code></pre></div><ul>
 <li>app/assets/javascripts/example_script.js</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// example_script.js
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">example_script</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">bar</span>;
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">// example_script.js
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">example_script</span> <span class="o">=</span> <span class="nx">bar</span><span class="p">;</span>
 </code></pre></div><ul>
 <li>app/assets/stylesheets/application.css</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/*
-</span><span style="color:#75715e"> *= require example_style
-</span><span style="color:#75715e"> */</span>
-<span style="color:#f92672">h1</span> {
-  <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">3</span><span style="color:#66d9ef">em</span>;
-}
+<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="c">/*
+</span><span class="c"> *= require example_style
+</span><span class="c"> */</span>
+<span class="nt">h1</span> <span class="p">{</span>
+  <span class="k">font-size</span><span class="p">:</span> <span class="mi">3</span><span class="kt">em</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div><ul>
 <li>app/assets/stylesheets/example_style.css</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/* example_style.css */</span>
-<span style="color:#f92672">h2</span> {
-  <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">1.2</span><span style="color:#66d9ef">em</span>;
-}
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ RAILS_ENV<span style="color:#f92672">=</span>production bundle exec rake assets:precompile
-I, <span style="color:#f92672">[</span>2017-03-05T16:32:17.543841 <span style="color:#75715e">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js</span>
-I, <span style="color:#f92672">[</span>2017-03-05T16:32:17.550791 <span style="color:#75715e">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js.gz</span>
-I, <span style="color:#f92672">[</span>2017-03-05T16:32:17.558124 <span style="color:#75715e">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css</span>
-I, <span style="color:#f92672">[</span>2017-03-05T16:32:17.558406 <span style="color:#75715e">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css.gz</span>
+<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="c">/* example_style.css */</span>
+<span class="nt">h2</span> <span class="p">{</span>
+  <span class="k">font-size</span><span class="p">:</span> <span class="mf">1.2</span><span class="kt">em</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec</span> rake assets:precompile
+I, <span class="o">[</span>2017-03-05T16:32:17.543841 <span class="c1">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js</span>
+I, <span class="o">[</span>2017-03-05T16:32:17.550791 <span class="c1">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js.gz</span>
+I, <span class="o">[</span>2017-03-05T16:32:17.558124 <span class="c1">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css</span>
+I, <span class="o">[</span>2017-03-05T16:32:17.558406 <span class="c1">#10704]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css.gz</span>
 </code></pre></div><p>なお，<code>config.assets.digest = false</code>を設定しているにも関わらずファイル名にダイジェストが含まれてしまうのは仕様のようだ．<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <p>production環境でRailsを起動してアクセスしてみるとレスポンスは以下のようになっている．(環境変数<code>SECRET_KEY_BASE</code>と<code>RAILS_SERVE_STATIC_FILES</code>についての説明はここでは省略する．)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ RAILS_ENV<span style="color:#f92672">=</span>production SECRET_KEY_BASE<span style="color:#f92672">=</span>secret RAILS_SERVE_STATIC_FILES<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> rails s &amp;
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">SECRET_KEY_BASE</span><span class="o">=</span>secret <span class="nv">RAILS_SERVE_STATIC_FILES</span><span class="o">=</span><span class="m">1</span> rails s <span class="p">&amp;</span>
 $ curl localhost:3000
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;PlayRubyOnRails&lt;/title&gt;
-  &lt;link rel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> media<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;all&#34;</span> href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css&#34;</span> /&gt;
-  &lt;script src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js&#34;</span>&gt;&lt;/script&gt;
-  &lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-param&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;authenticity_token&#34;</span> /&gt;
-&lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrf-token&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;yuRwf5qcdQ81DfCqhYLYItnc7p6RR52Ny5zahm0vrFuL4p6EFVOPOvjtg25PrjTa4OfybypUlqH6cbra4cuqjA==&#34;</span> /&gt;
+  &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">media</span><span class="o">=</span><span class="s2">&#34;all&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css&#34;</span> /&gt;
+  &lt;script <span class="nv">src</span><span class="o">=</span><span class="s2">&#34;/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js&#34;</span>&gt;&lt;/script&gt;
+  &lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;csrf-param&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;authenticity_token&#34;</span> /&gt;
+&lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;csrf-token&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;yuRwf5qcdQ81DfCqhYLYItnc7p6RR52Ny5zahm0vrFuL4p6EFVOPOvjtg25PrjTa4OfybypUlqH6cbra4cuqjA==&#34;</span> /&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -208,10 +208,10 @@ $ curl localhost:3000
 &lt;/html&gt;
 </code></pre></div><p>development環境ではインクルードしたアセットが列挙されていたが，今回は<code>application.css</code>と<code>application.js</code>だけになっている．
 インクルードした<code>example_script.js</code>と<code>example_style.css</code>はこれらのファイルに挿入されてクラアントへ配信される．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl localhost:3000/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css
-h2<span style="color:#f92672">{</span>font-size:1.2em<span style="color:#f92672">}</span>h1<span style="color:#f92672">{</span>font-size:3em<span style="color:#f92672">}</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl localhost:3000/assets/application-0938fa3aeba7c1cd9ed012d1f09d5ace12fd64a5a6f295b2e326f86403e53aff.css
+h2<span class="o">{</span>font-size:1.2em<span class="o">}</span>h1<span class="o">{</span>font-size:3em<span class="o">}</span>
 $ curl localhost:3000/assets/application-042541b182c1e31682c8f168530408629e368ed21820dbd49b2e78e2aeccaa01.js
-var example_script<span style="color:#f92672">=</span>bar,application<span style="color:#f92672">=</span>foo;
+var <span class="nv">example_script</span><span class="o">=</span>bar,application<span class="o">=</span>foo<span class="p">;</span>
 </code></pre></div><p>ちなみに，単にファイルの内容を結合するだけでなく，以下のような処理が施されているのがわかる．</p>
 <ul>
 <li>不要な改行，空白の削除</li>
@@ -225,35 +225,35 @@ var example_script<span style="color:#f92672">=</span>bar,application<span style
 <ul>
 <li>app/assets/javascripts/addon_script.js</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">addon_script</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hoge</span>;
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">addon_script</span> <span class="o">=</span> <span class="nx">hoge</span><span class="p">;</span>
 </code></pre></div><ul>
 <li>app/views/layouts/application.html.erb</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
-&lt;<span style="color:#f92672">html</span>&gt;
-&lt;<span style="color:#f92672">head</span>&gt;
-  &lt;<span style="color:#f92672">title</span>&gt;PlayRubyOnRails&lt;/<span style="color:#f92672">title</span>&gt;
-  <span style="color:#960050;background-color:#1e0010">&lt;</span>%= stylesheet_link_tag    &#39;application&#39;, media: &#39;all&#39; %&gt;
-  <span style="color:#960050;background-color:#1e0010">&lt;</span>%= javascript_include_tag &#39;application&#39; %&gt;
-  <span style="color:#960050;background-color:#1e0010">&lt;</span>%= javascript_include_tag &#39;addon_script&#39; %&gt;
-  <span style="color:#960050;background-color:#1e0010">&lt;</span>%= csrf_meta_tags %&gt;
-&lt;/<span style="color:#f92672">head</span>&gt;
-&lt;<span style="color:#f92672">body</span>&gt;
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>PlayRubyOnRails<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+  <span class="err">&lt;</span>%= stylesheet_link_tag    &#39;application&#39;, media: &#39;all&#39; %&gt;
+  <span class="err">&lt;</span>%= javascript_include_tag &#39;application&#39; %&gt;
+  <span class="err">&lt;</span>%= javascript_include_tag &#39;addon_script&#39; %&gt;
+  <span class="err">&lt;</span>%= csrf_meta_tags %&gt;
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
 
-<span style="color:#960050;background-color:#1e0010">&lt;</span>%= yield %&gt;
+<span class="err">&lt;</span>%= yield %&gt;
 
-&lt;/<span style="color:#f92672">body</span>&gt;
-&lt;/<span style="color:#f92672">html</span>&gt;
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div><p>このとき，development環境では<code>addon_script.js</code>はアセットの探索パスに含まれているため正常に配信されるのだが，このファイルは実はプリコンパイルされないためproduction環境では配信されない．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ RAILS_ENV<span style="color:#f92672">=</span>production bundle exec rake assets:precompile
-<span style="color:#f92672">(</span>何も出力されない<span style="color:#f92672">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec</span> rake assets:precompile
+<span class="o">(</span>何も出力されない<span class="o">)</span>
 </code></pre></div><p>なぜこのようなことが起こるかというと，Assets Pipelineにはインクルードされたアセットの探索パス(<code>config.assets.paths</code>)とは別にプリコンパイル対象とするアセットの探索パスが設定されているためである．
 デフォルトではプリコンパイルは<code>app/assets</code>以下の<code>.js</code>，<code>.css</code>(<code>addon_script.js</code>はこれに合致する)<strong>以外</strong>のファイルが対象となっている．それ以外のファイルをプリコンパイル対象としたい場合は<code>config.assets.precompile</code>で指定する必要がある．(デフォルトだと<code>config/initializers/assets.rb</code>に書くことになっている)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># addon_script.js をプリコンパイル対象に追加</span>
-$ echo <span style="color:#e6db74">&#39;Rails.application.config.assets.precompile += %w( addon_script.js )&#39;</span> &gt;&gt; config/initializers/assets.rb
-$ RAILS_ENV<span style="color:#f92672">=</span>production bundle exec rake assets:precompile
-I, <span style="color:#f92672">[</span>2017-03-05T17:19:41.045142 <span style="color:#75715e">#45578]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/addon_script-1a95c29effd76a7a053372381062d1ff547d51609534712aa469e4682fe94f39.js</span>
-I, <span style="color:#f92672">[</span>2017-03-05T17:19:41.051197 <span style="color:#75715e">#45578]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/addon_script-1a95c29effd76a7a053372381062d1ff547d51609534712aa469e4682fe94f39.js.gz</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># addon_script.js をプリコンパイル対象に追加</span>
+$ <span class="nb">echo</span> <span class="s1">&#39;Rails.application.config.assets.precompile += %w( addon_script.js )&#39;</span> &gt;&gt; config/initializers/assets.rb
+$ <span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec</span> rake assets:precompile
+I, <span class="o">[</span>2017-03-05T17:19:41.045142 <span class="c1">#45578]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/addon_script-1a95c29effd76a7a053372381062d1ff547d51609534712aa469e4682fe94f39.js</span>
+I, <span class="o">[</span>2017-03-05T17:19:41.051197 <span class="c1">#45578]  INFO -- : Writing /Users/uyorum/play-ruby-on-rails/public/assets/addon_script-1a95c29effd76a7a053372381062d1ff547d51609534712aa469e4682fe94f39.js.gz</span>
 </code></pre></div><p><code>addon_script.js</code>がプリコンパイルされた．</p>
 <p>以上のように，アセットの探索パスには含まれているが，プリコンパイルの対象ではないファイル(<code>application.js</code>や<code>application.css</code>にインクルードしていない<code>.js</code>や<code>.css</code>)がある場合は注意が必要である．(開発環境では正常に動いているが，本番環境で異常が発生してしまう)<br>
 私の場合はこの挙動の違いに気づくまで時間がかかってしまった…</p>

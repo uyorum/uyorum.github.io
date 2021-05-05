@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -59,7 +59,7 @@
 <li>この機器が上流(WiFi親機)へのパケットを転送するときに，パケットの送信元MACを自分のMACに変えてしまう</li>
 <li>ペイロードにMACアドレスが含まれるような通信ではこれが原因で問題が発生しうる</li>
 </ul>
-<!-- more -->
+<!-- raw HTML omitted -->
 <h2 id="構成">構成</h2>
 <ul>
 <li>下図のようにWiFiルータ(AP)にBuffaloのWEX-G300を接続，さらに有線ポートにPC(以下，Host A)を接続している．</li>
@@ -70,17 +70,17 @@
 <h2 id="pingで確認">Pingで確認</h2>
 <p>Host A → Host B へPingを打ってみる．</p>
 <h3 id="host-aでパケットキャプチャ">Host Aでパケットキャプチャ</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo tcpdump -i eno1 -n -e icmp
-tcpdump: verbose output suppressed, use -v or -vv <span style="color:#66d9ef">for</span> full protocol decode
-listening on eno1, link-type EN10MB <span style="color:#f92672">(</span>Ethernet<span style="color:#f92672">)</span>, capture size <span style="color:#ae81ff">262144</span> bytes
-21:43:06.274393 ec:a8:6b:f9:7a:60 &gt; 28:cf:da:02:a5:40, ethertype IPv4 <span style="color:#f92672">(</span>0x0800<span style="color:#f92672">)</span>, length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP echo request, id 1749, seq 1, length <span style="color:#ae81ff">64</span>
-21:43:06.276067 28:cf:da:02:a5:40 &gt; ec:a8:6b:f9:7a:60, ethertype IPv4 <span style="color:#f92672">(</span>0x0800<span style="color:#f92672">)</span>, length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP echo reply, id 1749, seq 1, length <span style="color:#ae81ff">64</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo tcpdump -i eno1 -n -e icmp
+tcpdump: verbose output suppressed, use -v or -vv <span class="k">for</span> full protocol decode
+listening on eno1, link-type EN10MB <span class="o">(</span>Ethernet<span class="o">)</span>, capture size <span class="m">262144</span> bytes
+21:43:06.274393 ec:a8:6b:f9:7a:60 &gt; 28:cf:da:02:a5:40, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP <span class="nb">echo</span> request, id 1749, seq 1, length <span class="m">64</span>
+21:43:06.276067 28:cf:da:02:a5:40 &gt; ec:a8:6b:f9:7a:60, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP <span class="nb">echo</span> reply, id 1749, seq 1, length <span class="m">64</span>
 </code></pre></div><h3 id="host-bでパケットキャプチャ">Host Bでパケットキャプチャ</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo tcpdump -i en1 -n -e icmp
-tcpdump: verbose output suppressed, use -v or -vv <span style="color:#66d9ef">for</span> full protocol decode
-listening on en1, link-type EN10MB <span style="color:#f92672">(</span>Ethernet<span style="color:#f92672">)</span>, capture size <span style="color:#ae81ff">262144</span> bytes
-21:43:06.299805 34:3d:c4:ee:aa:61 &gt; 28:cf:da:02:a5:40, ethertype IPv4 <span style="color:#f92672">(</span>0x0800<span style="color:#f92672">)</span>, length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP echo request, id 1749, seq 1, length <span style="color:#ae81ff">64</span>
-21:43:06.299877 28:cf:da:02:a5:40 &gt; 34:3d:c4:ee:aa:61, ethertype IPv4 <span style="color:#f92672">(</span>0x0800<span style="color:#f92672">)</span>, length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP echo reply, id 1749, seq 1, length <span style="color:#ae81ff">64</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo tcpdump -i en1 -n -e icmp
+tcpdump: verbose output suppressed, use -v or -vv <span class="k">for</span> full protocol decode
+listening on en1, link-type EN10MB <span class="o">(</span>Ethernet<span class="o">)</span>, capture size <span class="m">262144</span> bytes
+21:43:06.299805 34:3d:c4:ee:aa:61 &gt; 28:cf:da:02:a5:40, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP <span class="nb">echo</span> request, id 1749, seq 1, length <span class="m">64</span>
+21:43:06.299877 28:cf:da:02:a5:40 &gt; 34:3d:c4:ee:aa:61, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP <span class="nb">echo</span> reply, id 1749, seq 1, length <span class="m">64</span>
 </code></pre></div><p>ICMP echo requestの送信元MACが異なる値となっている．
 元のパケットの送信元MAC(<code>ec:a8:6b:f9:7a:60</code>)はHost AのNICのMACアドレスなのだが，Host Bが受け取ったパケットの送信元MAC(<code>34:3d:c4:ee:aa:61</code>)はWEX-G300のMACアドレスである．(WEX-G300のMACアドレスはWeb UIから確認できる)</p>
 <p>またICMP echo replyの宛先MACも異なる値となっている．おそらくWEX-G300自身が内部でIPアドレスとMACアドレスの対応表(またはARPテーブル)を持っており，その対応表をもとに正しいMACアドレスと考えられる．</p>

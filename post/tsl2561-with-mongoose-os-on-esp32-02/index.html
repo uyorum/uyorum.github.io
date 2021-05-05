@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -79,13 +79,13 @@ Mongoose OSの設定とTSL2561を使うためのコードを書いていく．</
 <p>I2Cデバイスのピンをどのピンに接続すればよいのかわからずにここで結構時間を使った．
 <code>mos</code>で起動するMongoose OSのWeb UIから<code>Device Config</code>→<code>Expert View</code>からI2Cようの設定を見ることができる．自分の環境ではデフォルトで以下のようになっていた．
 sda端子を32ピン，scl端子を33ピンに接続すればよいことがわかる．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;i2c&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
-  <span style="color:#f92672">&#34;enable&#34;</span>: <span style="color:#66d9ef">true</span>,
-  <span style="color:#f92672">&#34;freq&#34;</span>: <span style="color:#ae81ff">100000</span>,
-  <span style="color:#f92672">&#34;debug&#34;</span>: <span style="color:#66d9ef">false</span>,
-  <span style="color:#f92672">&#34;sda_gpio&#34;</span>: <span style="color:#ae81ff">32</span>,
-  <span style="color:#f92672">&#34;scl_gpio&#34;</span>: <span style="color:#ae81ff">33</span>
-}<span style="color:#960050;background-color:#1e0010">,</span>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;i2c&#34;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&#34;enable&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;freq&#34;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+  <span class="nt">&#34;debug&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;sda_gpio&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="nt">&#34;scl_gpio&#34;</span><span class="p">:</span> <span class="mi">33</span>
+<span class="p">}</span><span class="err">,</span>
 </code></pre></div><p>その他にVinを3.3V端子，GNDを適当なGNDピンに接続した．</p>
 <h2 id="mqttの設定">MQTTの設定</h2>
 <p>Brokerと認証の設定を行う．
@@ -94,7 +94,7 @@ sda端子を32ピン，scl端子を33ピンに接続すればよいことがわ�
 <h2 id="コード">コード</h2>
 <p><code>Device Files</code>→<code>init.js</code>へ移動し，コードを書いていく．
 基本的には<a href="../tsl2561-with-mongoose-os-on-esp32-01/">前回</a>実装したアルゴリズムを移植するだけ．I2Cデバイス操作用の関数はいくつかMongoose OSで用意されている．詳細はドキュメント<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>を参照．</p>
-<script src="https://gist.github.com/uyorum/f988ab4bd4ae90fb5dd7c6950e6c7110.js"></script>
+<!-- raw HTML omitted -->
 <p>コードを書いたら画面上の<code>Save + Reboot</code>でESP32上にコードをデプロイする．1分ごとに照度を取得しBrokerにPublishするようになる．</p>
 <h2 id="やりたいこと">やりたいこと</h2>
 <ul>

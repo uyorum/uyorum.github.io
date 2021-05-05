@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -55,25 +55,25 @@
     <section itemprop="entry-text">
       <p>今日のまとめ</p>
 <h2 id="構造体">構造体</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
-  <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
-  <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>
-}
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+  <span class="nx">name</span> <span class="kt">string</span>
+  <span class="nx">age</span> <span class="kt">int</span>
+<span class="p">}</span>
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-   <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user1</span> <span style="color:#a6e22e">User</span>
-   <span style="color:#a6e22e">user1</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;ichiro&#34;</span>
-   <span style="color:#75715e">// ichiro 0
-</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user1</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user1</span>.<span style="color:#a6e22e">age</span>)
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">user1</span> <span class="nx">User</span>
+   <span class="nx">user1</span><span class="p">.</span><span class="nx">name</span> <span class="p">=</span> <span class="s">&#34;ichiro&#34;</span>
+   <span class="c1">// ichiro 0
+</span><span class="c1"></span>   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">user1</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">user1</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
 
-   <span style="color:#a6e22e">user2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">User</span>{<span style="color:#e6db74">&#34;jiro&#34;</span>, <span style="color:#ae81ff">30</span>}
-   <span style="color:#75715e">// jiro 30
-</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user2</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user2</span>.<span style="color:#a6e22e">age</span>)
+   <span class="nx">user2</span> <span class="o">:=</span> <span class="nx">User</span><span class="p">{</span><span class="s">&#34;jiro&#34;</span><span class="p">,</span> <span class="mi">30</span><span class="p">}</span>
+   <span class="c1">// jiro 30
+</span><span class="c1"></span>   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">user2</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">user2</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
 
-   <span style="color:#a6e22e">user3</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">User</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;saburo&#34;</span>, <span style="color:#a6e22e">age</span>: <span style="color:#ae81ff">20</span>}
-   <span style="color:#75715e">// saburo 20
-</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user3</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user3</span>.<span style="color:#a6e22e">age</span>)
-}
+   <span class="nx">user3</span> <span class="o">:=</span> <span class="nx">User</span><span class="p">{</span><span class="nx">name</span><span class="p">:</span> <span class="s">&#34;saburo&#34;</span><span class="p">,</span> <span class="nx">age</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+   <span class="c1">// saburo 20
+</span><span class="c1"></span>   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">user3</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">user3</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div><ul>
 <li>Goの構造体は以下の特徴を持っている
 <ul>
@@ -95,63 +95,63 @@
 <li><strong>構造体って初めて扱ったけどvalueに色々な型を持てるハッシュみたいなもの？</strong></li>
 </ul>
 <h3 id="ポインタ型で初期化">ポインタ型で初期化</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">user4</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;shiro&#34;</span>, <span style="color:#a6e22e">age</span>: <span style="color:#ae81ff">15</span>}
-<span style="color:#75715e">// shiro 15
-</span><span style="color:#75715e">// {shiro 15}
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user4</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user4</span>.<span style="color:#a6e22e">age</span>)
-<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">user4</span>)
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">user4</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">User</span><span class="p">{</span><span class="nx">name</span><span class="p">:</span> <span class="s">&#34;shiro&#34;</span><span class="p">,</span> <span class="nx">age</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
+<span class="c1">// shiro 15
+</span><span class="c1">// {shiro 15}
+</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">user4</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">user4</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">*</span><span class="nx">user4</span><span class="p">)</span>
  
-<span style="color:#a6e22e">user5</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">User</span>)
-<span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;goro&#34;</span>
-<span style="color:#75715e">// goro 0
-</span><span style="color:#75715e">// {goro 0}
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">age</span>)
-<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">user5</span>)
+<span class="nx">user5</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">User</span><span class="p">)</span>
+<span class="nx">user5</span><span class="p">.</span><span class="nx">name</span> <span class="p">=</span> <span class="s">&#34;goro&#34;</span>
+<span class="c1">// goro 0
+</span><span class="c1">// {goro 0}
+</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">user5</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">user5</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">*</span><span class="nx">user5</span><span class="p">)</span>
 </code></pre></div><ul>
 <li><code>&amp;構造体名</code>または<code>new(構造体名)</code>で初期化するとポインタ型で受け取ることができる．</li>
 </ul>
 <h3 id="関数による初期化">関数による初期化</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newUser</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">User</span> {
-  <span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">User</span>)
-  <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">name</span> = <span style="color:#a6e22e">name</span>
-  <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">age</span> = <span style="color:#a6e22e">age</span>
-  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">u</span>
-}
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">newUser</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">age</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">User</span> <span class="p">{</span>
+  <span class="nx">u</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">User</span><span class="p">)</span>
+  <span class="nx">u</span><span class="p">.</span><span class="nx">name</span> <span class="p">=</span> <span class="nx">name</span>
+  <span class="nx">u</span><span class="p">.</span><span class="nx">age</span> <span class="p">=</span> <span class="nx">age</span>
+  <span class="k">return</span> <span class="nx">u</span>
+<span class="p">}</span>
  
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">User</span> = <span style="color:#a6e22e">newUser</span>(<span style="color:#e6db74">&#34;taro&#34;</span>,<span style="color:#ae81ff">30</span>)
+<span class="kd">var</span> <span class="nx">user</span> <span class="o">*</span><span class="nx">User</span> <span class="p">=</span> <span class="nf">newUser</span><span class="p">(</span><span class="s">&#34;taro&#34;</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
 </code></pre></div><h3 id="ネスト構造体">ネスト構造体</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Foo</span> <span style="color:#66d9ef">struct</span> {
-  <span style="color:#a6e22e">hoge</span> <span style="color:#66d9ef">string</span>
-  <span style="color:#a6e22e">huga</span> <span style="color:#66d9ef">string</span>
-}
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Foo</span> <span class="kd">struct</span> <span class="p">{</span>
+  <span class="nx">hoge</span> <span class="kt">string</span>
+  <span class="nx">huga</span> <span class="kt">string</span>
+<span class="p">}</span>
 
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Bar</span> <span style="color:#66d9ef">struct</span> {
-  <span style="color:#a6e22e">Foo</span>
-  <span style="color:#a6e22e">huga</span> <span style="color:#66d9ef">string</span>
-  <span style="color:#a6e22e">piyo</span> <span style="color:#66d9ef">string</span>
-}
+<span class="kd">type</span> <span class="nx">Bar</span> <span class="kd">struct</span> <span class="p">{</span>
+  <span class="nx">Foo</span>
+  <span class="nx">huga</span> <span class="kt">string</span>
+  <span class="nx">piyo</span> <span class="kt">string</span>
+<span class="p">}</span>
 
-<span style="color:#a6e22e">user5</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">User</span>)
-<span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;goro&#34;</span>
-<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">user5</span>.<span style="color:#a6e22e">age</span>)
-<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">user5</span>)
+<span class="nx">user5</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">User</span><span class="p">)</span>
+<span class="nx">user5</span><span class="p">.</span><span class="nx">name</span> <span class="p">=</span> <span class="s">&#34;goro&#34;</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">user5</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">user5</span><span class="p">.</span><span class="nx">age</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">*</span><span class="nx">user5</span><span class="p">)</span>
 
-<span style="color:#a6e22e">str1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Foo</span>{<span style="color:#a6e22e">hoge</span>: <span style="color:#e6db74">&#34;HOGE&#34;</span>, <span style="color:#a6e22e">huga</span>: <span style="color:#e6db74">&#34;HUGA&#34;</span>}
-<span style="color:#a6e22e">str2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Bar</span>{<span style="color:#a6e22e">Foo</span>: <span style="color:#a6e22e">str1</span>, <span style="color:#a6e22e">huga</span>: <span style="color:#e6db74">&#34;Huga&#34;</span>, <span style="color:#a6e22e">piyo</span>: <span style="color:#e6db74">&#34;Piyo&#34;</span>}
-<span style="color:#75715e">// HOGE Huga HUGA Piyo
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">str2</span>.<span style="color:#a6e22e">hoge</span>, <span style="color:#a6e22e">str2</span>.<span style="color:#a6e22e">huga</span>, <span style="color:#a6e22e">str2</span>.<span style="color:#a6e22e">Foo</span>.<span style="color:#a6e22e">huga</span>, <span style="color:#a6e22e">str2</span>.<span style="color:#a6e22e">piyo</span>)
+<span class="nx">str1</span> <span class="o">:=</span> <span class="nx">Foo</span><span class="p">{</span><span class="nx">hoge</span><span class="p">:</span> <span class="s">&#34;HOGE&#34;</span><span class="p">,</span> <span class="nx">huga</span><span class="p">:</span> <span class="s">&#34;HUGA&#34;</span><span class="p">}</span>
+<span class="nx">str2</span> <span class="o">:=</span> <span class="nx">Bar</span><span class="p">{</span><span class="nx">Foo</span><span class="p">:</span> <span class="nx">str1</span><span class="p">,</span> <span class="nx">huga</span><span class="p">:</span> <span class="s">&#34;Huga&#34;</span><span class="p">,</span> <span class="nx">piyo</span><span class="p">:</span> <span class="s">&#34;Piyo&#34;</span><span class="p">}</span>
+<span class="c1">// HOGE Huga HUGA Piyo
+</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">str2</span><span class="p">.</span><span class="nx">hoge</span><span class="p">,</span> <span class="nx">str2</span><span class="p">.</span><span class="nx">huga</span><span class="p">,</span> <span class="nx">str2</span><span class="p">.</span><span class="nx">Foo</span><span class="p">.</span><span class="nx">huga</span><span class="p">,</span> <span class="nx">str2</span><span class="p">.</span><span class="nx">piyo</span><span class="p">)</span>
 </code></pre></div><ul>
 <li>フィールドに構造体を指定することで構造体をネストすることができる</li>
 <li>ネストした構造体のフィールドへアクセスするには<code>str2.Foo.huga</code>のように指定する</li>
 <li>フィールド名が重複していなければ<code>str2.huga</code>のように構造体名を省略できる</li>
 </ul>
 <h3 id="メソッド定義">メソッド定義</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">User</span>) <span style="color:#a6e22e">greet</span>() <span style="color:#66d9ef">string</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">name</span>
-}
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">u</span> <span class="nx">User</span><span class="p">)</span> <span class="nf">greet</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="s">&#34;hello, &#34;</span> <span class="o">+</span> <span class="nx">u</span><span class="p">.</span><span class="nx">name</span>
+<span class="p">}</span>
 
-<span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">User</span>{<span style="color:#e6db74">&#34;taro&#34;</span>, <span style="color:#ae81ff">30</span>}
-<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">greet</span>())
+<span class="nx">u</span> <span class="o">:=</span> <span class="nx">User</span><span class="p">{</span><span class="s">&#34;taro&#34;</span><span class="p">,</span> <span class="mi">30</span><span class="p">}</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">u</span><span class="p">.</span><span class="nf">greet</span><span class="p">())</span>
 </code></pre></div><ul>
 <li><code>func (レシーバ名 レシーバの型) メソッド名(引数) 返り値</code>形式で記述する</li>
 </ul>

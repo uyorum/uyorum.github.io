@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -63,24 +63,24 @@ Fixturesのように，FactoryBotを使ってテストの最初にレコード�
 (ただしデータは1度しか作成されないため，テストのランダム性は失なわれる．その点はトレードオフになる)</p>
 <h2 id="設定">設定</h2>
 <p><code>spec/support/initialize_data.rb</code>というファイルを用意する．内容は以下の通り．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>shared_context <span style="color:#e6db74">&#39;initialize data&#39;</span> <span style="color:#66d9ef">do</span>
-  let(<span style="color:#e6db74">:test_user</span>) { <span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>find(<span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>configuration<span style="color:#f92672">.</span>test_data<span style="color:#f92672">[</span><span style="color:#e6db74">:user</span><span style="color:#f92672">]</span>) }
-<span style="color:#66d9ef">end</span>
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="no">RSpec</span><span class="o">.</span><span class="n">shared_context</span> <span class="s1">&#39;initialize data&#39;</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:test_user</span><span class="p">)</span> <span class="p">{</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="no">RSpec</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">test_data</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">end</span>
 
-<span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>configure <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
-  config<span style="color:#f92672">.</span>add_setting <span style="color:#e6db74">:test_data</span>
-  config<span style="color:#f92672">.</span>test_data <span style="color:#f92672">=</span> {}
+<span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">add_setting</span> <span class="ss">:test_data</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">test_data</span> <span class="o">=</span> <span class="p">{}</span>
 
-  config<span style="color:#f92672">.</span>before <span style="color:#e6db74">:suite</span> <span style="color:#66d9ef">do</span>
-    config<span style="color:#f92672">.</span>test_data<span style="color:#f92672">[</span><span style="color:#e6db74">:user</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">FactoryBot</span><span style="color:#f92672">.</span>create(<span style="color:#e6db74">:user</span>)<span style="color:#f92672">.</span>id
-  <span style="color:#66d9ef">end</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">before</span> <span class="ss">:suite</span> <span class="k">do</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">test_data</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span> <span class="o">=</span> <span class="no">FactoryBot</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span><span class="o">.</span><span class="n">id</span>
+  <span class="k">end</span>
 
-  config<span style="color:#f92672">.</span>include_context <span style="color:#e6db74">&#39;initialize data&#39;</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">include_context</span> <span class="s1">&#39;initialize data&#39;</span>
 
-  config<span style="color:#f92672">.</span>after <span style="color:#e6db74">:suite</span> <span style="color:#66d9ef">do</span>
-    <span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>destroy_all
-  <span style="color:#66d9ef">end</span>
-<span style="color:#66d9ef">end</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">after</span> <span class="ss">:suite</span> <span class="k">do</span>
+    <span class="no">User</span><span class="o">.</span><span class="n">destroy_all</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre></div><h2 id="解説">解説</h2>
 <h3 id="データの作成と削除">データの作成と削除</h3>
 <p>RSpecのCallbackを設定できるタイミングは<code>:suite</code>，<code>:all</code>，<code>:each</code>の3つがある<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>が今回のような「テスト開始前に1度だけ実行する」場合は<code>before(:suite)</code>を使用する．<br>
@@ -92,62 +92,62 @@ Fixturesのように，FactoryBotを使ってテストの最初にレコード�
 インスタンス変数は<code>before :suite</code>内で定義できない<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>ため，他の場所でDBから再度取得する必要がある．
 この例だと<code>User.first</code>のように取得してもよいが，複数のデータを作成する場合は<code>id</code>を使うのが安全だ．
 idの値を他のスコープへ伝達するために<code>Custom settings</code>という機能を使う．<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>configure <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
-  config<span style="color:#f92672">.</span>add_setting <span style="color:#e6db74">:test_data</span>
-  config<span style="color:#f92672">.</span>test_data <span style="color:#f92672">=</span> {}
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">add_setting</span> <span class="ss">:test_data</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">test_data</span> <span class="o">=</span> <span class="p">{}</span>
 
-  config<span style="color:#f92672">.</span>before <span style="color:#e6db74">:suite</span> <span style="color:#66d9ef">do</span>
-    config<span style="color:#f92672">.</span>test_data<span style="color:#f92672">[</span><span style="color:#e6db74">:user</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">FactoryBot</span><span style="color:#f92672">.</span>create(<span style="color:#e6db74">:user</span>)<span style="color:#f92672">.</span>id
-  <span style="color:#66d9ef">end</span>
-  :
-<span style="color:#66d9ef">end</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">before</span> <span class="ss">:suite</span> <span class="k">do</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">test_data</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span> <span class="o">=</span> <span class="no">FactoryBot</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span><span class="o">.</span><span class="n">id</span>
+  <span class="k">end</span>
+  <span class="p">:</span>
+<span class="k">end</span>
 </code></pre></div><h3 id="データの取得">データの取得</h3>
 <p>作成したデータを使わない場合は取得したくないため<code>let</code>で取得・定義する．<br>
 テストで共通の<code>let</code>を定義するには<code>shared_context</code>内に書き，<code>RSpec.configuration</code>でそれを<code>include_context</code>することになる．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>shared_context <span style="color:#e6db74">&#39;initialize data&#39;</span> <span style="color:#66d9ef">do</span>
-  let(<span style="color:#e6db74">:test_user</span>) { <span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>find(<span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>configuration<span style="color:#f92672">.</span>test_data<span style="color:#f92672">[</span><span style="color:#e6db74">:user</span><span style="color:#f92672">]</span>) }
-<span style="color:#66d9ef">end</span>
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="no">RSpec</span><span class="o">.</span><span class="n">shared_context</span> <span class="s1">&#39;initialize data&#39;</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:test_user</span><span class="p">)</span> <span class="p">{</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="no">RSpec</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">test_data</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">end</span>
 
-<span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>configure <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
-  :
-  config<span style="color:#f92672">.</span>include_context <span style="color:#e6db74">&#39;initialize data&#39;</span>
-  :
-<span style="color:#66d9ef">end</span>
+<span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="p">:</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">include_context</span> <span class="s1">&#39;initialize data&#39;</span>
+  <span class="p">:</span>
+<span class="k">end</span>
 </code></pre></div><h2 id="使ってみる">使ってみる</h2>
 <p>例として以下のようなspecを用意した．このコードだとINSERTが1000回実行される</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">require <span style="color:#e6db74">&#39;rails_helper&#39;</span>
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
 
-<span style="color:#66d9ef">RSpec</span><span style="color:#f92672">.</span>describe <span style="color:#66d9ef">User</span>, <span style="color:#e6db74">type</span>: <span style="color:#e6db74">:model</span> <span style="color:#66d9ef">do</span>
-  let(<span style="color:#e6db74">:user</span>) { <span style="color:#66d9ef">FactoryBot</span><span style="color:#f92672">.</span>create(<span style="color:#e6db74">:user</span>) }
+<span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="no">User</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:model</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">FactoryBot</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
 
-  <span style="color:#ae81ff">1000</span><span style="color:#f92672">.</span>times <span style="color:#66d9ef">do</span>
-    it <span style="color:#e6db74">&#39;behaves like something&#39;</span> <span style="color:#66d9ef">do</span>
-      expect {
-        user<span style="color:#f92672">.</span>update_attributes(name: <span style="color:#e6db74">&#39;New Name&#39;</span>)
-      }<span style="color:#f92672">.</span>to change(user, <span style="color:#e6db74">:name</span>)
-    <span style="color:#66d9ef">end</span>
-  <span style="color:#66d9ef">end</span>
-<span style="color:#66d9ef">end</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ time bin/rspec
-.......<span style="color:#f92672">(</span>省略<span style="color:#f92672">)</span>
+  <span class="mi">1000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s1">&#39;behaves like something&#39;</span> <span class="k">do</span>
+      <span class="n">expect</span> <span class="p">{</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;New Name&#39;</span><span class="p">)</span>
+      <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">change</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="ss">:name</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">time</span> bin/rspec
+.......<span class="o">(</span>省略<span class="o">)</span>
 
-Finished in 4.99 seconds <span style="color:#f92672">(</span>files took 0.5945 seconds to load<span style="color:#f92672">)</span>
-<span style="color:#ae81ff">1000</span> examples, <span style="color:#ae81ff">0</span> failures
+Finished in 4.99 seconds <span class="o">(</span>files took 0.5945 seconds to load<span class="o">)</span>
+<span class="m">1000</span> examples, <span class="m">0</span> failures
 
 bin/rspec  0.58s user 0.43s system 14% cpu 6.751 total
 $ grep -c INSERT log/test.log
-<span style="color:#ae81ff">1000</span>
+<span class="m">1000</span>
 </code></pre></div><p>上の設定を使ってみる．作成したデータへは<code>test_user</code>でインスタンスへアクセスできる．
 INSERTは1回しか実行されない．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ time bin/rspec
-.......<span style="color:#f92672">(</span>省略<span style="color:#f92672">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">time</span> bin/rspec
+.......<span class="o">(</span>省略<span class="o">)</span>
 
-Finished in 4.29 seconds <span style="color:#f92672">(</span>files took 0.53682 seconds to load<span style="color:#f92672">)</span>
-<span style="color:#ae81ff">1000</span> examples, <span style="color:#ae81ff">0</span> failures
+Finished in 4.29 seconds <span class="o">(</span>files took 0.53682 seconds to load<span class="o">)</span>
+<span class="m">1000</span> examples, <span class="m">0</span> failures
 
 bin/rspec  0.56s user 0.43s system 16% cpu 5.936 total
 $ grep -c INSERT log/test.log
-<span style="color:#ae81ff">1</span>
+<span class="m">1</span>
 </code></pre></div><p>まだ短い期間しか運用していないため将来これで問題が起こるかもしれないが，アイデアとして記録を残しておく．</p>
 <p>以上．</p>
 <p>ここで挙げたコードは↓にある<br>
