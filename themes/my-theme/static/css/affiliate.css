@@ -1,7 +1,7 @@
 .amazon-widget {
   margin: 2rem 0;
   max-width: 580px;
-  max-height: 160px;
+  height: 160px;
   position: relative;
   outline: 1px solid #E1E8ED;
   border-radius: 20px;
