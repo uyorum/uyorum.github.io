@@ -30,15 +30,15 @@
 		</header>
 
 
-  <main role="main">
-    <article itemscope itemtype="http://schema.org/BlogPosting">
-      <h1 class="entry-title" itemprop="headline">Home AssistantとAmazon Dash Buttonを連携させる</h1>
-      <span class="entry-meta">
-        <time itemprop="datePublished" datetime="2017-06-10">June 10, 2017
-        </time>
-      </span>
-      <span class="pull-right">
-        <div class="share-box">
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">Home AssistantとAmazon Dash Buttonを連携させる</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2017-06-10">June 10, 2017
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
   <ul class="share">
     <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fhome-assistant-with-dash-button%2f" target="_blank">
       <i class="fa fa-facebook fa-lg"></i></a>
@@ -51,9 +51,9 @@
   </ul>
 </div>
 
-      </span>
-      <section itemprop="entry-text">
-        <p>Amazon Dash Buttonは間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．</p>
+    </span>
+    <section itemprop="entry-text">
+      <p>Amazon Dash Buttonは間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．</p>
 <h2 id="amazon-dash-buttonのハック">Amazon Dash Buttonのハック</h2>
 <p>ネットに情報は溢れているため詳しい説明は省略する．<br>
 本来のAmazon Dash Buttonはボタンを押すことであらかじめ設定した商品を注文するためのものだが，その過程で発生するパケットをトリガーに利用して，
@@ -134,9 +134,9 @@ $ sudo systemctl start dash-ha
       <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">light.livingroom_ceiling_light</span>
 </code></pre></div><p>これでボタン押下を検知したらアクションが実行されるようになる．</p>
 <p>以上．</p>
-      </section>
-      <aside>
-        <div class="share-box">
+    </section>
+    <aside>
+      <div class="share-box">
   <ul class="share">
     <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fhome-assistant-with-dash-button%2f" target="_blank">
       <i class="fa fa-facebook fa-lg"></i></a>
@@ -149,10 +149,24 @@ $ sudo systemctl start dash-ha
   </ul>
 </div>
 
-      </aside>
-      
-        <div class="disqus-comments">
-        <div id="disqus_thread"></div>
+    </aside>
+    
+
+<h3>関連記事</h3>
+<ul>
+  
+  <li><a href="/post/home-assistant-gpio/">Home Assistantで人感センサーを使って照明を自動点灯する</a></li>
+  
+  <li><a href="/post/home-assistant-install/">Home Assistantでつくるホームオートメーション(導入編)</a></li>
+  
+  <li><a href="/post/apollo7-1/">Erato Audio Apollo7 レビュー</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
 <script type="application/javascript">
     var disqus_config = function () {
     
@@ -172,26 +186,25 @@ $ sudo systemctl start dash-ha
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-        </div>
-      
-    </article>
-  </main>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
 
 
-	<footer role="contentinfo">
-		<div class="hr"></div>
-		<div class="footer-link">
-			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
-			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
-			
-			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
-			
-      
-		</div>
-		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
-	</footer>
-
-  
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -207,19 +220,7 @@ if (!doNotTrack) {
 
 
 </div>
-
-<script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-43857839-1', 'auto');
-	ga('send', 'pageview');
-</script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
 </body>
+
 </html>
 

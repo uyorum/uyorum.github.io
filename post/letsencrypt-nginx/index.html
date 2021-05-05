@@ -30,15 +30,15 @@
 		</header>
 
 
-  <main role="main">
-    <article itemscope itemtype="http://schema.org/BlogPosting">
-      <h1 class="entry-title" itemprop="headline">NginxでLet&#39;s Encryptの証明書を扱う</h1>
-      <span class="entry-meta">
-        <time itemprop="datePublished" datetime="2018-12-15">December 15, 2018
-        </time>
-      </span>
-      <span class="pull-right">
-        <div class="share-box">
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">NginxでLet&#39;s Encryptの証明書を扱う</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2018-12-15">December 15, 2018
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
   <ul class="share">
     <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fletsencrypt-nginx%2f" target="_blank">
       <i class="fa fa-facebook fa-lg"></i></a>
@@ -51,9 +51,9 @@
   </ul>
 </div>
 
-      </span>
-      <section itemprop="entry-text">
-        <p>自分なりのベストな設定をメモ</p>
+    </span>
+    <section itemprop="entry-text">
+      <p>自分なりのベストな設定をメモ</p>
 <h1 id="環境">環境</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat /etc/redhat-release
 CentOS Linux release 7.6.1810 <span style="color:#f92672">(</span>Core<span style="color:#f92672">)</span>
@@ -148,9 +148,9 @@ Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(
 </ol>
 </section>
 
-      </section>
-      <aside>
-        <div class="share-box">
+    </section>
+    <aside>
+      <div class="share-box">
   <ul class="share">
     <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fletsencrypt-nginx%2f" target="_blank">
       <i class="fa fa-facebook fa-lg"></i></a>
@@ -163,10 +163,28 @@ Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(
   </ul>
 </div>
 
-      </aside>
-      
-        <div class="disqus-comments">
-        <div id="disqus_thread"></div>
+    </aside>
+    
+
+<h3>関連記事</h3>
+<ul>
+  
+  <li><a href="/post/publish-with-openvpn-1/">インターネット付きマンションでLAN上のホストをインターネット公開する(設計編)</a></li>
+  
+  <li><a href="/post/hassio-introduction/">Home AssistantのデプロイをHass.ioにした</a></li>
+  
+  <li><a href="/post/security-settings-for-zabbix-agent/">必要最低限の設定で監視エージェントに監視させる</a></li>
+  
+  <li><a href="/post/fp-l3/">FP技能検定3級を受けた</a></li>
+  
+  <li><a href="/post/home-automation-2017/">ホームオートメーションの現状まとめ@2017</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
 <script type="application/javascript">
     var disqus_config = function () {
     
@@ -186,26 +204,25 @@ Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-        </div>
-      
-    </article>
-  </main>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
 
 
-	<footer role="contentinfo">
-		<div class="hr"></div>
-		<div class="footer-link">
-			<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
-			<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
-			
-			<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
-			
-      
-		</div>
-		<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
-	</footer>
-
-  
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -221,19 +238,7 @@ if (!doNotTrack) {
 
 
 </div>
-
-<script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-43857839-1', 'auto');
-	ga('send', 'pageview');
-</script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
 </body>
+
 </html>
 
