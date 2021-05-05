@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja-jp">
-<head>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
-<link rel="stylesheet" href="/css/normalize.css">
-<link rel="stylesheet" href="/css/skeleton.css">
-<link rel="stylesheet" href="/css/custom.css">
-<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
-<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 
-<title>Android上でDebianを動かす - @uyorumの雑記帳</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>Android上でDebianを動かす - @uyorumの雑記帳</title>
 </head>
+
 <body>
 
-<div class="container">
+	<div class="container">
 
-	<header role="banner">
-		<div class="header-logo">
-			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
-		</div>
-		
-	</header>
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
 
 
   <main role="main">
@@ -165,14 +168,14 @@ Android SDKの導入方法は各自で調べてください．</p>
 <li>
 <p>bootdebian.sh</p>
 <pre><code> #!/system/bin/sh
-
+    
  abort() {
      echo $1
      exit 1
  }
-
+    
  DEBIAN=/sdcard/debian.img
-
+    
  [ -f ${DEBIAN} ] || abort &quot;${DEBIAN}: no such file.&quot;
      DEVICE=/dev/block/loop99
  [ -b ${DEVICE} ]
@@ -182,10 +185,10 @@ Android SDKの導入方法は各自で調べてください．</p>
      export TERM=linux
      export HOME=/root
      export LANG=ja_JP.UTF-8
-
+       
  busybox mknod ${DEVICE} b 7 99; busybox losetup ${DEVICE} ${DEBIAN}; sleep 1
  busybox mount -t ext2 -o noatime,nodiratime ${DEVICE} ${DEBROOT}/
-
+    
  if [ $? == 0 ]; then
      sleep 1
      echo -n &quot;Debian boot...&quot;
@@ -298,6 +301,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
 
 </div>
 

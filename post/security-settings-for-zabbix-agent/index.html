@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja-jp">
-<head>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
-<link rel="stylesheet" href="/css/normalize.css">
-<link rel="stylesheet" href="/css/skeleton.css">
-<link rel="stylesheet" href="/css/custom.css">
-<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
-<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 
-<title>必要最低限の設定で監視エージェントに監視させる - @uyorumの雑記帳</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>必要最低限の設定で監視エージェントに監視させる - @uyorumの雑記帳</title>
 </head>
+
 <body>
 
-<div class="container">
+	<div class="container">
 
-	<header role="banner">
-		<div class="header-logo">
-			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
-		</div>
-		
-	</header>
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
 
 
   <main role="main">
@@ -143,7 +146,25 @@ $ sudo semodule -i my-zabbixagentd.pp
 </code></pre></div><p>これでログが読めるようになる．
 ちなみにSELinuxによる拒否が発生した場合に必要なアクションを調べるには<code>setroubleshoot</code>パッケージが便利．</p>
 <p>監視内容によってはまだ追加の設定が必要になると思うが，基本的には上の考え方を応用すれば設定できるはず．</p>
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=uyorum-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B085KTYH49&linkId=7556aa52a54d25a47637393fcce218d6"></iframe>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B085KTYH49/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B085KTYH49&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B085KTYH49/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        CentOS8 実践ガイド ［システム管理編］ impress top gearシリーズ
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+
 <h2 id="参考">参考</h2>
 <ul>
 <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/acls-setting">5.2. Setting Access ACLs - Red Hat Customer Portal</a></li>
@@ -219,6 +240,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
 
 </div>
 

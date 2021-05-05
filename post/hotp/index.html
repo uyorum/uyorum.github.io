@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja-jp">
-<head>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
-<link rel="stylesheet" href="/css/normalize.css">
-<link rel="stylesheet" href="/css/skeleton.css">
-<link rel="stylesheet" href="/css/custom.css">
-<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
-<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 
-<title>ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP - @uyorumの雑記帳</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP - @uyorumの雑記帳</title>
 </head>
+
 <body>
 
-<div class="container">
+	<div class="container">
 
-	<header role="banner">
-		<div class="header-logo">
-			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
-		</div>
-		
-	</header>
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
 
 
   <main role="main">
@@ -191,6 +194,24 @@ irb<span style="color:#f92672">(</span>main<span style="color:#f92672">)</span>:
 <li>HOTP生成アルゴリズムのセキュリティ強度</li>
 </ul>
 <p>図を書くのにはどのソフトがいいんだろう…</p>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B07HBD71HL/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B07HBD71HL&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B07HBD71HL/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        Yubico セキュリティキー YubiKey 5 NFC ログイン/U2F/FIDO2/USB-A ポート/2段階認証/高耐久性/耐衝撃性/防水
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
       </section>
       <aside>
         <div class="share-box">
@@ -261,6 +282,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
 
 </div>
 

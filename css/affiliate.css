@@ -1,0 +1,45 @@
+.amazon-widget {
+  margin: 2rem 0;
+  max-width: 580px;
+  max-height: 160px;
+  position: relative;
+  outline: 1px solid #E1E8ED;
+  border-radius: 20px;
+  display: -webkit-flex;
+  display: flex;
+}
+.amazon-widget > div {
+  flex-shrink: 0;
+}
+.amazon-widget-image {
+  width: 150px;
+  text-align: center;
+}
+.amazon-widget-image img {
+  border: none;
+  padding: 5px;
+  max-width: 140px;
+  max-height: 140px;
+}
+.amazon-widget-info {
+  width: 430px;
+  padding: 10px;
+  padding-left: 5px;
+}
+.amazon-widget-title {
+  font-weight: bold;
+  display: block;
+}
+.amazon-widget-via {
+  color: #aaa;
+}
+.amazon-widget-via img {
+  border: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  display: inline;
+  vertical-align: text-bottom;
+}
+
