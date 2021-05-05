@@ -383,3 +383,5 @@ Commercial support is available at
 ひとまずクラスタ内からPodへアクセスすることはできた。
 
 以上
+
+{{< affiliate asin="4297118378" title="イラストでわかるDockerとKubernetes (Software Design plus)" >}}

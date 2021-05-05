@@ -110,6 +110,8 @@ gesture swipe down 4 xdotool key alt+F1
 
 もっと凝ったジェスチャーも設定できそうだがひとまずこれで使ってみることにする。
 
+{{< affiliate asin="B016ZE7K8O" title="Apple Magic Trackpad 2 - シルバー" >}}
+
 ## 参考
 
 * [GitHub - bulletmark/libinput-gestures: Actions gestures on your touchpad using libinput](https://github.com/bulletmark/libinput-gestures)

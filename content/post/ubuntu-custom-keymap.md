@@ -105,6 +105,8 @@ $ xkbcomp -I$HOME/.xkb $HOME/.keymap.xkb $DISPLAY 2>/dev/null
 * Shift+Caps+aでShift+Ctrl+aと同じように動作してほしいがうまくいかない
 * サスペンドからの復帰後に元に戻ってしまう
 
+{{< affiliate asin="B082TXLC2B" title="HHKB Professional HYBRID Type-S 日本語配列／白" >}}
+
 ## 参考
 * [Custom keyboard layout definitions - Community Help Wiki](https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions)
 * [X KeyBoard extension - ArchWiki](https://wiki.archlinux.jp/index.php/X_KeyBoard_extension)

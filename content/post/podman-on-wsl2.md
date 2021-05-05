@@ -102,3 +102,5 @@ $ podman run -it --rm centos:7 bash                                             
 ```
 
 以上
+
+{{< affiliate asin="B07NDT526Q" title="Docker実践ガイド 第2版 impress top gearシリーズ" >}}

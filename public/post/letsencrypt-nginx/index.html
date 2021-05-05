@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja-jp">
-<head>
-<meta charset="utf-8">
-<meta name="generator" content="Hugo 0.83.1" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
-<link rel="stylesheet" href="/css/normalize.css">
-<link rel="stylesheet" href="/css/skeleton.css">
-<link rel="stylesheet" href="/css/custom.css">
-<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
-<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 
-<title>NginxでLet&#39;s Encryptの証明書を扱う - @uyorumの雑記帳</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>NginxでLet&#39;s Encryptの証明書を扱う - @uyorumの雑記帳</title>
 </head>
+
 <body>
 
-<div class="container">
+	<div class="container">
 
-	<header role="banner">
-		<div class="header-logo">
-			<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
-		</div>
-		
-	</header>
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
 
 
   <main role="main">
@@ -137,10 +140,10 @@ Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p>Certbotを起動する前にNginxを停止すればできないこともないが，当然その間はWebサーバにアクセスできない&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Certbotを起動する前にNginxを停止すればできないこともないが，当然その間はWebサーバにアクセスできない <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p>ここではHTTPSのための設定は割愛する&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>ここではHTTPSのための設定は割愛する <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -215,6 +218,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
 
 </div>
 

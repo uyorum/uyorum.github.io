@@ -169,3 +169,5 @@ RFC内ではその他にも以下のような要素について述べられて�
 
 
 図を書くのにはどのソフトがいいんだろう…
+
+{{< affiliate asin="B07HBD71HL" title="Yubico セキュリティキー YubiKey 5 NFC ログイン/U2F/FIDO2/USB-A ポート/2段階認証/高耐久性/耐衝撃性/防水" >}}

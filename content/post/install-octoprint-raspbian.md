@@ -157,3 +157,5 @@ SDカードなしで印刷できるのでこれだけでも便利なのだが、
 [raspberry pi zero wでOctoPrintを動かしてみた - Qiita](https://qiita.com/ysogabe/items/95b974d13b396cf7479e)
 
 以上
+
+{{< affiliate asin="B07GZ9DNDX" title="Creality Ender 3 pro 3Dプリンター 印刷サイズ220x220x250mm 磁気 プラットホーム シート 停電復旧機能 3D Printer DIY キット 家庭用 教育用 工場直販" >}}

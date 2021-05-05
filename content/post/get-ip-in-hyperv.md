@@ -95,4 +95,6 @@ IPAddresses
 192.168.137.214
 ```
 
-以上．
+以上
+
+{{< affiliate asin="4822253929" title="ひと目でわかるHyper-V Windows Server 2019版 (マイクロソフト関連書)" >}}
