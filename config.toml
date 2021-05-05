@@ -9,13 +9,11 @@ theme = "my-theme"
 paginate = 9
 disqusShortname = "uyorum"
 googleAnalytics = "UA-43857839-1"
+pygmentsUseClasses=true
 
 [indexes]
   category = "categories"
   tag = "tags"
-
-[markup.goldmark.renderer]
-  unsafe = true
 
 [Params]
   logo = "https://avatars2.githubusercontent.com/u/2661975"

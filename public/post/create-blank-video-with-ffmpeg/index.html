@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -65,7 +65,7 @@
 自分はavconvを使ったがたぶんffmpegも同じなんじゃないかな(適当)<br>
 オプション一覧はあるがその意味が説明されているドキュメントを見つけられなかったのでオプションの意味が間違ってるかもしれない．</p>
 <p>標題を達成するには&hellip;</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ avconv -y -s 320x240 -f rawvideo -pix_fmt rgb24 -r <span style="color:#ae81ff">1</span> -i /dev/zero -i /path/to/mp3 -vcodec libx264 -acodec copy -shortest /name/of/output.mp4
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ avconv -y -s 320x240 -f rawvideo -pix_fmt rgb24 -r <span class="m">1</span> -i /dev/zero -i /path/to/mp3 -vcodec libx264 -acodec copy -shortest /name/of/output.mp4
 </code></pre></div><h3 id="各オプションの解説">各オプションの解説</h3>
 <ul>
 <li>

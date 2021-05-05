@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -88,16 +88,16 @@
 <h2 id="ボタン押下を検知するサーバの用意">ボタン押下を検知するサーバの用意</h2>
 <p>ボタン検知を検知するためのサーバを用意し，専用のプログラムを走らせておく．自分はHome Assistantが稼動しているRaspbery Pi 2 Model Bで動かしている．
 以下のような感じでインストールする．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt -y install tcpdump python-scapy
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt -y install tcpdump python-scapy
 $ sudo mkdir /srv/dash-ha
-$ cd /srv/dash-ha
+$ <span class="nb">cd</span> /srv/dash-ha
 $ sudo wget https://raw.githubusercontent.com/uyorum/play-amazon-dash-button/master/home-assistant/dash-ha.py
 $ sudo chmod +x dash-ha.py
 </code></pre></div><p>設定ファイルは以下のような内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat /srv/dash-ha/config.yaml
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /srv/dash-ha/config.yaml
 home_assistant:
   host: 127.0.0.1
-  port: <span style="color:#ae81ff">8123</span>
+  port: <span class="m">8123</span>
 buttons:
   - mac: XX:XX:XX:XX:XX:XX
     event: dash_button_nescafe
@@ -106,33 +106,33 @@ buttons:
 </code></pre></div><p>上の例だと，MACアドレス<code>XX:XX:XX:XX:XX:XX</code>のDash Buttonが押されるとHome Assistantで<code>dash_button_nescafe</code>というイベントが発火するようになる．<br>
 いちおうHome Assistant側で認証を有効にしていた場合も対応できるようしている．(Githubに上げた設定例を参照)</p>
 <p>起動，停止はSystemdで管理する．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ systemctl cat dash-ha
-<span style="color:#75715e"># /etc/systemd/system/dash-ha.service</span>
-<span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
-Description<span style="color:#f92672">=</span>Integrate Amazon Dash Button and Home Assistant
-After<span style="color:#f92672">=</span>network.target
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ systemctl cat dash-ha
+<span class="c1"># /etc/systemd/system/dash-ha.service</span>
+<span class="o">[</span>Unit<span class="o">]</span>
+<span class="nv">Description</span><span class="o">=</span>Integrate Amazon Dash Button and Home Assistant
+<span class="nv">After</span><span class="o">=</span>network.target
 
-<span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
-Type<span style="color:#f92672">=</span>simple
-User<span style="color:#f92672">=</span>root
-ExecStart<span style="color:#f92672">=</span>/usr/bin/python /srv/dash-ha/dash-ha.py
-Restart<span style="color:#f92672">=</span>always
+<span class="o">[</span>Service<span class="o">]</span>
+<span class="nv">Type</span><span class="o">=</span>simple
+<span class="nv">User</span><span class="o">=</span>root
+<span class="nv">ExecStart</span><span class="o">=</span>/usr/bin/python /srv/dash-ha/dash-ha.py
+<span class="nv">Restart</span><span class="o">=</span>always
 
-<span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
-WantedBy<span style="color:#f92672">=</span>multi-user.target
-$ sudo systemctl enable dash-ha
+<span class="o">[</span>Install<span class="o">]</span>
+<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+$ sudo systemctl <span class="nb">enable</span> dash-ha
 $ sudo systemctl start dash-ha
 </code></pre></div><h2 id="home-assitatntの設定">Home Assitatntの設定</h2>
 <p>Home Assistant側ではイベント<code>dash_button_nescafe</code>をトリガーとするAutomationを設定しておく．</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">automation</span>:
-  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Toggle ceiling light</span>
-    <span style="color:#f92672">trigger</span>:
-      <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">event</span>
-      <span style="color:#f92672">event_type</span>: <span style="color:#ae81ff">dash_button_nescafe</span>
-    <span style="color:#f92672">action</span>:
-      <span style="color:#f92672">service</span>: <span style="color:#ae81ff">homeassistant.toggle</span>
-      <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">light.livingroom_ceiling_light</span>
-</code></pre></div><p>これでボタン押下を検知したらアクションが実行されるようになる．</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">automation</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l">Toggle ceiling light</span><span class="w">
+</span><span class="w">    </span><span class="nt">trigger</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">event</span><span class="w">
+</span><span class="w">      </span><span class="nt">event_type</span><span class="p">:</span><span class="w"> </span><span class="l">dash_button_nescafe</span><span class="w">
+</span><span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l">homeassistant.toggle</span><span class="w">
+</span><span class="w">      </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">light.livingroom_ceiling_light</span><span class="w">
+</span></code></pre></div><p>これでボタン押下を検知したらアクションが実行されるようになる．</p>
 <p>以上．</p>
     </section>
     <aside>

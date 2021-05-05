@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
 	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
 	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
 	
@@ -95,13 +95,13 @@ Calicoが機能的には柔軟そうだが、ここではよりシンプルそ�
 <li><a href="https://github.com/raspberrypi/firmware/blob/master/boot/overlays/README#L1008">GPIO3ピンでシャットダウンをできるように（ついで）</a></li>
 </ul>
 <p>自分の場合はWSL2で実行している。その他の環境で実行する場合は最初のマウント方法が異なる。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mkdir mnt
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ mkdir mnt
 $ sudo mount -t drvfs d: mnt
-$ cd mnt
+$ <span class="nb">cd</span> mnt
 $ touch ssh
-$ sudo sed -i <span style="color:#e6db74">&#39;s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/g&#39;</span> cmdline.txt
-$ echo <span style="color:#e6db74">&#39;dtoverlay=gpio-shutdown,gpio_pin=3&#39;</span> | sudo tee -a config.txt
-$ cd -
+$ sudo sed -i <span class="s1">&#39;s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/g&#39;</span> cmdline.txt
+$ <span class="nb">echo</span> <span class="s1">&#39;dtoverlay=gpio-shutdown,gpio_pin=3&#39;</span> <span class="p">|</span> sudo tee -a config.txt
+$ <span class="nb">cd</span> -
 $ sudo umount mnt
 </code></pre></div><p>OS起動後、SSHでログインしいくつか追加の設定を行う。</p>
 <ul>
@@ -119,15 +119,15 @@ $ sudo umount mnt
 <li>OSを最新化、再起動</li>
 </ul>
 <p>以後、SSHで<code>pi</code>ユーザでログインし実行する。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo raspi-config
-cat <span style="color:#e6db74">&lt;&lt;EOF &gt;&gt;/etc/dhcpcd.conf
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">interface eth0
-</span><span style="color:#e6db74">static ip_address=STATIC_ADDRESS/24
-</span><span style="color:#e6db74">static routers=DEFAULT_GATEWAY
-</span><span style="color:#e6db74">static domain_name_servers=NAME_SERVER
-</span><span style="color:#e6db74">EOF</span>
-$ sudo sed -i <span style="color:#e6db74">&#39;s/#PasswordAuthentication yes/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo raspi-config
+cat <span class="s">&lt;&lt;EOF &gt;&gt;/etc/dhcpcd.conf
+</span><span class="s">
+</span><span class="s">interface eth0
+</span><span class="s">static ip_address=STATIC_ADDRESS/24
+</span><span class="s">static routers=DEFAULT_GATEWAY
+</span><span class="s">static domain_name_servers=NAME_SERVER
+</span><span class="s">EOF</span>
+$ sudo sed -i <span class="s1">&#39;s/#PasswordAuthentication yes/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
 $ sudo dphys-swapfile swapoff
 $ sudo systemctl stop dphys-swapfile
 $ sudo systemctl disable dphys-swapfile
@@ -160,27 +160,27 @@ Kubernetesクラスタのセットアップにはkubeadmを使う。
 <h4 id="iptablesがブリッジを通過するトラフィックを処理できるようにする">iptablesがブリッジを通過するトラフィックを処理できるようにする</h4>
 <p>起動時のカーネルモジュールのロードは<a href="https://manpages.debian.org/stretch/systemd/systemd-modules-load.service.8.en.html">systemd-modules-load.service</a>が担っている。
 <code>/etc/modules-load.d/*.conf</code>を作成してモジュール名を列挙すればよい。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/modules-load.d/k8s.conf
-</span><span style="color:#e6db74">br_netfilter
-</span><span style="color:#e6db74">EOF</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/modules-load.d/k8s.conf
+</span><span class="s">br_netfilter
+</span><span class="s">EOF</span>
 $ sudo modprobe br_netfilter
 
-$ cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/sysctl.d/k8s.conf
-</span><span style="color:#e6db74">net.bridge.bridge-nf-call-ip6tables = 1
-</span><span style="color:#e6db74">net.bridge.bridge-nf-call-iptables = 1
-</span><span style="color:#e6db74">EOF</span>
+$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/sysctl.d/k8s.conf
+</span><span class="s">net.bridge.bridge-nf-call-ip6tables = 1
+</span><span class="s">net.bridge.bridge-nf-call-iptables = 1
+</span><span class="s">EOF</span>
 $ sudo sysctl --system
 </code></pre></div><h4 id="iptablesがnftablesバックエンドを使用しないようにする">iptablesがnftablesバックエンドを使用しないようにする</h4>
 <p>Raspberry Pi OS 10ではすでにnftablesへ移行しているためiptablesを使うように設定する必要がある。
 手順はドキュメントに記載されている通り。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt install -y iptables arptables ebtables
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt install -y iptables arptables ebtables
 $ sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
 $ sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 $ sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
 $ sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 </code></pre></div><h4 id="必須ポートの確認">必須ポートの確認</h4>
 <p>Raspberry Pi OSではデフォルトで全許可となっているためこのままでいくなら特に気にする必要はない。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo iptables -S
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo iptables -S
 -P INPUT ACCEPT
 -P FORWARD ACCEPT
 -P OUTPUT ACCEPT
@@ -188,60 +188,60 @@ $ sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/container-runtimes/#cri-o">CRIのインストール | Kubernetes</a>
 <a href="https://cri-o.io/">cri-o</a></p>
 <p>事前準備はKubernetesのドキュメント通りに行う</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/modules-load.d/crio.conf
-</span><span style="color:#e6db74">overlay
-</span><span style="color:#e6db74">br_netfilter
-</span><span style="color:#e6db74">EOF</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/modules-load.d/crio.conf
+</span><span class="s">overlay
+</span><span class="s">br_netfilter
+</span><span class="s">EOF</span>
 $ sudo modprobe overlay
 $ sudo modprobe br_netfilter
 
-$ cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
-</span><span style="color:#e6db74">net.bridge.bridge-nf-call-iptables  = 1
-</span><span style="color:#e6db74">net.ipv4.ip_forward = 1
-</span><span style="color:#e6db74">net.bridge.bridge-nf-call-ip6tables = 1
-</span><span style="color:#e6db74">EOF</span>
+$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+</span><span class="s">net.bridge.bridge-nf-call-iptables  = 1
+</span><span class="s">net.ipv4.ip_forward = 1
+</span><span class="s">net.bridge.bridge-nf-call-ip6tables = 1
+</span><span class="s">EOF</span>
 $ sudo sysctl --system
 </code></pre></div><p>CRI-OのインストールにはOSとVersionを指定する必要がある。
 VersionはKubernetesと合わせる必要があるので1.20を指定する。
 aptのソースに追加するURL（<a href="https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/">ここ</a>と<a href="http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.20/">ここ</a>）を見てみると、
 幸い<code>Raspbian_10</code>というディレクトリがあるのでOSではこれを指定する。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ OS<span style="color:#f92672">=</span>Raspbian_10
-$ VERSION<span style="color:#f92672">=</span>1.20
-$ cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-</span><span style="color:#e6db74">deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
-</span><span style="color:#e6db74">EOF</span>
-$ cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
-</span><span style="color:#e6db74">deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /
-</span><span style="color:#e6db74">EOF</span>
-$ curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
-$ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">OS</span><span class="o">=</span>Raspbian_10
+$ <span class="nv">VERSION</span><span class="o">=</span>1.20
+$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+</span><span class="s">deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
+</span><span class="s">EOF</span>
+$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+</span><span class="s">deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /
+</span><span class="s">EOF</span>
+$ curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:<span class="nv">$VERSION</span>/<span class="nv">$OS</span>/Release.key <span class="p">|</span> sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+$ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/<span class="nv">$OS</span>/Release.key <span class="p">|</span> sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
 $ sudo apt update
 $ sudo apt install -y cri-o cri-o-runc
 $ sudo systemctl daemon-reload
-$ sudo systemctl enable crio
+$ sudo systemctl <span class="nb">enable</span> crio
 $ sudo systemctl start crio
 </code></pre></div><h3 id="kubeadmkubeletkubectlをインストール">kubeadm、kubelet、kubectlをインストール</h3>
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#kubeadm-kubelet-kubectl%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">kubeadmのインストール | Kubernetes</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get install -y apt-transport-https curl
-$ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-$ cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-</span><span style="color:#e6db74">deb https://apt.kubernetes.io/ kubernetes-xenial main
-</span><span style="color:#e6db74">EOF</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get install -y apt-transport-https curl
+$ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg <span class="p">|</span> sudo apt-key add -
+$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+</span><span class="s">deb https://apt.kubernetes.io/ kubernetes-xenial main
+</span><span class="s">EOF</span>
 $ sudo apt update
 $ sudo apt install -y kubelet kubeadm kubectl
 $ sudo apt-mark hold kubelet kubeadm kubectl
-$ cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/default/kubelet
-</span><span style="color:#e6db74">KUBELET_EXTRA_ARGS=--container-runtime-endpoint=&#39;unix:///var/run/crio/crio.sock&#39;
-</span><span style="color:#e6db74">EOF</span>
+$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/default/kubelet
+</span><span class="s">KUBELET_EXTRA_ARGS=--container-runtime-endpoint=&#39;unix:///var/run/crio/crio.sock&#39;
+</span><span class="s">EOF</span>
 </code></pre></div><h4 id="コントロールプレーンノードのkubeletによって使用されるcgroupドライバーの設定">コントロールプレーンノードのkubeletによって使用されるcgroupドライバーの設定</h4>
 <p>はじめは<code>/etc/default/kubelet</code>で<code>--cgroup-driver=systemd</code>を指定していたがkubelet起動時に以下の警告がログに出ていた。</p>
 <pre><code>Flag --cgroup-driver has been deprecated, This parameter should be set via the config file specified by the Kubelet's --config flag
 </code></pre><p><code>--config</code>フラグに渡しているファイルは<code>/var/lib/kubelet/config.yaml</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo systemctl cat kubelet | grep -- --config
-Environment<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo systemctl cat kubelet <span class="p">|</span> grep -- --config
+<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml&#34;</span>
 </code></pre></div><p><a href="https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubelet/config/v1beta1/types.go#L428">cgroupDriver</a>というパラメータが使える模様。
 このファイルに<code>cgroupDriver: systemd</code>という行を追加してkubeletを再起動。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ systemctl daemon-reload
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ systemctl daemon-reload
 $ systemctl restart kubelet
 </code></pre></div><h3 id="kubeadmを使ってkubernetesクラスタをインストール">kubeadmを使ってKubernetesクラスタをインストール</h3>
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">kubeadmを使用したクラスターの作成 | Kubernetes</a></p>
@@ -249,82 +249,82 @@ $ systemctl restart kubelet
 <li>今回の構成ではコントロールプレーンノードは1台のみなので本来不要だが、将来的にコントロールプレーンノードを冗長化したくなった場合に備えて<code>--control-plane-endpoint</code>を指定する。</li>
 <li>ネットワークアドオンはFlannelを使うため、適切な<code>--pod-network-cidr</code>を指定する（参照：<a href="https://github.com/flannel-io/flannel/blob/master/Documentation/kubernetes.md">flannel/kubernetes.md at master · flannel-io/flannel</a>）</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo kubeadm init --control-plane-endpoint<span style="color:#f92672">=</span>k8s-endpoint.test.local --pod-network-cidr<span style="color:#f92672">=</span>10.244.0.0/16
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo kubeadm init --control-plane-endpoint<span class="o">=</span>k8s-endpoint.test.local --pod-network-cidr<span class="o">=</span>10.244.0.0/16
 </code></pre></div><p>うまくいくと以下のようなメッセージが出力される。ここで出力されたコマンドをメモしておく。
 <code>Then you can join any number of worker nodes by running the following on each as root:</code></p>
 <p>また、DNSサーバにAレコードやCNAMEレコードを追加して<code>k8s-endpoint.test.local</code>をコントロールプレーンノードへ向けておく。</p>
 <h4 id="kubectlの設定">kubectlの設定</h4>
 <p>コントロールプレーンノードで<code>kubectl</code>を使えるように設定ファイルをコピーする。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown <span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>:<span style="color:#66d9ef">$(</span>id -g<span style="color:#66d9ef">)</span> $HOME/.kube/config
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">mkdir -p <span class="nv">$HOME</span>/.kube
+sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
+sudo chown <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> <span class="nv">$HOME</span>/.kube/config
 </code></pre></div><h3 id="クラスタへflannelをインストール">クラスタへFlannelをインストール</h3>
 <p><a href="https://github.com/flannel-io/flannel#deploying-flannel-manually">flannel-io/flannel: flannel is a network fabric for containers, designed for Kubernetes</a></p>
 <p>マニフェストが配布されているのでこれを使う。一応masterブランチではなく最新タグのものを使う。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.13.0/Documentation/kube-flannel.yml
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.13.0/Documentation/kube-flannel.yml
 </code></pre></div><h3 id="クラスタへノードとして登録">クラスタへノードとして登録</h3>
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#join-nodes">kubeadmを使用したクラスターの作成 | Kubernetes</a></p>
 <p><code>kubeadm init</code>実行時に出力されたコマンドを各ワーカーノードで実行。</p>
 <h2 id="確認">確認</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get node
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get node
 NAME           STATUS   ROLES                  AGE   VERSION
 k8s-master01   Ready    control-plane,master    1d   v1.20.2
 k8s-node01     Ready    &lt;none&gt;                  1d   v1.20.2
 k8s-node02     Ready    &lt;none&gt;                  1d   v1.20.2
 </code></pre></div><p>Nginxコンテナをデプロイしてみる。
 コントロールプレーンノードで以下を実行。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39; &gt;nginx.yaml
-</span><span style="color:#e6db74">apiVersion: apps/v1
-</span><span style="color:#e6db74">kind: Deployment
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: nginx
-</span><span style="color:#e6db74">  labels:
-</span><span style="color:#e6db74">    app.kubernetes.io/name: nginx
-</span><span style="color:#e6db74">    app.kubernetes.io/component: app
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  selector:
-</span><span style="color:#e6db74">    matchLabels:
-</span><span style="color:#e6db74">      app.kubernetes.io/name: nginx
-</span><span style="color:#e6db74">      app.kubernetes.io/component: app
-</span><span style="color:#e6db74">  replicas: 1
-</span><span style="color:#e6db74">  template:
-</span><span style="color:#e6db74">    metadata:
-</span><span style="color:#e6db74">      labels:
-</span><span style="color:#e6db74">        app.kubernetes.io/name: nginx
-</span><span style="color:#e6db74">        app.kubernetes.io/component: app
-</span><span style="color:#e6db74">    spec:
-</span><span style="color:#e6db74">      containers:
-</span><span style="color:#e6db74">      - name: nginx
-</span><span style="color:#e6db74">        image: nginx
-</span><span style="color:#e6db74">        resources:
-</span><span style="color:#e6db74">          requests:
-</span><span style="color:#e6db74">            cpu: 100m
-</span><span style="color:#e6db74">            memory: 100Mi
-</span><span style="color:#e6db74">        ports:
-</span><span style="color:#e6db74">        - containerPort: 80
-</span><span style="color:#e6db74">---
-</span><span style="color:#e6db74">apiVersion: v1
-</span><span style="color:#e6db74">kind: Service
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: nginx
-</span><span style="color:#e6db74">  labels:
-</span><span style="color:#e6db74">    app.kubernetes.io/name: nginx
-</span><span style="color:#e6db74">    app.kubernetes.io/component: app
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  ports:
-</span><span style="color:#e6db74">  - port: 80
-</span><span style="color:#e6db74">    targetPort: 80
-</span><span style="color:#e6db74">  selector:
-</span><span style="color:#e6db74">    app.kubernetes.io/name: nginx
-</span><span style="color:#e6db74">    app.kubernetes.io/component: app
-</span><span style="color:#e6db74">EOF</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt;nginx.yaml
+</span><span class="s">apiVersion: apps/v1
+</span><span class="s">kind: Deployment
+</span><span class="s">metadata:
+</span><span class="s">  name: nginx
+</span><span class="s">  labels:
+</span><span class="s">    app.kubernetes.io/name: nginx
+</span><span class="s">    app.kubernetes.io/component: app
+</span><span class="s">spec:
+</span><span class="s">  selector:
+</span><span class="s">    matchLabels:
+</span><span class="s">      app.kubernetes.io/name: nginx
+</span><span class="s">      app.kubernetes.io/component: app
+</span><span class="s">  replicas: 1
+</span><span class="s">  template:
+</span><span class="s">    metadata:
+</span><span class="s">      labels:
+</span><span class="s">        app.kubernetes.io/name: nginx
+</span><span class="s">        app.kubernetes.io/component: app
+</span><span class="s">    spec:
+</span><span class="s">      containers:
+</span><span class="s">      - name: nginx
+</span><span class="s">        image: nginx
+</span><span class="s">        resources:
+</span><span class="s">          requests:
+</span><span class="s">            cpu: 100m
+</span><span class="s">            memory: 100Mi
+</span><span class="s">        ports:
+</span><span class="s">        - containerPort: 80
+</span><span class="s">---
+</span><span class="s">apiVersion: v1
+</span><span class="s">kind: Service
+</span><span class="s">metadata:
+</span><span class="s">  name: nginx
+</span><span class="s">  labels:
+</span><span class="s">    app.kubernetes.io/name: nginx
+</span><span class="s">    app.kubernetes.io/component: app
+</span><span class="s">spec:
+</span><span class="s">  ports:
+</span><span class="s">  - port: 80
+</span><span class="s">    targetPort: 80
+</span><span class="s">  selector:
+</span><span class="s">    app.kubernetes.io/name: nginx
+</span><span class="s">    app.kubernetes.io/component: app
+</span><span class="s">EOF</span>
 $ kubectl create project sample-app
 $ kubectl apply -f nginx.yaml --namespace sample-app
-$ kubectl get pod --namespace<span style="color:#f92672">=</span>sample-app -o wide
+$ kubectl get pod --namespace<span class="o">=</span>sample-app -o wide
 NAME                     READY   STATUS    RESTARTS   AGE     IP           NODE         NOMINATED NODE   READINESS GATES
-nginx-68d96c59fb-nstnz   1/1     Running   <span style="color:#ae81ff">0</span>          4m29s   10.244.1.5   k8s-node01   &lt;none&gt;           &lt;none&gt;
-$ kubectl get svc --namespace<span style="color:#f92672">=</span>sample-app
-NAME    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>   AGE
+nginx-68d96c59fb-nstnz   1/1     Running   <span class="m">0</span>          4m29s   10.244.1.5   k8s-node01   &lt;none&gt;           &lt;none&gt;
+$ kubectl get svc --namespace<span class="o">=</span>sample-app
+NAME    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>   AGE
 nginx   ClusterIP   10.108.71.226   &lt;none&gt;        80/TCP    2m9s
 $ curl 10.108.71.226
 &lt;!DOCTYPE html&gt;
@@ -332,11 +332,11 @@ $ curl 10.108.71.226
 &lt;head&gt;
 &lt;title&gt;Welcome to nginx!&lt;/title&gt;
 &lt;style&gt;
-    body <span style="color:#f92672">{</span>
-        width: 35em;
-        margin: <span style="color:#ae81ff">0</span> auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    <span style="color:#f92672">}</span>
+    body <span class="o">{</span>
+        width: 35em<span class="p">;</span>
+        margin: <span class="m">0</span> auto<span class="p">;</span>
+        font-family: Tahoma, Verdana, Arial, sans-serif<span class="p">;</span>
+    <span class="o">}</span>
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -345,11 +345,11 @@ $ curl 10.108.71.226
 working. Further configuration is required.&lt;/p&gt;
 
 &lt;p&gt;For online documentation and support please refer to
-&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://nginx.org/&#34;</span>&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;
+&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;http://nginx.org/&#34;</span>&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;
 Commercial support is available at
-&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://nginx.com/&#34;</span>&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;
+&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;http://nginx.com/&#34;</span>&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Thank you <span style="color:#66d9ef">for</span> using nginx.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Thank you <span class="k">for</span> using nginx.&lt;/em&gt;&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre></div><p>ひとまずクラスタ内からPodへアクセスすることはできた。</p>

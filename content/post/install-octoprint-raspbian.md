@@ -36,7 +36,7 @@ OctoPrintにはいくつかの導入方法が提供されている。
 
 ### 環境
 
-``` shell
+``` bash
 $ lsb_release -a
 No LSB modules are available.
 Distributor ID: Raspbian
