@@ -12,6 +12,7 @@ Home Assistantで人感センサーを使って自宅の廊下の電球を点灯
 <!--more-->
 
 ## 使用製品
+
 今回使用するセンサー，機器は以下の通り
 
 * Raspbery Pi 2 Model B  
@@ -25,6 +26,7 @@ Raspbian jessie liteの上にHome Assistantをインストール済み
 スマホアプリを使って操作できるところまでセットアップしておく．資金に余裕があるならHueでもいいと思う．
 
 ## 概要
+
 やりたいことは以下の通り
 
 1. 人感センサーを使って人が近づいたことを検知できるようにしておく
@@ -32,6 +34,7 @@ Raspbian jessie liteの上にHome Assistantをインストール済み
 1. センサーに反応がなくなってしばらく経ってからMiLightへリクエストを発行し電球を消灯
 
 ## Home AssistantでGPIOを使う
+
 秋月のサイトにあるSB612Aのデータシートを見ると以下のことがわかる．
 
 * VCC端子に電源を接続する(DC3.3〜12V)
@@ -66,11 +69,12 @@ binary_sensor:
 なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを`gpio`グループに所属させればよい．
 
 ``` shell
-$ sudo usermod -a -G gpio ha
-$ sudo systemctl restart home-assistant
+sudo usermod -a -G gpio ha
+sudo systemctl restart home-assistant
 ```
 
 ## Home AssistantでMiLightを使う
+
 MiLight(中身はLimitlessLED)ははじめからComponentとして提供されているためこれを利用する．[LimitlessLED - Home Assistant](https://home-assistant.io/components/light.limitlessled/)
 
 * configuration.yaml
@@ -95,7 +99,7 @@ light:
 確実に設定を反映させるため，プロセスの再起動を行う．
 
 ``` shell
-$ sudo systemctl restart home-assistant
+sudo systemctl restart home-assistant
 ```
 
 ## Automationを設定する
@@ -138,10 +142,12 @@ $ sudo systemctl restart home-assistant
 ハマった箇所をいくつか
 
 ### entity\_idの命名規則
+
 entity\_idに指定する名前はそれぞれのComponentで設定した`name`値になる．空白や大文字はスネークケースへ変換される．
 つまり，nameを「PIR Sensor」のようにした場合，entity\_idでは「pir_sensor」のように指定する
 
 ### 「ある状態が一定時間続く」をトリガーにする
+
 action内では一定時間の経過を待つ`delay`文が使える
 
 ``` yaml
@@ -160,6 +166,7 @@ action内では一定時間の経過を待つ`delay`文が使える
 しばらく悩んでいたのだが，Triggerで`for`を使うことで希望の動作ができることがわかったので簡単に希望の動作を実現できた．
 
 ## 参考
+
 * [プログラマブル電球milightで遊ぼう(RGBW/DW) - takashiskiのブログ](http://takashiski.hatenablog.com/entry/2016/01/12/000658)
 * [Raspberry PI GPIO Binary Sensor - Home Assistant](https://home-assistant.io/components/binary_sensor.rpi_gpio/)
 * [LimitlessLED - Home Assistant](https://home-assistant.io/components/light.limitlessled/)

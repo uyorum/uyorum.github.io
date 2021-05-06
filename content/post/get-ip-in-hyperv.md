@@ -26,7 +26,7 @@ OS Version:                10.0.10240 N/A Build 10240
 
 ### Guest
 
-```shell 
+```shell
 $ lsb_release -a
 No LSB modules are available.
 Distributor ID: Debian

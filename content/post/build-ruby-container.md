@@ -68,11 +68,11 @@ OpenShiftのS2Iビルド用のイメージだが、おそらくそれ以外の�
 ---
 
 ## 追記
+
 Multi stage buildを使ってDockerfileを書き直した。  
 ついでにRubyのバージョンをBuild argにすることでビルド時に外部から与えることができるように変更。  
 イメージのサイズは140MBほど減って391MBになった。
 
 {{< gist uyorum be8616c86dd1cdbf9bd06aa7145f1646 >}}
-
 
 {{< affiliate asin="4873117763" title="Docker" >}}
