@@ -1,7 +1,7 @@
 +++
 slug = ""
 tags = ["Ruby", "Docker"]
-title = "任意のバージョンのRubyコンテナイメージを作成する"
+title = "CentOSベースのRubyコンテナイメージを作成する"
 date = "2021-05-06T15:07:29+09:00"
 +++
 

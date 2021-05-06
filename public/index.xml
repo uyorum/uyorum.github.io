@@ -9,7 +9,7 @@
     <copyright>uyorum All Right Reserved.</copyright>
     <lastBuildDate>Thu, 06 May 2021 15:07:29 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>任意のバージョンのRubyコンテナイメージを作成する</title>
+      <title>CentOSベースのRubyコンテナイメージを作成する</title>
       <link>https://blog.uyorum.net/post/build-ruby-container/</link>
       <pubDate>Thu, 06 May 2021 15:07:29 +0900</pubDate>
       
