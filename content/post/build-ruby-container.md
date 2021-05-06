@@ -17,8 +17,6 @@ Rubyがインストールされたコンテナイメージが欲しかったの�
 しかし、これらのイメージはベースがDebianやAlpine Linux、Ubuntuとなっている。
 とある理由でCentOSがベースのRubyコンテナが欲しかったので自分でビルドすることにした。
 
-centos
-
 ## Dockerfile
 
 コンテナでない環境なら普段はrbenvとruby-buildを使ってRubyをインストールするのだが、コンテナではRubyをひとつしか入れないのでrbenvは不要。  
