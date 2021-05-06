@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ruby on @uyorumの雑記帳</title>
+    <title>Ruby on @uyorumの雑記帳</title>
     <link>https://blog.uyorum.net/tags/ruby/</link>
-    <description>Recent content in ruby on @uyorumの雑記帳</description>
+    <description>Recent content in Ruby on @uyorumの雑記帳</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Wed, 01 Mar 2017 23:01:28 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Dec 2017 17:17:00 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FactoryBotでテストのはじめにデータを用意する</title>
+      <link>https://blog.uyorum.net/post/factorybot-1/</link>
+      <pubDate>Fri, 29 Dec 2017 17:17:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/factorybot-1/</guid>
+      <description>&lt;p&gt;Fixturesの管理のしづらさに耐えかねてFactoryBotへ移行しようとしている，とあるRailsプロジェクトがあるのだが，移行に際して懸念していることがテストの低速化だ．
+Fixturesならテストの前にレコードを作成しテストでそれを使い回すことになる一方で，FactoryBotの場合は下手するとexampleの数だけINSERT文が走りテストの低速化を招く．
+Fixturesのように，FactoryBotを使ってテストの最初にレコードを作成することができればそれを回避することができると考え，仕組みを考えてみた．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RSpecでFakerを使うならKernel.srandを設定しておけという話</title>
+      <link>https://blog.uyorum.net/post/rspec-faker-1/</link>
+      <pubDate>Thu, 28 Dec 2017 18:19:55 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/rspec-faker-1/</guid>
+      <description>&lt;p&gt;RSpecでFaker&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;を使ってテストデータを用意している場合，テストデータが毎回ランダムになるゆえに，特に工夫をしないとテストを再現させることができなくなる．&lt;br&gt;
+パスしなかったテストを再現できないとトラブルシュートが難しくなってしまうが，それをある程度解決する方法を見つけたのでメモしておく&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作</title>
       <link>https://blog.uyorum.net/post/rails-asset-pipeline-1/</link>
@@ -17,6 +38,15 @@
       <description>&lt;p&gt;Ruby on RailsのAsset Pipelineについて取り組む機会があったが，動きをよくわかっていなかったため解決までに非常に多くの時間をかけてしまった．
 いろいろと知識を詰め込んだので復習も兼ねてまとめていく．
 おそらくRailsを使い慣れている人にとっては基本的すぎる内容．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP</title>
+      <link>https://blog.uyorum.net/post/hotp/</link>
+      <pubDate>Fri, 24 Jul 2015 22:57:11 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/hotp/</guid>
+      <description>&lt;p&gt;今後，OTPを扱うことになりそうなので予習しておく．&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WSL on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/wsl/</link>
+    <description>Recent content in WSL on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Wed, 14 Apr 2021 21:55:17 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/wsl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WSL2にPodmanを入れる</title>
+      <link>https://blog.uyorum.net/post/podman-on-wsl2/</link>
+      <pubDate>Wed, 14 Apr 2021 21:55:17 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/podman-on-wsl2/</guid>
+      <description>&lt;p&gt;最近は仕事でPodmanを触る機会が多いので自宅のWSLにもDockerではなくPodmanを入れることにする。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

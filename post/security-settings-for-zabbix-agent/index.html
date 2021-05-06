@@ -80,12 +80,9 @@ $ sudo su -s /bin/sh zabbix sh -c <span class="s1">&#39;tail /var/log/messages&#
 tail: cannot open <span class="s1">&#39;/var/log/messages&#39;</span> <span class="k">for</span> reading: Permission denied
 </code></pre></div><p>zabbixユーザでファイルを開けるようにするには以下のような設定が考えられる．</p>
 <p>rootグループに対して読み取り権限を設定しzabbixユーザをrootグループに所属させる</p>
-<pre><code>``` shell
-$ sudo usermod -a -G root zabbix
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo usermod -a -G root zabbix
 $ sudo chmod g+r /var/log/messages
-```
-</code></pre>
-<p>これでログを開けるようになる．さらに少ない権限でいくなら<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/acls-setting">アクセスACL</a>という機能が使える．<br>
+</code></pre></div><p>これでログを開けるようになる．さらに少ない権限でいくなら<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/acls-setting">アクセスACL</a>という機能が使える．<br>
 この機能を使えば特定のユーザに対して特定のファイルにのみ権限を設定することができる．</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ getfacl /var/log/messages
 getfacl: Removing leading <span class="s1">&#39;/&#39;</span> from absolute path names
@@ -188,18 +185,16 @@ $ sudo semodule -i my-zabbixagentd.pp
     </aside>
     
 
-<h3>関連記事</h3>
+<h1>関連記事</h1>
 <ul>
   
-  <li><a href="/post/fp-l3/">FP技能検定3級を受けた</a></li>
+  <li><a href="/post/about-rpm/">RPMコマンドのオプション</a></li>
   
-  <li><a href="/post/home-automation-2017/">ホームオートメーションの現状まとめ@2017</a></li>
+  <li><a href="/post/xtrabackup-1/">XtraBackupによるバックアップ設計</a></li>
   
-  <li><a href="/post/factorybot-1/">FactoryBotでテストのはじめにデータを用意する</a></li>
+  <li><a href="/post/xmonad-change-modmask/">Xmonadのmodキーを半角/全角キーに変更する</a></li>
   
-  <li><a href="/post/rspec-faker-1/">RSpecでFakerを使うならKernel.srandを設定しておけという話</a></li>
-  
-  <li><a href="/post/trago-smart-cap/">Trago Capを使ってみて</a></li>
+  <li><a href="/post/debian-on-android/">Android上でDebianを動かす</a></li>
   
 </ul>
 

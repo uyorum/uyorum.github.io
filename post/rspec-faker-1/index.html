@@ -58,17 +58,23 @@
 <h2 id="どんな状況か">どんな状況か</h2>
 <p>自分が出会ったのはRailsでFactoryBotとFakerを組み合わせて使っている場合に出会った．
 あまりいい例ではないが，以下に具体的な状況を設定する</p>
-<p><strong>models/user.rb</strong></p>
+<ul>
+<li>models/user.rb</li>
+</ul>
 <div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
   <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="sr">/\A[a-zA-Z0-9 ]+\z/</span>
 <span class="k">end</span>
-</code></pre></div><p><strong>factories/user.rb</strong></p>
+</code></pre></div><ul>
+<li>factories/user.rb</li>
+</ul>
 <div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="no">FactoryBot</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
   <span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span>
     <span class="nb">name</span> <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Name</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div><p><strong>spec/models/user_spec.rb</strong></p>
+</code></pre></div><ul>
+<li>spec/models/user_spec.rb</li>
+</ul>
 <div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
 
 <span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="no">User</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:model</span> <span class="k">do</span>
@@ -109,7 +115,9 @@ Failures:
 </code></pre></div><p><code>Kernel.srand</code>に整数値を渡すことで<code>Kernel.rand</code>や<code>Random.rand</code>のシード値を設定することができる<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
 <h2 id="試してみる">試してみる</h2>
 <p>実際にこの設定の動作を確認してみるために以下のようなテストコードを用意する．</p>
-<p><strong>spec/random_data_spec.rb</strong></p>
+<ul>
+<li>spec/random_data_spec.rb</li>
+</ul>
 <div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
 
 <span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="s1">&#39;Randomized data&#39;</span> <span class="k">do</span>
@@ -184,6 +192,25 @@ Randomized with seed <span class="m">1234</span>
 <p>以上．</p>
 <p>なお，ここで挙げたコードはGitHubに上げてある．<br>
 <a href="https://github.com/uyorum/play-ruby-on-rails/tree/rspec/faker-srand">uyorum/play-ruby-on-rails</a></p>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/4297114623/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=4297114623&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/4297114623/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        パーフェクト Ruby on Rails 【増補改訂版】 (Perfect series)
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -222,18 +249,12 @@ Randomized with seed <span class="m">1234</span>
     </aside>
     
 
-<h3>関連記事</h3>
+<h1>関連記事</h1>
 <ul>
   
-  <li><a href="/post/trago-smart-cap/">Trago Capを使ってみて</a></li>
+  <li><a href="/post/rails-asset-pipeline-1/">Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作</a></li>
   
-  <li><a href="/post/tsl2561-with-mongoose-os-on-esp32-02/">ESP32とMongooseOSを使ってTSL2561で照度を取得する(実装編)</a></li>
-  
-  <li><a href="/post/tsl2561-with-mongoose-os-on-esp32-01/">ESP32とMongooseOSを使ってTSL2561で照度を取得する(準備編)</a></li>
-  
-  <li><a href="/post/fitbit-charge2-bands/">Fitbit Charge2用サードパーティ製バンドを買った</a></li>
-  
-  <li><a href="/post/infrastructure-as-code-chap6-9/">Infrastructure as Code 感想 (6-9章)</a></li>
+  <li><a href="/post/hotp/">ワンタイムパスワード生成アルゴリズムについて学ぶ1 - HOTP</a></li>
   
 </ul>
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ホームオートメーション on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/</link>
+    <description>Recent content in ホームオートメーション on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Thu, 28 Jun 2018 15:06:06 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Home AssistantのデプロイをHass.ioにした</title>
+      <link>https://blog.uyorum.net/post/hassio-introduction/</link>
+      <pubDate>Thu, 28 Jun 2018 15:06:06 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/hassio-introduction/</guid>
+      <description>&lt;p&gt;これまでHome AssistantはRaspbianにインストールしたDocker上で動かしていたがHass.ioに移行した．&lt;br&gt;
+移行にあたって実施したことをまとめておく．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ホームオートメーションの現状まとめ@2017</title>
+      <link>https://blog.uyorum.net/post/home-automation-2017/</link>
+      <pubDate>Sat, 30 Dec 2017 00:15:15 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/home-automation-2017/</guid>
+      <description>&lt;p&gt;今年はホームオートメーションにたくさん取り組んだ年だった．
+年末ということでキリもよいので現状の我が家がどうなっているかまとめておく．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ESP32とMongooseOSを使ってTSL2561で照度を取得する(実装編)</title>
+      <link>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-02/</link>
+      <pubDate>Sat, 02 Sep 2017 10:41:35 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-02/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../tsl2561-with-mongoose-os-on-esp32-01/&#34;&gt;前回&lt;/a&gt;の続き．
+Mongoose OSの設定とTSL2561を使うためのコードを書いていく．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ESP32とMongooseOSを使ってTSL2561で照度を取得する(準備編)</title>
+      <link>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-01/</link>
+      <pubDate>Wed, 02 Aug 2017 20:53:04 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-01/</guid>
+      <description>&lt;p&gt;かねてから触ってみたいと思っていたMongooseOSと以前買ったTSL2561照度センサーモジュールがあったのでESP32にMongooseOSを入れて照度を取得してみようと思った．&lt;br&gt;
+そもそもI2Cデバイスを触るのが初めてだったため、いきなりMongooseOSでそれを扱おうとするのはハードルが高すぎると考え、まずはその準備編として情報の多いRaspberryPiで照度を取得してみることにした．&lt;br&gt;
+最後にESP32へのMongooseOSのインストールも行っておく．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Home AssistantとAmazon Dash Buttonを連携させる</title>
+      <link>https://blog.uyorum.net/post/home-assistant-with-dash-button/</link>
+      <pubDate>Sat, 10 Jun 2017 20:20:04 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/home-assistant-with-dash-button/</guid>
+      <description>&lt;p&gt;Amazon Dash Buttonは間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Home Assistantで人感センサーを使って照明を自動点灯する</title>
+      <link>https://blog.uyorum.net/post/home-assistant-gpio/</link>
+      <pubDate>Sun, 23 Apr 2017 21:33:54 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/home-assistant-gpio/</guid>
+      <description>&lt;p&gt;Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Home Assistantでつくるホームオートメーション(導入編)</title>
+      <link>https://blog.uyorum.net/post/home-assistant-install/</link>
+      <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/home-assistant-install/</guid>
+      <description>&lt;p&gt;ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

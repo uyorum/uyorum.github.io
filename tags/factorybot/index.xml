@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FactoryBot on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/factorybot/</link>
+    <description>Recent content in FactoryBot on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Fri, 29 Dec 2017 17:17:00 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/factorybot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FactoryBotでテストのはじめにデータを用意する</title>
+      <link>https://blog.uyorum.net/post/factorybot-1/</link>
+      <pubDate>Fri, 29 Dec 2017 17:17:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/factorybot-1/</guid>
+      <description>&lt;p&gt;Fixturesの管理のしづらさに耐えかねてFactoryBotへ移行しようとしている，とあるRailsプロジェクトがあるのだが，移行に際して懸念していることがテストの低速化だ．
+Fixturesならテストの前にレコードを作成しテストでそれを使い回すことになる一方で，FactoryBotの場合は下手するとexampleの数だけINSERT文が走りテストの低速化を招く．
+Fixturesのように，FactoryBotを使ってテストの最初にレコードを作成することができればそれを回避することができると考え，仕組みを考えてみた．&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

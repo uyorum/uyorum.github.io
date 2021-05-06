@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/kubernetes/</link>
+    <description>Recent content in Kubernetes on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Sun, 04 Apr 2021 22:18:27 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Raspberry Pi 4BにKubernetesをインストール（2021年版）</title>
+      <link>https://blog.uyorum.net/post/k8s-on-rpi4/</link>
+      <pubDate>Sun, 04 Apr 2021 22:18:27 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/k8s-on-rpi4/</guid>
+      <description>&lt;p&gt;Kubernetesの状況を加味した構成と手順。できるだけ一次情報も示しながら記録を残していく。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

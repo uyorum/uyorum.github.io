@@ -95,14 +95,14 @@ Calicoが機能的には柔軟そうだが、ここではよりシンプルそ�
 <li><a href="https://github.com/raspberrypi/firmware/blob/master/boot/overlays/README#L1008">GPIO3ピンでシャットダウンをできるように（ついで）</a></li>
 </ul>
 <p>自分の場合はWSL2で実行している。その他の環境で実行する場合は最初のマウント方法が異なる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ mkdir mnt
-$ sudo mount -t drvfs d: mnt
-$ <span class="nb">cd</span> mnt
-$ touch ssh
-$ sudo sed -i <span class="s1">&#39;s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/g&#39;</span> cmdline.txt
-$ <span class="nb">echo</span> <span class="s1">&#39;dtoverlay=gpio-shutdown,gpio_pin=3&#39;</span> <span class="p">|</span> sudo tee -a config.txt
-$ <span class="nb">cd</span> -
-$ sudo umount mnt
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">mkdir mnt
+sudo mount -t drvfs d: mnt
+<span class="nb">cd</span> mnt
+touch ssh
+sudo sed -i <span class="s1">&#39;s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/g&#39;</span> cmdline.txt
+<span class="nb">echo</span> <span class="s1">&#39;dtoverlay=gpio-shutdown,gpio_pin=3&#39;</span> <span class="p">|</span> sudo tee -a config.txt
+<span class="nb">cd</span> -
+sudo umount mnt
 </code></pre></div><p>OS起動後、SSHでログインしいくつか追加の設定を行う。</p>
 <ul>
 <li>piユーザの<code>authorized_keys</code>にSSH公開鍵を追加</li>
@@ -173,11 +173,11 @@ $ sudo sysctl --system
 </code></pre></div><h4 id="iptablesがnftablesバックエンドを使用しないようにする">iptablesがnftablesバックエンドを使用しないようにする</h4>
 <p>Raspberry Pi OS 10ではすでにnftablesへ移行しているためiptablesを使うように設定する必要がある。
 手順はドキュメントに記載されている通り。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt install -y iptables arptables ebtables
-$ sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-$ sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-$ sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
-$ sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt install -y iptables arptables ebtables
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
+sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 </code></pre></div><h4 id="必須ポートの確認">必須ポートの確認</h4>
 <p>Raspberry Pi OSではデフォルトで全許可となっているためこのままでいくなら特に気にする必要はない。</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo iptables -S
@@ -241,15 +241,15 @@ $ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/default/kubelet
 <span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml&#34;</span>
 </code></pre></div><p><a href="https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubelet/config/v1beta1/types.go#L428">cgroupDriver</a>というパラメータが使える模様。
 このファイルに<code>cgroupDriver: systemd</code>という行を追加してkubeletを再起動。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ systemctl daemon-reload
-$ systemctl restart kubelet
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">systemctl daemon-reload
+systemctl restart kubelet
 </code></pre></div><h3 id="kubeadmを使ってkubernetesクラスタをインストール">kubeadmを使ってKubernetesクラスタをインストール</h3>
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">kubeadmを使用したクラスターの作成 | Kubernetes</a></p>
 <ul>
 <li>今回の構成ではコントロールプレーンノードは1台のみなので本来不要だが、将来的にコントロールプレーンノードを冗長化したくなった場合に備えて<code>--control-plane-endpoint</code>を指定する。</li>
 <li>ネットワークアドオンはFlannelを使うため、適切な<code>--pod-network-cidr</code>を指定する（参照：<a href="https://github.com/flannel-io/flannel/blob/master/Documentation/kubernetes.md">flannel/kubernetes.md at master · flannel-io/flannel</a>）</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo kubeadm init --control-plane-endpoint<span class="o">=</span>k8s-endpoint.test.local --pod-network-cidr<span class="o">=</span>10.244.0.0/16
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo kubeadm init --control-plane-endpoint<span class="o">=</span>k8s-endpoint.test.local --pod-network-cidr<span class="o">=</span>10.244.0.0/16
 </code></pre></div><p>うまくいくと以下のようなメッセージが出力される。ここで出力されたコマンドをメモしておく。
 <code>Then you can join any number of worker nodes by running the following on each as root:</code></p>
 <p>また、DNSサーバにAレコードやCNAMEレコードを追加して<code>k8s-endpoint.test.local</code>をコントロールプレーンノードへ向けておく。</p>
@@ -261,7 +261,7 @@ sudo chown <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k
 </code></pre></div><h3 id="クラスタへflannelをインストール">クラスタへFlannelをインストール</h3>
 <p><a href="https://github.com/flannel-io/flannel#deploying-flannel-manually">flannel-io/flannel: flannel is a network fabric for containers, designed for Kubernetes</a></p>
 <p>マニフェストが配布されているのでこれを使う。一応masterブランチではなく最新タグのものを使う。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.13.0/Documentation/kube-flannel.yml
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.13.0/Documentation/kube-flannel.yml
 </code></pre></div><h3 id="クラスタへノードとして登録">クラスタへノードとして登録</h3>
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#join-nodes">kubeadmを使用したクラスターの作成 | Kubernetes</a></p>
 <p><code>kubeadm init</code>実行時に出力されたコマンドを各ワーカーノードで実行。</p>
@@ -389,6 +389,23 @@ Commercial support is available at
 
     </aside>
     
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/install-octoprint-raspbian/">Raspberry Pi OS(Raspbian)にOctoPrintをインストールする</a></li>
+  
+  <li><a href="/post/hassio-introduction/">Home AssistantのデプロイをHass.ioにした</a></li>
+  
+  <li><a href="/post/home-assistant-install/">Home Assistantでつくるホームオートメーション(導入編)</a></li>
+  
+  <li><a href="/post/learning-coreos-01/">CoreOS入門1 etcd</a></li>
+  
+  <li><a href="/post/boot2docker-xhyve/">MacのxhyveでDockerを使う</a></li>
+  
+  <li><a href="/post/coder-for-pi/">RaspeberryPi用のGoogle製Web開発プラットフォームCoder for RaspberryPiを導入してみた</a></li>
+  
+</ul>
 
 
     

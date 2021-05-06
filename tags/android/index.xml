@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Android on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/android/</link>
+    <description>Recent content in Android on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Fri, 20 Sep 2013 22:44:00 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android上でDebianを動かす</title>
+      <link>https://blog.uyorum.net/post/debian-on-android/</link>
+      <pubDate>Fri, 20 Sep 2013 22:44:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/debian-on-android/</guid>
+      <description>&lt;p&gt;AndroidでもEmacsと戯れたかったので調べてみました．&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

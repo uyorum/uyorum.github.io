@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CentOS on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/centos/</link>
+    <description>Recent content in CentOS on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Thu, 04 Jul 2019 20:32:07 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/centos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fail2banでBotからsshdとNginxを守る</title>
+      <link>https://blog.uyorum.net/post/fail2ban-1/</link>
+      <pubDate>Thu, 04 Jul 2019 20:32:07 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/fail2ban-1/</guid>
+      <description>久しぶりにfail2banを使ったら設定方法を調べるのに苦戦したのでメモ
+やりたいこと  以下のようなアクセスを行なったIPアドレスをBotとみなす  SSHで認証に失敗したアクセスの送信元アドレス HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレス   BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする 一度BotとみなしたIPアドレスは永久にブロックする  環境 # cat /etc/redhat-release CentOS Linux release 7.6.1810 (Core) # yum list fail2ban fail2ban.noarch 0.9.7-1.el7 @epel 情報源 いろいろ調べたが結局manが一番参考になるし信用できる．
+man fail2ban man jail.conf man ipset インストール # yum install -y fail2ban 設定ファイル類 設定ファイルは/etc/fail2banに集まっている．
+ fail2ban.conf
+fail2ban全般の設定を書く．変更するとしたらログレベルやログファイルのパスくらい． jail.conf
+filterとactionの組み合わせ(この記事ではルールと呼ぶことにする)をここで定義していく．デフォルトでいくつか定義されているがすべて無効化されている．
+またjail.d/*.confも読み込むようになっている． filter.d/*.conf
+どのログをどんな正規表現で監視するか(filter)を定義する action.d/*.conf
+IPをブロックする方法(action)を定義する  設定ファイルの書き方 デフォルトでは.confファイルが作成されているが，これらのファイルは編集せずに同名の.localファイルを同じディレクトリに作る方法が推奨されている． .confのうち上書きしたい部分だけを.localファイルに書けばその部分だけ上書きされる．
+jailの設定は各ルール共通の設定をjail.localに書き，各ルールの設定と有効化をjail.d/*.localに書くことにするときれいに管理できそう．
+fail2banのしくみ  jailのlogpathに設定したログファイルをtail jailのfilterに設定した条件(ログイン失敗など)に一致したログをカウント
+このときログに含まれる「アクセス元IPアドレス」も認識しておく 設定した頻度に逹したIPアドレスをブロック
+ブロックの手段はjailのbanactionで設定する  設定 上に書いたやりたいことを実現すべく設定していく．
+SSHで認証に失敗したアクセスの送信元アドレスをBotとみなす jail.</description>
+    </item>
+    
+    <item>
+      <title>必要最低限の設定で監視エージェントに監視させる</title>
+      <link>https://blog.uyorum.net/post/security-settings-for-zabbix-agent/</link>
+      <pubDate>Tue, 12 Jun 2018 10:19:17 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/security-settings-for-zabbix-agent/</guid>
+      <description>&lt;p&gt;監視エージェントで監視をする際に，&lt;strong&gt;必要最低限の&lt;/strong&gt;権限設定で監視できるようにしてみる．&lt;br&gt;
+Zabbix Agentを例にとって記述するが，他の監視エージェントでも同様のことが言えると思う．&lt;/p&gt;
+&lt;p&gt;なお，ここでは監視に必要な必要最低限の権限を付与するという点を最優先した設定を考える．運用を考えると必ずしも最適とは言えない可能性があるため注意が必要．&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

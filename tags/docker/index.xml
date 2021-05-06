@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/docker/</link>
+    <description>Recent content in Docker on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Wed, 14 Apr 2021 21:55:17 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WSL2にPodmanを入れる</title>
+      <link>https://blog.uyorum.net/post/podman-on-wsl2/</link>
+      <pubDate>Wed, 14 Apr 2021 21:55:17 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/podman-on-wsl2/</guid>
+      <description>&lt;p&gt;最近は仕事でPodmanを触る機会が多いので自宅のWSLにもDockerではなくPodmanを入れることにする。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Raspberry Pi 4BにKubernetesをインストール（2021年版）</title>
+      <link>https://blog.uyorum.net/post/k8s-on-rpi4/</link>
+      <pubDate>Sun, 04 Apr 2021 22:18:27 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/k8s-on-rpi4/</guid>
+      <description>&lt;p&gt;Kubernetesの状況を加味した構成と手順。できるだけ一次情報も示しながら記録を残していく。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>CoreOS入門1 etcd</title>
+      <link>https://blog.uyorum.net/post/learning-coreos-01/</link>
+      <pubDate>Fri, 04 Sep 2015 23:01:54 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/learning-coreos-01/</guid>
+      <description>&lt;p&gt;最近CoreOSを触りはじめたので学んだことをまとめていく．まずはetcdから．
+最終的にはKubernetesでCoreOSをコントロールするところまでいきたいなーと思ってるが，いつになることやら．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MacのxhyveでDockerを使う</title>
+      <link>https://blog.uyorum.net/post/boot2docker-xhyve/</link>
+      <pubDate>Tue, 21 Jul 2015 23:52:37 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/boot2docker-xhyve/</guid>
+      <description>&lt;p&gt;xhyve(いまだに発音がわからない)の仕組みは全く理解してないけど，xhyveとboot2dockerを使ってdockerコマンドを叩くまで．&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -87,7 +87,7 @@ Discovery ServiceのURLは通常使い回しはせずに構築するクラスタ
 前者は普通にetcdを起動すればいいみたい．ここでetcdを起動するホストはクラスタに参加させたいホストとは別物なので注意．これに気づくまでに時間がかかった．<br>
 (Public Serviceの方法はetcd2でしか使えない？etcd 4.9ではなぜかだめだった．)<br>
 Public Discovery Serviceを使うには</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl https://discovery.etcd.io/new?size<span class="o">=</span><span class="m">3</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl https://discovery.etcd.io/new?size<span class="o">=</span><span class="m">3</span>
 </code></pre></div><p>で返ってきたURLを<code>-discovery</code>オプションに指定してetcdを起動する．sizeにははじめにクラスタを構成する際のノード数を指定する．<br>
 ここで指定する値は重要で，ここで指定した台数が集まらないとetcdクラスタが完成しない．(KVSが機能しない)</p>
 <p>今回は1つのOSでポートを変えてetcdプロセスを3つ起動してクラスタを構成してみる．</p>
@@ -307,6 +307,13 @@ ef6ce0b8871844beb929411f8926b686        10.0.0.139      -
 
     </aside>
     
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/boot2docker-xhyve/">MacのxhyveでDockerを使う</a></li>
+  
+</ul>
 
 
     

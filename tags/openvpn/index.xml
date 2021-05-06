@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OpenVPN on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/openvpn/</link>
+    <description>Recent content in OpenVPN on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Sun, 28 Oct 2018 17:52:09 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/openvpn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>インターネット付きマンションでLAN上のホストをインターネット公開する(設計編)</title>
+      <link>https://blog.uyorum.net/post/publish-with-openvpn-1/</link>
+      <pubDate>Sun, 28 Oct 2018 17:52:09 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/publish-with-openvpn-1/</guid>
+      <description>背景 これまでの私の自宅は自身で回線とISPを契約してインターネットに接続していた． しかし最近，マンションでインターネット回線を一括契約し各部屋からは無料でインターネットに接続できるようになった． 月々の回線費用が浮くためできればこちらの回線に移行し，自分で契約した回線は解約したい． しばらく使ってみて回線速度は十分であることが確認できたのだが，各部屋へはプライベートアドレスしか与えられないためそのままではLAN上のホストをインターネットへ公開することができない． そこで手段を考えてみた．
+これまでの論理構成図  ルータでPPPoE接続する．ルータがグローバルアドレスを持つ LAN上のいくつかのホストへはポートフォワードによりインターネットからアクセスできる OpenVPN(L3)サービスをインターネットへ公開し，VPNへ接続したホストはVPNを介しLAN上のホストと通信できる  課題 よくある提供形態だと思うのだが，我が家のマンションのインターネットも，各部屋へはDHCPによりプライベートアドレスが払い出される形式のため，グローバルアドレスはもらえない． そのためポートフォワードを設定したりVPNのサービスをインターネットへ公開することもできない． そこで以下のような構成を考えた
+ インターネット上にLinuxを用意してVPNサービスを公開する，宅内のLAN上のホストからそこへVPN接続する 同じLinux上でポートフォワードを設定し，VPNにより構成されたトンネルを通ってLAN上のホストへパケットをフォワードする PCなどでインターネットからVPNを接続することで宅内のホストと通信できるようになる  変更後の論理構成図 論理構成図は以下のようになる．
+ここでL2VPNにしているのは，フォワードした返りのパケットをVPN側へ流すようにするため．ポートフォワード先のホストはあらかじめデフォルトゲートウェイをL2VPN上のLinuxが持つIPアドレスにしておく． より高度なルーティング機能があればL3VPNにして，ポートフォワードされた返りのパケットだけをVPN側へ流すといったこともできるのかもしれないが，そういった機器を持っていないためこのような構成にした．
+用意するもの この構成を実現するには以下のようなホストを用意することになる
+ インターネットからアクセス可能なLinuxサーバ  L2VPNサーバを構築   L2VPNクライアントとして動作可能なホスト  L2VPNクライアントとしてLinuxサーバへ接続する    今回はここまで</description>
+    </item>
+    
+    <item>
+      <title>DD-WRTでOpenVPNの設定</title>
+      <link>https://blog.uyorum.net/post/openvpn-on-dd-wrt/</link>
+      <pubDate>Sun, 29 Mar 2015 20:56:18 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/openvpn-on-dd-wrt/</guid>
+      <description>&lt;p&gt;色々はまったのでメモ。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

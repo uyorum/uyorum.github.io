@@ -55,7 +55,7 @@
     <section itemprop="entry-text">
       <p>久しぶりにfail2banを使ったら設定方法を調べるのに苦戦したのでメモ</p>
 <!-- raw HTML omitted -->
-<h1 id="やりたいこと">やりたいこと</h1>
+<h2 id="やりたいこと">やりたいこと</h2>
 <ul>
 <li>以下のようなアクセスを行なったIPアドレスをBotとみなす
 <ul>
@@ -66,19 +66,19 @@
 <li>BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする</li>
 <li>一度BotとみなしたIPアドレスは永久にブロックする</li>
 </ul>
-<h1 id="環境">環境</h1>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cat /etc/redhat-release</span>
+<h2 id="環境">環境</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># cat /etc/redhat-release</span>
 CentOS Linux release 7.6.1810 <span class="o">(</span>Core<span class="o">)</span>
 <span class="c1"># yum list fail2ban</span>
 fail2ban.noarch     0.9.7-1.el7     @epel
-</code></pre></div><h1 id="情報源">情報源</h1>
+</code></pre></div><h2 id="情報源">情報源</h2>
 <p>いろいろ調べたが結局<code>man</code>が一番参考になるし信用できる．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ man fail2ban
-$ man jail.conf
-$ man ipset
-</code></pre></div><h1 id="インストール">インストール</h1>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">man fail2ban
+man jail.conf
+man ipset
+</code></pre></div><h2 id="インストール">インストール</h2>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># yum install -y fail2ban</span>
-</code></pre></div><h1 id="設定ファイル類">設定ファイル類</h1>
+</code></pre></div><h2 id="設定ファイル類">設定ファイル類</h2>
 <p>設定ファイルは<code>/etc/fail2ban</code>に集まっている．</p>
 <ul>
 <li>fail2ban.conf<br>
@@ -91,11 +91,11 @@ filterとactionの組み合わせ(この記事では<code>ルール</code>と呼
 <li>action.d/*.conf<br>
 IPをブロックする方法(action)を定義する</li>
 </ul>
-<h2 id="設定ファイルの書き方">設定ファイルの書き方</h2>
+<h3 id="設定ファイルの書き方">設定ファイルの書き方</h3>
 <p>デフォルトでは<code>.conf</code>ファイルが作成されているが，これらのファイルは編集せずに同名の<code>.local</code>ファイルを同じディレクトリに作る方法が推奨されている．
 <code>.conf</code>のうち上書きしたい部分だけを<code>.local</code>ファイルに書けばその部分だけ上書きされる．</p>
 <p>jailの設定は各ルール共通の設定を<code>jail.local</code>に書き，各ルールの設定と有効化を<code>jail.d/*.local</code>に書くことにするときれいに管理できそう．</p>
-<h1 id="fail2banのしくみ">fail2banのしくみ</h1>
+<h2 id="fail2banのしくみ">fail2banのしくみ</h2>
 <ol>
 <li>jailのlogpathに設定したログファイルをtail</li>
 <li>jailのfilterに設定した条件(ログイン失敗など)に一致したログをカウント<br>
@@ -103,9 +103,9 @@ IPをブロックする方法(action)を定義する</li>
 <li>設定した頻度に逹したIPアドレスをブロック<br>
 ブロックの手段はjailのbanactionで設定する</li>
 </ol>
-<h1 id="設定">設定</h1>
+<h2 id="設定">設定</h2>
 <p>上に書いたやりたいことを実現すべく設定していく．</p>
-<h2 id="sshで認証に失敗したアクセスの送信元アドレスをbotとみなす">SSHで認証に失敗したアクセスの送信元アドレスをBotとみなす</h2>
+<h3 id="sshで認証に失敗したアクセスの送信元アドレスをbotとみなす">SSHで認証に失敗したアクセスの送信元アドレスをBotとみなす</h3>
 <p>jail.confにははじめから以下の内容が書かれている(抜粋)</p>
 <p>jail.conf:</p>
 <div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[DEFAULT]</span>
@@ -125,7 +125,7 @@ IPをブロックする方法(action)を定義する</li>
 <p>jail.d/sshd.local:</p>
 <div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[sshd]</span>
 <span class="na">enabled</span> <span class="o">=</span> <span class="s">true</span>
-</code></pre></div><h2 id="httpやhttpsでよくある攻撃対象のパスへアクセスしてきた送信元アドレスをbotとみなす">HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレスをBotとみなす</h2>
+</code></pre></div><h3 id="httpやhttpsでよくある攻撃対象のパスへアクセスしてきた送信元アドレスをbotとみなす">HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレスをBotとみなす</h3>
 <p>自分の環境ではNginxでこれらのポートをリッスンしている．これもやりたいことを実現できそうなjailがデフォルトで定義されている．</p>
 <p>jail.conf:</p>
 <div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[nginx-botsearch]</span>
@@ -144,7 +144,7 @@ IPをブロックする方法(action)を定義する</li>
 <div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[nginx-botsearch]</span>
 <span class="na">enabled</span>  <span class="o">=</span> <span class="s">true</span>
 <span class="na">logpath</span>  <span class="o">=</span> <span class="s">%(nginx_access_log)s</span>
-</code></pre></div><h2 id="botとみなしたipアドレスからのアクセスは以後すべてのポートでdropするようにする">BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする</h2>
+</code></pre></div><h3 id="botとみなしたipアドレスからのアクセスは以後すべてのポートでdropするようにする">BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする</h3>
 <p>これはactionで設定する．
 このサーバではFirewalldを使用しているので，fail2banでもFirwalldを通して設定するようにしたい．また今回の設定では大量のIPアドレスをブロックすることになるのでipsetを使いたい．(iptablesに大量のルールを設定するとパフォーマンスに影響がありそうだったため)
 これを実現できそうなactionはデフォルトでは存在しなかったため，一番近そうな<code>firewallcmd-ipset</code>jailを改変することにした．
@@ -167,11 +167,11 @@ fail2ban起動時にipsetを作成しDROPするようなルールをFirewalldで
 <div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">(抜粋)</span>
 <span class="k">[DEFAULT]</span>
 <span class="na">banaction</span> <span class="o">=</span> <span class="s">firewallcmd-ipset</span>
-</code></pre></div><h2 id="一度botとみなしたipアドレスは永久にブロックする">一度BotとみなしたIPアドレスは永久にブロックする</h2>
+</code></pre></div><h3 id="一度botとみなしたipアドレスは永久にブロックする">一度BotとみなしたIPアドレスは永久にブロックする</h3>
 <p><code>jail.conf</code>(<code>jail.local</code>)には<code>bantime</code>というパラメータがある</p>
-<pre><code>bantime
-    effective ban duration (in seconds).
-</code></pre><p>永久にBANしたい場合の値が読みとれなかったが，試してみたところ0にするとBANした瞬間にunBANの処理が実行されてしまった．よってここの値は便宜上-1にしておく．</p>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">bantime</span>
+    <span class="na">effective ban duration (in seconds).</span>
+</code></pre></div><p>永久にBANしたい場合の値が読みとれなかったが，試してみたところ0にするとBANした瞬間にunBANの処理が実行されてしまった．よってここの値は便宜上-1にしておく．</p>
 <p>jail.local:</p>
 <div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">(抜粋)</span>
 <span class="k">[DEFAULT]</span>
@@ -198,18 +198,20 @@ ipsetはtimeoutオプションでエントリの寿命を設定できるが，�
     </aside>
     
 
-<h3>関連記事</h3>
+<h1>関連記事</h1>
 <ul>
   
-  <li><a href="/post/buffalo-ethernet-converter/">バッファローのイーサネットコンバータでトラブった話</a></li>
+  <li><a href="/post/security-settings-for-zabbix-agent/">必要最低限の設定で監視エージェントに監視させる</a></li>
   
-  <li><a href="/post/designing-facility-layer-02/">ファシリティまわりの設計時に考慮すること(続き)</a></li>
-  
-  <li><a href="/post/designing-facility-layer-01/">ファシリティまわりの設計時に考慮すること</a></li>
+  <li><a href="/post/about-rpm/">RPMコマンドのオプション</a></li>
   
   <li><a href="/post/letsencrypt-nginx/">NginxでLet&#39;s Encryptの証明書を扱う</a></li>
   
-  <li><a href="/post/publish-with-openvpn-1/">インターネット付きマンションでLAN上のホストをインターネット公開する(設計編)</a></li>
+  <li><a href="/post/xtrabackup-1/">XtraBackupによるバックアップ設計</a></li>
+  
+  <li><a href="/post/xmonad-change-modmask/">Xmonadのmodキーを半角/全角キーに変更する</a></li>
+  
+  <li><a href="/post/debian-on-android/">Android上でDebianを動かす</a></li>
   
 </ul>
 

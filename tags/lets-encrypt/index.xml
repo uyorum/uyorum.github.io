@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Let&#39;s Encrypt on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/lets-encrypt/</link>
+    <description>Recent content in Let&#39;s Encrypt on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Sat, 15 Dec 2018 18:19:48 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/lets-encrypt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NginxでLet&#39;s Encryptの証明書を扱う</title>
+      <link>https://blog.uyorum.net/post/letsencrypt-nginx/</link>
+      <pubDate>Sat, 15 Dec 2018 18:19:48 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/letsencrypt-nginx/</guid>
+      <description>自分なりのベストな設定をメモ
+環境 $ cat /etc/redhat-release CentOS Linux release 7.6.1810 (Core) $ rpm -q certbot nginx certbot-0.29.1-1.el7.noarch nginx-1.12.2-2.el7.x86_64 証明書の新規発行 WebサーバにNginxを使用しているような環境で，Certbotを使って(更新を含む)証明書を発行するには以下 のような方法が考えられる．
+   Plugin 概要     Webroot 指定したディレクトリにトークンを配置し，任意のWebサーバ(今回の環境ではNginxを使うことになるだろう)で公開することで認証を行う   Nginx Nginxを使用して認証を行う．また取得した証明書を使うようNginxを自動で設定する   Standalone Certbot自身がHTTPをListenして認証を行う   DNS 取得したい証明書のドメインのTXTレコードにトークンを登録することで認証を行う    DNS Pluginを使えば認証のためにサーバを設定する必要がなくなるためベストなのだと思うが，自分が使用しているDNSサービス(No-IP)ではTXTレコードを設定できないため却下．Nginxの設定は自分で管理したいためNginx Pluginも却下． Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(ほぼ)デフォルトの設定で起動させて証明書を取得後，証明書を使うようNginxの設定を変更してからNginxを再起動するという面倒な手順になる．そのため，証明書の新規発行はNginxを起動させる前にStandalone Pluginで行う(既にNginxが起動していた場合は80番ポートが競合することになるためうまくいかない)．
+# certbot certonly --standalone -d &amp;lt;DOMAIN NAME&amp;gt; -m &amp;lt;MAIL ADDRESS&amp;gt; --agree-tos -n これにより以下のファイルが作成される
+ サーバ証明書…/etc/letsencrypt/live//fullchain.pem 秘密鍵…/etc/letsencrypt/live//privkey.pem  これらを使用するようNginxを設定すればよい．</description>
+    </item>
+    
+  </channel>
+</rss>

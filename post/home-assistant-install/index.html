@@ -83,25 +83,25 @@
 <ul>
 <li>/etc/systemd/system/home-assistant.service</li>
 </ul>
-<pre><code>[Unit]
-Description=Home Assistant
-After=network.target
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Home Assistant</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
 
-[Service]
-Type=simple
-User=ha
-ExecStart=/srv/homeassistant/bin/hass -c &quot;/home/ha/.homeassistant&quot;
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+<span class="na">User</span><span class="o">=</span><span class="s">ha</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/srv/homeassistant/bin/hass -c &#34;/home/ha/.homeassistant&#34;</span>
 
-[Install]
-WantedBy=multi-user.target
-</code></pre><p>「ha」という名前でシステムユーザを作成し，このユーザでHome Assistantを実行するようにしている．</p>
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div><p>「ha」という名前でシステムユーザを作成し，このユーザでHome Assistantを実行するようにしている．</p>
 <p>参考: <a href="https://home-assistant.io/docs/autostart/systemd/">Autostart using systemd - Home Assistant</a></p>
 <ul>
 <li>有効化</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo systemctl daemon-reload
-$ sudo systemctl <span class="nb">enable</span> home-assistant
-$ sudo systemctl start home-assistant
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo systemctl daemon-reload
+sudo systemctl <span class="nb">enable</span> home-assistant
+sudo systemctl start home-assistant
 </code></pre></div><p>初回起動時はコンポーネントのインストールがあるため10分ほどかかる．
 ブラウザでポート8123へアクセスするとWebUIが表示される．</p>
 <p>実行ユーザのホームディレクトリに<code>.homeassistant/configuration.yaml</code>というファイルが自動で作成される．基本的に設定はこのファイルにYAML形式で書いていくことになる．</p>
@@ -145,10 +145,10 @@ Netatmo，Zabbix，OpenWeatherMapなど，数値や文字列を取得できる�
     </aside>
     
 
-<h3>関連記事</h3>
+<h1>関連記事</h1>
 <ul>
   
-  <li><a href="/post/apollo7-1/">Erato Audio Apollo7 レビュー</a></li>
+  <li><a href="/post/coder-for-pi/">RaspeberryPi用のGoogle製Web開発プラットフォームCoder for RaspberryPiを導入してみた</a></li>
   
 </ul>
 

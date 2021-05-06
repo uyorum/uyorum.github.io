@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ブログ on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/%E3%83%96%E3%83%AD%E3%82%B0/</link>
+    <description>Recent content in ブログ on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Tue, 04 May 2021 20:05:25 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/%E3%83%96%E3%83%AD%E3%82%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugoで特定ページをリダイレクトする</title>
+      <link>https://blog.uyorum.net/post/redirect-on-hugo/</link>
+      <pubDate>Tue, 04 May 2021 20:05:25 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/redirect-on-hugo/</guid>
+      <description>&lt;p&gt;Hugoで書いている本ブログのパスを変えたかった。静的サイトではできないんじゃないのと思っていたができたのでまとめておく。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Octopressセットアップメモ</title>
+      <link>https://blog.uyorum.net/post/setup-octopress/</link>
+      <pubDate>Sun, 22 Feb 2015 22:16:12 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/setup-octopress/</guid>
+      <description>&lt;p&gt;わけあってOctopress環境を作り直したのでメモ&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Octopressでmarkdownのファイル名規則を変更する</title>
+      <link>https://blog.uyorum.net/post/custom-octopress/</link>
+      <pubDate>Tue, 22 Apr 2014 23:10:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/custom-octopress/</guid>
+      <description>&lt;p&gt;少しいじりました．&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

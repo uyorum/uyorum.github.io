@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ESP32 on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/esp32/</link>
+    <description>Recent content in ESP32 on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Sat, 02 Sep 2017 10:41:35 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/esp32/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ESP32とMongooseOSを使ってTSL2561で照度を取得する(実装編)</title>
+      <link>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-02/</link>
+      <pubDate>Sat, 02 Sep 2017 10:41:35 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-02/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../tsl2561-with-mongoose-os-on-esp32-01/&#34;&gt;前回&lt;/a&gt;の続き．
+Mongoose OSの設定とTSL2561を使うためのコードを書いていく．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ESP32とMongooseOSを使ってTSL2561で照度を取得する(準備編)</title>
+      <link>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-01/</link>
+      <pubDate>Wed, 02 Aug 2017 20:53:04 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-01/</guid>
+      <description>&lt;p&gt;かねてから触ってみたいと思っていたMongooseOSと以前買ったTSL2561照度センサーモジュールがあったのでESP32にMongooseOSを入れて照度を取得してみようと思った．&lt;br&gt;
+そもそもI2Cデバイスを触るのが初めてだったため、いきなりMongooseOSでそれを扱おうとするのはハードルが高すぎると考え、まずはその準備編として情報の多いRaspberryPiで照度を取得してみることにした．&lt;br&gt;
+最後にESP32へのMongooseOSのインストールも行っておく．&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
