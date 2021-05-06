@@ -59,7 +59,6 @@
 <a href="https://hub.docker.com/_/ruby">DockerHub</a></p>
 <p>しかし、これらのイメージはベースがDebianやAlpine Linux、Ubuntuとなっている。
 とある理由でCentOSがベースのRubyコンテナが欲しかったので自分でビルドすることにした。</p>
-<p>centos</p>
 <h2 id="dockerfile">Dockerfile</h2>
 <p>コンテナでない環境なら普段はrbenvとruby-buildを使ってRubyをインストールするのだが、コンテナではRubyをひとつしか入れないのでrbenvは不要。<br>
 コンテナにはできるだけ余計なものを入れたくないため、はじめは自分でRubyをビルドしようとしたのだが、思いのほか複雑になってしまう。<br>
