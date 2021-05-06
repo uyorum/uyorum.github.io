@@ -59,6 +59,7 @@
 <a href="https://hub.docker.com/_/ruby">DockerHub</a></p>
 <p>しかし、これらのイメージはベースがDebianやAlpine Linux、Ubuntuとなっている。
 とある理由でCentOSがベースのRubyコンテナが欲しかったので自分でビルドすることにした。</p>
+<p>centos</p>
 <h2 id="dockerfile">Dockerfile</h2>
 <p>コンテナでない環境なら普段はrbenvとruby-buildを使ってRubyをインストールするのだが、コンテナではRubyをひとつしか入れないのでrbenvは不要。<br>
 コンテナにはできるだけ余計なものを入れたくないため、はじめは自分でRubyをビルドしようとしたのだが、思いのほか複雑になってしまう。<br>
@@ -80,7 +81,7 @@
 </span><span class="err"></span><span class="k">ENV</span> <span class="nv">RUBY_DIR</span><span class="o">=</span>/usr/local/ruby-<span class="si">${</span><span class="nv">RUBY_VERSION</span><span class="si">}</span><span class="err">
 </span><span class="err"></span><span class="k">RUN</span> /usr/local/bin/ruby-build <span class="si">${</span><span class="nv">RUBY_VERSION</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUBY_DIR</span><span class="si">}</span><span class="err">
 </span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">RUBY_DIR</span><span class="si">}</span>/bin:<span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">PATH</span><span class="o">=</span>/tmp/gems/bin:<span class="si">${</span><span class="nv">RUBY_DIR</span><span class="si">}</span>/bin:<span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="err">
 </span><span class="err">
 </span><span class="err"></span><span class="k">CMD</span> irb<span class="err">
 </span></code></pre></div><p>以下のように設計してある。</p>
@@ -91,6 +92,18 @@
 </ul>
 <p>おそらくruby-buildやビルドのためにインストールしたパッケージはRubyを動かすこと自体には不要なので、
 Multi stage buildを使えばイメージサイズをもっと小さくできそう。それはまたの機会に実施することにする。</p>
+<hr>
+<p>これを書いたあとにCentOSプロジェクトがCentOS 7ベースのRubyコンテナをいくつか公開していることに気づいてしまった……。<br>
+OpenShiftのS2Iビルド用のイメージだが、おそらくそれ以外の用途にも使えそう。<br>
+<a href="https://hub.docker.com/r/centos/ruby-27-centos7">centos/ruby-27-centos7</a></p>
+<p>とはいえパッチバージョンまで指定したい場合は自作するしかなさそう。</p>
+<hr>
+<h2 id="追記">追記</h2>
+<p>Multi stage buildを使ってDockerfileを書き直した。<br>
+ついでにRubyのバージョンをBuild argにすることでビルド時に外部から与えることができるように変更。<br>
+イメージのサイズは140MBほど減って391MBになった。</p>
+<script type="application/javascript" src="https://gist.github.com/uyorum/be8616c86dd1cdbf9bd06aa7145f1646.js"></script>
+
 <div class="amazon-widget">
   <div class="amazon-widget-image">
     <a target="_blank" href="https://www.amazon.co.jp/dp/4873117763/?tag=uyorum-22">
