@@ -1,7 +1,7 @@
 +++
 date = "2018-12-16T12:58:08+09:00"
 slug = ""
-tags = ["",""]
+tags = ["ITインフラ"]
 title = "ファシリティまわりの設計時に考慮すること"
 aliases = ["/blog/designing-facility-layer-01/"]
 
@@ -86,6 +86,8 @@ EIA規格では幅19インチ，高さが1.75インチの倍数と定めてお�
 [特注電源ケーブル　|　エイム電子株式会社](http://www.aim-ele.co.jp/products/custom-powercable/)
 
 長くなったので今回はここまで
+
+続き→[ファシリティまわりの設計時に考慮すること(続き)](../designing-facility-layer-02/)
 
 # 参考
 [サーバーラック　EIA規格について - サンワサプライ株式会社](https://www.sanwa.co.jp/product/desk_rack/server/server_select_eia.html)  

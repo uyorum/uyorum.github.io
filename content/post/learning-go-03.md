@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["Golang"]
 title = "Go言語のお勉強 その3"
 date = "2015-08-02T01:19:12+09:00"
 aliases = ["/blog/learning-go-03/"]

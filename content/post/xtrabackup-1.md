@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["Linux"]
 date = "2016-09-12T19:19:36+09:00"
 title = "XtraBackupによるバックアップ設計"
 aliases = ["/blog/xtrabackup-1/"]
@@ -13,9 +13,11 @@ aliases = ["/blog/xtrabackup-1/"]
 <!--more-->
 
 ## 参考
+
 * [Percona XtraBackup - Documentation](https://www.percona.com/doc/percona-xtrabackup/2.4/index.html)
 
 ## 設計方針
+
 XtraBackupの使い方はネットに情報があふれているのでここでは説明しません．
 こんな感じの方針でバックアップ設計をしていきます．
 
@@ -32,21 +34,27 @@ XtraBackupは増分バックアップができるので以下のようにしま�
 
 * フルバックアップ
 
-        $ innobackupex --history=xbhistory --compact --stream=xbstream ./ | gzip - > base.xbstream.gz
+    ``` shell
+    innobackupex --history=xbhistory --compact --stream=xbstream ./ | gzip - > base.xbstream.gz
+    ```
 
 * 増分バックアップ
 
-        $ innobackupex --incremental --history=xbhistory --incremental-history-name=xbhistory --compact --stream=xbstream ./ | gzip - > inc.xbstream.gz
+    ``` shell
+    innobackupex --incremental --history=xbhistory --incremental-history-name=xbhistory --compact --stream=xbstream ./ | gzip - > inc.xbstream.gz
+    ```
 
 以下で各オプションの使用した理由などを解説していきます
 
 ### `--stream=xbstream`
+
 [Make a Streaming Backup](https://www.percona.com/doc/percona-xtrabackup/2.4/howtos/recipes_ibkx_stream.html)
 
 指定したパスにバックアップをファイルとして出力する代わりに，指定したフォーマットのアーカイブ形式で標準出力に吐き出します．
 形式は`tar`と`xbstream`が指定できますが，`--incremental`オプションと組み合わせる場合は`xbstream`でなければならないので`xbstream`を使用します．
 
 ### `--history`
+
 [Incremental Backups](https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/incremental_backups.html)  
 [Store backup history on the server](https://www.percona.com/doc/percona-xtrabackup/2.4/innobackupex/storing_history.html)
 
@@ -58,48 +66,53 @@ XtraBackupは増分バックアップができるので以下のようにしま�
 
 前回バックアップ時のLSNはバックアップ先ディレクトリの`xtrabackup_checkpoints`ファイルに記録されています(`to_lsn`)
 
-    $ cat xtrabackup_checkpoints 
-    backup_type = full-backuped
-    from_lsn = 0
-    to_lsn = 2353547498
-    last_lsn = 2353547498
-    compact = 0
-    recover_binlog_info = 0
+``` shell
+$ cat xtrabackup_checkpoints 
+backup_type = full-backuped
+from_lsn = 0
+to_lsn = 2353547498
+last_lsn = 2353547498
+compact = 0
+recover_binlog_info = 0
+```
 
 xbstream形式だと特定のファイルのみ展開したりすることができなさそうだし，今回は取得したバックアップはクラウド上にアップロードしてローカルからはすぐに削除するつもりなので，先2つの方法はとれなさそうです．
 よって`--history`オプションを使用することにします．
 
 `--history`を使用した場合，バックアップの情報は対象インスタンスの`PERCONA_SCHEMA.xtrabackup_history`に保存されます．
 
-    $ innobackupex --history=xbhistory /data/backups
-    $ mysql -uroot -ppassword
-    > select * from PERCONA_SCHEMA.xtrabackup_history\G
-    *************************** 1. row ***************************
-                uuid: 3c60a347-78d8-11e6-95ea-06b838280a4d
-                name: xbhistory
-           tool_name: innobackupex
-        tool_command: --history=xbhistory /data/backups
-        tool_version: 2.3.5
-    ibbackup_version: 2.3.5
-      server_version: 5.5.50-MariaDB
-          start_time: 2016-09-12 11:01:01
-            end_time: 2016-09-12 11:01:20
-           lock_time: 0
-          binlog_pos: NULL
-     innodb_from_lsn: 0
-       innodb_to_lsn: 2353547508
-             partial: N
-         incremental: N
-              format: file
-             compact: N
-          compressed: N
-           encrypted: N
+``` shell
+$ innobackupex --history=xbhistory /data/backups
+$ mysql -uroot -ppassword
+> select * from PERCONA_SCHEMA.xtrabackup_history\G
+*************************** 1. row ***************************
+            uuid: 3c60a347-78d8-11e6-95ea-06b838280a4d
+            name: xbhistory
+       tool_name: innobackupex
+    tool_command: --history=xbhistory /data/backups
+    tool_version: 2.3.5
+ibbackup_version: 2.3.5
+  server_version: 5.5.50-MariaDB
+      start_time: 2016-09-12 11:01:01
+        end_time: 2016-09-12 11:01:20
+       lock_time: 0
+      binlog_pos: NULL
+ innodb_from_lsn: 0
+   innodb_to_lsn: 2353547508
+         partial: N
+     incremental: N
+          format: file
+         compact: N
+      compressed: N
+       encrypted: N
+```
 
 増分バックアップを取得するときは`--incremental-history-name`オプションを使います．
 `--history`オプションを付けないとその回はDBに保存されないようなので増分バックアップのときも`--history`オプションを使います．
 毎回，前回のフルバックアップからの増分を取得する，のようなバックアップ設計のときは`--history`オプションを付けないと実現できそうです．
 
 ### `--compact`
+
 [Compact Backups](https://www.percona.com/doc/percona-xtrabackup/2.4/innobackupex/compact_backups_innobackupex.html)  
 [漢(オトコ)のコンピュータ道: 知って得するInnoDBセカンダリインデックス活用術！](http://nippondanji.blogspot.jp/2010/10/innodb.html)
 
@@ -108,6 +121,7 @@ InnoDBのセカンダリインデックスをバックアップに含めない�
 今回はRTOよりもバックアップ容量を重視したいのでこのオプションを使用する．
 
 ### `--compress`
+
 [Making a Compressed Backup](https://www.percona.com/doc/percona-xtrabackup/2.4/howtos/recipes_ibkx_compressed.html)
 
 `innobackupex`コマンドには`--compress`というオプションがある．これを使うとバックアップ時に各`.ibd`ファイルを`qpress`という形式で圧縮するようになる．

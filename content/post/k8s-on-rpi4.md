@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = []
+tags = ["Kubernetes", "Docker", "Raspberry Pi"]
 title = "Raspberry Pi 4BにKubernetesをインストール（2021年版）"
 date = "2021-04-04T22:18:27+09:00"
 aliases = ["/blog/k8s-on-rpi4/"]
@@ -41,10 +41,12 @@ Kubernetesの状況を加味した構成と手順。できるだけ一次情報�
     Calicoが機能的には柔軟そうだが、ここではよりシンプルそうなFlannelを選択した。
 
 ## 構築の流れ
+
 kubeadmを使ってk8sをデプロイする。基本的には[ドキュメント](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/)に従ってセットアップを進めればよい。
 コントロールプレーンノード1台、ワーカーノード2台の構成で構築する。
 
 ### Raspberry Pi OSのセットアップ
+
 SDカードへイメージを焼く方法は省略。
 イメージを焼いたあとにいくつか初期設定を仕込んでおく。
 
@@ -55,14 +57,14 @@ SDカードへイメージを焼く方法は省略。
 自分の場合はWSL2で実行している。その他の環境で実行する場合は最初のマウント方法が異なる。
 
 ``` shell
-$ mkdir mnt
-$ sudo mount -t drvfs d: mnt
-$ cd mnt
-$ touch ssh
-$ sudo sed -i 's/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/g' cmdline.txt
-$ echo 'dtoverlay=gpio-shutdown,gpio_pin=3' | sudo tee -a config.txt
-$ cd -
-$ sudo umount mnt
+mkdir mnt
+sudo mount -t drvfs d: mnt
+cd mnt
+touch ssh
+sudo sed -i 's/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/g' cmdline.txt
+echo 'dtoverlay=gpio-shutdown,gpio_pin=3' | sudo tee -a config.txt
+cd -
+sudo umount mnt
 ```
 
 OS起動後、SSHでログインしいくつか追加の設定を行う。
@@ -101,6 +103,7 @@ DNSサーバに各ノードのホスト名を登録しておく。
 ここまでを計3台で行っておく。
 
 ## Kubernetesセットアップ
+
 [kubeadmを使ってクラスターを構築する | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/)
 Kubernetesクラスタのセットアップにはkubeadmを使う。
 全体的な流れとしては、以下のようになる。
@@ -113,18 +116,22 @@ Kubernetesクラスタのセットアップにはkubeadmを使う。
 6. （ワーカーノード）クラスタへノードとして登録
 
 ### 事前準備
+
 [kubeadmのインストール | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 ここに事前に設定すべき箇所が書かれている。
 
 #### MACアドレスとproduct_uuidが全てのノードでユニークであることの検証
+
 当然MACアドレスは全ノードで異なる。
 またRaspberry Pi OSでは`/sys/class/dmi/id/product_uuid`は存在しなかった。ここは無視しても特に問題なくセットアップできた。
 
 #### ネットワークアダプタの確認
+
 無線LANと有線LANの両方を使っている場合は問題になるかもしれない。
 今回は有線LANしか使わないため特に問題ない。
 
 #### iptablesがブリッジを通過するトラフィックを処理できるようにする
+
 起動時のカーネルモジュールのロードは[systemd-modules-load.service](https://manpages.debian.org/stretch/systemd/systemd-modules-load.service.8.en.html)が担っている。
 `/etc/modules-load.d/*.conf`を作成してモジュール名を列挙すればよい。
 
@@ -142,18 +149,20 @@ $ sudo sysctl --system
 ```
 
 #### iptablesがnftablesバックエンドを使用しないようにする
+
 Raspberry Pi OS 10ではすでにnftablesへ移行しているためiptablesを使うように設定する必要がある。
 手順はドキュメントに記載されている通り。
 
 ``` shell
-$ sudo apt install -y iptables arptables ebtables
-$ sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-$ sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-$ sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
-$ sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
+sudo apt install -y iptables arptables ebtables
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
+sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 ```
 
 #### 必須ポートの確認
+
 Raspberry Pi OSではデフォルトで全許可となっているためこのままでいくなら特に気にする必要はない。
 
 ``` shell
@@ -164,6 +173,7 @@ $ sudo iptables -S
 ```
 
 ### CRI-Oをインストール
+
 [CRIのインストール | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/container-runtimes/#cri-o)
 [cri-o](https://cri-o.io/)
 
@@ -209,6 +219,7 @@ $ sudo systemctl start crio
 ```
 
 ### kubeadm、kubelet、kubectlをインストール
+
 [kubeadmのインストール | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#kubeadm-kubelet-kubectl%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
 
 ``` shell
@@ -226,6 +237,7 @@ EOF
 ```
 
 #### コントロールプレーンノードのkubeletによって使用されるcgroupドライバーの設定
+
 はじめは`/etc/default/kubelet`で`--cgroup-driver=systemd`を指定していたがkubelet起動時に以下の警告がログに出ていた。
 
 ```
@@ -243,18 +255,19 @@ Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
 このファイルに`cgroupDriver: systemd`という行を追加してkubeletを再起動。
 
 ``` shell
-$ systemctl daemon-reload
-$ systemctl restart kubelet
+systemctl daemon-reload
+systemctl restart kubelet
 ```
 
 ### kubeadmを使ってKubernetesクラスタをインストール
+
 [kubeadmを使用したクラスターの作成 | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
 
 * 今回の構成ではコントロールプレーンノードは1台のみなので本来不要だが、将来的にコントロールプレーンノードを冗長化したくなった場合に備えて`--control-plane-endpoint`を指定する。
 * ネットワークアドオンはFlannelを使うため、適切な`--pod-network-cidr`を指定する（参照：[flannel/kubernetes.md at master · flannel-io/flannel](https://github.com/flannel-io/flannel/blob/master/Documentation/kubernetes.md)）
 
 ``` shell
-$ sudo kubeadm init --control-plane-endpoint=k8s-endpoint.test.local --pod-network-cidr=10.244.0.0/16
+sudo kubeadm init --control-plane-endpoint=k8s-endpoint.test.local --pod-network-cidr=10.244.0.0/16
 ```
 
 うまくいくと以下のようなメッセージが出力される。ここで出力されたコマンドをメモしておく。
@@ -263,6 +276,7 @@ $ sudo kubeadm init --control-plane-endpoint=k8s-endpoint.test.local --pod-netwo
 また、DNSサーバにAレコードやCNAMEレコードを追加して`k8s-endpoint.test.local`をコントロールプレーンノードへ向けておく。
 
 #### kubectlの設定
+
 コントロールプレーンノードで`kubectl`を使えるように設定ファイルをコピーする。
 
 ``` shell
@@ -272,15 +286,17 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 ### クラスタへFlannelをインストール
+
 [flannel-io/flannel: flannel is a network fabric for containers, designed for Kubernetes](https://github.com/flannel-io/flannel#deploying-flannel-manually)
 
 マニフェストが配布されているのでこれを使う。一応masterブランチではなく最新タグのものを使う。
 
 ``` shell
-$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.13.0/Documentation/kube-flannel.yml
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.13.0/Documentation/kube-flannel.yml
 ```
 
 ### クラスタへノードとして登録
+
 [kubeadmを使用したクラスターの作成 | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#join-nodes)
 
 `kubeadm init`実行時に出力されたコマンドを各ワーカーノードで実行。

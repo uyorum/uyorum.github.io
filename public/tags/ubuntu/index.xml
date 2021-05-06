@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ubuntu on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/ubuntu/</link>
+    <description>Recent content in Ubuntu on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Wed, 20 May 2020 23:43:30 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ubuntu 20.04でキーマップをカスタマイズする</title>
+      <link>https://blog.uyorum.net/post/ubuntu-custom-keymap/</link>
+      <pubDate>Wed, 20 May 2020 23:43:30 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/ubuntu-custom-keymap/</guid>
+      <description>前回に引き続き、久しぶりにUbuntuを触ったらてこずったのでメモ。
+Linuxでキーマップをカスタマイズする方法といったらXmodmapだったが現在は違うらしい。 Xmodmapでも一時的にキーマップは変わるが、いつのまにか元に戻ってしまう。 代わりに現在ではxkbというものを使うらしい。
+調べたところ設定方法はいくつかありそうだった
+ ルールを使う キーマップを上書きする 新しいキーボードレイアウトを定義する  自分の場合はキーマップの設定はdotfilesで管理したいため2番目の方法を採用した。 ホームディレクトリ以下に追加のキーマップを定義するファイルを作成し、ログイン後に読み込むことにする。
+設定したいキーマップ 以下のようにキーマップに変更したい。
+ Caps Lock を Control へ 無変換 を Control へ 変換 を Shift へ (Apple Magic Keyboard) 英数 を Control へ (Apple Magic Keyboard) かな を Control へ  xkbのドキュメントをすべて読めば書き方がわかるのかもしれないが、よくわからなかったのでひとまずネット上の記事を参考にして書いた。
+$ mkdir -p $HOME/.xkb/symbols $ cat - &amp;lt;&amp;lt;EOF &amp;gt;$HOME/.xkb/symbols/custom partial modifier_keys xkb_symbols { key &amp;lt;CAPS&amp;gt; { [ Control_L, Control_L ] }; modifier_map Control { &amp;lt;CAPS&amp;gt; }; key &amp;lt;MUHE&amp;gt; { [ Control_L, Control_L ] }; modifier_map Control { &amp;lt;MUHE&amp;gt; }; key &amp;lt;HENK&amp;gt; { [ Shift_R ] }; modifier_map Shift { &amp;lt;HENK&amp;gt; }; key &amp;lt;HJCV&amp;gt; { [ Control_L, Control_L ] }; modifier_map Control { &amp;lt;HJCV&amp;gt; }; key &amp;lt;HNGL&amp;gt; { [ Shift_R ] }; modifier_map Shift { &amp;lt;HNGL&amp;gt; }; }; EOF CAPS、MUHEなどの文字列は</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 20.04でMagic Trackpadのマルチタッチジェスチャーを使う</title>
+      <link>https://blog.uyorum.net/post/ubuntu-multitouch/</link>
+      <pubDate>Sun, 17 May 2020 21:12:10 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/ubuntu-multitouch/</guid>
+      <description>久しぶりにデスクトップをUbuntuにしてみたところ、Magic Trackpadのジェスチャーの設定に苦戦したのでメモ。
+環境  Ubuntu 20.04 X11 GNOME Magic Trackpad (2じゃない)  設定 普通にペアリングしてタッチパッドの設定から以下の動作は設定できるようになる。
+ スクロール方向 左右クリック 2本指スクロール  基本的にはこれでも十分使えるのだが、自分の場合は3本指スワイプで戻る・進む動作をさせたかったので方法を調べてみた。 Ubuntu wikiではginnというツールが紹介されている。 またいろいろとググっているとtoucheggというツールも見つかる。 どちらも試してみたが自分の環境ではどちらも期待通りに動かなかった。
+ドライバまわりの話 自分の中でLinuxでタッチパッド周りのドライバといえばSynapticsだったが現在はSynapticsは開発されておらず、 代わりにlibinputというドライバが使われるようになっているらしい。
+実際にMagic Trackpadにはlibinputが使われている模様。
+$ xinput list | grep -i trackpad ⎜ ↳ Magic Trackpad id=10 [slave pointer (2)] $ xinput list-props 10 Device &amp;#39;Magic Trackpad&amp;#39;: Device Enabled (168): 1 Coordinate Transformation Matrix (170): 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000 libinput Tapping Enabled (303): 1 libinput Tapping Enabled Default (304): 0 libinput Tapping Drag Enabled (305): 1 libinput Tapping Drag Enabled Default (306): 1 libinput Tapping Drag Lock Enabled (307): 0 libinput Tapping Drag Lock Enabled Default (308): 0 libinput Tapping Button Mapping Enabled (309): 1, 0 libinput Tapping Button Mapping Default (310): 1, 0 libinput Natural Scrolling Enabled (311): 0 libinput Natural Scrolling Enabled Default (312): 0 libinput Scroll Methods Available (313): 1, 1, 0 libinput Scroll Method Enabled (314): 1, 0, 0 libinput Scroll Method Enabled Default (315): 1, 0, 0 libinput Click Methods Available (316): 1, 1 libinput Click Method Enabled (317): 0, 1 libinput Click Method Enabled Default (318): 0, 1 libinput Middle Emulation Enabled (319): 0 libinput Middle Emulation Enabled Default (320): 0 libinput Accel Speed (321): 0.</description>
+    </item>
+    
+  </channel>
+</rss>

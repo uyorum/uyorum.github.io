@@ -2,7 +2,7 @@
 date = "2017-03-01T23:01:28+09:00"
 slug = ""
 title = "Ruby on RailsのAsset Pipelineとインクルードとプリコンパイルの動作"
-tags = ["rails","ruby"]
+tags = ["Ruby", "Ruby on Rails"]
 aliases = ["/blog/rails-asset-pipeline-1/"]
 
 +++
@@ -26,6 +26,7 @@ rails (4.2.8)
 ```
 
 ## アセットとは
+
 定義が見つからなかったが，おそらく以下のような感じ．
 
     Railsのサーバから配信するコンテンツのうち，Viewにより生成されたもの以外
@@ -33,6 +34,7 @@ rails (4.2.8)
 具体的にはJavaScript，CSS，画像ファイルなど．あまりないだろうが，静的なhtmlもこれらと同様に扱うことはできそう．
 
 ## アセットパイプラインとは
+
 サーバ上に存在するアセットをクライアントへ配信する仕組みのこと．アセットパイプラインは`sprockets-rails`gemにより提供されている．配信までの途中でいくつかの処理を経る場合がほとんど．例えば以下．
 
 * JavaScriptおよびCSSの結合，最小化
@@ -51,6 +53,7 @@ rails (4.2.8)
 以下，簡単のため`config.assets.digest = false`を設定する(ファイル名にダイジェストが含まれなくなる)
 
 ## インクルード
+
 通常，クライアントへ配信されるのは`app/assets/javascripts/application.js`と`app/assets/stylesheets/application.css`である．
 実際，デフォルトの内容を削除してみると，レスポンスに含まれるstylesheetとscriptは`application.css`および`application.js`のみである．
 
@@ -81,8 +84,8 @@ $ curl localhost:3000
 例として以下の`example_script.js`と`example_style.css`をそれぞれ`application.js`と`application.css`に挿入する．
 
 ``` shell
-$ echo '// example_script.js' >  vendor/assets/javascripts/example_script.js
-$ echo '/* example_style.css */' > vendor/assets/stylesheets/example_style.css
+echo '// example_script.js' >  vendor/assets/javascripts/example_script.js
+echo '/* example_style.css */' > vendor/assets/stylesheets/example_style.css
 ```
 
 * app/assets/javascripts/application.js
@@ -144,6 +147,7 @@ production環境では動的にアセットを処理することはなく，事�
 `config.assets.compile = true`とすることによりdevelopment環境と同様の動作にすることはできるが，サーバ側のパフォーマンスの観点から通常この設定は使用しない．
 
 ## プリコンパイル
+
 RailsをProdution環境で動作させるには事前にプリコンパイルを行なう必要がある．そのためのRakeタスクがあらかじめ用意されており，コマンドひとつでプリコンパイルは完了する．
 
 * app/assets/javascripts/application.js
@@ -290,6 +294,7 @@ I, [2017-03-05T17:19:41.051197 #45578]  INFO -- : Writing /Users/uyorum/play-rub
 ここで使用したコードは[uyorum/play-ruby-on-rails at assets-pipeline](https://github.com/uyorum/play-ruby-on-rails/tree/assets-pipeline)で公開している．
 
 ## 参考
+
 * [アセットパイプライン | Rails ガイド](https://railsguides.jp/asset_pipeline.html)  
     とりあえずここ読んどけばいいかな，と思って読んだが実際に触ってみないと細かいところがわからなかった
 * [アセットパイプライン(Asset Pipeline) - - Railsドキュメント](http://railsdoc.com/asset_pipeline)
@@ -297,3 +302,5 @@ I, [2017-03-05T17:19:41.051197 #45578]  INFO -- : Writing /Users/uyorum/play-rub
 * [Only compile non-js/css under app/assets by default by josh · Pull Request #7968 · rails/rails](https://github.com/rails/rails/pull/7968)
 
 [^1]: [Rails4のdigestにまつわる論争 - Qiita](http://qiita.com/munazo/items/15f9c143bc4ecdd74220)
+
+{{< affiliate asin="4297114623" title="パーフェクト Ruby on Rails 【増補改訂版】 (Perfect series)" >}}

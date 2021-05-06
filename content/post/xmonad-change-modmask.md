@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["Linux"]
 title = "Xmonadのmodキーを半角/全角キーに変更する"
 date = "2015-02-22T19:04:51+09:00"
 aliases = ["/blog/xmonad-change-modmask/"]

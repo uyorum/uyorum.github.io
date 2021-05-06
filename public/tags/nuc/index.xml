@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NUC on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/nuc/</link>
+    <description>Recent content in NUC on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Tue, 24 Sep 2013 22:01:00 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/nuc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Intel DC3217IYEへVMware vSphere hypervisor5.5をインストールする</title>
+      <link>https://blog.uyorum.net/post/esxi-03/</link>
+      <pubDate>Tue, 24 Sep 2013 22:01:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/esxi-03/</guid>
+      <description>&lt;p&gt;先日購入したDC3217IYEにVMware vSphere hypervisorをインストールしようとしたところドライバがないと言われました．
+IntelのNICだから認識するだろうとタカをくくっていましたがダメでした．方法を調べたので手順をまとめておきます．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>IntelのNUCベアボーン DC3217IYE を買いました</title>
+      <link>https://blog.uyorum.net/post/esxi-02/</link>
+      <pubDate>Mon, 23 Sep 2013 22:58:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/esxi-02/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://uyorum.github.io/blog/2013/09/23/esxi-01/&#34;&gt;前回&lt;/a&gt;の続きです．
+ESXiをインストールするために購入したIntelのNUCベアボーン DC3217IYE が届いたので軽くレビューしておきます．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ESXiサーバ構築誌 - 機器構成</title>
+      <link>https://blog.uyorum.net/post/esxi-01/</link>
+      <pubDate>Mon, 23 Sep 2013 22:28:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/esxi-01/</guid>
+      <description>&lt;p&gt;かねてから自宅サーバ兼，検証用マシン用にESXiサーバが自宅にほしいと思っていました．
+しかし，なかなかハードウェアが決まらず二の足を踏んでいたのですが，たまたまネットを眺めていたらなかなかよい構成を
+思いついたので構築に踏みきることにしました．
+その経過を何回かにわけて記録に残しておくことにします．&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -71,44 +71,40 @@
 <ol>
 <li>
 <p>ソースをclone</p>
-<pre><code> $ git clone https://github.com/imathis/octopress
- Cloning into 'octopress'...
- remote: Counting objects: 10786, done.
- remote: Compressing objects: 100% (26/26), done.
- remote: Total 10786 (delta 8), reused 5 (delta 1)
- Receiving objects: 100% (10786/10786), 2.85 MiB | 1.68 MiB/s, done.
- Resolving deltas: 100% (5178/5178), done.
- Checking connectivity... done.
- $ ls
- octopress
- $ cd octopress
-</code></pre>
-</li>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git clone https://github.com/imathis/octopress
+Cloning into <span class="s1">&#39;octopress&#39;</span>...
+remote: Counting objects: 10786, <span class="k">done</span>.
+remote: Compressing objects: 100% <span class="o">(</span>26/26<span class="o">)</span>, <span class="k">done</span>.
+remote: Total <span class="m">10786</span> <span class="o">(</span>delta 8<span class="o">)</span>, reused <span class="m">5</span> <span class="o">(</span>delta 1<span class="o">)</span>
+Receiving objects: 100% <span class="o">(</span>10786/10786<span class="o">)</span>, 2.85 MiB <span class="p">|</span> 1.68 MiB/s, <span class="k">done</span>.
+Resolving deltas: 100% <span class="o">(</span>5178/5178<span class="o">)</span>, <span class="k">done</span>.
+Checking connectivity... <span class="k">done</span>.
+$ ls
+octopress
+$ <span class="nb">cd</span> octopress
+</code></pre></div></li>
 <li>
 <p>Rubyのバージョンを指定</p>
-<pre><code> $ echo '1.9.3-p551' &gt; .ruby-version
- $ rbenv versions
-   system
- * 1.9.3-p551
-</code></pre>
-</li>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">echo</span> <span class="s1">&#39;1.9.3-p551&#39;</span> &gt; .ruby-version
+$ rbenv versions
+  system
+* 1.9.3-p551
+</code></pre></div></li>
 <li>
 <p>gemsetを作成</p>
-<pre><code> $ rbenv gemset create 1.9.3-p551 octopress
- created octopress for 1.9.3-p551
- $ echo octopress &gt; .rbenv-gemsets
- $ rbenv gemset active
- octopress global
-</code></pre>
-</li>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ rbenv gemset create 1.9.3-p551 octopress
+created octopress <span class="k">for</span> 1.9.3-p551
+$ <span class="nb">echo</span> octopress &gt; .rbenv-gemsets
+$ rbenv gemset active
+octopress global
+</code></pre></div></li>
 </ol>
 <p>あとは公式の手順に従えばOK</p>
 <p>自分の環境では途中でJavaScript Runtimeがないと怒られたので<a href="https://github.com/imathis/octopress/issues/1612">ここ</a>を参考にGemfileに以下を追加</p>
-<pre><code># jekyll needs javascript runtime
-# detail: https://github.com/imathis/octopress/issues/1612
-gem 'therubyracer', '~&gt; 0.12.1'
-</code></pre>
-<p>編集後に再び<code>bundle install</code>を実行．</p>
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="c1"># jekyll needs javascript runtime</span>
+<span class="c1"># detail: https://github.com/imathis/octopress/issues/1612</span>
+<span class="n">gem</span> <span class="s1">&#39;therubyracer&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 0.12.1&#39;</span>
+</code></pre></div><p>編集後に再び<code>bundle install</code>を実行．</p>
     </section>
     <aside>
       <div class="share-box">
@@ -126,6 +122,13 @@ gem 'therubyracer', '~&gt; 0.12.1'
 
     </aside>
     
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/custom-octopress/">Octopressでmarkdownのファイル名規則を変更する</a></li>
+  
+</ul>
 
 
     

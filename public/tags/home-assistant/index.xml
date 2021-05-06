@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home Assistant on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/home-assistant/</link>
+    <description>Recent content in Home Assistant on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Thu, 28 Jun 2018 15:06:06 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/home-assistant/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Home AssistantのデプロイをHass.ioにした</title>
+      <link>https://blog.uyorum.net/post/hassio-introduction/</link>
+      <pubDate>Thu, 28 Jun 2018 15:06:06 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/hassio-introduction/</guid>
+      <description>&lt;p&gt;これまでHome AssistantはRaspbianにインストールしたDocker上で動かしていたがHass.ioに移行した．&lt;br&gt;
+移行にあたって実施したことをまとめておく．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ホームオートメーションの現状まとめ@2017</title>
+      <link>https://blog.uyorum.net/post/home-automation-2017/</link>
+      <pubDate>Sat, 30 Dec 2017 00:15:15 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/home-automation-2017/</guid>
+      <description>&lt;p&gt;今年はホームオートメーションにたくさん取り組んだ年だった．
+年末ということでキリもよいので現状の我が家がどうなっているかまとめておく．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Home AssistantとAmazon Dash Buttonを連携させる</title>
+      <link>https://blog.uyorum.net/post/home-assistant-with-dash-button/</link>
+      <pubDate>Sat, 10 Jun 2017 20:20:04 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/home-assistant-with-dash-button/</guid>
+      <description>&lt;p&gt;Amazon Dash Buttonは間違った使い方ができることで有名だが，Amazon Dash ButtonからHome Assistantでアクションをキックできるようにしてみる．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Home Assistantで人感センサーを使って照明を自動点灯する</title>
+      <link>https://blog.uyorum.net/post/home-assistant-gpio/</link>
+      <pubDate>Sun, 23 Apr 2017 21:33:54 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/home-assistant-gpio/</guid>
+      <description>&lt;p&gt;Home Assistantで人感センサーを使って自宅の廊下の電球を点灯/消灯するシステムを組んでみる．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Home Assistantでつくるホームオートメーション(導入編)</title>
+      <link>https://blog.uyorum.net/post/home-assistant-install/</link>
+      <pubDate>Sat, 22 Apr 2017 21:48:00 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/home-assistant-install/</guid>
+      <description>&lt;p&gt;ホームオートメーション/スマートホーム化を実現できるOSSのHome Asssitantについて&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["OpenVPN", "DD-WRT"]
 title = "DD-WRTでOpenVPNの設定"
 date = "2015-03-29T20:56:18+09:00"
 aliases = ["/blog/openvpn-on-dd-wrt/"]
@@ -12,15 +12,19 @@ aliases = ["/blog/openvpn-on-dd-wrt/"]
 <!--more-->
 
 ## 参考
+
 * [easy-rsa 3 で認証局を構築する « yamata::memo](http://yamatamemo.blogspot.jp/2014/01/easy-rsa-3.html)
 * [DD-WRTとiPhone5sでVPNの構築（OpenVPN）｜チョコボール室井の報告書](http://ameblo.jp/chocoball-muroi/entry-11788301407.html)
 
 ## 認証局の設置~クライアント証明書の作成
+
 [easy-rsa](https://github.com/OpenVPN/easy-rsa)を使用する．使い方は[ここ](http://yamatamemo.blogspot.jp/2014/01/easy-rsa-3.html)を参考に．
 後から気づいたが[vpnux PKI Manager](http://www.openvpn.jp/vpnux-pki/)なんていうGUIツールが公開されていた．これを使えば楽にできるかも．
 
 ## DD-WRTの設定
+
 ### OpenVPNサーバの設定
+
 Services -> VPNから
 
 Key|Value
@@ -72,6 +76,7 @@ Certificate Revoke List|-
 設定が完了したらApply Settingsをクリック．
 
 ### ポートフォワーディングの設定
+
 OpenVPNの設定を書けばWAN側ポートでも待ち受けてくれるものと思っていたがそうではないみたい．
 別途ポートフォワーディングの設定をする必要があった．ここで一番つまった．
 
@@ -82,6 +87,7 @@ Application|Protocol|Source Net|Port from|IP Address|Port to|Enable
 OpenVPN(任意の文字列)|TCP|0.0.0.0/0|11942|10.0.1.1|11942|チェックを入れる
 
 ## クライアントの設定
+
 インストール方法は省略
 
 * client.ovpn
@@ -130,4 +136,3 @@ OpenVPN(任意の文字列)|TCP|0.0.0.0/0|11942|10.0.1.1|11942|チェックを�
     </key>
 
 あとはクライアントから接続するだけ．
-

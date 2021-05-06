@@ -1,7 +1,7 @@
 +++
 date = "2016-10-09T17:39:14+09:00"
 slug = ""
-tags = ["", ""]
+tags = ["ガジェット"]
 title = "Erato Audio Apollo7 レビュー"
 aliases = ["/blog/apollo7-1/"]
 

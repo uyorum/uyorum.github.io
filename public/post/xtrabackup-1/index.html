@@ -76,14 +76,12 @@
 <ul>
 <li>
 <p>フルバックアップ</p>
-<pre><code>  $ innobackupex --history=xbhistory --compact --stream=xbstream ./ | gzip - &gt; base.xbstream.gz
-</code></pre>
-</li>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">innobackupex --history<span class="o">=</span>xbhistory --compact --stream<span class="o">=</span>xbstream ./ <span class="p">|</span> gzip - &gt; base.xbstream.gz
+</code></pre></div></li>
 <li>
 <p>増分バックアップ</p>
-<pre><code>  $ innobackupex --incremental --history=xbhistory --incremental-history-name=xbhistory --compact --stream=xbstream ./ | gzip - &gt; inc.xbstream.gz
-</code></pre>
-</li>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">innobackupex --incremental --history<span class="o">=</span>xbhistory --incremental-history-name<span class="o">=</span>xbhistory --compact --stream<span class="o">=</span>xbstream ./ <span class="p">|</span> gzip - &gt; inc.xbstream.gz
+</code></pre></div></li>
 </ul>
 <p>以下で各オプションの使用した理由などを解説していきます</p>
 <h3 id="--streamxbstream"><code>--stream=xbstream</code></h3>
@@ -100,42 +98,40 @@
 <li>前回のバックアップ時の情報を対象のDBに保存する(<code>--history</code>)</li>
 </ul>
 <p>前回バックアップ時のLSNはバックアップ先ディレクトリの<code>xtrabackup_checkpoints</code>ファイルに記録されています(<code>to_lsn</code>)</p>
-<pre><code>$ cat xtrabackup_checkpoints 
-backup_type = full-backuped
-from_lsn = 0
-to_lsn = 2353547498
-last_lsn = 2353547498
-compact = 0
-recover_binlog_info = 0
-</code></pre>
-<p>xbstream形式だと特定のファイルのみ展開したりすることができなさそうだし，今回は取得したバックアップはクラウド上にアップロードしてローカルからはすぐに削除するつもりなので，先2つの方法はとれなさそうです．
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat xtrabackup_checkpoints 
+<span class="nv">backup_type</span> <span class="o">=</span> full-backuped
+<span class="nv">from_lsn</span> <span class="o">=</span> <span class="m">0</span>
+<span class="nv">to_lsn</span> <span class="o">=</span> <span class="m">2353547498</span>
+<span class="nv">last_lsn</span> <span class="o">=</span> <span class="m">2353547498</span>
+<span class="nv">compact</span> <span class="o">=</span> <span class="m">0</span>
+<span class="nv">recover_binlog_info</span> <span class="o">=</span> <span class="m">0</span>
+</code></pre></div><p>xbstream形式だと特定のファイルのみ展開したりすることができなさそうだし，今回は取得したバックアップはクラウド上にアップロードしてローカルからはすぐに削除するつもりなので，先2つの方法はとれなさそうです．
 よって<code>--history</code>オプションを使用することにします．</p>
 <p><code>--history</code>を使用した場合，バックアップの情報は対象インスタンスの<code>PERCONA_SCHEMA.xtrabackup_history</code>に保存されます．</p>
-<pre><code>$ innobackupex --history=xbhistory /data/backups
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ innobackupex --history<span class="o">=</span>xbhistory /data/backups
 $ mysql -uroot -ppassword
-&gt; select * from PERCONA_SCHEMA.xtrabackup_history\G
+&gt; <span class="k">select</span> * from PERCONA_SCHEMA.xtrabackup_history<span class="se">\G</span>
 *************************** 1. row ***************************
             uuid: 3c60a347-78d8-11e6-95ea-06b838280a4d
             name: xbhistory
        tool_name: innobackupex
-    tool_command: --history=xbhistory /data/backups
+    tool_command: --history<span class="o">=</span>xbhistory /data/backups
     tool_version: 2.3.5
 ibbackup_version: 2.3.5
   server_version: 5.5.50-MariaDB
       start_time: 2016-09-12 11:01:01
         end_time: 2016-09-12 11:01:20
-       lock_time: 0
+       lock_time: <span class="m">0</span>
       binlog_pos: NULL
- innodb_from_lsn: 0
-   innodb_to_lsn: 2353547508
+ innodb_from_lsn: <span class="m">0</span>
+   innodb_to_lsn: <span class="m">2353547508</span>
          partial: N
      incremental: N
           format: file
          compact: N
       compressed: N
        encrypted: N
-</code></pre>
-<p>増分バックアップを取得するときは<code>--incremental-history-name</code>オプションを使います．
+</code></pre></div><p>増分バックアップを取得するときは<code>--incremental-history-name</code>オプションを使います．
 <code>--history</code>オプションを付けないとその回はDBに保存されないようなので増分バックアップのときも<code>--history</code>オプションを使います．
 毎回，前回のフルバックアップからの増分を取得する，のようなバックアップ設計のときは<code>--history</code>オプションを付けないと実現できそうです．</p>
 <h3 id="--compact"><code>--compact</code></h3>
@@ -219,6 +215,17 @@ ibbackup_version: 2.3.5
 
     </aside>
     
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/xmonad-change-modmask/">Xmonadのmodキーを半角/全角キーに変更する</a></li>
+  
+  <li><a href="/post/about-rpm/">RPMコマンドのオプション</a></li>
+  
+  <li><a href="/post/debian-on-android/">Android上でDebianを動かす</a></li>
+  
+</ul>
 
 
     

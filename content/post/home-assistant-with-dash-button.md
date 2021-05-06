@@ -1,7 +1,7 @@
 +++
 date = "2017-06-10T20:20:04+09:00"
 slug = ""
-tags = ["",""]
+tags = ["Home Assistant", "ホームオートメーション", "ガジェット"]
 title = "Home AssistantとAmazon Dash Buttonを連携させる"
 aliases = ["/blog/home-assistant-with-dash-button/"]
 
@@ -12,11 +12,13 @@ Amazon Dash Buttonは間違った使い方ができることで有名だが，Am
 <!--more-->
 
 ## Amazon Dash Buttonのハック
+
 ネットに情報は溢れているため詳しい説明は省略する．  
 本来のAmazon Dash Buttonはボタンを押すことであらかじめ設定した商品を注文するためのものだが，その過程で発生するパケットをトリガーに利用して，
 ボタンを押すことで任意の処理を実行させようというもの．
 
 ## 仕組みの概要
+
 Amazon Dash Buttonと連携するComponentは過去に提案されている．  
 [Amazon Dash Component? · Issue #484 · home-assistant/home-assistant](https://github.com/home-assistant/home-assistant/issues/484)
 
@@ -45,15 +47,16 @@ Amazon Dash Buttonと連携するComponentは過去に提案されている．
 1. ボタンを押すとそのAutomationが実行される
 
 ## ボタン押下を検知するサーバの用意
+
 ボタン検知を検知するためのサーバを用意し，専用のプログラムを走らせておく．自分はHome Assistantが稼動しているRaspbery Pi 2 Model Bで動かしている．
 以下のような感じでインストールする．
 
 ``` shell
-$ sudo apt -y install tcpdump python-scapy
-$ sudo mkdir /srv/dash-ha
-$ cd /srv/dash-ha
-$ sudo wget https://raw.githubusercontent.com/uyorum/play-amazon-dash-button/master/home-assistant/dash-ha.py
-$ sudo chmod +x dash-ha.py
+sudo apt -y install tcpdump python-scapy
+sudo mkdir /srv/dash-ha
+cd /srv/dash-ha
+sudo wget https://raw.githubusercontent.com/uyorum/play-amazon-dash-button/master/home-assistant/dash-ha.py
+sudo chmod +x dash-ha.py
 ```
 
 設定ファイルは以下のような内容
@@ -75,7 +78,6 @@ buttons:
 
 起動，停止はSystemdで管理する．
 
-
 ``` shell
 $ systemctl cat dash-ha
 # /etc/systemd/system/dash-ha.service
@@ -96,6 +98,7 @@ $ sudo systemctl start dash-ha
 ```
 
 ## Home Assitatntの設定
+
 Home Assistant側ではイベント`dash_button_nescafe`をトリガーとするAutomationを設定しておく．
 
 ``` yaml

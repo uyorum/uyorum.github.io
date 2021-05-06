@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = ["", ""]
+tags = ["Ubuntu", "Linux"]
 title = "Ubuntu 20.04でMagic Trackpadのマルチタッチジェスチャーを使う"
 date = "2020-05-17T21:12:10+09:00"
 aliases = ["/blog/ubuntu-multitouch/"]

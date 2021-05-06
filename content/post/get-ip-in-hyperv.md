@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["Windows", "Hyper-V"]
 title = "Hyper-V上の仮想マシンのIPアドレスをホスト側で取得する"
 date = "2015-11-09T23:28:41+09:00"
 aliases = ["/blog/get-ip-in-hyperv/"]
@@ -14,6 +14,7 @@ Guestを固定アドレスにすればいいのかも知れないが，何かの
 <!--more-->
 
 ## 環境
+
 ### Host
 
 ```shell
@@ -25,7 +26,7 @@ OS Version:                10.0.10240 N/A Build 10240
 
 ### Guest
 
-```shell
+```shell 
 $ lsb_release -a
 No LSB modules are available.
 Distributor ID: Debian
@@ -35,6 +36,7 @@ Codename:       sid
 ```
 
 ## 準備
+
 Guest OSにAgentをインストール
 
 ```shell
@@ -78,6 +80,7 @@ daemonのひとつで起動に失敗しているがとりあえず放置．そ�
 今回必要なのはおそらく`hv_kvp_daemon`
 
 ## ホスト側のPowerShellでコマンドを実行
+
 管理者権限がないと値を取得できないので注意
 
 ```shell

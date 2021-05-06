@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["CoreOS", "Docker"]
 title = "CoreOS入門1 etcd"
 date = "2015-09-04T23:01:54+09:00"
 aliases = ["/blog/learning-coreos-01/"]
@@ -13,11 +13,13 @@ aliases = ["/blog/learning-coreos-01/"]
 <!--more-->
 
 ## 参考
+
 * [coreos/etcd](https://github.com/coreos/etcd)
 * [Getting Started with etcd on CoreOS](https://coreos.com/etcd/docs/latest/getting-started-with-etcd.html)
 * [Clustering Machines](https://coreos.com/os/docs/latest/cluster-discovery.html)
 
 ## etcdとは
+
 分散KVS．詳細はいろいろな方が紹介記事を書いているので省略．
 
 以下，etcdによるクラスタの構成方法．  
@@ -25,6 +27,7 @@ etcdはv0.4系とv2.0系があり，それぞれコマンドオプションが�
 以下はetcd v2での説明．
 
 ## etcdクラスタを構成するには
+
 マルチキャストを使って互いのノード(peerと呼ぶ)を自動で見つけてくれるたぐいのものではない．マルチクラウドやL3ネットワーク越しに使うことも想定しているからっぽい．  
 よってノードは他のノードがどこにいるか(IPアドレス)を何らかの方法で取得しなければならない．以下の3つの方法がある．
 
@@ -36,19 +39,21 @@ etcdはv0.4系とv2.0系があり，それぞれコマンドオプションが�
   同上．DNSのSRVレコードを使う．よく調べてない．
 
 ### Discovery Serviceとは
+
 etcdクラスタを初めに構築するときに利用するService．各ノードのetcdはこのServiceに自分のアドレスを登録し，同様に登録された他のノードのアドレスを知る．  
 Discovery Serviceはクラスタの構築時にのみ使用される．既に稼動しているクラスタへのノードの追加やクラスタのモニタリングには利用しない．  
 後からノードを追加したり除去するするときは[runtime](https://github.com/coreos/etcd/blob/master/Documentation/runtime-configuration.md)が使われる．  
 Discovery ServiceのURLは通常使い回しはせずに構築するクラスタごとに生成しなおす．
 
 ### Public Discovery Serviceによるクラスタの構成
+
 自分でDiscovery Serviceを立てる方法と専用のPublicサービスを利用する方法がある．  
 前者は普通にetcdを起動すればいいみたい．ここでetcdを起動するホストはクラスタに参加させたいホストとは別物なので注意．これに気づくまでに時間がかかった．  
 (Public Serviceの方法はetcd2でしか使えない？etcd 4.9ではなぜかだめだった．)  
 Public Discovery Serviceを使うには
 
 ```shell
-$ curl https://discovery.etcd.io/new?size=3
+curl https://discovery.etcd.io/new?size=3
 ```
 
 で返ってきたURLを`-discovery`オプションに指定してetcdを起動する．sizeにははじめにクラスタを構成する際のノード数を指定する．  
@@ -148,12 +153,14 @@ $ curl https://discovery.etcd.io/9dfd14389c921bdde47847f13b7f51cb
   "action": "get"
 }
 ```
+
 jsonは別途，見やすくパースしてる．実際にはjsonが1行で表示される．
 
 このクラスタに後からノードを追加したい場合は同じURLを指定してetcdを実行すればよい．内容を見て自動でクラスタに参加してくれる．
 (このURLはいつまで有効？)
 
 ### KVSの使用
+
 試しにKVSに値を入れてみる(APIは[ここ](https://github.com/coreos/etcd/blob/master/Documentation/api.md)を参照)
 
 ```shell
@@ -195,6 +202,7 @@ $ curl http://127.0.0.1:22379/v2/keys/foo
 ```
 
 ## CoreOSでは
+
 etcd2はsystemdによりdaemonとして起動させる．先ほどコマンドオプションで与えていた情報はCloud-Configで設定できる．
 
 * cloud-config.yml

@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = ["", ""]
+tags = ["Ubuntu", "Linux"]
 title = "Ubuntu 20.04でキーマップをカスタマイズする"
 date = "2020-05-20T23:43:30+09:00"
 aliases = ["/blog/ubuntu-custom-keymap/"]
@@ -108,6 +108,7 @@ $ xkbcomp -I$HOME/.xkb $HOME/.keymap.xkb $DISPLAY 2>/dev/null
 {{< affiliate asin="B082TXLC2B" title="HHKB Professional HYBRID Type-S 日本語配列／白" >}}
 
 ## 参考
+
 * [Custom keyboard layout definitions - Community Help Wiki](https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions)
 * [X KeyBoard extension - ArchWiki](https://wiki.archlinux.jp/index.php/X_KeyBoard_extension)
 * [xkbでキーバインドを変更する（Ubuntu） | Honmushi blog](https://honmushi.com/2019/01/18/ubuntu-xkb/)

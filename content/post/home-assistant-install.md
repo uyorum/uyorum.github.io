@@ -1,6 +1,6 @@
 +++
 title = "Home Assistantでつくるホームオートメーション(導入編)"
-tags = ["",""]
+tags = ["Home Assistant", "Raspberry Pi", "ホームオートメーション"]
 slug = ""
 date = "2017-04-22T21:48:00+09:00"
 aliases = ["/blog/home-assistant-install/"]
@@ -12,6 +12,7 @@ aliases = ["/blog/home-assistant-install/"]
 <!--more-->
 
 ## Home Assitantとは
+
 * [Home Assistant](https://home-assistant.io/)
 * [home-assistant/home-assistant: Open-source home automation platform running on Python 3](https://github.com/home-assistant/home-assistant)
 
@@ -35,6 +36,7 @@ aliases = ["/blog/home-assistant-install/"]
 公式サイトでデモ画面を見ることができる．[Home Assistant Demo](https://home-assistant.io/demo/)
 
 ## インストール
+
 [Installation of Home Assistant - Home Assistant](https://home-assistant.io/docs/installation/)
 
 様々のインストール方法が提供されている．自分はRaspberryPiでGPIOを使いたかったためRaspbianへのManual Installを選択した．
@@ -43,7 +45,7 @@ systemdのユニットファイルも提供されている．自分は多少変�
 
 * /etc/systemd/system/home-assistant.service
 
-```
+``` ini
 [Unit]
 Description=Home Assistant
 After=network.target
@@ -64,9 +66,9 @@ WantedBy=multi-user.target
 * 有効化
 
 ``` shell
-$ sudo systemctl daemon-reload
-$ sudo systemctl enable home-assistant
-$ sudo systemctl start home-assistant
+sudo systemctl daemon-reload
+sudo systemctl enable home-assistant
+sudo systemctl start home-assistant
 ```
 
 初回起動時はコンポーネントのインストールがあるため10分ほどかかる．
@@ -75,6 +77,7 @@ $ sudo systemctl start home-assistant
 実行ユーザのホームディレクトリに`.homeassistant/configuration.yaml`というファイルが自動で作成される．基本的に設定はこのファイルにYAML形式で書いていくことになる．
 
 ## 概念
+
 Home Asssistantで扱うリソースはComponentという形で提供されており[ここ](https://home-assistant.io/components/)から確認できる．これを書いている時点でComponentは640個ある．
 個々のComponentはPlatform(Serviceと表記されることもある)としてグルーピングされており，設定方法や可能な操作はPlatformごとに決まっている．
 Platformには例えば以下のようなものがある．

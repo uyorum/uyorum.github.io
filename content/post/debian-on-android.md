@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["Android", "Linux", "Debian"]
 title = "Android上でDebianを動かす"
 date = "2013-09-20T22:44:00+09:00"
 aliases = ["/blog/debian-on-android/"]

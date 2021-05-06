@@ -74,13 +74,12 @@ vagrant関連の項目を除いて，別個に設定が必要そうな項目は�
 <ul>
 <li>
 <p>~/.berkshelf/config.json</p>
-<pre><code>  {
-    &quot;ssl&quot;: {
-      &quot;verify&quot;: false
-    }
-  }
-</code></pre>
-</li>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;ssl&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;verify&#34;</span><span class="p">:</span> <span class="kc">false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></li>
 </ul>
 <h2 id="考え方">考え方</h2>
 <ul>
@@ -104,94 +103,82 @@ vagrant関連の項目を除いて，別個に設定が必要そうな項目は�
 <h2 id="コマンドの流れ">コマンドの流れ</h2>
 <ol>
 <li>
-<p>Berksfileを作成する</p>
-<ul>
-<li>
-<p>既存のcookbookにBerksfileを作成する</p>
-<pre><code>  $ cd cookbook_name
-  $ berks init .
-        create  Berksfile
-        create  Thorfile
-        create  chefignore
-        create  .gitignore
-        create  Gemfile
-        create  .kitchen.yml
-        append  Thorfile
-        create  test/integration/default
-        append  .gitignore
-        append  .gitignore
-        append  Gemfile
-        append  Gemfile
-  You must run `bundle install' to fetch any new gems.
-        create  Vagrantfile
-  Successfully initialized
-</code></pre>
-</li>
-<li>
-<p>新規にcookbookを作成する</p>
-<pre><code>  $ berks cookbook test
-        create  test/files/default
-        create  test/templates/default
-        create  test/attributes
-        create  test/libraries
-        create  test/providers
-        create  test/recipes
-        create  test/resources
-        create  test/recipes/default.rb
-        create  test/metadata.rb
-        create  test/LICENSE
-        create  test/README.md
-        create  test/CHANGELOG.md
-        create  test/Berksfile
-        create  test/Thorfile
-        create  test/chefignore
-        create  test/.gitignore
-        create  test/Gemfile
-        create  .kitchen.yml
-        append  Thorfile
-        append  .gitignore
-        append  .gitignore
-        append  Gemfile
-        append  Gemfile
-  You must run `bundle install' to fetch any new gems.
-        create  test/Vagrantfile
-</code></pre>
-<p>カレントディレクトリにcookbookが作成される</p>
-</li>
-</ul>
-<p>今後は<code>knife cookbook create</code>の代わりに<code>berks cookbook</code>でcookbookを作成するようにするとよい．</p>
+<p>Berksfileを作成する
+既存のcookbookにBerksfileを作成する</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nb">cd</span> cookbook_name
+$ berks init .
+      create  Berksfile
+      create  Thorfile
+      create  chefignore
+      create  .gitignore
+      create  Gemfile
+      create  .kitchen.yml
+      append  Thorfile
+      create  test/integration/default
+      append  .gitignore
+      append  .gitignore
+      append  Gemfile
+      append  Gemfile
+You must run <span class="sb">`</span>bundle install<span class="err">&#39;</span> to fetch any new gems.
+      create  Vagrantfile
+Successfully initialized
+</code></pre></div><p>新規にcookbookを作成する</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ berks cookbook <span class="nb">test</span>
+      create  test/files/default
+      create  test/templates/default
+      create  test/attributes
+      create  test/libraries
+      create  test/providers
+      create  test/recipes
+      create  test/resources
+      create  test/recipes/default.rb
+      create  test/metadata.rb
+      create  test/LICENSE
+      create  test/README.md
+      create  test/CHANGELOG.md
+      create  test/Berksfile
+      create  test/Thorfile
+      create  test/chefignore
+      create  test/.gitignore
+      create  test/Gemfile
+      create  .kitchen.yml
+      append  Thorfile
+      append  .gitignore
+      append  .gitignore
+      append  Gemfile
+      append  Gemfile
+You must run <span class="sb">`</span>bundle install<span class="err">&#39;</span> to fetch any new gems.
+      create  test/Vagrantfile
+</code></pre></div><p>カレントディレクトリにcookbookが作成される．<br>
+今後は<code>knife cookbook create</code>の代わりに<code>berks cookbook</code>でcookbookを作成するようにするとよい．</p>
 </li>
 <li>
 <p>Berksfileに依存するcookbook名を書いていく
 書き方はGemfileと同様．</p>
-<pre><code> source &quot;https://supermarket.chef.io&quot;
-     
- metadata
-     
- cookbook 'mysql2_chef_gem', '~&gt; 1.0.1'
- cookbook 'database', '~&gt; 4.0.6'
-</code></pre>
-</li>
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="n">source</span> <span class="s2">&#34;https://supermarket.chef.io&#34;</span>
+    
+<span class="n">metadata</span>
+    
+<span class="n">cookbook</span> <span class="s1">&#39;mysql2_chef_gem&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 1.0.1&#39;</span>
+<span class="n">cookbook</span> <span class="s1">&#39;database&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 4.0.6&#39;</span>
+</code></pre></div></li>
 <li>
 <p>metadata.rbにも同じcookbook名を書く</p>
-<pre><code> depends          'mysql2_chef_gem'
- depends          'database'
-</code></pre>
-</li>
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="n">depends</span>          <span class="s1">&#39;mysql2_chef_gem&#39;</span>
+<span class="n">depends</span>          <span class="s1">&#39;database&#39;</span>
+</code></pre></div></li>
 <li>
 <p>cookbookをインストール</p>
-<pre><code> $ berks install
-</code></pre>
-<p>デフォルトでは<code>~/.berkshelf/cookbooks/&lt;cookbook_name&gt;-&lt;version&gt;</code>にcookbookが格納される．<br>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">berks install
+</code></pre></div><p>デフォルトでは<code>~/.berkshelf/cookbooks/&lt;cookbook_name&gt;-&lt;version&gt;</code>にcookbookが格納される．<br>
 ネットにある記事では<code>chef-repo/cookbooks</code>にインストールすると書かれていることがあるが，現在は違う模様．</p>
 </li>
 <li>
 <p>Chef Serverへアップロード</p>
-<pre><code> $ berks upload [cookbook_name]
- またはcookbookディレクトリの中で
- $ berks upload
-</code></pre>
-<p>Berkshelfでインストールしたcookbookのディレクトリ名がcookbook名と異なるためそのままでは<code>knife</code>でuploadできない．注意．<br>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ berks upload <span class="o">[</span>cookbook_name<span class="o">]</span>
+またはcookbookディレクトリの中で
+$ berks upload
+</code></pre></div><p>Berkshelfでインストールしたcookbookのディレクトリ名がcookbook名と異なるためそのままでは<code>knife</code>でuploadできない．注意．<br>
 cookbook名を入れないと依存するcookbookも一緒にuploadしてくれる</p>
 </li>
 </ol>
@@ -212,6 +199,24 @@ cookbookとその依存cookbookをまとめてtar.gzでアーカイブする</li
 <p>Productionな環境ではコミュニティのcookbookはあまり使用しないみたいなので，Berkshelfの出番はあまりないと思う．<br>
 ごく簡単なものや特に便利なものに関してはコミュニティのものを使ってもいいと思うけど，多様してブラックボックスが増えるのもよくない．<br>
 主にインスタントな検証環境，開発環境とかかな．</p>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/477416500X/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=477416500X&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/477416500X/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        Chef実践入門 ~コードによるインフラ構成の自動化 (WEB&#43;DB PRESS plus)
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
     </section>
     <aside>
       <div class="share-box">

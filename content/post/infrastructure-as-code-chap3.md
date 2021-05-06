@@ -1,7 +1,7 @@
 +++
 date = "2017-06-15T23:14:55+09:00"
 slug = ""
-tags = ["",""]
+tags = ["ITインフラ", "読書"]
 title = "Infrastructure as Code 感想 (3章)"
 aliases = ["/blog/infrastructure-as-code-chap3/"]
 
@@ -53,3 +53,5 @@ aliases = ["/blog/infrastructure-as-code-chap3/"]
 1. Kief Morris, Infrastructure as Code クラウドにおけるサーバ管理の原則とプラクティス, 長尾高弘訳, オライリー・ジャパン, 2017
 
 [^1]: [Best Practice · itamae-kitchen/itamae Wiki](https://github.com/itamae-kitchen/itamae/wiki/Best-Practice#use-nodevalidate-in-recipes-that-will-be-included)
+
+{{< affiliate asin="4873117968" title="Infrastructure as Code ―クラウドにおけるサーバ管理の原則とプラクティス" >}}

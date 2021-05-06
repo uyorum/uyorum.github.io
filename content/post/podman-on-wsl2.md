@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = []
+tags = ["Windows", "WSL", "Docker", "Podman"]
 title = "WSL2にPodmanを入れる"
 date = "2021-04-14T21:55:17+09:00"
 aliases = ["/blog/podman-on-wsl2/"]

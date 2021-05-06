@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["ESXi", "NUC"]
 title = "ESXiサーバ構築誌 - 機器構成"
 date = "2013-09-23T22:28:00+09:00"
 aliases = ["/blog/esxi-01/"]

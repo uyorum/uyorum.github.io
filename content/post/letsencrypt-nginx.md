@@ -1,7 +1,7 @@
 +++
 date = "2018-12-15T18:19:48+09:00"
 slug = ""
-tags = ["",""]
+tags = ["Let's Encrypt", "Nginx", "Linux"]
 title = "NginxでLet's Encryptの証明書を扱う"
 aliases = ["/blog/letsencrypt-nginx/"]
 
@@ -20,6 +20,7 @@ nginx-1.12.2-2.el7.x86_64
 ```
 
 # 証明書の新規発行
+
 WebサーバにNginxを使用しているような環境で，Certbotを使って(更新を含む)証明書を発行するには以下
 のような方法が考えられる．
 
@@ -101,6 +102,7 @@ server {
 以上．
 
 # 参考
+
 [User Guide — Certbot 0.29.0.dev0 documentation](https://certbot.eff.org/docs/using.html)
 
 [^1]: Certbotを起動する前にNginxを停止すればできないこともないが，当然その間はWebサーバにアクセスできない

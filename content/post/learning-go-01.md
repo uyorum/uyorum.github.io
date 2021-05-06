@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["Golang"]
 title = "Go言語のお勉強 その1"
 date = "2015-07-29T00:30:49+09:00"
 aliases = ["/blog/learning-go-01/"]
@@ -12,6 +12,7 @@ Go言語を勉強中．今日やったことまとめ．
 <!--more-->
 
 ## 参考
+
 * [ドキュメント - The Go Programming Language](http://golang-jp.org/doc/)
 * [golang ｜ シリーズ ｜ Developers.IO](http://dev.classmethod.jp/series/golang-2/)
 
@@ -139,8 +140,8 @@ fArgs("Go", "Java", "Ruby")
 
 ```go
 func inc2(i *int) {
-	*i++
-	fmt.Println("inc2: i = " + strconv.Itoa(*i))
+ *i++
+ fmt.Println("inc2: i = " + strconv.Itoa(*i))
 }
 
 num := 10

@@ -1,7 +1,7 @@
 +++
 date = "2017-12-28T18:19:55+09:00"
 slug = ""
-tags = ["",""]
+tags = ["Ruby", "RSpec"]
 title = "RSpecでFakerを使うならKernel.srandを設定しておけという話"
 aliases = ["/blog/rspec-faker-1/"]
 
@@ -13,10 +13,11 @@ RSpecでFaker[^1]を使ってテストデータを用意している場合，テ
 <!--more-->
 
 ## どんな状況か
+
 自分が出会ったのはRailsでFactoryBotとFakerを組み合わせて使っている場合に出会った．
 あまりいい例ではないが，以下に具体的な状況を設定する
 
-**models/user.rb**
+* models/user.rb
 
 ``` ruby
 class User < ApplicationRecord
@@ -24,7 +25,7 @@ class User < ApplicationRecord
 end
 ```
 
-**factories/user.rb**
+* factories/user.rb
 
 ``` ruby
 FactoryBot.define do
@@ -34,7 +35,7 @@ FactoryBot.define do
 end
 ```
 
-**spec/models/user_spec.rb**
+* spec/models/user_spec.rb
 
 ``` ruby
 require 'rails_helper'
@@ -74,6 +75,7 @@ Failures:
 しかしこれはあくまでテストの実行順を再現させるだけであり，その他のランダム化されている箇所は再現できない．当然Fakerの生成する値も再現できない．
 
 ## 解決方法
+
 Fakerはその値の生成に`Random.rand`や`Kernel.rand`を使っているようなのでそのシード値を与えてやればよい．
 この方法はRSpecのドキュメントでも提案されており[^3]，デフォルトの`spec_helper.rb`にもコメントアウトされた状態で書かれている．[^4]
 
@@ -90,9 +92,10 @@ end
 `Kernel.srand`に整数値を渡すことで`Kernel.rand`や`Random.rand`のシード値を設定することができる[^5]
 
 ## 試してみる
+
 実際にこの設定の動作を確認してみるために以下のようなテストコードを用意する．
 
-**spec/random_data_spec.rb**
+* spec/random_data_spec.rb
 
 ``` ruby
 require 'rails_helper'
@@ -188,3 +191,5 @@ Fakerは同じ値を生成するようになった．
 [^3]: [Randomization can be reproduced across test runs - Command line - RSpec Core - RSpec - Relish](https://relishapp.com/rspec/rspec-core/docs/command-line/randomization-can-be-reproduced-across-test-runs)
 [^4]: [rspec-core/spec_helper.rb at v3.7.0 · rspec/rspec-core](https://github.com/rspec/rspec-core/blob/v3.7.0/lib/rspec/core/project_initializer/spec/spec_helper.rb)
 [^5]: [module Kernel (Ruby 2.4.0)](https://docs.ruby-lang.org/ja/latest/class/Kernel.html\#M_SRAND)
+
+{{< affiliate asin="4297114623" title="パーフェクト Ruby on Rails 【増補改訂版】 (Perfect series)" >}}

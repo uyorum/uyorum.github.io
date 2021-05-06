@@ -88,11 +88,11 @@
 <h2 id="ボタン押下を検知するサーバの用意">ボタン押下を検知するサーバの用意</h2>
 <p>ボタン検知を検知するためのサーバを用意し，専用のプログラムを走らせておく．自分はHome Assistantが稼動しているRaspbery Pi 2 Model Bで動かしている．
 以下のような感じでインストールする．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt -y install tcpdump python-scapy
-$ sudo mkdir /srv/dash-ha
-$ <span class="nb">cd</span> /srv/dash-ha
-$ sudo wget https://raw.githubusercontent.com/uyorum/play-amazon-dash-button/master/home-assistant/dash-ha.py
-$ sudo chmod +x dash-ha.py
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt -y install tcpdump python-scapy
+sudo mkdir /srv/dash-ha
+<span class="nb">cd</span> /srv/dash-ha
+sudo wget https://raw.githubusercontent.com/uyorum/play-amazon-dash-button/master/home-assistant/dash-ha.py
+sudo chmod +x dash-ha.py
 </code></pre></div><p>設定ファイルは以下のような内容</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /srv/dash-ha/config.yaml
 home_assistant:
@@ -152,7 +152,7 @@ $ sudo systemctl start dash-ha
     </aside>
     
 
-<h3>関連記事</h3>
+<h1>関連記事</h1>
 <ul>
   
   <li><a href="/post/home-assistant-gpio/">Home Assistantで人感センサーを使って照明を自動点灯する</a></li>

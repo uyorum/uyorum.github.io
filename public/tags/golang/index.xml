@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golang on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/golang/</link>
+    <description>Recent content in Golang on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Sun, 02 Aug 2015 22:17:45 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go言語のお勉強 その4</title>
+      <link>https://blog.uyorum.net/post/learning-go-04/</link>
+      <pubDate>Sun, 02 Aug 2015 22:17:45 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/learning-go-04/</guid>
+      <description>&lt;p&gt;4日目&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Go言語のお勉強 その3</title>
+      <link>https://blog.uyorum.net/post/learning-go-03/</link>
+      <pubDate>Sun, 02 Aug 2015 01:19:12 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/learning-go-03/</guid>
+      <description>&lt;p&gt;今日の分．&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Go言語のお勉強 その2</title>
+      <link>https://blog.uyorum.net/post/learning-go-02/</link>
+      <pubDate>Wed, 29 Jul 2015 23:07:42 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/learning-go-02/</guid>
+      <description>&lt;p&gt;今日のまとめ&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Go言語のお勉強 その1</title>
+      <link>https://blog.uyorum.net/post/learning-go-01/</link>
+      <pubDate>Wed, 29 Jul 2015 00:30:49 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/learning-go-01/</guid>
+      <description>&lt;p&gt;Go言語を勉強中．今日やったことまとめ．&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

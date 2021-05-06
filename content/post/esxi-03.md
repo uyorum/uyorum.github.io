@@ -1,6 +1,6 @@
 +++
 Categories = []
-Tags = []
+Tags = ["ESXi", "NUC"]
 title = "Intel DC3217IYEへVMware vSphere hypervisor5.5をインストールする"
 date = "2013-09-24T22:01:00+09:00"
 aliases = ["/blog/esxi-03/"]

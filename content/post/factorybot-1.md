@@ -1,7 +1,7 @@
 +++
 date = "2017-12-29T17:17:00+09:00"
 slug = ""
-tags = ["",""]
+tags = ["Ruby", "RSpec", "FactoryBot"]
 title = "FactoryBotでテストのはじめにデータを用意する"
 aliases = ["/blog/factorybot-1/"]
 

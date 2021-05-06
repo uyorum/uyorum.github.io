@@ -1,7 +1,7 @@
 +++
 date = "2019-07-04T20:32:07+09:00"
 slug = ""
-tags = ["",""]
+tags = ["Linux", "RHEL", "CentOS"]
 title = "fail2banでBotからsshdとNginxを守る"
 aliases = ["/blog/fail2ban-1/"]
 
@@ -11,39 +11,41 @@ aliases = ["/blog/fail2ban-1/"]
 
 <!-- more -->
 
-# やりたいこと
+## やりたいこと
+
 * 以下のようなアクセスを行なったIPアドレスをBotとみなす
     * SSHで認証に失敗したアクセスの送信元アドレス
     * HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレス
 * BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする
 * 一度BotとみなしたIPアドレスは永久にブロックする
 
-# 環境
+## 環境
 
-``` shell
+``` bash
 # cat /etc/redhat-release
 CentOS Linux release 7.6.1810 (Core)
 # yum list fail2ban
 fail2ban.noarch     0.9.7-1.el7     @epel
 ```
 
-# 情報源
+## 情報源
 
 いろいろ調べたが結局`man`が一番参考になるし信用できる．
 
 ``` shell
-$ man fail2ban
-$ man jail.conf
-$ man ipset
+man fail2ban
+man jail.conf
+man ipset
 ```
 
-# インストール
+## インストール
 
 ``` shell
 # yum install -y fail2ban
 ```
 
-# 設定ファイル類
+## 設定ファイル類
+
 設定ファイルは`/etc/fail2ban`に集まっている．
 
 * fail2ban.conf  
@@ -56,13 +58,14 @@ $ man ipset
 * action.d/*.conf  
     IPをブロックする方法(action)を定義する
 
-## 設定ファイルの書き方
+### 設定ファイルの書き方
+
 デフォルトでは`.conf`ファイルが作成されているが，これらのファイルは編集せずに同名の`.local`ファイルを同じディレクトリに作る方法が推奨されている．
 `.conf`のうち上書きしたい部分だけを`.local`ファイルに書けばその部分だけ上書きされる．
 
 jailの設定は各ルール共通の設定を`jail.local`に書き，各ルールの設定と有効化を`jail.d/*.local`に書くことにするときれいに管理できそう．
 
-# fail2banのしくみ
+## fail2banのしくみ
 
 1. jailのlogpathに設定したログファイルをtail
 1. jailのfilterに設定した条件(ログイン失敗など)に一致したログをカウント  
@@ -70,10 +73,12 @@ jailの設定は各ルール共通の設定を`jail.local`に書き，各ルー�
 1. 設定した頻度に逹したIPアドレスをブロック  
     ブロックの手段はjailのbanactionで設定する
 
-# 設定
+## 設定
+
 上に書いたやりたいことを実現すべく設定していく．
 
-## SSHで認証に失敗したアクセスの送信元アドレスをBotとみなす
+### SSHで認証に失敗したアクセスの送信元アドレスをBotとみなす
+
 jail.confにははじめから以下の内容が書かれている(抜粋)
 
 jail.conf:
@@ -102,7 +107,8 @@ jail.d/sshd.local:
 enabled = true
 ```
 
-## HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレスをBotとみなす
+### HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレスをBotとみなす
+
 自分の環境ではNginxでこれらのポートをリッスンしている．これもやりたいことを実現できそうなjailがデフォルトで定義されている．
 
 jail.conf:
@@ -135,7 +141,8 @@ enabled  = true
 logpath  = %(nginx_access_log)s
 ```
 
-## BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする
+### BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする
+
 これはactionで設定する．
 このサーバではFirewalldを使用しているので，fail2banでもFirwalldを通して設定するようにしたい．また今回の設定では大量のIPアドレスをブロックすることになるのでipsetを使いたい．(iptablesに大量のルールを設定するとパフォーマンスに影響がありそうだったため)
 これを実現できそうなactionはデフォルトでは存在しなかったため，一番近そうな`firewallcmd-ipset`jailを改変することにした．
@@ -167,11 +174,11 @@ jail.local:
 banaction = firewallcmd-ipset
 ```
 
-## 一度BotとみなしたIPアドレスは永久にブロックする
+### 一度BotとみなしたIPアドレスは永久にブロックする
 
 `jail.conf`(`jail.local`)には`bantime`というパラメータがある
 
-```
+``` ini
 bantime
     effective ban duration (in seconds).
 ```

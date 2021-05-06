@@ -1,7 +1,7 @@
 +++
 date = "2018-06-12T10:19:17+09:00"
 slug = ""
-tags = ["",""]
+tags = ["Zabbix", "RHEL", "CentOS", "Linux"]
 title = "必要最低限の設定で監視エージェントに監視させる"
 aliases = ["/blog/security-settings-for-zabbix-agent/"]
 
@@ -24,6 +24,7 @@ zabbix-agent.x86_64                3.4.10-1.el7                     @zabbix
 ```
 
 ## 実行ユーザ
+
 エージェントの実行ユーザは`root`などの特別な権限を持ったユーザは避ける．
 Zabbix Agentではデフォルトで`zabbix`ユーザで実行するようになっているためそのままにする．
 
@@ -38,6 +39,7 @@ zabbix    9080  9075  0 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: active 
 ```
 
 ## パーミッション
+
 このままでも各種メトリクスは取得できるが，ログ監視のために追加の設定が必要となる．
 例えば`/var/log/messages`は以下のような権限が設定されており，そのままだと`zabbix`ユーザでは監視することができない．
 
@@ -52,10 +54,10 @@ zabbixユーザでファイルを開けるようにするには以下のよう�
 
 rootグループに対して読み取り権限を設定しzabbixユーザをrootグループに所属させる
 
-    ``` shell
-    $ sudo usermod -a -G root zabbix
-    $ sudo chmod g+r /var/log/messages
-    ```
+``` shell
+$ sudo usermod -a -G root zabbix
+$ sudo chmod g+r /var/log/messages
+```
 
 これでログを開けるようになる．さらに少ない権限でいくなら[アクセスACL](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/acls-setting)という機能が使える．  
 この機能を使えば特定のユーザに対して特定のファイルにのみ権限を設定することができる．
@@ -83,6 +85,7 @@ other::---
 ```
 
 ## SELinux
+
 上の設定だけでは不十分で，実際にはSELinuxによりZabbix Agentは/var/log/messagesを開くことはできない．
 audit.logには以下のようなログが記録される．
 
