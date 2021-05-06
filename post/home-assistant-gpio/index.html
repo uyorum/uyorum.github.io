@@ -107,8 +107,8 @@ Raspbian jessie liteの上にHome Assistantをインストール済み</p>
 </span><span class="w">    </span><span class="nt">bouncetime</span><span class="p">:</span><span class="w"> </span><span class="m">50</span><span class="w">
 </span><span class="w">    </span><span class="nt">invert_logic</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span></code></pre></div><p>なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを<code>gpio</code>グループに所属させればよい．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo usermod -a -G gpio ha
-$ sudo systemctl restart home-assistant
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo usermod -a -G gpio ha
+sudo systemctl restart home-assistant
 </code></pre></div><h2 id="home-assistantでmilightを使う">Home AssistantでMiLightを使う</h2>
 <p>MiLight(中身はLimitlessLED)ははじめからComponentとして提供されているためこれを利用する．<a href="https://home-assistant.io/components/light.limitlessled/">LimitlessLED - Home Assistant</a></p>
 <ul>
@@ -130,7 +130,7 @@ $ sudo systemctl restart home-assistant
 </ul>
 <p>なお，Home AssistantはWebインターフェースで設定ファイルを読み直すことができるが，プロセスの再起動を行わないと反映されないものが多い．
 確実に設定を反映させるため，プロセスの再起動を行う．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo systemctl restart home-assistant
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo systemctl restart home-assistant
 </code></pre></div><h2 id="automationを設定する">Automationを設定する</h2>
 <p>ここまでで，WebインターフェースではセンサーのON/OFFが表示され，MiLightを操作できるようになっているはず．
 次に，これらを組み合わせて以下の動作を実現する．</p>
