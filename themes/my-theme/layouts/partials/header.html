@@ -5,6 +5,9 @@
 	<meta charset="utf-8">
 	{{ hugo.Generator }}
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{{ with .Site.Params.googleSearchConsole }}
+	<meta name="google-site-verification" content="{{ . }}" />
+	{{ end }}
 	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
@@ -18,7 +21,6 @@
 	<link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="{{ .OutputFormats.Get " RSS" }}" />
 	{{ end }}
 	<title>{{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }} - {{ .Site.Title }}{{ end }}</title>
-	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
 </head>
 
 <body>
