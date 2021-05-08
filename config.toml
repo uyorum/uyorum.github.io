@@ -9,7 +9,7 @@ theme = "my-theme"
 paginate = 9
 disqusShortname = "uyorum"
 googleAnalytics = "G-ZBL6ZVWJF0"
-pygmentsUseClasses=true
+pygmentsUseClasses = true
 
 [indexes]
   category = "categories"

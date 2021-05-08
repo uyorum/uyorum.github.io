@@ -255,8 +255,8 @@ Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
 このファイルに`cgroupDriver: systemd`という行を追加してkubeletを再起動。
 
 ``` shell
-systemctl daemon-reload
-systemctl restart kubelet
+$ systemctl daemon-reload
+$ systemctl restart kubelet
 ```
 
 ### kubeadmを使ってKubernetesクラスタをインストール

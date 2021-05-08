@@ -84,19 +84,15 @@ $ curl localhost:3000
 例として以下の`example_script.js`と`example_style.css`をそれぞれ`application.js`と`application.css`に挿入する．
 
 ``` shell
-echo '// example_script.js' >  vendor/assets/javascripts/example_script.js
-echo '/* example_style.css */' > vendor/assets/stylesheets/example_style.css
+$ echo '// example_script.js' >  vendor/assets/javascripts/example_script.js
+$ echo '/* example_style.css */' > vendor/assets/stylesheets/example_style.css
 ```
 
-* app/assets/javascripts/application.js
-
-``` javascript
+``` javascript:app/assets/javascripts/application.js
 //= require example_script
 ```
 
-* app/assets/stylesheets/application.css
-
-``` css
+``` css:app/assets/stylesheets/application.css
 /*
  *= require example_style
  */
@@ -150,23 +146,17 @@ production環境では動的にアセットを処理することはなく，事�
 
 RailsをProdution環境で動作させるには事前にプリコンパイルを行なう必要がある．そのためのRakeタスクがあらかじめ用意されており，コマンドひとつでプリコンパイルは完了する．
 
-* app/assets/javascripts/application.js
-
-``` javascript
+``` javascript:app/assets/javascripts/application.js
 //= require example_script
 var application = foo;
 ```
 
-* app/assets/javascripts/example_script.js
-
-``` javascript
+``` javascript:app/assets/javascripts/example_script.js
 // example_script.js
 var example_script = bar;
 ```
 
-* app/assets/stylesheets/application.css
-
-``` css
+``` css:app/assets/stylesheets/application.css
 /*
  *= require example_style
  */
@@ -175,9 +165,7 @@ h1 {
 }
 ```
 
-* app/assets/stylesheets/example_style.css
-
-``` css
+``` css:app/assets/stylesheets/example_style.css
 /* example_style.css */
 h2 {
   font-size: 1.2em;
@@ -240,15 +228,13 @@ var example_script=bar,application=foo;
 `application.js`と`application.css`にインクルードしてアセットを配信するのならこれでよいのだが，そうでない場合(特定のページでだけでアセットを配信したい場合など)は注意が必要である．
 例として`application.js`にはインクルードしないJavaScriptコード(`addon_script.js`)をひとつ追加して`application.html.erb`にエントリを追加する
 
-* app/assets/javascripts/addon_script.js
-
-``` javascript
+``` javascript:app/assets/javascripts/addon_script.js
 var addon_script = hoge;
 ```
 
-* app/views/layouts/application.html.erb
+app/views/layouts/application.html.erb
 
-``` html
+``` ruby
 <!DOCTYPE html>
 <html>
 <head>

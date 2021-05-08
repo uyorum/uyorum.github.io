@@ -13,7 +13,7 @@ Hugoで書いている本ブログのパスを変えたかった。静的サイ�
 [Aliases | Hugo](https://gohugo.io/content-management/urls/#aliases)
 方法はドキュメントに記載されている。記事ソースののFront Matterで`aliases`を定義すればよい。
 
-``` toml {hl_lines=[6]}
+``` ini {hl_lines=[6]}
 +++
 slug = ""
 tags = ["", ""]

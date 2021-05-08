@@ -74,3 +74,12 @@ main {
   background: -webkit-linear-gradient(left, white, #E1E1E1, white);
   background: linear-gradient(to right, white, #E1E1E1, white);
 }
+
+.code-name {
+  font-family: monospace, monospace;
+  font-size: 1em;
+  display: table;
+  padding: 0px 5px;
+  background-color: #777;
+  color: #EEE;
+}
