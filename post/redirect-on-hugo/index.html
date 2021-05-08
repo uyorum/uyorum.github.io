@@ -59,13 +59,13 @@
       <p>Hugoで書いている本ブログのパスを変えたかった。静的サイトではできないんじゃないのと思っていたができたのでまとめておく。</p>
 <p><a href="https://gohugo.io/content-management/urls/#aliases">Aliases | Hugo</a>
 方法はドキュメントに記載されている。記事ソースののFront Matterで<code>aliases</code>を定義すればよい。</p>
-<div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="err">+++</span>
-<span class="nx">slug</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
-<span class="nx">tags</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">]</span>
-<span class="nx">title</span> <span class="p">=</span> <span class="s2">&#34;3Dプリンタ IUSE IUM1 を買った&#34;</span>
-<span class="nx">date</span> <span class="p">=</span> <span class="s2">&#34;2020-09-06T13:34:00+09:00&#34;</span>
-<span class="hl"><span class="nx">aliases</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;/blog/3d-printer-1/&#34;</span><span class="p">]</span>      <span class="c"># /blog/3d-printer-1/から本来のURLへリダイレクトされる</span>
-</span><span class="err">+++</span>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">+++</span>
+<span class="na">slug</span> <span class="o">=</span> <span class="s">&#34;&#34;</span>
+<span class="na">tags</span> <span class="o">=</span> <span class="s">[&#34;&#34;, &#34;&#34;]</span>
+<span class="na">title</span> <span class="o">=</span> <span class="s">&#34;3Dプリンタ IUSE IUM1 を買った&#34;</span>
+<span class="na">date</span> <span class="o">=</span> <span class="s">&#34;2020-09-06T13:34:00+09:00&#34;</span>
+<span class="hl"><span class="na">aliases</span> <span class="o">=</span> <span class="s">[&#34;/blog/3d-printer-1/&#34;]      # /blog/3d-printer-1/から本来のURLへリダイレクトされる</span>
+</span><span class="na">+++</span>
 </code></pre></div><h2 id="一括でソースを更新する">一括でソースを更新する</h2>
 <p>今回、自分は記事URLのPrefixを一括で変えたかったので、各ソースを一括で更新するスクリプトを書いた。</p>
 <div class="highlight"><pre class="chroma"><code class="language-diff" data-lang="diff"><span class="gd">--- a/config.toml
@@ -170,6 +170,7 @@
 	</div>
 	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
 </footer>
+</div>
 
 
 
@@ -185,8 +186,8 @@
 
 
 
+<script src="/js/code-title.js"></script>
 
-</div>
 </body>
 
 </html>

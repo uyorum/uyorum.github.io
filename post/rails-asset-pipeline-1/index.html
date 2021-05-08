@@ -111,16 +111,10 @@ $ curl localhost:3000
 &lt;/html&gt;
 </code></pre></div><p>ただし特別な文法により，これらのファイルに別のファイルを<code>挿入</code>することができる．
 例として以下の<code>example_script.js</code>と<code>example_style.css</code>をそれぞれ<code>application.js</code>と<code>application.css</code>に挿入する．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s1">&#39;// example_script.js&#39;</span> &gt;  vendor/assets/javascripts/example_script.js
-<span class="nb">echo</span> <span class="s1">&#39;/* example_style.css */&#39;</span> &gt; vendor/assets/stylesheets/example_style.css
-</code></pre></div><ul>
-<li>app/assets/javascripts/application.js</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">//= require example_script
-</span></code></pre></div><ul>
-<li>app/assets/stylesheets/application.css</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="c">/*
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">echo</span> <span class="s1">&#39;// example_script.js&#39;</span> &gt;  vendor/assets/javascripts/example_script.js
+$ <span class="nb">echo</span> <span class="s1">&#39;/* example_style.css */&#39;</span> &gt; vendor/assets/stylesheets/example_style.css
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-javascript:app/assets/javascripts/application.js" data-lang="javascript:app/assets/javascripts/application.js"><span class="c1">//= require example_script
+</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-css:app/assets/stylesheets/application.css" data-lang="css:app/assets/stylesheets/application.css"><span class="c">/*
 </span><span class="c"> *= require example_style
 </span><span class="c"> */</span>
 </code></pre></div><p>サーバからのレスポンスは以下のように変わる</p>
@@ -158,29 +152,17 @@ production環境では動的にアセットを処理することはなく，事�
 <code>config.assets.compile = true</code>とすることによりdevelopment環境と同様の動作にすることはできるが，サーバ側のパフォーマンスの観点から通常この設定は使用しない．</p>
 <h2 id="プリコンパイル">プリコンパイル</h2>
 <p>RailsをProdution環境で動作させるには事前にプリコンパイルを行なう必要がある．そのためのRakeタスクがあらかじめ用意されており，コマンドひとつでプリコンパイルは完了する．</p>
-<ul>
-<li>app/assets/javascripts/application.js</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">//= require example_script
+<div class="highlight"><pre class="chroma"><code class="language-javascript:app/assets/javascripts/application.js" data-lang="javascript:app/assets/javascripts/application.js"><span class="c1">//= require example_script
 </span><span class="c1"></span><span class="kd">var</span> <span class="nx">application</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">;</span>
-</code></pre></div><ul>
-<li>app/assets/javascripts/example_script.js</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">// example_script.js
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-javascript:app/assets/javascripts/example_script.js" data-lang="javascript:app/assets/javascripts/example_script.js"><span class="c1">// example_script.js
 </span><span class="c1"></span><span class="kd">var</span> <span class="nx">example_script</span> <span class="o">=</span> <span class="nx">bar</span><span class="p">;</span>
-</code></pre></div><ul>
-<li>app/assets/stylesheets/application.css</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="c">/*
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-css:app/assets/stylesheets/application.css" data-lang="css:app/assets/stylesheets/application.css"><span class="c">/*
 </span><span class="c"> *= require example_style
 </span><span class="c"> */</span>
 <span class="nt">h1</span> <span class="p">{</span>
   <span class="k">font-size</span><span class="p">:</span> <span class="mi">3</span><span class="kt">em</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></div><ul>
-<li>app/assets/stylesheets/example_style.css</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="c">/* example_style.css */</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-css:app/assets/stylesheets/example_style.css" data-lang="css:app/assets/stylesheets/example_style.css"><span class="c">/* example_style.css */</span>
 <span class="nt">h2</span> <span class="p">{</span>
   <span class="k">font-size</span><span class="p">:</span> <span class="mf">1.2</span><span class="kt">em</span><span class="p">;</span>
 <span class="p">}</span>
@@ -225,29 +207,24 @@ var <span class="nv">example_script</span><span class="o">=</span>bar,applicatio
 <h2 id="configassetsprecompile">config.assets.precompile</h2>
 <p><code>application.js</code>と<code>application.css</code>にインクルードしてアセットを配信するのならこれでよいのだが，そうでない場合(特定のページでだけでアセットを配信したい場合など)は注意が必要である．
 例として<code>application.js</code>にはインクルードしないJavaScriptコード(<code>addon_script.js</code>)をひとつ追加して<code>application.html.erb</code>にエントリを追加する</p>
-<ul>
-<li>app/assets/javascripts/addon_script.js</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">addon_script</span> <span class="o">=</span> <span class="nx">hoge</span><span class="p">;</span>
-</code></pre></div><ul>
-<li>app/views/layouts/application.html.erb</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>PlayRubyOnRails<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
-  <span class="err">&lt;</span>%= stylesheet_link_tag    &#39;application&#39;, media: &#39;all&#39; %&gt;
-  <span class="err">&lt;</span>%= javascript_include_tag &#39;application&#39; %&gt;
-  <span class="err">&lt;</span>%= javascript_include_tag &#39;addon_script&#39; %&gt;
-  <span class="err">&lt;</span>%= csrf_meta_tags %&gt;
-<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-javascript:app/assets/javascripts/addon_script.js" data-lang="javascript:app/assets/javascripts/addon_script.js"><span class="kd">var</span> <span class="nx">addon_script</span> <span class="o">=</span> <span class="nx">hoge</span><span class="p">;</span>
+</code></pre></div><p>app/views/layouts/application.html.erb</p>
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="o">&lt;!</span><span class="no">DOCTYPE</span> <span class="n">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">title</span><span class="o">&gt;</span><span class="no">PlayRubyOnRails</span><span class="o">&lt;</span><span class="sr">/title&gt;
+</span><span class="sr">  &lt;%= stylesheet_link_tag    &#39;application&#39;, media: &#39;all&#39; %&gt;
+</span><span class="sr">  &lt;%= javascript_include_tag &#39;application&#39; %&gt;
+</span><span class="sr">  &lt;%= javascript_include_tag &#39;addon_script&#39; %&gt;
+</span><span class="sr">  &lt;%= csrf_meta_tags %&gt;
+</span><span class="sr">&lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
 
-<span class="err">&lt;</span>%= yield %&gt;
-
-<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
-</code></pre></div><p>このとき，development環境では<code>addon_script.js</code>はアセットの探索パスに含まれているため正常に配信されるのだが，このファイルは実はプリコンパイルされないためproduction環境では配信されない．</p>
+<span class="o">&lt;%=</span> <span class="k">yield</span> <span class="s">%&gt;
+</span><span class="s">
+</span><span class="s">&lt;/body&gt;</span>
+<span class="o">&lt;</span><span class="sr">/html&gt;
+</span></code></pre></div><p>このとき，development環境では<code>addon_script.js</code>はアセットの探索パスに含まれているため正常に配信されるのだが，このファイルは実はプリコンパイルされないためproduction環境では配信されない．</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec</span> rake assets:precompile
 <span class="o">(</span>何も出力されない<span class="o">)</span>
 </code></pre></div><p>なぜこのようなことが起こるかというと，Assets Pipelineにはインクルードされたアセットの探索パス(<code>config.assets.paths</code>)とは別にプリコンパイル対象とするアセットの探索パスが設定されているためである．
@@ -362,6 +339,7 @@ I, <span class="o">[</span>2017-03-05T17:19:41.051197 <span class="c1">#45578]  
 	</div>
 	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
 </footer>
+</div>
 
 
 
@@ -377,8 +355,8 @@ I, <span class="o">[</span>2017-03-05T17:19:41.051197 <span class="c1">#45578]  
 
 
 
+<script src="/js/code-title.js"></script>
 
-</div>
 </body>
 
 </html>

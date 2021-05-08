@@ -244,8 +244,8 @@ $ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/default/kubelet
 <span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml&#34;</span>
 </code></pre></div><p><a href="https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubelet/config/v1beta1/types.go#L428">cgroupDriver</a>というパラメータが使える模様。
 このファイルに<code>cgroupDriver: systemd</code>という行を追加してkubeletを再起動。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">systemctl daemon-reload
-systemctl restart kubelet
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ systemctl daemon-reload
+$ systemctl restart kubelet
 </code></pre></div><h3 id="kubeadmを使ってkubernetesクラスタをインストール">kubeadmを使ってKubernetesクラスタをインストール</h3>
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">kubeadmを使用したクラスターの作成 | Kubernetes</a></p>
 <ul>
@@ -448,6 +448,7 @@ Commercial support is available at
 	</div>
 	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
 </footer>
+</div>
 
 
 
@@ -463,8 +464,8 @@ Commercial support is available at
 
 
 
+<script src="/js/code-title.js"></script>
 
-</div>
 </body>
 
 </html>
