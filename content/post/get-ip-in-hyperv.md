@@ -93,7 +93,7 @@ IPAddresses
 以下のような感じでIPv4アドレスだけ取得できた
 
 ```shell
-> $vm = Get-VMNetworkAdapter -VMName Phoebe
+> $vm = Get-VMNetworkAdapter -VMName <VM Name>
 > $vm.IPAddresses -match "^\d+\.\d+\.\d+\.\d+$"
 192.168.137.214
 ```
