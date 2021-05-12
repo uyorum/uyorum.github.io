@@ -116,7 +116,7 @@ IPAddresses
 -----------
 <span class="o">{</span>192.168.137.214, fe80::215:5dff:fe02:103<span class="o">}</span>
 </code></pre></div><p>以下のような感じでIPv4アドレスだけ取得できた</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">&gt; <span class="nv">$vm</span> <span class="o">=</span> Get-VMNetworkAdapter -VMName Phoebe
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">&gt; <span class="nv">$vm</span> <span class="o">=</span> Get-VMNetworkAdapter -VMName &lt;VM Name&gt;
 &gt; <span class="nv">$vm</span>.IPAddresses -match <span class="s2">&#34;^\d+\.\d+\.\d+\.\d+</span>$<span class="s2">&#34;</span>
 192.168.137.214
 </code></pre></div><p>以上</p>

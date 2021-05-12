@@ -131,8 +131,8 @@ sudo systemctl restart home-assistant
 <li>イルミカで購入できるWiFiブリッジはVersion 5，カラー電球のタイプはrgbw(rgbwwではない)</li>
 <li>グループ番号はタイプごとに1~4のいずれかになる．今回はrgbwグループのグループ1に登録している</li>
 </ul>
-<p>なお，Home AssistantはWebインターフェースで設定ファイルを読み直すことができるが，プロセスの再起動を行わないと反映されないものが多い．
-確実に設定を反映させるため，プロセスの再起動を行う．</p>
+<p>なお，Home AssistantはWebインターフェースで設定ファイルを読み直すことができるが，プロセスを再起動しないと反映されないものが多い．
+確実に設定を反映させるため，プロセスを再起動する．</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo systemctl restart home-assistant
 </code></pre></div><h2 id="automationを設定する">Automationを設定する</h2>
 <p>ここまでで，WebインターフェースではセンサーのON/OFFが表示され，MiLightを操作できるようになっているはず．
