@@ -87,7 +87,7 @@ k8sを使う上でこれらに優位な差があるのかはわからないが�
 Calicoが機能的には柔軟そうだが、ここではよりシンプルそうなFlannelを選択した。</li>
 </ul>
 <h2 id="構築の流れ">構築の流れ</h2>
-<p>kubeadmを使ってk8sをデプロイする。基本的には<a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/">ドキュメント</a>に従ってセットアップを進めればよい。
+<p>kubeadmを使ってk8sをデプロイする。基本的には<a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/">ドキュメント</a>に従ってセットアップを進めればよい。<br>
 コントロールプレーンノード1台、ワーカーノード2台の構成で構築する。</p>
 <h3 id="raspberry-pi-osのセットアップ">Raspberry Pi OSのセットアップ</h3>
 <p>SDカードへイメージを焼く方法は省略。
@@ -122,7 +122,7 @@ sudo umount mnt
 <li>OSを最新化、再起動</li>
 </ul>
 <p>以後、SSHで<code>pi</code>ユーザでログインし実行する。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo raspi-config
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo raspi-config
 cat <span class="s">&lt;&lt;EOF &gt;&gt;/etc/dhcpcd.conf
 </span><span class="s">
 </span><span class="s">interface eth0
@@ -130,17 +130,17 @@ cat <span class="s">&lt;&lt;EOF &gt;&gt;/etc/dhcpcd.conf
 </span><span class="s">static routers=DEFAULT_GATEWAY
 </span><span class="s">static domain_name_servers=NAME_SERVER
 </span><span class="s">EOF</span>
-$ sudo sed -i <span class="s1">&#39;s/#PasswordAuthentication yes/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
-$ sudo dphys-swapfile swapoff
-$ sudo systemctl stop dphys-swapfile
-$ sudo systemctl disable dphys-swapfile
-$ sudo apt update
-$ sudo apt upgrade -y
-$ sudo reboot
+sudo sed -i <span class="s1">&#39;s/#PasswordAuthentication yes/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
+sudo dphys-swapfile swapoff
+sudo systemctl stop dphys-swapfile
+sudo systemctl disable dphys-swapfile
+sudo apt update
+sudo apt upgrade -y
+sudo reboot
 </code></pre></div><p>DNSサーバに各ノードのホスト名を登録しておく。
 ここまでを計3台で行っておく。</p>
 <h2 id="kubernetesセットアップ">Kubernetesセットアップ</h2>
-<p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/">kubeadmを使ってクラスターを構築する | Kubernetes</a>
+<p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/">kubeadmを使ってクラスターを構築する | Kubernetes</a><br>
 Kubernetesクラスタのセットアップにはkubeadmを使う。
 全体的な流れとしては、以下のようになる。</p>
 <ol>
@@ -152,7 +152,7 @@ Kubernetesクラスタのセットアップにはkubeadmを使う。
 <li>（ワーカーノード）クラスタへノードとして登録</li>
 </ol>
 <h3 id="事前準備">事前準備</h3>
-<p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">kubeadmのインストール | Kubernetes</a>
+<p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">kubeadmのインストール | Kubernetes</a><br>
 ここに事前に設定すべき箇所が書かれている。</p>
 <h4 id="macアドレスとproduct_uuidが全てのノードでユニークであることの検証">MACアドレスとproduct_uuidが全てのノードでユニークであることの検証</h4>
 <p>当然MACアドレスは全ノードで異なる。
@@ -163,16 +163,15 @@ Kubernetesクラスタのセットアップにはkubeadmを使う。
 <h4 id="iptablesがブリッジを通過するトラフィックを処理できるようにする">iptablesがブリッジを通過するトラフィックを処理できるようにする</h4>
 <p>起動時のカーネルモジュールのロードは<a href="https://manpages.debian.org/stretch/systemd/systemd-modules-load.service.8.en.html">systemd-modules-load.service</a>が担っている。
 <code>/etc/modules-load.d/*.conf</code>を作成してモジュール名を列挙すればよい。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/modules-load.d/k8s.conf
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">cat <span class="s">&lt;&lt;EOF | sudo tee /etc/modules-load.d/k8s.conf
 </span><span class="s">br_netfilter
 </span><span class="s">EOF</span>
-$ sudo modprobe br_netfilter
-
-$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/sysctl.d/k8s.conf
+sudo modprobe br_netfilter
+cat <span class="s">&lt;&lt;EOF | sudo tee /etc/sysctl.d/k8s.conf
 </span><span class="s">net.bridge.bridge-nf-call-ip6tables = 1
 </span><span class="s">net.bridge.bridge-nf-call-iptables = 1
 </span><span class="s">EOF</span>
-$ sudo sysctl --system
+sudo sysctl --system
 </code></pre></div><h4 id="iptablesがnftablesバックエンドを使用しないようにする">iptablesがnftablesバックエンドを使用しないようにする</h4>
 <p>Raspberry Pi OS 10ではすでにnftablesへ移行しているためiptablesを使うように設定する必要がある。
 手順はドキュメントに記載されている通り。</p>
@@ -188,52 +187,51 @@ sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 -P FORWARD ACCEPT
 -P OUTPUT ACCEPT
 </code></pre></div><h3 id="cri-oをインストール">CRI-Oをインストール</h3>
-<p><a href="https://kubernetes.io/ja/docs/setup/production-environment/container-runtimes/#cri-o">CRIのインストール | Kubernetes</a>
+<p><a href="https://kubernetes.io/ja/docs/setup/production-environment/container-runtimes/#cri-o">CRIのインストール | Kubernetes</a><br>
 <a href="https://cri-o.io/">cri-o</a></p>
 <p>事前準備はKubernetesのドキュメント通りに行う</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/modules-load.d/crio.conf
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">cat <span class="s">&lt;&lt;EOF | sudo tee /etc/modules-load.d/crio.conf
 </span><span class="s">overlay
 </span><span class="s">br_netfilter
 </span><span class="s">EOF</span>
-$ sudo modprobe overlay
-$ sudo modprobe br_netfilter
-
-$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+sudo modprobe overlay
+sudo modprobe br_netfilter
+cat <span class="s">&lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
 </span><span class="s">net.bridge.bridge-nf-call-iptables  = 1
 </span><span class="s">net.ipv4.ip_forward = 1
 </span><span class="s">net.bridge.bridge-nf-call-ip6tables = 1
 </span><span class="s">EOF</span>
-$ sudo sysctl --system
+sudo sysctl --system
 </code></pre></div><p>CRI-OのインストールにはOSとVersionを指定する必要がある。
 VersionはKubernetesと合わせる必要があるので1.20を指定する。
 aptのソースに追加するURL（<a href="https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/">ここ</a>と<a href="http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.20/">ここ</a>）を見てみると、
 幸い<code>Raspbian_10</code>というディレクトリがあるのでOSではこれを指定する。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nv">OS</span><span class="o">=</span>Raspbian_10
-$ <span class="nv">VERSION</span><span class="o">=</span>1.20
-$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">OS</span><span class="o">=</span>Raspbian_10
+<span class="nv">VERSION</span><span class="o">=</span>1.20
+cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
 </span><span class="s">deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
 </span><span class="s">EOF</span>
-$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
 </span><span class="s">deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /
 </span><span class="s">EOF</span>
-$ curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:<span class="nv">$VERSION</span>/<span class="nv">$OS</span>/Release.key <span class="p">|</span> sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
-$ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/<span class="nv">$OS</span>/Release.key <span class="p">|</span> sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
-$ sudo apt update
-$ sudo apt install -y cri-o cri-o-runc
-$ sudo systemctl daemon-reload
-$ sudo systemctl <span class="nb">enable</span> crio
-$ sudo systemctl start crio
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:<span class="nv">$VERSION</span>/<span class="nv">$OS</span>/Release.key <span class="p">|</span> sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/<span class="nv">$OS</span>/Release.key <span class="p">|</span> sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+sudo apt update
+sudo apt install -y cri-o cri-o-runc
+sudo systemctl daemon-reload
+sudo systemctl <span class="nb">enable</span> crio
+sudo systemctl start crio
 </code></pre></div><h3 id="kubeadmkubeletkubectlをインストール">kubeadm、kubelet、kubectlをインストール</h3>
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#kubeadm-kubelet-kubectl%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">kubeadmのインストール | Kubernetes</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get install -y apt-transport-https curl
-$ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg <span class="p">|</span> sudo apt-key add -
-$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg <span class="p">|</span> sudo apt-key add -
+cat <span class="s">&lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 </span><span class="s">deb https://apt.kubernetes.io/ kubernetes-xenial main
 </span><span class="s">EOF</span>
-$ sudo apt update
-$ sudo apt install -y kubelet kubeadm kubectl
-$ sudo apt-mark hold kubelet kubeadm kubectl
-$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/default/kubelet
+sudo apt update
+sudo apt install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+cat <span class="s">&lt;&lt;EOF | sudo tee /etc/default/kubelet
 </span><span class="s">KUBELET_EXTRA_ARGS=--container-runtime-endpoint=&#39;unix:///var/run/crio/crio.sock&#39;
 </span><span class="s">EOF</span>
 </code></pre></div><h4 id="コントロールプレーンノードのkubeletによって使用されるcgroupドライバーの設定">コントロールプレーンノードのkubeletによって使用されるcgroupドライバーの設定</h4>
@@ -244,8 +242,8 @@ $ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/default/kubelet
 <span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml&#34;</span>
 </code></pre></div><p><a href="https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubelet/config/v1beta1/types.go#L428">cgroupDriver</a>というパラメータが使える模様。
 このファイルに<code>cgroupDriver: systemd</code>という行を追加してkubeletを再起動。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ systemctl daemon-reload
-$ systemctl restart kubelet
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">systemctl daemon-reload
+systemctl restart kubelet
 </code></pre></div><h3 id="kubeadmを使ってkubernetesクラスタをインストール">kubeadmを使ってKubernetesクラスタをインストール</h3>
 <p><a href="https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">kubeadmを使用したクラスターの作成 | Kubernetes</a></p>
 <ul>
@@ -253,7 +251,7 @@ $ systemctl restart kubelet
 <li>ネットワークアドオンはFlannelを使うため、適切な<code>--pod-network-cidr</code>を指定する（参照：<a href="https://github.com/flannel-io/flannel/blob/master/Documentation/kubernetes.md">flannel/kubernetes.md at master · flannel-io/flannel</a>）</li>
 </ul>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo kubeadm init --control-plane-endpoint<span class="o">=</span>k8s-endpoint.test.local --pod-network-cidr<span class="o">=</span>10.244.0.0/16
-</code></pre></div><p>うまくいくと以下のようなメッセージが出力される。ここで出力されたコマンドをメモしておく。
+</code></pre></div><p>うまくいくと以下のようなメッセージが出力される。ここで出力されたコマンドをメモしておく。<br>
 <code>Then you can join any number of worker nodes by running the following on each as root:</code></p>
 <p>また、DNSサーバにAレコードやCNAMEレコードを追加して<code>k8s-endpoint.test.local</code>をコントロールプレーンノードへ向けておく。</p>
 <h4 id="kubectlの設定">kubectlの設定</h4>
