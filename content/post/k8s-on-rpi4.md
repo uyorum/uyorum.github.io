@@ -42,7 +42,7 @@ Kubernetesの状況を加味した構成と手順。できるだけ一次情報�
 
 ## 構築の流れ
 
-kubeadmを使ってk8sをデプロイする。基本的には[ドキュメント](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/)に従ってセットアップを進めればよい。
+kubeadmを使ってk8sをデプロイする。基本的には[ドキュメント](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/)に従ってセットアップを進めればよい。  
 コントロールプレーンノード1台、ワーカーノード2台の構成で構築する。
 
 ### Raspberry Pi OSのセットアップ
@@ -82,7 +82,7 @@ OS起動後、SSHでログインしいくつか追加の設定を行う。
 以後、SSHで`pi`ユーザでログインし実行する。
 
 ``` shell
-$ sudo raspi-config
+sudo raspi-config
 cat <<EOF >>/etc/dhcpcd.conf
 
 interface eth0
@@ -90,13 +90,13 @@ static ip_address=STATIC_ADDRESS/24
 static routers=DEFAULT_GATEWAY
 static domain_name_servers=NAME_SERVER
 EOF
-$ sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
-$ sudo dphys-swapfile swapoff
-$ sudo systemctl stop dphys-swapfile
-$ sudo systemctl disable dphys-swapfile
-$ sudo apt update
-$ sudo apt upgrade -y
-$ sudo reboot
+sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+sudo dphys-swapfile swapoff
+sudo systemctl stop dphys-swapfile
+sudo systemctl disable dphys-swapfile
+sudo apt update
+sudo apt upgrade -y
+sudo reboot
 ```
 
 DNSサーバに各ノードのホスト名を登録しておく。
@@ -104,7 +104,7 @@ DNSサーバに各ノードのホスト名を登録しておく。
 
 ## Kubernetesセットアップ
 
-[kubeadmを使ってクラスターを構築する | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/)
+[kubeadmを使ってクラスターを構築する | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/)  
 Kubernetesクラスタのセットアップにはkubeadmを使う。
 全体的な流れとしては、以下のようになる。
 
@@ -117,7 +117,7 @@ Kubernetesクラスタのセットアップにはkubeadmを使う。
 
 ### 事前準備
 
-[kubeadmのインストール | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+[kubeadmのインストール | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)  
 ここに事前に設定すべき箇所が書かれている。
 
 #### MACアドレスとproduct_uuidが全てのノードでユニークであることの検証
@@ -136,16 +136,15 @@ Kubernetesクラスタのセットアップにはkubeadmを使う。
 `/etc/modules-load.d/*.conf`を作成してモジュール名を列挙すればよい。
 
 ``` shell
-$ cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 br_netfilter
 EOF
-$ sudo modprobe br_netfilter
-
-$ cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+sudo modprobe br_netfilter
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
-$ sudo sysctl --system
+sudo sysctl --system
 ```
 
 #### iptablesがnftablesバックエンドを使用しないようにする
@@ -174,25 +173,24 @@ $ sudo iptables -S
 
 ### CRI-Oをインストール
 
-[CRIのインストール | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/container-runtimes/#cri-o)
+[CRIのインストール | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/container-runtimes/#cri-o)  
 [cri-o](https://cri-o.io/)
 
 事前準備はKubernetesのドキュメント通りに行う
 
 ``` shell
-$ cat <<EOF | sudo tee /etc/modules-load.d/crio.conf
+cat <<EOF | sudo tee /etc/modules-load.d/crio.conf
 overlay
 br_netfilter
 EOF
-$ sudo modprobe overlay
-$ sudo modprobe br_netfilter
-
-$ cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+sudo modprobe overlay
+sudo modprobe br_netfilter
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
-$ sudo sysctl --system
+sudo sysctl --system
 ```
 
 CRI-OのインストールにはOSとVersionを指定する必要がある。
@@ -201,21 +199,21 @@ aptのソースに追加するURL（[ここ](https://download.opensuse.org/repos
 幸い`Raspbian_10`というディレクトリがあるのでOSではこれを指定する。
 
 ``` shell
-$ OS=Raspbian_10
-$ VERSION=1.20
-$ cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+OS=Raspbian_10
+VERSION=1.20
+cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
 deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
 EOF
-$ cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
 deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /
 EOF
-$ curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
-$ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
-$ sudo apt update
-$ sudo apt install -y cri-o cri-o-runc
-$ sudo systemctl daemon-reload
-$ sudo systemctl enable crio
-$ sudo systemctl start crio
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+sudo apt update
+sudo apt install -y cri-o cri-o-runc
+sudo systemctl daemon-reload
+sudo systemctl enable crio
+sudo systemctl start crio
 ```
 
 ### kubeadm、kubelet、kubectlをインストール
@@ -223,15 +221,15 @@ $ sudo systemctl start crio
 [kubeadmのインストール | Kubernetes](https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#kubeadm-kubelet-kubectl%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
 
 ``` shell
-$ sudo apt-get update && sudo apt-get install -y apt-transport-https curl
-$ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-$ cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
-$ sudo apt update
-$ sudo apt install -y kubelet kubeadm kubectl
-$ sudo apt-mark hold kubelet kubeadm kubectl
-$ cat <<EOF | sudo tee /etc/default/kubelet
+sudo apt update
+sudo apt install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+cat <<EOF | sudo tee /etc/default/kubelet
 KUBELET_EXTRA_ARGS=--container-runtime-endpoint='unix:///var/run/crio/crio.sock'
 EOF
 ```
@@ -255,8 +253,8 @@ Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
 このファイルに`cgroupDriver: systemd`という行を追加してkubeletを再起動。
 
 ``` shell
-$ systemctl daemon-reload
-$ systemctl restart kubelet
+systemctl daemon-reload
+systemctl restart kubelet
 ```
 
 ### kubeadmを使ってKubernetesクラスタをインストール
@@ -270,7 +268,7 @@ $ systemctl restart kubelet
 sudo kubeadm init --control-plane-endpoint=k8s-endpoint.test.local --pod-network-cidr=10.244.0.0/16
 ```
 
-うまくいくと以下のようなメッセージが出力される。ここで出力されたコマンドをメモしておく。
+うまくいくと以下のようなメッセージが出力される。ここで出力されたコマンドをメモしておく。  
 `Then you can join any number of worker nodes by running the following on each as root:`
 
 また、DNSサーバにAレコードやCNAMEレコードを追加して`k8s-endpoint.test.local`をコントロールプレーンノードへ向けておく。
