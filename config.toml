@@ -8,7 +8,6 @@ copyright = "uyorum All Right Reserved."
 theme = "my-theme"
 paginate = 9
 disqusShortname = "uyorum"
-googleAnalytics = "G-ZBL6ZVWJF0"
 pygmentsUseClasses = true
 
 [indexes]
@@ -24,6 +23,7 @@ pygmentsUseClasses = true
   email = "uyorum.pub@gmail.com"
   amazonAssociate = "uyorum-22"
   googleSearchConsole = "1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0"
+  googleTagManager = "GTM-K2G6PBB"
 
 [permalinks]
   post = "/post/:filename/"
