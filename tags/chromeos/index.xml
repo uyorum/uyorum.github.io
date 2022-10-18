@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>chromeos on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/chromeos/</link>
+    <description>Recent content in chromeos on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Tue, 18 Oct 2022 23:57:14 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/chromeos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ChromeOSのLinuxで日本語入力する（2022年版）</title>
+      <link>https://blog.uyorum.net/post/chromeos-crostini-input-japanese/</link>
+      <pubDate>Tue, 18 Oct 2022 23:57:14 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/chromeos-crostini-input-japanese/</guid>
+      <description>&lt;p&gt;久しぶりにアップデートしたら日本語入力ができなくなってしまったのでメモ。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

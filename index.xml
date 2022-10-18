@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Thu, 06 Oct 2022 00:02:27 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Oct 2022 23:57:14 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ChromeOSのLinuxで日本語入力する（2022年版）</title>
+      <link>https://blog.uyorum.net/post/chromeos-crostini-input-japanese/</link>
+      <pubDate>Tue, 18 Oct 2022 23:57:14 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/chromeos-crostini-input-japanese/</guid>
+      <description>&lt;p&gt;久しぶりにアップデートしたら日本語入力ができなくなってしまったのでメモ。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>複数インターネット回線を持つFortiGateはRPF機能に注意</title>
       <link>https://blog.uyorum.net/post/fortigate-rpf/</link>
