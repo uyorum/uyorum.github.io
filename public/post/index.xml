@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Thu, 06 May 2021 15:07:29 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Oct 2022 00:02:27 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>複数インターネット回線を持つFortiGateはRPF機能に注意</title>
+      <link>https://blog.uyorum.net/post/fortigate-rpf/</link>
+      <pubDate>Thu, 06 Oct 2022 00:02:27 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/fortigate-rpf/</guid>
+      <description>&lt;p&gt;FortiGateはデフォルトでRPF（Reverse Path Forwading）という機能が有効になっている（この機能はAnti-Spoofingとも呼ばれることがある）。&lt;br&gt;
+FortiGateに複数のインターネット回線（アップリンク）が接続されており、それぞれの回線（グローバルアドレス）でインターネットからのアクセスを受けている場合、
+このRPF機能を考慮してルーティングを設定する必要がある。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>CentOSベースのRubyコンテナイメージを作成する</title>
       <link>https://blog.uyorum.net/post/build-ruby-container/</link>

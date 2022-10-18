@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>複数インターネット回線を持つFortiGateはRPF機能に注意 - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">複数インターネット回線を持つFortiGateはRPF機能に注意</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2022-10-06">October 06, 2022
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2ffortigate-rpf%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=%e8%a4%87%e6%95%b0%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%8d%e3%83%83%e3%83%88%e5%9b%9e%e7%b7%9a%e3%82%92%e6%8c%81%e3%81%a4FortiGate%e3%81%afRPF%e6%a9%9f%e8%83%bd%e3%81%ab%e6%b3%a8%e6%84%8f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2ffortigate-rpf%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2ffortigate-rpf%2f&amp;title=%e8%a4%87%e6%95%b0%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%8d%e3%83%83%e3%83%88%e5%9b%9e%e7%b7%9a%e3%82%92%e6%8c%81%e3%81%a4FortiGate%e3%81%afRPF%e6%a9%9f%e8%83%bd%e3%81%ab%e6%b3%a8%e6%84%8f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=%e8%a4%87%e6%95%b0%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%8d%e3%83%83%e3%83%88%e5%9b%9e%e7%b7%9a%e3%82%92%e6%8c%81%e3%81%a4FortiGate%e3%81%afRPF%e6%a9%9f%e8%83%bd%e3%81%ab%e6%b3%a8%e6%84%8f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2ffortigate-rpf%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p>FortiGateはデフォルトでRPF（Reverse Path Forwading）という機能が有効になっている（この機能はAnti-Spoofingとも呼ばれることがある）。<br>
+FortiGateに複数のインターネット回線（アップリンク）が接続されており、それぞれの回線（グローバルアドレス）でインターネットからのアクセスを受けている場合、
+このRPF機能を考慮してルーティングを設定する必要がある。</p>
+<h2 id="構成図">構成図</h2>
+<p>どんな構成か簡単に説明しておく（かなり簡略化している）。</p>
+<p><img src="/fortigate-rpf/diagram.svg" alt="diagram.svg"></p>
+<ul>
+<li>FortiGateに2つのインターネット回線を接続している（以下、ISP AとISP Bとする）</li>
+<li>ISP Aからはグローバルアドレス1.1.2.0/24、ISP Bからは1.2.2.0/24が払い出されている</li>
+<li>それぞれのグローバルアドレス宛のパケットは上位のルータからそれぞれ1.1.1.2（ISP A）と1.2.1.2（ISP B）にルーティングされてくる</li>
+<li>1.1.2.1と1.2.2.1でサーバを構築、それぞれインターネットからのアクセスを受け付けている</li>
+<li>各サーバからインターネットへ通信するとき、送信元アドレスに応じてネクストホップを使い分ける
+<ul>
+<li>以下のスタティックルートを設定
+<ul>
+<li>宛先：0.0.0.0/0</li>
+<li>出力インターフェース：wan1</li>
+<li>ネクストホップ：1.1.1.1</li>
+</ul>
+</li>
+<li>以下のポリシールートを設定
+<ul>
+<li>送信元：1.2.2.0/24</li>
+<li>宛先：0.0.0.0/0</li>
+<li>出力インターフェース：wan2</li>
+<li>ネクストホップ：1.2.1.1</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="事象">事象</h2>
+<p>上記のような構成とコンフィグで構築し、インターネットからのアクセスを受け付けようとしたところ、
+インターネットから1.1.2.1へのアクセスはうまくいくが、1.2.2.1へのアクセスがうまく通らなかった。
+調べたところFortiGateへパケットは届いているが、1.2.2.1へパケットを送出していなかった。</p>
+<p><img src="/fortigate-rpf/diagram-2.svg" alt="diagram-2.svg"></p>
+<p>FortiGateのトラフィックログにもドロップしたことは一切出力されておらず、ひと目では原因がわからなかった。</p>
+<h2 id="回避方法">回避方法</h2>
+<p>いろいろと調べたところ、FortiGateはデフォルトでRPF（Anti-Spoofing）という機能が有効になっており、
+この機能に引っかかった通信はFortiGateによってドロップされるうえ、ログには出力されないらしい。</p>
+<p>FortiGateがパケットを受信したとき、自身のスタティックルートを走査する。
+パケットを受信したインターフェースのスタティックルートのうち、宛先アドレスがパケットの送信元アドレスを含んでいるルーティングがある場合
+FortiGateはパケットを処理し、ない場合はドロップする。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>RPF機能を無効にすれば回避できるそうだがデフォルトで有効となっているセキュリティ関連の機能のため、念のため無効にはせず別の方法で回避する。</p>
+<p>今回の構成では0.0.0.0/0宛で送信元インターフェースがwan2のスタティックルートを追加すればよいが、
+そうすると配下のサーバからのパケットがwan2の方へルーティングされてしまう。（実際にはECMP扱いでロードバランシングされる）
+1.1.2.1からの通信は固定でwan1へルーティングしたいため、優先順位のようなものを設定したくなる。</p>
+<p>FortiGateにはそのような（似た）項目が2つある。ディスタンスとプライオリティ。
+結論を言うと、RPF回避のために追加するスタティックルートはプライオリティに大きい値を設定してやればよい。
+ディスタンスの方も同様に優先順位を設定する項目だが、一方のインターフェースがダウンしない限り優先度が低い方のルートはルートとして出てこない。
+この状態だとRPFの回避はできないため、プライオリティという項目を使う必要がある。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">宛先</th>
+<th style="text-align:left">出力インターフェース</th>
+<th style="text-align:left">ネクストホップ</th>
+<th style="text-align:left">プライオリティ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0.0.0.0/0</td>
+<td style="text-align:left">wan1</td>
+<td style="text-align:left">1.1.1.1</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:left">0.0.0.0/0</td>
+<td style="text-align:left">wan2</td>
+<td style="text-align:left">1.2.1.1</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<p>詳細は以下のページを参照。<br>
+<a href="https://community.fortinet.com/t5/FortiGate/Technical-Note-Routing-behavior-depending-on-distance-and/ta-p/198221">Technical Note: Routing behavior depending on distance and priority for static routes, and Policy Based Routes - Fortinet Community</a></p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://community.fortinet.com/t5/FortiGate/Technical-Note-Details-about-FortiOS-RPF-Reverse-Path-Forwarding/ta-p/190100">Technical Note: Details about FortiOS RPF (Reverse Path Forwarding), also called Anti-Spoofing - Fortinet Community</a></li>
+<li><a href="https://community.fortinet.com/t5/FortiGate/Technical-Note-Reverse-Path-Forwarding-RPF-implementation-and/ta-p/194382">Technical Note : Reverse Path Forwarding (RPF) implementation and use of strict-src-check enable|disable - Fortinet Community</a></li>
+<li><a href="https://community.fortinet.com/t5/FortiGate/Technical-Note-Routing-behavior-depending-on-distance-and/ta-p/198221">Technical Note: Routing behavior depending on distance and priority for static routes, and Policy Based Routes - Fortinet Community</a></li>
+<li><a href="https://community.fortinet.com/t5/FortiGate/189518?externalID=10376">Technical Tip: How to disable Reverse Path Forwarding (RPF) per interface - Fortinet Community</a></li>
+</ul>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>デフォルトのFeasible Path Reverse Path Forwarding：<a href="https://community.fortinet.com/t5/FortiGate/Technical-Note-Reverse-Path-Forwarding-RPF-implementation-and/ta-p/194382">Technical Note : Reverse Path Forwarding (RPF) implementation and use of strict-src-check enable|disable - Fortinet Community</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2ffortigate-rpf%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=%e8%a4%87%e6%95%b0%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%8d%e3%83%83%e3%83%88%e5%9b%9e%e7%b7%9a%e3%82%92%e6%8c%81%e3%81%a4FortiGate%e3%81%afRPF%e6%a9%9f%e8%83%bd%e3%81%ab%e6%b3%a8%e6%84%8f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2ffortigate-rpf%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2ffortigate-rpf%2f&amp;title=%e8%a4%87%e6%95%b0%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%8d%e3%83%83%e3%83%88%e5%9b%9e%e7%b7%9a%e3%82%92%e6%8c%81%e3%81%a4FortiGate%e3%81%afRPF%e6%a9%9f%e8%83%bd%e3%81%ab%e6%b3%a8%e6%84%8f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=%e8%a4%87%e6%95%b0%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%8d%e3%83%83%e3%83%88%e5%9b%9e%e7%b7%9a%e3%82%92%e6%8c%81%e3%81%a4FortiGate%e3%81%afRPF%e6%a9%9f%e8%83%bd%e3%81%ab%e6%b3%a8%e6%84%8f - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2ffortigate-rpf%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+
