@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cloudflare on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/cloudflare/</link>
+    <description>Recent content in cloudflare on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Fri, 16 Dec 2022 21:18:59 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/cloudflare/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cloudflare Zero TrustにAndroidを接続するまで（最短経路）</title>
+      <link>https://blog.uyorum.net/post/cloudflare-zero-trust-01/</link>
+      <pubDate>Fri, 16 Dec 2022 21:18:59 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/cloudflare-zero-trust-01/</guid>
+      <description>&lt;p&gt;Cloudflare Zero Trustを自宅やクラウドを繋げるVPN代わりに使いたかったのでまずはAndroid端末を接続できるようにする。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
