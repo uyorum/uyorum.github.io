@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Tue, 18 Oct 2022 23:57:14 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Dec 2022 21:18:59 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cloudflare</title>
+      <link>https://blog.uyorum.net/tags/cloudflare/</link>
+      <pubDate>Fri, 16 Dec 2022 21:18:59 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/tags/cloudflare/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>chromeos</title>
       <link>https://blog.uyorum.net/tags/chromeos/</link>
