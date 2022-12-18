@@ -89,3 +89,5 @@ HTTPSをCloudflareで復号して通信を検査したりすることができ�
 
 * [About Cloudflare WARP · Cloudflare Zero Trust docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/)
 * [「Cloudflare Zero Trust」 で組織のゼロトラストネットワークを構成する](https://zenn.dev/hiroe_orz17/articles/67f63b9c7a9da5)
+
+{{< affiliate asin="4297126257" title="ゼロトラストネットワーク[実践]入門" >}}

@@ -58,3 +58,5 @@ EOF
 ```
 
 これでLinuxを再起動（不要かも）をすれば反映される。
+
+{{< affiliate asin="B0895WXXKL" title="Lenovo Google Chromebook Ideapad Duet" >}}
