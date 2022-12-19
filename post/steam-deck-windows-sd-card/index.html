@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>SteamDeckでSteamOSとWindowsの両方でSDカードを使用する - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">SteamDeckでSteamOSとWindowsの両方でSDカードを使用する</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2022-12-19">December 19, 2022
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteam-deck-windows-sd-card%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=SteamDeck%e3%81%a7SteamOS%e3%81%a8Windows%e3%81%ae%e4%b8%a1%e6%96%b9%e3%81%a7SD%e3%82%ab%e3%83%bc%e3%83%89%e3%82%92%e4%bd%bf%e7%94%a8%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteam-deck-windows-sd-card%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteam-deck-windows-sd-card%2f&amp;title=SteamDeck%e3%81%a7SteamOS%e3%81%a8Windows%e3%81%ae%e4%b8%a1%e6%96%b9%e3%81%a7SD%e3%82%ab%e3%83%bc%e3%83%89%e3%82%92%e4%bd%bf%e7%94%a8%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=SteamDeck%e3%81%a7SteamOS%e3%81%a8Windows%e3%81%ae%e4%b8%a1%e6%96%b9%e3%81%a7SD%e3%82%ab%e3%83%bc%e3%83%89%e3%82%92%e4%bd%bf%e7%94%a8%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteam-deck-windows-sd-card%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p>SteamDeckが届いたので原神をするために早速Windowsを入れました。
+SteamOSとWindowsで内蔵ディスクを半分ずつにしたのでどちらのOSにとっても容量が微妙になってしまいました。<br>
+（自分が買ったのは256GBモデル）</p>
+<p>そこでSDカードを追加で買ってSteamOSとWindowsの両方の容量を拡張しました。</p>
+<p>最初に書いておきますが、これはSDカードの容量をSteamOSとWindowsの両方で<strong>共有</strong>する記事ではありません。
+この記事ではSDカードの領域を2分割して1つをSteamOS、もう1つをWindowsで使えるようにするため、あらかじめそれぞれのOS向けに容量を決める必要があります。<br>
+（そもそも前者の方法ができるかは不明です）</p>
+<h2 id="前提">前提</h2>
+<ul>
+<li>Windowsを内蔵ディスクにインストール済み<br>
+私は<a href="https://yukinko.tech/howtoinstallwindowstosteamdeck/">この記事</a>を参考にしました</li>
+<li>GPartedのLive USBを作成済み<br>
+作り方は上の記事で説明されています</li>
+</ul>
+<h2 id="大まかな流れ">大まかな流れ</h2>
+<ol>
+<li>SteamOSでSDカードをフォーマット</li>
+<li>GPartedでパーティションを縮小</li>
+<li>空いた領域をWindowsでフォーマット</li>
+</ol>
+<h2 id="手順">手順</h2>
+<h3 id="steamosでsdカードをフォーマット">SteamOSでSDカードをフォーマット</h3>
+<p>SteamOSでSDカードをフォーマットすると既存のパーティションをすべて削除してしまうようなので、
+はじめにSteamOSでフォーマットしてからGPartedでパーティションを縮小することにします。</p>
+<p>ここは特に難しくないと思います。
+SDカードを挿入して、設定 &gt; ストレージ からフォーマットできます（スクリーンショット取れてなかった）</p>
+<h3 id="gpartedでパーティションを縮小">GPartedでパーティションを縮小</h3>
+<p>続いてGPartedのLive USBで起動します。<br>
+右上に表示されているディスク名が「/dev/mmcblk0」になっていることを確認します。これがSDカードのようです。<br>
+「/dev/mmcblk0p1」を右クリック→リサイズ/移動を選択すると容量を入力します。</p>
+<p>今回は512GBのSDカードを半分ずつにするのでサイズを256*1024で262144MiBにしました（若干誤差がありますが）<br>
+ここで入力する容量がSteamOSで使用する容量になります。</p>
+<p><img src="/steam-deck-windows-sd-card/01.jpg" alt="gparted"></p>
+<p>入力したら「リサイズ/縮小」を押して上の方の緑のチェックマークをクリックして変更を確定します。<br>
+完了したらウィンドウの右上の黒いボタンをクリックして閉じ、デスクトップにあるシャットダウンのアイコンをダブルクリックしてシャットダウンします。</p>
+<p>ここまで来たら一度SteamOSを起動してSDカードの容量を確認しておきましょう。
+先ほどと同じように設定 &gt; ストレージ を開きます。</p>
+<p><img src="/steam-deck-windows-sd-card/02.jpg" alt="steamos-capacity"></p>
+<p>容量が251GBになっていますが若干のズレは無視します。半分くらいになっていることを確認してください。</p>
+<p>実は、最初はWindows用に128GBだけ確保したのですが容量が足りずに原神のインストールができなかったのであとからWindows用の容量を増やしました。</p>
+<h3 id="空いた領域をwindowsでフォーマット">空いた領域をWindowsでフォーマット</h3>
+<p>次はWindowsを起動します。
+自分はWindows 11ですがWindows 10でも手順は変わらないと思います。</p>
+<p>Windowsボタンを右クリックし「ディスクの管理」を選択します。
+ディスク1（リムーバブルディスク）の後半が「未割り当て」になっていると思います。この領域をフォーマットしてWindowsで使用します。</p>
+<p><img src="/steam-deck-windows-sd-card/03.jpg" alt="windows-1"></p>
+<p>※上の画像はすでにフォーマット済みなので表示が異なります</p>
+<p>未割り当ての領域を右クリックし「新しいシンプルボリューム」をクリックします。</p>
+<p>[ボリュームサイズの指定]はそのまま次へ進みます。</p>
+<p><img src="/steam-deck-windows-sd-card/04.jpg" alt="windows-2"></p>
+<p>[ドライブ文字またはパスの割り当て]ですが、ドライブレターが分かれてしまうのがなんだか気持ち悪かったので「空のNTFSフォルダーにマウントする」を選択しました。自分のプロファイルフォルダにGameフォルダを作成しています。
+「ドライブ文字を割り当てる」を選んでも問題ありません。ここは自由です。</p>
+<p><img src="/steam-deck-windows-sd-card/05.jpg" alt="windows-3"></p>
+<p>[パーティションのフォーマット]ではそのまま次へ進みます。
+お好みでラベルを設定するとよいでしょう。自分は「Game」というラベルをつけました。</p>
+<p><img src="/steam-deck-windows-sd-card/06.jpg" alt="windows-4"></p>
+<p>以上で完了です。ここで作成したドライブにゲームをインストールしましょう。</p>
+<p>自分が買ったSDカードはこれ。値は張りましたが速度は申し分なし。原神のロード時間も体感では全く問題ありませんでした。</p>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B08927YRXX/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B08927YRXX&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B08927YRXX/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        SanDisk マイクロSD 512GB サンディスク Extreme microSDXC A2 SDSQXA1-512G-GN6MN SD変換アダプターなし 海外パッケージ品
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+
+<p>以上</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://yukinko.tech/howtoinstallwindowstosteamdeck/">SteamDeckに原神をインストール - ゆきんこブログ</a></p>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteam-deck-windows-sd-card%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=SteamDeck%e3%81%a7SteamOS%e3%81%a8Windows%e3%81%ae%e4%b8%a1%e6%96%b9%e3%81%a7SD%e3%82%ab%e3%83%bc%e3%83%89%e3%82%92%e4%bd%bf%e7%94%a8%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteam-deck-windows-sd-card%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteam-deck-windows-sd-card%2f&amp;title=SteamDeck%e3%81%a7SteamOS%e3%81%a8Windows%e3%81%ae%e4%b8%a1%e6%96%b9%e3%81%a7SD%e3%82%ab%e3%83%bc%e3%83%89%e3%82%92%e4%bd%bf%e7%94%a8%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=SteamDeck%e3%81%a7SteamOS%e3%81%a8Windows%e3%81%ae%e4%b8%a1%e6%96%b9%e3%81%a7SD%e3%82%ab%e3%83%bc%e3%83%89%e3%82%92%e4%bd%bf%e7%94%a8%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteam-deck-windows-sd-card%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+
