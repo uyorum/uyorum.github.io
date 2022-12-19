@@ -4,7 +4,17 @@
   
   <url>
     <loc>https://blog.uyorum.net/</loc>
-    <lastmod>2022-12-16T21:18:59+09:00</lastmod>
+    <lastmod>2022-12-19T22:43:20+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.uyorum.net/post/</loc>
+    <lastmod>2022-12-19T22:43:20+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.uyorum.net/post/steam-deck-windows-sd-card/</loc>
+    <lastmod>2022-12-19T22:43:20+09:00</lastmod>
   </url>
   
   <url>
@@ -14,11 +24,6 @@
   
   <url>
     <loc>https://blog.uyorum.net/post/cloudflare-zero-trust-01/</loc>
-    <lastmod>2022-12-16T21:18:59+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.uyorum.net/post/</loc>
     <lastmod>2022-12-16T21:18:59+09:00</lastmod>
   </url>
   

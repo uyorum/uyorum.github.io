@@ -7,7 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Fri, 16 Dec 2022 21:18:59 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Dec 2022 22:43:20 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SteamDeckでSteamOSとWindowsの両方でSDカードを使用する</title>
+      <link>https://blog.uyorum.net/post/steam-deck-windows-sd-card/</link>
+      <pubDate>Mon, 19 Dec 2022 22:43:20 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/steam-deck-windows-sd-card/</guid>
+      <description>&lt;p&gt;SteamDeckが届いたので原神をするために早速Windowsを入れました。
+SteamOSとWindowsで内蔵ディスクを半分ずつにしたのでどちらのOSにとっても容量が微妙になってしまいました。&lt;br&gt;
+（自分が買ったのは256GBモデル）&lt;/p&gt;
+&lt;p&gt;そこでSDカードを追加で買ってSteamOSとWindowsの両方の容量を拡張しました。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Cloudflare Zero TrustにAndroidを接続するまで（最短経路）</title>
       <link>https://blog.uyorum.net/post/cloudflare-zero-trust-01/</link>
