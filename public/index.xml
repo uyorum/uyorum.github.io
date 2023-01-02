@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Mon, 19 Dec 2022 22:43:20 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Jan 2023 16:46:36 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Raspberry PiにDockerでMirakurun/EPGStationを導入する</title>
+      <link>https://blog.uyorum.net/post/raspberrypi-mirakurun-epgstation/</link>
+      <pubDate>Mon, 02 Jan 2023 16:46:36 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/raspberrypi-mirakurun-epgstation/</guid>
+      <description>&lt;p&gt;ずっとやろうと思っていたところ新年に時間が取れたので一気にやっつけた。
+それほど目新しいものはないが自分用のメモを兼ねてまとめておく。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>SteamDeckでSteamOSとWindowsの両方でSDカードを使用する</title>
       <link>https://blog.uyorum.net/post/steam-deck-windows-sd-card/</link>

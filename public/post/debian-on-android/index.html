@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.83.1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -189,14 +189,14 @@ Android SDKの導入方法は各自で調べてください．</p>
 <li>
 <p>bootdebian.sh</p>
 <pre><code> #!/system/bin/sh
-    
+
  abort() {
      echo $1
      exit 1
  }
-    
+
  DEBIAN=/sdcard/debian.img
-    
+
  [ -f ${DEBIAN} ] || abort &quot;${DEBIAN}: no such file.&quot;
      DEVICE=/dev/block/loop99
  [ -b ${DEVICE} ]
@@ -206,10 +206,10 @@ Android SDKの導入方法は各自で調べてください．</p>
      export TERM=linux
      export HOME=/root
      export LANG=ja_JP.UTF-8
-       
+
  busybox mknod ${DEVICE} b 7 99; busybox losetup ${DEVICE} ${DEBIAN}; sleep 1
  busybox mount -t ext2 -o noatime,nodiratime ${DEVICE} ${DEBROOT}/
-    
+
  if [ $? == 0 ]; then
      sleep 1
      echo -n &quot;Debian boot...&quot;
