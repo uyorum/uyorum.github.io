@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>EdgeRouter XをCloudflare Tunnelに接続する - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">EdgeRouter XをCloudflare Tunnelに接続する</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2023-01-03">January 03, 2023
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-tunnel-edgerouter-x%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=EdgeRouter%20X%e3%82%92Cloudflare%20Tunnel%e3%81%ab%e6%8e%a5%e7%b6%9a%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-tunnel-edgerouter-x%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-tunnel-edgerouter-x%2f&amp;title=EdgeRouter%20X%e3%82%92Cloudflare%20Tunnel%e3%81%ab%e6%8e%a5%e7%b6%9a%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=EdgeRouter%20X%e3%82%92Cloudflare%20Tunnel%e3%81%ab%e6%8e%a5%e7%b6%9a%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-tunnel-edgerouter-x%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p><a href="../cloudflare-zero-trust-01/">前回</a>の続き。<br>
+WARPとCloudflare Tunnelを組み合わせて自宅をインターネットへ公開することなく自宅VPNのようなことを実現しようとしているところです。</p>
+<h2 id="手順">手順</h2>
+<p>機種は違いますが<a href="https://github.com/cloudflare/cloudflared/issues/19">GitHub</a>にCloudflredを独自に導入する手順を公開されている方がいました。
+基本的な流れはこの通りで、<a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/">ドキュメント</a>を見つつ進めました。</p>
+<p>ER-X上で<code>cloudflared</code>というバイナリを実行することになります。
+ER-XはLinuxベースではありますがCPUがMIPSアーキテクチャです。公式ではMIPS向けのバイナリは配布されていないので自分でビルドする必要があります。</p>
+<h3 id="cloudflareにドメインを登録">Cloudflareにドメインを登録</h3>
+<p>おそらくここが一番ハードルが高いです。
+<a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/">ドキュメント</a>に書かれている通り、はじめにドメインをCloudflareに登録する必要があります。</p>
+<p>ここで登録するドメインはサブドメインではダメで、かつドメインの管理権限を持っている必要があります。(NSレコードをCloudflareのDNSサーバに向ける必要がある)
+手順は以下のページの通り。NSレコードを設定する手順はドメインを購入したレジストラによるのでここでは省略します。</p>
+<p><a href="https://developers.cloudflare.com/fundamentals/get-started/setup/add-site/">Add a site · Cloudflare Fundamentals docs</a></p>
+<h3 id="cloudflaredをビルド">cloudflaredをビルド</h3>
+<p>cloudflaredはGoで書かれているので、Goが入った環境があればかんたんにMIPS向けにクロスコンパイルができます。
+自分は適当なLinux環境を用意してクロスコンパイルしました。
+<code>GOARCH=mips</code>でビルドしたところ動かなかったので<code>GOARCH=mipsle</code>を指定しています。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git clone https://github.com/cloudflare/cloudflared.git
+$ <span class="nb">cd</span> cloudflared/cmd/cloudflared
+$ <span class="nv">GOOS</span><span class="o">=</span>linux <span class="nv">GOARCH</span><span class="o">=</span>mipsle go build
+$ file cloudflared
+cloudflared: ELF 32-bit LSB executable, MIPS, MIPS32 version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, statically linked, Go <span class="nv">BuildID</span><span class="o">=</span>q_P-LGbj9vqwTTHowwBy/7Tk5tV1mPGz9w77J1-Ua/Hfb51RmrmdHravgslRT8/GYp4QzVANZXUOcLjO8Gr, not stripped
+</code></pre></div><p><code>cloudflared/cmd/cloudflared/cloudflared</code>にバイナリが出来上がっているので、これをER-Xの<code>/usr/local/sbin/</code>に置いておきます。(ディレクトリは新たに作成)</p>
+<h3 id="ログイン">ログイン</h3>
+<p>ここから先はER-X上で実行します。<br>
+はじめにバイナリに実行権限を設定します。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo -i
+<span class="c1"># chown root:root /usr/local/sbin/cloudflared</span>
+<span class="c1"># chmod 755 /usr/local/sbin/cloudflared</span>
+</code></pre></div><p>次にcloudflaredでCloudflareにログインし証明書をダウンロードします。
+コマンドを実行するとURLが表示されるので、PCでアクセスしてログインするという流れです。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cloudflared tunnel login</span>
+Please open the following URL and log in with your Cloudflare account:
+
+https://dash.cloudflare.com/argotunnel?callback<span class="o">=</span>https%3A%2F%2Flogin.cloudflareaccess.org%2FXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx%3D
+
+Leave cloudflared running to download the cert automatically.
+2023-01-03T09:06:42Z INF Waiting <span class="k">for</span> login...
+</code></pre></div><p>ログインするとドメインを選択する画面が表示されるので、先ほど登録したドメインを選択し「承認」します。</p>
+<p><img src="/cloudflare-tunnel-edgerouter-x/select_domain.jpg" alt="select_domain"></p>
+<p>ER-Xに戻ると証明書を保存しコマンドが終了しています。
+関連ファイルは<code>/etc/cloudflared</code>に集めたかったので移動しておきます。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">You have successfully logged in.
+If you wish to copy your credentials to a server, they have been saved to:
+/root/.cloudflared/cert.pem
+<span class="c1"># mkdir /etc/cloudflared</span>
+<span class="c1"># mv /root/.cloudflared/cert.pem /etc/cloudflared</span>
+<span class="c1"># rm -rf /root/.cloudflared</span>
+</code></pre></div><p>cloudflaredは設定ファイルを<code>~/.cloudflared</code>、<code>/etc/cloudflared</code>、<code>/usr/local/etc/cloudflared</code>の順に探してくれるので移動させても問題ありません。</p>
+<p><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-useful-terms/#default-cloudflared-directory">Useful terms · Cloudflare Zero Trust docs</a></p>
+<h3 id="tunnelの作成と設定">Tunnelの作成と設定</h3>
+<p>続いてTunnelを作成していきます。Tunnel名は「Home」にします。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cloudflared tunnel create Home</span>
+Tunnel credentials written to /etc/cloudflared/65b71b5e-7356-4f1e-90bc-88f9a9b8db7b.json. cloudflared chose this file based on where your origin certificate was found. Keep this file secret. To revoke these credentials, delete the tunnel.
+
+Created tunnel Home with id 65b71b5e-7356-4f1e-90bc-88f9a9b8db7b
+</code></pre></div><p>Tunnelの接続に使われる認証情報が<code>/etc/cloudflared/*.json</code>として保存されます。</p>
+<p>次にcloudflaredの設定ファイルを作成します。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># vi /etc/cloudflared/config.yml</span>
+<span class="c1"># cat /etc/cloudflared/config.yml</span>
+tunnel: 65b71b5e-7356-4f1e-90bc-88f9a9b8db7b
+credentials-file: /etc/cloudflared/65b71b5e-7356-4f1e-90bc-88f9a9b8db7b.json
+warp-routing:
+  enabled: <span class="nb">true</span>
+</code></pre></div><h3 id="cloudflaredを起動">cloudflaredを起動</h3>
+<p>恒久的にはデーモン化が必要ですが、ひとまず手で実行します。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cloudflared --config /etc/cloudflared/config.yml tunnel run</span>
+...
+2023-01-03T13:17:07Z INF Connection 556e7512-0b96-4f0d-9232-b7eab07a76a4 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">0</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>KIX
+2023-01-03T13:17:07Z INF Connection c05977a3-78f8-4edd-9a31-e21e8932e6a7 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">1</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>NRT
+2023-01-03T13:17:09Z INF Connection cf942eca-718f-46ed-9f4d-1bc7cd839f0f registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">2</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>KIX
+2023-01-03T13:17:09Z INF Connection ddc90b1d-70ab-45b0-93ba-5fd482f68be2 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">3</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>NRT
+</code></pre></div><p>いろいろ表示されますがどうやら接続されたようです。<br>
+Cloudflare Zero TrustのWeb画面でもStatusがHEALTHYと表示されています。</p>
+<p><img src="/cloudflare-tunnel-edgerouter-x/tunnel_status.jpg" alt="tunnel_status"></p>
+<p>いったん以上でTunnelの接続まではできました。WARPクライアントからER-X側のLANにアクセスするにはまだいろいろと設定が必要ですがER-X側の残りの設定をしていきます。</p>
+<h3 id="cloudflaredをデーモン化">cloudflaredをデーモン化</h3>
+<p><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/as-a-service/linux/">Run as a service on Linux · Cloudflare Zero Trust docs</a></p>
+<p>cloudflaredには自身をサービスとしてインストールすることができるようなのでこの機能を使います。
+ER-X自身もSystemdが動いているのでこの仕組みに乗っかればよさそうです。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cloudflared service install</span>
+2023-01-03T13:37:04Z INF Using Systemd
+2023-01-03T13:37:07Z INF Linux service <span class="k">for</span> cloudflared installed successfully
+</code></pre></div><p>確認したところ以下の3つのUnitがインストールされたようです。</p>
+<ul>
+<li>/etc/systemd/system/cloudflared.service</li>
+<li>/etc/systemd/system/cloudflared-update.service</li>
+<li>/etc/systemd/system/cloudflared-update.timer</li>
+</ul>
+<p>cloudflared-update.{service,timer}はcloudflared自身を日次で更新するUnitですが、ER-X向けは自分でビルドしないといけないので意味がありません。この2つは削除します。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># rm /etc/systemd/system/cloudflared-update.service</span>
+<span class="c1"># rm /etc/systemd/system/cloudflared-update.timer</span>
+<span class="c1"># systemctl daemon-reload</span>
+<span class="c1"># systemctl enable cloudflared</span>
+<span class="c1"># systemctl start cloudflared</span>
+<span class="c1"># systemctl status cloudflared</span>
+* cloudflared.service - cloudflared
+   Loaded: loaded <span class="o">(</span>/etc/systemd/system/cloudflared.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+   Active: active <span class="o">(</span>running<span class="o">)</span> since Tue 2023-01-03 22:37:07 JST<span class="p">;</span> 13min ago
+ Main PID: <span class="m">7846</span> <span class="o">(</span>cloudflared<span class="o">)</span>
+   CGroup: /system.slice/cloudflared.service
+           <span class="sb">`</span>-7846 /usr/local/sbin/cloudflared --no-autoupdate --config /etc/cloudflared/config.yml tunnel run
+</code></pre></div><p>デーモン化はこれでよさそうです。</p>
+<h3 id="tunnelをweb-ui管理に変更">TunnelをWeb UI管理に変更</h3>
+<p>今回のTunnelはコマンドで作ったため、Cloudflare Zero TrustのWeb UIでは変更が行えないようになっています。
+考え方次第ですが、個人的にこのままでは不便なのでWeb UIから管理できるようにしておきます。
+一度これを行うとCLIでは変更できなくなるので注意です。</p>
+<p>Access &gt; Tunnels からTunnelのConfigureをクリックし「Start migration」へ進みます。
+出てきたダイアログをCofirmしていけばmigrateが完了します。</p>
+<p>いったん以上です。WARPクライアントからLANにアクセスするための設定は別の記事にまとめます。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/">Via the command line · Cloudflare Zero Trust docs</a></li>
+<li><a href="https://github.com/cloudflare/cloudflared/issues/19">notes for installing on a Ubiquiti Edgerouter 4 · Issue #19 · cloudflare/cloudflared</a></li>
+<li><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/as-a-service/linux/">Run as a service on Linux · Cloudflare Zero Trust docs</a></li>
+</ul>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B0144R449W/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B0144R449W&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B0144R449W/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        Ubiquiti Networks Edgerouter X ER-X 5port Gigabit Router with PassivePoE
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-tunnel-edgerouter-x%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=EdgeRouter%20X%e3%82%92Cloudflare%20Tunnel%e3%81%ab%e6%8e%a5%e7%b6%9a%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-tunnel-edgerouter-x%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-tunnel-edgerouter-x%2f&amp;title=EdgeRouter%20X%e3%82%92Cloudflare%20Tunnel%e3%81%ab%e6%8e%a5%e7%b6%9a%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=EdgeRouter%20X%e3%82%92Cloudflare%20Tunnel%e3%81%ab%e6%8e%a5%e7%b6%9a%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-tunnel-edgerouter-x%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/cloudflare-zero-trust-01/">Cloudflare Zero TrustにAndroidを接続するまで（最短経路）</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+

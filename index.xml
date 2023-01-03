@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Mon, 02 Jan 2023 16:46:36 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 03 Jan 2023 20:17:19 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>EdgeRouter XをCloudflare Tunnelに接続する</title>
+      <link>https://blog.uyorum.net/post/cloudflare-tunnel-edgerouter-x/</link>
+      <pubDate>Tue, 03 Jan 2023 20:17:19 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/cloudflare-tunnel-edgerouter-x/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../cloudflare-zero-trust-01/&#34;&gt;前回&lt;/a&gt;の続き。&lt;br&gt;
+WARPとCloudflare Tunnelを組み合わせて自宅をインターネットへ公開することなく自宅VPNのようなことを実現しようとしているところです。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Raspberry PiにDockerでMirakurun/EPGStationを導入する</title>
       <link>https://blog.uyorum.net/post/raspberrypi-mirakurun-epgstation/</link>
