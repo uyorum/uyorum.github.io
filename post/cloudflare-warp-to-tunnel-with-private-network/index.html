@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(Private network) - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(Private network)</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2023-01-05">January 05, 2023
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-warp-to-tunnel-with-private-network%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Cloudflare%20Zero%20Trust%e3%81%aeWarp%e3%82%af%e3%83%a9%e3%82%a4%e3%82%a2%e3%83%b3%e3%83%88%e3%81%8b%e3%82%89Tunnel%e5%81%b4%e3%81%ae%e3%83%9b%e3%82%b9%e3%83%88%e3%81%b8%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e3%81%99%e3%82%8b%28Private%20network%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-warp-to-tunnel-with-private-network%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-warp-to-tunnel-with-private-network%2f&amp;title=Cloudflare%20Zero%20Trust%e3%81%aeWarp%e3%82%af%e3%83%a9%e3%82%a4%e3%82%a2%e3%83%b3%e3%83%88%e3%81%8b%e3%82%89Tunnel%e5%81%b4%e3%81%ae%e3%83%9b%e3%82%b9%e3%83%88%e3%81%b8%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e3%81%99%e3%82%8b%28Private%20network%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Cloudflare%20Zero%20Trust%e3%81%aeWarp%e3%82%af%e3%83%a9%e3%82%a4%e3%82%a2%e3%83%b3%e3%83%88%e3%81%8b%e3%82%89Tunnel%e5%81%b4%e3%81%ae%e3%83%9b%e3%82%b9%e3%83%88%e3%81%b8%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e3%81%99%e3%82%8b%28Private%20network%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-warp-to-tunnel-with-private-network%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p><a href="../cloudflare-tunnel-edgerouter-x/">前回</a>の続き。<br>
+<a href="../cloudflare-zero-trust-01/">前々回</a>と組み合わせてWARPクライアントとTunnelが用意できたので、当初の目的であるWARPクライアントからイントラネットへアクセスする設定を行っていきます。</p>
+<h2 id="2つの方式">2つの方式</h2>
+<p>Cloudflare Zero TrustのVPN網からTunnel(cloudflared)側のサービスへアクセスする際、「IPベース」と「DNSベース」の2つの方式があります。
+Cloudflareのドキュメントでは前者は「Private networks」、後者は「Public hostnames」と呼ばれています。</p>
+<p>簡単のため今回は前者のPrivate networksの方式を採用します。</p>
+<h2 id="手順">手順</h2>
+<p>WARPクライアントとTunnelはそれぞれすでに接続済であるとします。</p>
+<h3 id="tunnel側のcidrを登録">Tunnel側のCIDRを登録</h3>
+<p>はじめにTunnelの先にあるネットワークのCIDRを教えてやります。</p>
+<p>Cloudflare Zero TrustのWebにログインしAccess &gt; Tunnelsから対象のTunnelのConfigureをクリックします。<br>
+Private Networkを表示し「Add a private network」からCIDRを入力します。通常はLANのCIDRになります。</p>
+<h3 id="split-tunnelを設定">Split Tunnelを設定</h3>
+<p>VPNで一般的なSplit Tunnelですが、WARPクライアントでも実装されています。
+デフォルトではRFC 1918に基づくプライベートアドレス宛のパケットはVPN網ではなくネイティブのネットワークへ流すようになっています。<br>
+このままだと目的の通信ができないので上で登録したCIDR宛はVPN網へ流すように設定する必要があります。</p>
+<p>Settings &gt; WARP Client &gt; Device settingsと辿って、今回のWARPクライアントで使うプロファイルのConfigureをクリックします。(初期状態では「Default」というプロファイルしかないと思います)</p>
+<p>一番下の「Split Tunnels」が目的のメニューですが、最初にSplit Tunnelのモード（ExcludeとInclude）を理解する必要があります。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">モード</th>
+<th style="text-align:left">動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Exclude</td>
+<td style="text-align:left">デフォルト。ここで指定した宛先<em>以外</em>のすべてのトラフィックをVPN網へ流す</td>
+</tr>
+<tr>
+<td style="text-align:left">Include</td>
+<td style="text-align:left">ここで指定した宛先のトラフィックのみVPN網へ流す</td>
+</tr>
+</tbody>
+</table>
+<p>どちらを選ぶかはポリシー次第かと思いますが、Policyなどでデバイスをより厳格に管理したい場合はExclude、そうでない場合はIncludeを選択すると良いと思います。</p>
+<p>今回はIncludeを選択しました。ExcludeからIncludeへ変更しようとすると既存のエントリをすべて消す旨の警告が表示されますが、そのまま進みます。<br>
+Includeへ変更したらその右の「Manage」をクリックします。<br>
+ここでPrivate NetworkのCIDRを登録してやればいいのですが、Includeの場合はそれに加えていくつかのドメインを登録することが推奨されています。</p>
+<p><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/exclude-traffic/split-tunnels/#cloudflare-zero-trust-domains">Split Tunnels · Cloudflare Zero Trust docs</a></p>
+<p>最終的に以下の3つのエントリを登録しました。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">IP Address</td>
+<td style="text-align:left">Private Networkに登録したCIDR</td>
+</tr>
+<tr>
+<td style="text-align:left">Domain</td>
+<td style="text-align:left">Team名.cloudflareaccess.com (Teams名は<a href="../cloudflare-zero-trust-01/">前々回</a>設定しました)</td>
+</tr>
+<tr>
+<td style="text-align:left">Domain</td>
+<td style="text-align:left">*.Cloudflareに登録したドメイン (ドメインは<a href="../cloudflare-tunnel-edgerouter-x/">前回</a>設定しました)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="warpクライアントから通信してみる">WARPクライアントから通信してみる</h3>
+<p>以上の設定で完了です。
+WARPクライアントからLAN上のサービスにアクセスできることを確認しましょう。</p>
+<p>ちなみにサーバから見た送信元アドレスはcloudflaredを導入したER-XのIPになっていました。<br>
+ER-Xで確認したところTCPセッションもER-Xとサーバ間で確立されているようでした。</p>
+<p>以上</p>
+<h2 id="参照">参照</h2>
+<ul>
+<li><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/private-net/connect-private-networks/">Connect private networks · Cloudflare Zero Trust docs</a></li>
+<li><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/exclude-traffic/split-tunnels/#add-an-ip-address">Split Tunnels · Cloudflare Zero Trust docs</a></li>
+</ul>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/4297126257/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=4297126257&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/4297126257/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        ゼロトラストネットワーク[実践]入門
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-warp-to-tunnel-with-private-network%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Cloudflare%20Zero%20Trust%e3%81%aeWarp%e3%82%af%e3%83%a9%e3%82%a4%e3%82%a2%e3%83%b3%e3%83%88%e3%81%8b%e3%82%89Tunnel%e5%81%b4%e3%81%ae%e3%83%9b%e3%82%b9%e3%83%88%e3%81%b8%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e3%81%99%e3%82%8b%28Private%20network%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-warp-to-tunnel-with-private-network%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-warp-to-tunnel-with-private-network%2f&amp;title=Cloudflare%20Zero%20Trust%e3%81%aeWarp%e3%82%af%e3%83%a9%e3%82%a4%e3%82%a2%e3%83%b3%e3%83%88%e3%81%8b%e3%82%89Tunnel%e5%81%b4%e3%81%ae%e3%83%9b%e3%82%b9%e3%83%88%e3%81%b8%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e3%81%99%e3%82%8b%28Private%20network%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Cloudflare%20Zero%20Trust%e3%81%aeWarp%e3%82%af%e3%83%a9%e3%82%a4%e3%82%a2%e3%83%b3%e3%83%88%e3%81%8b%e3%82%89Tunnel%e5%81%b4%e3%81%ae%e3%83%9b%e3%82%b9%e3%83%88%e3%81%b8%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e3%81%99%e3%82%8b%28Private%20network%29 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fcloudflare-warp-to-tunnel-with-private-network%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/cloudflare-tunnel-edgerouter-x/">EdgeRouter XをCloudflare Tunnelに接続する</a></li>
+  
+  <li><a href="/post/cloudflare-zero-trust-01/">Cloudflare Zero TrustにAndroidを接続するまで（最短経路）</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+

@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Tue, 03 Jan 2023 20:17:19 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/cloudflare/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 Jan 2023 00:41:04 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/cloudflare/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(Private network)</title>
+      <link>https://blog.uyorum.net/post/cloudflare-warp-to-tunnel-with-private-network/</link>
+      <pubDate>Thu, 05 Jan 2023 00:41:04 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/cloudflare-warp-to-tunnel-with-private-network/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../cloudflare-tunnel-edgerouter-x/&#34;&gt;前回&lt;/a&gt;の続き。&lt;br&gt;
+&lt;a href=&#34;../cloudflare-zero-trust-01/&#34;&gt;前々回&lt;/a&gt;と組み合わせてWARPクライアントとTunnelが用意できたので、当初の目的であるWARPクライアントからイントラネットへアクセスする設定を行っていきます。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>EdgeRouter XをCloudflare Tunnelに接続する</title>
       <link>https://blog.uyorum.net/post/cloudflare-tunnel-edgerouter-x/</link>
