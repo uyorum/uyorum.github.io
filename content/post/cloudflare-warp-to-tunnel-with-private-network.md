@@ -71,7 +71,7 @@ ER-Xで確認したところTCPセッションもER-Xとサーバ間で確立さ
 
 以上
 
-## 参照
+## 参考
 
 * [Connect private networks · Cloudflare Zero Trust docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/private-net/connect-private-networks/)
 * [Split Tunnels · Cloudflare Zero Trust docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/exclude-traffic/split-tunnels/#add-an-ip-address)

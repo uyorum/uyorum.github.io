@@ -104,17 +104,17 @@ bootパーティション直下に<code>ssh</code>という空のファイルを
 <p>いったん弱いパスワードで設定したがあとでパスワードは無効化するため問題ない。</p>
 </li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ touch /boot/ssh
-$ <span class="nb">echo</span> pi:<span class="k">$(</span><span class="nb">echo</span> password <span class="p">|</span> openssl passwd -6 -stdin<span class="k">)</span> &gt;/boot/userconf.txt
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">touch /boot/ssh
+<span class="nb">echo</span> pi:<span class="k">$(</span><span class="nb">echo</span> password <span class="p">|</span> openssl passwd -6 -stdin<span class="k">)</span> &gt;/boot/userconf.txt
 </code></pre></div><h3 id="os設定">OS設定</h3>
 <p>以上の内容でSDカードをセットアップしたらSSHでログインできる状態でOSが起動してくる。
 SSHでログインできるようになったら以下の設定を入れていく</p>
 <h4 id="アップデート">アップデート</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo rpi-update
-$ sudo apt update
-$ sudo apt upgrade
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo rpi-update
+sudo apt update
+sudo apt upgrade
 </code></pre></div><h4 id="raspi-config">raspi-config</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo raspi-config
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo raspi-config
 </code></pre></div><ul>
 <li>ホスト名を設定</li>
 <li>VNCを無効化</li>
@@ -125,14 +125,14 @@ $ sudo apt upgrade
 <p>いったんここでrebootしておく</p>
 <h4 id="パスワード無効化">パスワード無効化</h4>
 <p><code>authorized_keys</code>に公開鍵を設定 (ssh-copy-idを使用)してから以下を実行</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo passwd -d pi
-$ sudo sed -i <span class="s1">&#39;s/^#\?PasswordAuthentication.*/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
-$ sudo systemctl restart ssh
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo passwd -d pi
+sudo sed -i <span class="s1">&#39;s/^#\?PasswordAuthentication.*/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
+sudo systemctl restart ssh
 </code></pre></div><h4 id="スワップを無効化">スワップを無効化</h4>
 <p>SDカードの書き込みを減らすために設定</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo swapoff --all
-$ sudo systemctl stop dphys-swapfile
-$ sudo systemctl disable dphys-swapfile
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo swapoff --all
+sudo systemctl stop dphys-swapfile
+sudo systemctl disable dphys-swapfile
 </code></pre></div><h4 id="時刻同期">時刻同期</h4>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt install -y chrony
 $ sudo vi /etc/chrony/chrony.conf
@@ -149,9 +149,9 @@ $ sudo systemctl disable hciuart.service
 $ sudo systemctl disable bluealsa.service
 $ sudo systemctl disable bluetooth.service
 </code></pre></div><h4 id="wifi無効化">WiFi無効化</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo iwconfig wlan0 txpower off
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo iwconfig wlan0 txpower off
 </code></pre></div><h4 id="ハードウェアエンコード有効化">ハードウェアエンコード有効化</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">echo</span> <span class="s1">&#39;SUBSYSTEM==&#34;vchiq&#34;,GROUP=&#34;video&#34;,MODE=&#34;0666&#34;&#39;</span> <span class="p">|</span> sudo tee /etc/udev/rules.d/10-vchiq-permissions.rules
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s1">&#39;SUBSYSTEM==&#34;vchiq&#34;,GROUP=&#34;video&#34;,MODE=&#34;0666&#34;&#39;</span> <span class="p">|</span> sudo tee /etc/udev/rules.d/10-vchiq-permissions.rules
 </code></pre></div><h4 id="外付けhddをマウント">外付けHDDをマウント</h4>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt install xfsprogs
 $ sudo fdisk /dev/sda
@@ -166,18 +166,18 @@ $ sudo chmod <span class="m">777</span> /mnt/recorded
 <p>このあたりで一度rebootしておく。</p>
 <h3 id="チューナードライバをインストール">チューナードライバをインストール</h3>
 <p>メジャーなチューナーなので方法は検索すればすぐ見つかる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ wget http://plex-net.co.jp/plex/px-s1ud/PX-S1UD_driver_Ver.1.0.1.zip
-$ unzip PX-S1UD_driver_Ver.1.0.1.zip
-$ sudo cp PX-S1UD_driver_Ver.1.0.1/x64/amd64/isdbt_rio.inp /lib/firmware/
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">wget http://plex-net.co.jp/plex/px-s1ud/PX-S1UD_driver_Ver.1.0.1.zip
+unzip PX-S1UD_driver_Ver.1.0.1.zip
+sudo cp PX-S1UD_driver_Ver.1.0.1/x64/amd64/isdbt_rio.inp /lib/firmware/
 </code></pre></div><h3 id="カードリーダー">カードリーダー</h3>
 <p>これは不要かもしれない</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt install pcscd pcsc-tools libccid
-$ sudo pcsc_scan
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt install pcscd pcsc-tools libccid
+sudo pcsc_scan
 </code></pre></div><p>最後に「Japanese Chijou Digital B-CAS Card (pay TV)」という文字列が表示される。
 Ctrl-Cで終了。</p>
 <h3 id="docker">Docker</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl -sSL https://get.docker.com/ <span class="p">|</span> <span class="nv">CHANNEL</span><span class="o">=</span>stable sh
-$ sudo usermod -aG docker <span class="nv">$USER</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl -sSL https://get.docker.com/ <span class="p">|</span> <span class="nv">CHANNEL</span><span class="o">=</span>stable sh
+sudo usermod -aG docker <span class="nv">$USER</span>
 </code></pre></div><p>最後の<code>usermod</code>はpiユーザでsudoなしで<code>docker</code>コマンドを実行できるようにするため。<br>
 変更を反映させるためにSSHで再ログインしておく。</p>
 <h3 id="mirakurunepgstation">Mirakurun/EPGStation</h3>
@@ -186,8 +186,8 @@ $ sudo usermod -aG docker <span class="nv">$USER</span>
 <a href="https://github.com/CH3COOH/docker-mirakurun-epgstation">CH3COOH/docker-mirakurun-epgstation: Mirakurun + EPGStation on Docker</a></p>
 <p>リポジトリはここで公開している。<br>
 <a href="https://github.com/uyorum/rpi-docker-mirakurun-epgstation">uyorum/rpi-docker-mirakurun-epgstation: Mirakurun + EPGStation on Docker tuned for Raspberry Pi</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl -sf https://raw.githubusercontent.com/uyorum/rpi-docker-mirakurun-epgstation/v2/setup.sh <span class="p">|</span> sh -s
-$ <span class="nb">cd</span> rpi-docker-mirakurun-epgstation
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl -sf https://raw.githubusercontent.com/uyorum/rpi-docker-mirakurun-epgstation/v2/setup.sh <span class="p">|</span> sh -s
+<span class="nb">cd</span> rpi-docker-mirakurun-epgstation
 </code></pre></div><p><code>mirakurun/conf/channels.yml</code>と<code>docker-compose.yml</code>を適宜編集する。
 自分の場合、録画データは外付けHDDをマウントした<code>/mnt/recorded</code>に保存したかったので<code>docker-compose.yml</code>を以下のように変更した。</p>
 <div class="highlight"><pre class="chroma"><code class="language-diff" data-lang="diff"><span class="gu">@@ -52,7 +52,7 @@ services:
@@ -200,11 +200,17 @@ $ <span class="nb">cd</span> rpi-docker-mirakurun-epgstation
          environment:
              TZ: &#34;Asia/Tokyo&#34;
 </code></pre></div><p>編集が終わったら以下のコマンドでコンテナを起動する。初回はイメージのビルドとともにffmpegをビルドするので数十分かかる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ docker compose up -d
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">docker compose up -d
 </code></pre></div><p>コンテナが無事起動したらチャンネルスキャンを実行しておく。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl -X PUT <span class="s2">&#34;http://localhost:40772/api/config/channels/scan&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl -X PUT <span class="s2">&#34;http://localhost:40772/api/config/channels/scan&#34;</span>
 </code></pre></div><p>これで<code>http://IP:8888</code>にアクセスすればEPGStationのWebUIが表示される。</p>
 <p>以上</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://github.com/uyorum/rpi-docker-mirakurun-epgstation">uyorum/rpi-docker-mirakurun-epgstation: Mirakurun + EPGStation on Docker tuned for Raspberry Pi</a></li>
+<li><a href="https://blog.ch3cooh.jp/entry/2021/04/06/200732#%E3%83%A9%E3%82%BA%E3%83%91%E3%82%A4%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%83%8F%E3%83%BC%E3%83%89%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%A8%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E6%9C%89%E5%8A%B9%E5%8C%96">Raspberry Pi 4とdocker-mirakurun-epgstationで録画サーバーを構築する (2021年4月版) - 酢ろぐ！</a></li>
+<li><a href="https://bowmiow.net/garage/raspi-tv2/#toc2">【ラズパイ】テレビ録画サーバーの設定 - 車輪日記</a></li>
+</ul>
 <div class="amazon-widget">
   <div class="amazon-widget-image">
     <a target="_blank" href="https://www.amazon.co.jp/dp/B081YD3VL5/?tag=uyorum-22">
@@ -223,13 +229,6 @@ $ <span class="nb">cd</span> rpi-docker-mirakurun-epgstation
     </a>
   </div>
 </div>
-
-<h2 id="参考">参考</h2>
-<ul>
-<li><a href="https://github.com/uyorum/rpi-docker-mirakurun-epgstation">uyorum/rpi-docker-mirakurun-epgstation: Mirakurun + EPGStation on Docker tuned for Raspberry Pi</a></li>
-<li><a href="https://blog.ch3cooh.jp/entry/2021/04/06/200732#%E3%83%A9%E3%82%BA%E3%83%91%E3%82%A4%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%83%8F%E3%83%BC%E3%83%89%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%A8%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E6%9C%89%E5%8A%B9%E5%8C%96">Raspberry Pi 4とdocker-mirakurun-epgstationで録画サーバーを構築する (2021年4月版) - 酢ろぐ！</a></li>
-<li><a href="https://bowmiow.net/garage/raspi-tv2/#toc2">【ラズパイ】テレビ録画サーバーの設定 - 車輪日記</a></li>
-</ul>
     </section>
     <aside>
       <div class="share-box">

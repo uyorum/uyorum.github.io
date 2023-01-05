@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Thu, 05 Jan 2023 00:41:04 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 Jan 2023 20:07:45 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RHEL</title>
+      <link>https://blog.uyorum.net/tags/rhel/</link>
+      <pubDate>Thu, 05 Jan 2023 20:07:45 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/tags/rhel/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>cloudflare</title>
       <link>https://blog.uyorum.net/tags/cloudflare/</link>
@@ -167,15 +176,6 @@
       <pubDate>Thu, 04 Jul 2019 20:32:07 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/tags/centos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RHEL</title>
-      <link>https://blog.uyorum.net/tags/rhel/</link>
-      <pubDate>Thu, 04 Jul 2019 20:32:07 +0900</pubDate>
-      
-      <guid>https://blog.uyorum.net/tags/rhel/</guid>
       <description></description>
     </item>
     

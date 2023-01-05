@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Thu, 04 Jul 2019 20:32:07 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/rhel/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 Jan 2023 20:07:45 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/rhel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RHELのサブスクリプションをCloud AccessでAWSに持ち込む</title>
+      <link>https://blog.uyorum.net/post/rhel-cloud-access-aws/</link>
+      <pubDate>Thu, 05 Jan 2023 20:07:45 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/rhel-cloud-access-aws/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://rheb.hatenablog.com/entry/developer-program&#34;&gt;Red Hat Developer Subscription for Individuals&lt;/a&gt;を使ってAWSにインスタンスを立ててみたのでメモ。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>fail2banでBotからsshdとNginxを守る</title>
       <link>https://blog.uyorum.net/post/fail2ban-1/</link>

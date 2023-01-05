@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>RHELのサブスクリプションをCloud AccessでAWSに持ち込む - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">RHELのサブスクリプションをCloud AccessでAWSに持ち込む</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2023-01-05">January 05, 2023
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2frhel-cloud-access-aws%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=RHEL%e3%81%ae%e3%82%b5%e3%83%96%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92Cloud%20Access%e3%81%a7AWS%e3%81%ab%e6%8c%81%e3%81%a1%e8%be%bc%e3%82%80 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2frhel-cloud-access-aws%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2frhel-cloud-access-aws%2f&amp;title=RHEL%e3%81%ae%e3%82%b5%e3%83%96%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92Cloud%20Access%e3%81%a7AWS%e3%81%ab%e6%8c%81%e3%81%a1%e8%be%bc%e3%82%80 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=RHEL%e3%81%ae%e3%82%b5%e3%83%96%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92Cloud%20Access%e3%81%a7AWS%e3%81%ab%e6%8c%81%e3%81%a1%e8%be%bc%e3%82%80 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2frhel-cloud-access-aws%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p><a href="https://rheb.hatenablog.com/entry/developer-program">Red Hat Developer Subscription for Individuals</a>を使ってAWSにインスタンスを立ててみたのでメモ。</p>
+<p>Cloud Accessについては<a href="https://rheb.hatenablog.com/entry/ccsp-rhel">赤帽エンジニアブログ</a>を読むのがいいと思います。ここでは省略。<br>
+Red Hatはこういうものもドキュメントがしっかりあるので一通り読んでおきます。</p>
+<p><a href="https://access.redhat.com/documentation/ja-jp/red_hat_subscription_management/2022/html/red_hat_cloud_access_reference_guide/index">Red Hat Cloud Access リファレンスガイド Red Hat Subscription Management 2022 | Red Hat Customer Portal</a></p>
+<h2 id="cloud-accessのオプション">Cloud Accessのオプション</h2>
+<p>上記のドキュメントによるとCloud Accessには3つの方法があるらしい。</p>
+<p><a href="https://access.redhat.com/documentation/ja-jp/red_hat_subscription_management/2022/html/red_hat_cloud_access_reference_guide/getting-started-with-ca_cloud-access">第2章 Cloud Access の使用 Red Hat Subscription Management 2022 | Red Hat Customer Portal</a></p>
+<p>読んだ感じ大体以下のような使い分けになるのかなと思います。</p>
+<ul>
+<li>負荷なし<br>
+Red Hatによるゴールデンイメージを使わない場合にこのオプションを選択できる。<br>
+インスタンスがRed Hatのカスタマーポータルに紐付けずに使用するのがこのオプション。<br>
+サブスクリプションが足りているかどうかは自分で管理することになる。</li>
+<li>サブスクリプションの追跡およびゴールドイメージアクセス<br>
+カスタマーポータルを使う方法。システムとサブスクリプションをカスタマーポータル上で紐づけて管理、運用する。<br>
+このオプションではゴールデンイメージを使うことができる。<br>
+おそらくこれが一番オーソドックスな方法。</li>
+<li>高度なRHEL管理<br>
+ハイブリッドクラウドコンソールを使ってより高度に管理する方法。<br>
+シンプルコンテンツアクセスを有効にする必要がある。（シンプルコンテンツアクセスについては後述）</li>
+</ul>
+<p>せっかくなので自分は3番目の「高度なRHEL管理」を選択しました。</p>
+<h3 id="シンプルコンテンツアクセス">シンプルコンテンツアクセス</h3>
+<p><a href="https://access.redhat.com/ja/articles/6098461">Simple Content Access - Red Hat Customer Portal</a></p>
+<p>従来のサブスクリプションの管理をより高度化したもののようです。<br>
+具体的にはシステムにサブスクリプションを紐づける（attach）必要がなくなるようです。<br>
+おそらくクラウド環境でサーバが頻繁に増減する状況のための仕組みなんだと思います。（想像）</p>
+<p>高度なRHEL管理のためにはシンプルコンテンツアクセスを有効にする必要があるので始めに済ませておきます。<br>
+方法は<a href="https://access.redhat.com/ja/articles/6098461#simple-content-access--red-hat-subscription-management--2">上の記事</a>で説明されています。
+手順はここでは省略。</p>
+<h2 id="cloud-accessを有効化">Cloud Accessを有効化</h2>
+<p><a href="https://access.redhat.com/documentation/ja-jp/red_hat_subscription_management/2022/html/red_hat_cloud_access_reference_guide/proc_new-ca-experience-option3_cloud-access">2.3. オプション 3: 高度な RHEL 管理 Red Hat Subscription Management 2022 | Red Hat Customer Portal</a></p>
+<p>ドキュメントの通りに進めていきます。</p>
+<ol>
+<li>
+<p><a href="https://console.redhat.com/">ハイブリッドクラウドコンソール</a>にログインします。IDとパスワードはカスタマーポータルと共通です</p>
+</li>
+<li>
+<p>画面上部のAll apps and servicesから「Sources」を検索します</p>
+</li>
+<li>
+<p>[Add source]をクリックします</p>
+</li>
+<li>
+<p>AWSを選択して次へ進みます</p>
+</li>
+<li>
+<p>管理上の名前を入力して次へ進みます</p>
+</li>
+<li>
+<p>AWSアカウントとの紐づけのための設定をAWSに対して行います。方法は2つあります</p>
+<ul>
+<li>自動で行う場合…AWSのアクセスキーとシークレットアクセスキーを入力し自動で設定を行います</li>
+<li>手動で行う場合…指示された通りにAWSに自分で設定を行います</li>
+</ul>
+<p>前者がrecommentedだったため自分は前者を選択しましたがセキュリティが心配な場合は手動で行ったほうがよいでしょう。<br>
+アクセスキーの生成は<a href="https://docs.aws.amazon.com/ja_jp/powershell/latest/userguide/pstools-appendix-sign-up.html">AWSのドキュメント</a>を参照。</p>
+</li>
+<li>
+<p>次へ進むと設定が開始されるので完了までしばらく待ちます</p>
+</li>
+</ol>
+<p>項目が3つありますがインスタンスの作成には「RHEL management」だけあればよいので他は無効化しておきます。
+(上2つは数分で終わりましたがProvisioningだけは数日経っても終わりませんでした)</p>
+<p><img src="/rhel-cloud-access-aws/cloudaccess-1.jpg" alt="cloudaccess-1"></p>
+<h2 id="ゴールデンイメージ">ゴールデンイメージ</h2>
+<p><a href="https://access.redhat.com/documentation/ja-jp/red_hat_subscription_management/2022/html/red_hat_cloud_access_reference_guide/using-gold-images-on-aws_cloud-access">3.5. AWS でのゴールドイメージの使用 Red Hat Subscription Management 2022 | Red Hat Customer Portal</a></p>
+<p>RHEL managementの設定が完了後、しばらくするとAWSのマネジメントコンソールでゴールデンイメージがAMIとして見えるようになります。
+自分の場合はAMIが見えるまで2～3日かかりました。</p>
+<p>AMIはプライベートイメージとして見えてきます。「所有者=309956199498」で検索できます。</p>
+<p><img src="/rhel-cloud-access-aws/cloudaccess-2.jpg" alt="cloudaccess-2"></p>
+<h3 id="yumの向き先について">Yumの向き先について</h3>
+<p><a href="https://access.redhat.com/documentation/ja-jp/red_hat_subscription_management/2022/html/red_hat_cloud_access_reference_guide/con_updates-and-patches_cloud-access#doc-wrapper">3.3. 更新およびパッチ Red Hat Subscription Management 2022 | Red Hat Customer Portal</a></p>
+<p>AWSのゴールデンイメージはデフォルトでRHUIを参照するように設定されています。<br>
+このまま使い続けてもいいですしRHUIへの参照はやめて<code>subscription-manager</code>を使ってRed HatのCDNを参照してもよいです。<br>
+ハイブリッドクラウドコンソールでAWSアカウントと紐づけたためか、カスタマーポータルには自動で登録されているので<code>subscription-manager repos --enable</code>で目的のリポジトリを有効にすればよいです。<br>
+シンプルコンテンツアクセスでも説明した通り、サブスクリプションをアタッチする必要はありません。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">// RHUIは使わない
+$ sudo sed -i <span class="s1">&#39;s/^enabled=1/enabled=0/g&#39;</span> /etc/yum.repos.d/redhat-rhui*.repo
+// 起動時に戻ってしまうので止める
+$ sudo systemctl disable choose_repo
+// デフォルトでは<span class="sb">`</span>subscription-manager<span class="sb">`</span>による管理は無効化されているので有効化する
+$ sudo subscription-manager config <span class="p">|</span> grep -i manage_repo
+   <span class="nv">manage_repos</span> <span class="o">=</span> <span class="m">0</span>
+$ sudo subscription-manager config --rhsm.manage_repos<span class="o">=</span><span class="m">1</span>
+$ sudo subscription-manager config <span class="p">|</span> grep -i manage_repo
+   <span class="nv">manage_repos</span> <span class="o">=</span> <span class="o">[</span>1<span class="o">]</span>
+// リポジトリを有効化 <span class="o">(</span>RHEL9の場合<span class="o">)</span>
+$ sudo subscription-manager repos --enable rhel-9-for-x86_64-baseos-rpms
+$ sudo subscription-manager repos --enable rhel-9-for-x86_64-appstream-rpms
+$ sudo yum repolist
+Updating Subscription Management repositories.
+repo id                                                                         repo name
+rhel-9-for-x86_64-appstream-rpms                                                Red Hat Enterprise Linux <span class="m">9</span> <span class="k">for</span> x86_64 - AppStream <span class="o">(</span>RPMs<span class="o">)</span>
+rhel-9-for-x86_64-baseos-rpms                                                   Red Hat Enterprise Linux <span class="m">9</span> <span class="k">for</span> x86_64 - BaseOS <span class="o">(</span>RPMs<span class="o">)</span>
+</code></pre></div><p>以上</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://access.redhat.com/documentation/ja-jp/red_hat_subscription_management/2022/html/red_hat_cloud_access_reference_guide/index">Red Hat Cloud Access リファレンスガイド Red Hat Subscription Management 2022 | Red Hat Customer Portal</a></li>
+<li><a href="https://rheb.hatenablog.com/entry/ccsp-rhel">AWS, AzureでRHELを利用する前に確認すること - 赤帽エンジニアブログ</a></li>
+<li><a href="https://blog.holyblue.jp/entry/2021/11/22/150759">RHELのGold ImageをAWSに表示させる方法 - holyblueのブログ</a></li>
+</ul>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B0BF4DVCN3/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B0BF4DVCN3&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B0BF4DVCN3/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        バージョン8&amp;9両対応! Red Hat Enterprise Linux完全ガイド 
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2frhel-cloud-access-aws%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=RHEL%e3%81%ae%e3%82%b5%e3%83%96%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92Cloud%20Access%e3%81%a7AWS%e3%81%ab%e6%8c%81%e3%81%a1%e8%be%bc%e3%82%80 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2frhel-cloud-access-aws%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2frhel-cloud-access-aws%2f&amp;title=RHEL%e3%81%ae%e3%82%b5%e3%83%96%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92Cloud%20Access%e3%81%a7AWS%e3%81%ab%e6%8c%81%e3%81%a1%e8%be%bc%e3%82%80 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=RHEL%e3%81%ae%e3%82%b5%e3%83%96%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92Cloud%20Access%e3%81%a7AWS%e3%81%ab%e6%8c%81%e3%81%a1%e8%be%bc%e3%82%80 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2frhel-cloud-access-aws%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+

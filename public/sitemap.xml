@@ -4,7 +4,27 @@
   
   <url>
     <loc>https://blog.uyorum.net/</loc>
-    <lastmod>2023-01-05T00:41:04+09:00</lastmod>
+    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.uyorum.net/post/</loc>
+    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.uyorum.net/tags/rhel/</loc>
+    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.uyorum.net/post/rhel-cloud-access-aws/</loc>
+    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.uyorum.net/tags/</loc>
+    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
   </url>
   
   <url>
@@ -14,16 +34,6 @@
   
   <url>
     <loc>https://blog.uyorum.net/post/cloudflare-warp-to-tunnel-with-private-network/</loc>
-    <lastmod>2023-01-05T00:41:04+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.uyorum.net/post/</loc>
-    <lastmod>2023-01-05T00:41:04+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.uyorum.net/tags/</loc>
     <lastmod>2023-01-05T00:41:04+09:00</lastmod>
   </url>
   
@@ -184,11 +194,6 @@
   
   <url>
     <loc>https://blog.uyorum.net/post/fail2ban-1/</loc>
-    <lastmod>2019-07-04T20:32:07+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.uyorum.net/tags/rhel/</loc>
     <lastmod>2019-07-04T20:32:07+09:00</lastmod>
   </url>
   

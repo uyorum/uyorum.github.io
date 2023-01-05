@@ -42,8 +42,8 @@ GUIは不要なのでRaspberry Pi OS Lite、メモリは4GBしかないので32b
     いったん弱いパスワードで設定したがあとでパスワードは無効化するため問題ない。
 
 ``` shell
-$ touch /boot/ssh
-$ echo pi:$(echo password | openssl passwd -6 -stdin) >/boot/userconf.txt
+touch /boot/ssh
+echo pi:$(echo password | openssl passwd -6 -stdin) >/boot/userconf.txt
 ```
 
 ### OS設定
@@ -54,15 +54,15 @@ SSHでログインできるようになったら以下の設定を入れてい�
 #### アップデート
 
 ``` shell
-$ sudo rpi-update
-$ sudo apt update
-$ sudo apt upgrade
+sudo rpi-update
+sudo apt update
+sudo apt upgrade
 ```
 
 #### raspi-config
 
 ``` shell
-$ sudo raspi-config
+sudo raspi-config
 ```
 
 * ホスト名を設定
@@ -78,9 +78,9 @@ $ sudo raspi-config
 `authorized_keys`に公開鍵を設定 (ssh-copy-idを使用)してから以下を実行
 
 ``` shell
-$ sudo passwd -d pi
-$ sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config
-$ sudo systemctl restart ssh
+sudo passwd -d pi
+sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config
+sudo systemctl restart ssh
 ```
 
 #### スワップを無効化  
@@ -88,9 +88,9 @@ $ sudo systemctl restart ssh
 SDカードの書き込みを減らすために設定
 
 ``` shell
-$ sudo swapoff --all
-$ sudo systemctl stop dphys-swapfile
-$ sudo systemctl disable dphys-swapfile
+sudo swapoff --all
+sudo systemctl stop dphys-swapfile
+sudo systemctl disable dphys-swapfile
 ```
 
 #### 時刻同期
@@ -120,13 +120,13 @@ $ sudo systemctl disable bluetooth.service
 #### WiFi無効化
 
 ``` shell
-$ sudo iwconfig wlan0 txpower off
+sudo iwconfig wlan0 txpower off
 ```
 
 #### ハードウェアエンコード有効化
 
 ``` shell
-$ echo 'SUBSYSTEM=="vchiq",GROUP="video",MODE="0666"' | sudo tee /etc/udev/rules.d/10-vchiq-permissions.rules
+echo 'SUBSYSTEM=="vchiq",GROUP="video",MODE="0666"' | sudo tee /etc/udev/rules.d/10-vchiq-permissions.rules
 ```
 
 #### 外付けHDDをマウント
@@ -152,9 +152,9 @@ $ sudo chmod 777 /mnt/recorded
 メジャーなチューナーなので方法は検索すればすぐ見つかる。
 
 ``` shell
-$ wget http://plex-net.co.jp/plex/px-s1ud/PX-S1UD_driver_Ver.1.0.1.zip
-$ unzip PX-S1UD_driver_Ver.1.0.1.zip
-$ sudo cp PX-S1UD_driver_Ver.1.0.1/x64/amd64/isdbt_rio.inp /lib/firmware/
+wget http://plex-net.co.jp/plex/px-s1ud/PX-S1UD_driver_Ver.1.0.1.zip
+unzip PX-S1UD_driver_Ver.1.0.1.zip
+sudo cp PX-S1UD_driver_Ver.1.0.1/x64/amd64/isdbt_rio.inp /lib/firmware/
 ```
 
 ### カードリーダー
@@ -162,8 +162,8 @@ $ sudo cp PX-S1UD_driver_Ver.1.0.1/x64/amd64/isdbt_rio.inp /lib/firmware/
 これは不要かもしれない
 
 ``` shell
-$ sudo apt install pcscd pcsc-tools libccid
-$ sudo pcsc_scan
+sudo apt install pcscd pcsc-tools libccid
+sudo pcsc_scan
 ```
 
 最後に「Japanese Chijou Digital B-CAS Card (pay TV)」という文字列が表示される。
@@ -172,8 +172,8 @@ Ctrl-Cで終了。
 ### Docker
 
 ``` shell
-$ curl -sSL https://get.docker.com/ | CHANNEL=stable sh
-$ sudo usermod -aG docker $USER
+curl -sSL https://get.docker.com/ | CHANNEL=stable sh
+sudo usermod -aG docker $USER
 ```
 
 最後の`usermod`はpiユーザでsudoなしで`docker`コマンドを実行できるようにするため。  
@@ -190,8 +190,8 @@ $ sudo usermod -aG docker $USER
 [uyorum/rpi-docker-mirakurun-epgstation: Mirakurun + EPGStation on Docker tuned for Raspberry Pi](https://github.com/uyorum/rpi-docker-mirakurun-epgstation)
 
 ``` shell
-$ curl -sf https://raw.githubusercontent.com/uyorum/rpi-docker-mirakurun-epgstation/v2/setup.sh | sh -s
-$ cd rpi-docker-mirakurun-epgstation
+curl -sf https://raw.githubusercontent.com/uyorum/rpi-docker-mirakurun-epgstation/v2/setup.sh | sh -s
+cd rpi-docker-mirakurun-epgstation
 ```
 
 `mirakurun/conf/channels.yml`と`docker-compose.yml`を適宜編集する。
@@ -212,23 +212,23 @@ $ cd rpi-docker-mirakurun-epgstation
 編集が終わったら以下のコマンドでコンテナを起動する。初回はイメージのビルドとともにffmpegをビルドするので数十分かかる。
 
 ``` shell
-$ docker compose up -d
+docker compose up -d
 ```
 
 コンテナが無事起動したらチャンネルスキャンを実行しておく。
 
 ``` shell
-$ curl -X PUT "http://localhost:40772/api/config/channels/scan"
+curl -X PUT "http://localhost:40772/api/config/channels/scan"
 ```
 
 これで`http://IP:8888`にアクセスすればEPGStationのWebUIが表示される。
 
 以上
 
-{{< affiliate asin="B081YD3VL5" title="【国内正規代理店品】Raspberry Pi4 ModelB 4GB ラズベリーパイ4 技適対応品【RS・OKdo版】" >}}
-
 ## 参考
 
 * [uyorum/rpi-docker-mirakurun-epgstation: Mirakurun + EPGStation on Docker tuned for Raspberry Pi](https://github.com/uyorum/rpi-docker-mirakurun-epgstation)
 * [Raspberry Pi 4とdocker-mirakurun-epgstationで録画サーバーを構築する (2021年4月版) - 酢ろぐ！](https://blog.ch3cooh.jp/entry/2021/04/06/200732#%E3%83%A9%E3%82%BA%E3%83%91%E3%82%A4%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%83%8F%E3%83%BC%E3%83%89%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%A8%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E6%9C%89%E5%8A%B9%E5%8C%96)
 * [【ラズパイ】テレビ録画サーバーの設定 - 車輪日記](https://bowmiow.net/garage/raspi-tv2/#toc2)
+
+{{< affiliate asin="B081YD3VL5" title="【国内正規代理店品】Raspberry Pi4 ModelB 4GB ラズベリーパイ4 技適対応品【RS・OKdo版】" >}}
