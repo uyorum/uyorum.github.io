@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Thu, 05 Jan 2023 20:07:45 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 Jan 2023 19:03:24 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(ホスト名ベース)</title>
+      <link>https://blog.uyorum.net/post/cloudflare-zero-trust-private-hostnane/</link>
+      <pubDate>Fri, 06 Jan 2023 19:03:24 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/cloudflare-zero-trust-private-hostnane/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../cloudflare-zero-trust-private-ip/&#34;&gt;前回&lt;/a&gt;の続き。
+前回はアドレスでアクセスしましたが今回はイントラのホスト名でアクセスできるようにします。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>RHELのサブスクリプションをCloud AccessでAWSに持ち込む</title>
       <link>https://blog.uyorum.net/post/rhel-cloud-access-aws/</link>
@@ -18,13 +28,13 @@
     </item>
     
     <item>
-      <title>Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(Private network)</title>
-      <link>https://blog.uyorum.net/post/cloudflare-warp-to-tunnel-with-private-network/</link>
+      <title>Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(IPアドレスベース)</title>
+      <link>https://blog.uyorum.net/post/cloudflare-zero-trust-private-ip/</link>
       <pubDate>Thu, 05 Jan 2023 00:41:04 +0900</pubDate>
       
-      <guid>https://blog.uyorum.net/post/cloudflare-warp-to-tunnel-with-private-network/</guid>
+      <guid>https://blog.uyorum.net/post/cloudflare-zero-trust-private-ip/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;../cloudflare-tunnel-edgerouter-x/&#34;&gt;前回&lt;/a&gt;の続き。&lt;br&gt;
-&lt;a href=&#34;../cloudflare-zero-trust-01/&#34;&gt;前々回&lt;/a&gt;と組み合わせてWARPクライアントとTunnelが用意できたので、当初の目的であるWARPクライアントからイントラネットへアクセスする設定を行っていきます。&lt;/p&gt;</description>
+&lt;a href=&#34;../cloudflare-zero-trust-warp/&#34;&gt;前々回&lt;/a&gt;と組み合わせてWARPクライアントとTunnelが用意できたので、当初の目的であるWARPクライアントからイントラネットへアクセスする設定を行っていきます。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -33,7 +43,7 @@
       <pubDate>Tue, 03 Jan 2023 20:17:19 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/post/cloudflare-tunnel-edgerouter-x/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;../cloudflare-zero-trust-01/&#34;&gt;前回&lt;/a&gt;の続き。&lt;br&gt;
+      <description>&lt;p&gt;&lt;a href=&#34;../cloudflare-zero-trust-warp/&#34;&gt;前回&lt;/a&gt;の続き。&lt;br&gt;
 WARPとCloudflare Tunnelを組み合わせて自宅をインターネットへ公開することなく自宅VPNのようなことを実現しようとしているところです。&lt;/p&gt;</description>
     </item>
     
@@ -61,10 +71,10 @@ SteamOSとWindowsで内蔵ディスクを半分ずつにしたのでどちらの
     
     <item>
       <title>Cloudflare Zero TrustにAndroidを接続するまで（最短経路）</title>
-      <link>https://blog.uyorum.net/post/cloudflare-zero-trust-01/</link>
+      <link>https://blog.uyorum.net/post/cloudflare-zero-trust-warp/</link>
       <pubDate>Fri, 16 Dec 2022 21:18:59 +0900</pubDate>
       
-      <guid>https://blog.uyorum.net/post/cloudflare-zero-trust-01/</guid>
+      <guid>https://blog.uyorum.net/post/cloudflare-zero-trust-warp/</guid>
       <description>&lt;p&gt;Cloudflare Zero Trustを自宅やクラウドを繋げるVPN代わりに使いたかったのでまずはAndroid端末を接続できるようにする。&lt;/p&gt;</description>
     </item>
     

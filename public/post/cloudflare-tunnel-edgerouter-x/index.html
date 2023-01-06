@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.83.1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -74,7 +74,7 @@
 
     </span>
     <section itemprop="entry-text">
-      <p><a href="../cloudflare-zero-trust-01/">前回</a>の続き。<br>
+      <p><a href="../cloudflare-zero-trust-warp/">前回</a>の続き。<br>
 WARPとCloudflare Tunnelを組み合わせて自宅をインターネットへ公開することなく自宅VPNのようなことを実現しようとしているところです。</p>
 <h2 id="手順">手順</h2>
 <p>機種は違いますが<a href="https://github.com/cloudflare/cloudflared/issues/19">GitHub</a>にCloudflredを独自に導入する手順を公開されている方がいました。
@@ -184,6 +184,12 @@ ER-X自身もSystemdが動いているのでこの仕組みに乗っかればよ
 <p>Access &gt; Tunnels からTunnelのConfigureをクリックし「Start migration」へ進みます。
 出てきたダイアログをCofirmしていけばmigrateが完了します。</p>
 <p>いったん以上です。WARPクライアントからLANにアクセスするための設定は別の記事にまとめます。</p>
+<h2 id="余談">余談</h2>
+<p>実は我が家のEdgeRouterはグローバルアドレスを持っていません。(光回線のHGWが持っている)<br>
+EdgeRouterはNAPTでインターネットへ出ていく構成なんですが、そのような構成でも全く問題なくTunnelにつなげることができました。<br>
+マンションに付属のインターネット回線等、各戸にグローバルアドレスが割り当てられない状況でも自宅につながるVPN網を構築したり、自宅のサーバをインターネットへ公開することができるので、そういう状況では特に便利ですね。</p>
+<p>私も一時期そのようなマンションに住んでいたのですが、その時は<a href="../publish-with-openvpn-1/">こんなこと</a>をやってました。
+それがサービスで、しかも無料で実現できるのは素晴らしいです。</p>
 <h2 id="参考">参考</h2>
 <ul>
 <li><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/">Via the command line · Cloudflare Zero Trust docs</a></li>
@@ -229,7 +235,7 @@ ER-X自身もSystemdが動いているのでこの仕組みに乗っかればよ
 <h1>関連記事</h1>
 <ul>
   
-  <li><a href="/post/cloudflare-zero-trust-01/">Cloudflare Zero TrustにAndroidを接続するまで（最短経路）</a></li>
+  <li><a href="/post/cloudflare-zero-trust-warp/">Cloudflare Zero TrustにAndroidを接続するまで（最短経路）</a></li>
   
 </ul>
 

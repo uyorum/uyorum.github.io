@@ -1,27 +1,19 @@
 +++
 slug = ""
 tags = ["cloudflare"]
-title = "Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(Private network)"
+title = "Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(IPアドレスベース)"
 date = "2023-01-05T00:41:04+09:00"
 +++
 
 [前回](../cloudflare-tunnel-edgerouter-x/)の続き。  
-[前々回](../cloudflare-zero-trust-01/)と組み合わせてWARPクライアントとTunnelが用意できたので、当初の目的であるWARPクライアントからイントラネットへアクセスする設定を行っていきます。
+[前々回](../cloudflare-zero-trust-warp/)と組み合わせてWARPクライアントとTunnelが用意できたので、当初の目的であるWARPクライアントからイントラネットへアクセスする設定を行っていきます。
 
 <!--more-->
 
-
-## 2つの方式
-
-Cloudflare Zero TrustのVPN網からTunnel(cloudflared)側のサービスへアクセスする際、「IPベース」と「DNSベース」の2つの方式があります。
-Cloudflareのドキュメントでは前者は「Private networks」、後者は「Public hostnames」と呼ばれています。
-
-簡単のため今回は前者のPrivate networksの方式を採用します。
-
 ## 手順
 
-WARPクライアントとTunnelはそれぞれすでに接続済であるとします。
-
+WARPクライアントとTunnelはそれぞれすでに接続済であるとします。  
+また、簡単のため今回はWARPからイントラのサービスへIPアドレスでアクセスすることにします。ホスト名でアクセスできるようにする方法は別途調べて記事にしようと思います。
 
 ### Tunnel側のCIDRを登録
 

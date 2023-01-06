@@ -1,609 +1,370 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://blog.uyorum.net/</loc>
-    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2023-01-06T19:03:24+09:00</lastmod>
+  </url><url>
+    <loc>https://blog.uyorum.net/tags/cloudflare/</loc>
+    <lastmod>2023-01-06T19:03:24+09:00</lastmod>
+  </url><url>
+    <loc>https://blog.uyorum.net/post/cloudflare-zero-trust-private-hostnane/</loc>
+    <lastmod>2023-01-06T19:03:24+09:00</lastmod>
+  </url><url>
     <loc>https://blog.uyorum.net/post/</loc>
-    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2023-01-06T19:03:24+09:00</lastmod>
+  </url><url>
+    <loc>https://blog.uyorum.net/tags/</loc>
+    <lastmod>2023-01-06T19:03:24+09:00</lastmod>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/rhel/</loc>
     <lastmod>2023-01-05T20:07:45+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/rhel-cloud-access-aws/</loc>
     <lastmod>2023-01-05T20:07:45+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.uyorum.net/tags/</loc>
-    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.uyorum.net/tags/cloudflare/</loc>
+  </url><url>
+    <loc>https://blog.uyorum.net/post/cloudflare-zero-trust-private-ip/</loc>
     <lastmod>2023-01-05T00:41:04+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.uyorum.net/post/cloudflare-warp-to-tunnel-with-private-network/</loc>
-    <lastmod>2023-01-05T00:41:04+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/cloudflare-tunnel-edgerouter-x/</loc>
     <lastmod>2023-01-03T20:17:19+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/raspberrypi-mirakurun-epgstation/</loc>
     <lastmod>2023-01-02T16:46:36+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/steamdeck/</loc>
     <lastmod>2022-12-19T22:43:20+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/steam-deck-windows-sd-card/</loc>
     <lastmod>2022-12-19T22:43:20+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.uyorum.net/post/cloudflare-zero-trust-01/</loc>
+  </url><url>
+    <loc>https://blog.uyorum.net/post/cloudflare-zero-trust-warp/</loc>
     <lastmod>2022-12-16T21:18:59+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/chromeos/</loc>
     <lastmod>2022-10-18T23:57:14+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/chromeos-crostini-input-japanese/</loc>
     <lastmod>2022-10-18T23:57:14+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/fortigate/</loc>
     <lastmod>2022-10-06T00:02:27+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/fortigate-rpf/</loc>
     <lastmod>2022-10-06T00:02:27+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/build-ruby-container/</loc>
     <lastmod>2021-05-06T15:07:29+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/docker/</loc>
     <lastmod>2021-05-06T15:07:29+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/ruby/</loc>
     <lastmod>2021-05-06T15:07:29+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/hugo/</loc>
     <lastmod>2021-05-04T20:05:25+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/redirect-on-hugo/</loc>
     <lastmod>2021-05-04T20:05:25+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/%E3%83%96%E3%83%AD%E3%82%B0/</loc>
     <lastmod>2021-05-04T20:05:25+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/podman/</loc>
     <lastmod>2021-04-14T21:55:17+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/windows/</loc>
     <lastmod>2021-04-14T21:55:17+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/wsl/</loc>
     <lastmod>2021-04-14T21:55:17+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/podman-on-wsl2/</loc>
     <lastmod>2021-04-14T21:55:17+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/kubernetes/</loc>
     <lastmod>2021-04-04T22:18:27+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/raspberry-pi/</loc>
     <lastmod>2021-04-04T22:18:27+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/k8s-on-rpi4/</loc>
     <lastmod>2021-04-04T22:18:27+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/3d%E3%83%97%E3%83%AA%E3%83%B3%E3%82%BF/</loc>
     <lastmod>2020-09-16T20:36:56+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/install-octoprint-raspbian/</loc>
     <lastmod>2020-09-16T20:36:56+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/%E3%82%AC%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/</loc>
     <lastmod>2020-09-16T20:36:56+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/3d-printer-1/</loc>
     <lastmod>2020-09-06T13:34:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/linux/</loc>
     <lastmod>2020-05-20T23:43:30+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/ubuntu/</loc>
     <lastmod>2020-05-20T23:43:30+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/ubuntu-custom-keymap/</loc>
     <lastmod>2020-05-20T23:43:30+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/ubuntu-multitouch/</loc>
     <lastmod>2020-05-17T21:12:10+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/centos/</loc>
     <lastmod>2019-07-04T20:32:07+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/fail2ban-1/</loc>
     <lastmod>2019-07-04T20:32:07+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/buffalo-ethernet-converter/</loc>
     <lastmod>2019-06-04T22:38:40+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/it%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9/</loc>
     <lastmod>2019-01-16T13:06:37+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/designing-facility-layer-02/</loc>
     <lastmod>2019-01-16T13:06:37+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/designing-facility-layer-01/</loc>
     <lastmod>2018-12-16T12:58:08+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/lets-encrypt/</loc>
     <lastmod>2018-12-15T18:19:48+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/nginx/</loc>
     <lastmod>2018-12-15T18:19:48+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/letsencrypt-nginx/</loc>
     <lastmod>2018-12-15T18:19:48+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/dd-wrt/</loc>
     <lastmod>2018-10-28T17:52:09+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/openvpn/</loc>
     <lastmod>2018-10-28T17:52:09+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/publish-with-openvpn-1/</loc>
     <lastmod>2018-10-28T17:52:09+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/home-assistant/</loc>
     <lastmod>2018-06-28T15:06:06+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/hassio-introduction/</loc>
     <lastmod>2018-06-28T15:06:06+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/</loc>
     <lastmod>2018-06-28T15:06:06+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/zabbix/</loc>
     <lastmod>2018-06-12T10:19:17+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/security-settings-for-zabbix-agent/</loc>
     <lastmod>2018-06-12T10:19:17+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/fp/</loc>
     <lastmod>2018-05-27T18:23:33+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/fp-l3/</loc>
     <lastmod>2018-05-27T18:23:33+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/home-automation-2017/</loc>
     <lastmod>2017-12-30T00:15:15+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/factorybot/</loc>
     <lastmod>2017-12-29T17:17:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/factorybot-1/</loc>
     <lastmod>2017-12-29T17:17:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/rspec/</loc>
     <lastmod>2017-12-29T17:17:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/rspec-faker-1/</loc>
     <lastmod>2017-12-28T18:19:55+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/trago-smart-cap/</loc>
     <lastmod>2017-12-03T17:48:36+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/esp32/</loc>
     <lastmod>2017-09-02T10:41:35+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-02/</loc>
     <lastmod>2017-09-02T10:41:35+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/mongooseos/</loc>
     <lastmod>2017-09-02T10:41:35+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/tsl2561-with-mongoose-os-on-esp32-01/</loc>
     <lastmod>2017-08-02T20:53:04+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/fitbit-charge2-bands/</loc>
     <lastmod>2017-07-03T21:10:46+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/infrastructure-as-code-chap6-9/</loc>
     <lastmod>2017-06-29T21:52:49+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/%E8%AA%AD%E6%9B%B8/</loc>
     <lastmod>2017-06-29T21:52:49+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/infrastructure-as-code-chap5/</loc>
     <lastmod>2017-06-21T22:47:39+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/choosing-smart-water-bottle/</loc>
     <lastmod>2017-06-18T16:56:40+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/infrastructure-as-code-chap4/</loc>
     <lastmod>2017-06-17T18:17:36+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/infrastructure-as-code-chap3/</loc>
     <lastmod>2017-06-15T23:14:55+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/infrastructure-as-code-chap2/</loc>
     <lastmod>2017-06-12T20:48:25+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/infrastructure-as-code-chap1/</loc>
     <lastmod>2017-06-11T19:05:42+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/home-assistant-with-dash-button/</loc>
     <lastmod>2017-06-10T20:20:04+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/home-assistant-gpio/</loc>
     <lastmod>2017-04-23T21:33:54+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/home-assistant-install/</loc>
     <lastmod>2017-04-22T21:48:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/ruby-on-rails/</loc>
     <lastmod>2017-03-01T23:01:28+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/rails-asset-pipeline-1/</loc>
     <lastmod>2017-03-01T23:01:28+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/apollo7-1/</loc>
     <lastmod>2016-10-09T17:39:14+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/xtrabackup-1/</loc>
     <lastmod>2016-09-12T19:19:36+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/cross2016/</loc>
     <lastmod>2016-02-06T20:44:03+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/it%E5%8B%89%E5%BC%B7%E4%BC%9A/</loc>
     <lastmod>2016-02-06T20:44:03+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/hyper-v/</loc>
     <lastmod>2015-11-09T23:28:41+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/get-ip-in-hyperv/</loc>
     <lastmod>2015-11-09T23:28:41+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/ffmpeg/</loc>
     <lastmod>2015-10-15T21:15:02+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/create-blank-video-with-ffmpeg/</loc>
     <lastmod>2015-10-15T21:15:02+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/coreos/</loc>
     <lastmod>2015-09-04T23:01:54+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/learning-coreos-01/</loc>
     <lastmod>2015-09-04T23:01:54+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/yapc2015/</loc>
     <lastmod>2015-08-23T21:12:10+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/golang/</loc>
     <lastmod>2015-08-02T22:17:45+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/learning-go-04/</loc>
     <lastmod>2015-08-02T22:17:45+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/learning-go-03/</loc>
     <lastmod>2015-08-02T01:19:12+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/learning-go-02/</loc>
     <lastmod>2015-07-29T23:07:42+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/learning-go-01/</loc>
     <lastmod>2015-07-29T00:30:49+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3/</loc>
     <lastmod>2015-07-24T22:57:11+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/hotp/</loc>
     <lastmod>2015-07-24T22:57:11+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/macos/</loc>
     <lastmod>2015-07-21T23:52:37+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/boot2docker-xhyve/</loc>
     <lastmod>2015-07-21T23:52:37+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/chef/</loc>
     <lastmod>2015-07-16T21:50:16+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/how-to-berkshelf/</loc>
     <lastmod>2015-07-16T21:50:16+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/openvpn-on-dd-wrt/</loc>
     <lastmod>2015-03-29T20:56:18+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/octopress/</loc>
     <lastmod>2015-02-22T22:16:12+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/setup-octopress/</loc>
     <lastmod>2015-02-22T22:16:12+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/xmonad-change-modmask/</loc>
     <lastmod>2015-02-22T19:04:51+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/custom-octopress/</loc>
     <lastmod>2014-04-22T23:10:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/coder-for-pi/</loc>
     <lastmod>2013-10-06T11:20:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/esxi/</loc>
     <lastmod>2013-09-24T22:01:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/esxi-03/</loc>
     <lastmod>2013-09-24T22:01:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/nuc/</loc>
     <lastmod>2013-09-24T22:01:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/esxi-02/</loc>
     <lastmod>2013-09-23T22:58:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/esxi-01/</loc>
     <lastmod>2013-09-23T22:28:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/about-rpm/</loc>
     <lastmod>2013-09-21T21:59:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/emacs/</loc>
     <lastmod>2013-09-21T09:55:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/install-org-googlecl/</loc>
     <lastmod>2013-09-21T09:55:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/android/</loc>
     <lastmod>2013-09-20T22:44:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/debian-on-android/</loc>
     <lastmod>2013-09-20T22:44:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/tags/debian/</loc>
     <lastmod>2013-09-20T22:44:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/post/first-post/</loc>
     <lastmod>2013-09-20T22:42:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.uyorum.net/categories/</loc>
   </url>
-  
 </urlset>
