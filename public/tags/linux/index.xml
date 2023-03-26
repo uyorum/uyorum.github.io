@@ -17,9 +17,9 @@
       <description>前回に引き続き、久しぶりにUbuntuを触ったらてこずったのでメモ。
 Linuxでキーマップをカスタマイズする方法といったらXmodmapだったが現在は違うらしい。 Xmodmapでも一時的にキーマップは変わるが、いつのまにか元に戻ってしまう。 代わりに現在ではxkbというものを使うらしい。
 調べたところ設定方法はいくつかありそうだった
- ルールを使う キーマップを上書きする 新しいキーボードレイアウトを定義する  自分の場合はキーマップの設定はdotfilesで管理したいため2番目の方法を採用した。 ホームディレクトリ以下に追加のキーマップを定義するファイルを作成し、ログイン後に読み込むことにする。
+ルールを使う キーマップを上書きする 新しいキーボードレイアウトを定義する 自分の場合はキーマップの設定はdotfilesで管理したいため2番目の方法を採用した。 ホームディレクトリ以下に追加のキーマップを定義するファイルを作成し、ログイン後に読み込むことにする。
 設定したいキーマップ 以下のようにキーマップに変更したい。
- Caps Lock を Control へ 無変換 を Control へ 変換 を Shift へ (Apple Magic Keyboard) 英数 を Control へ (Apple Magic Keyboard) かな を Control へ  xkbのドキュメントをすべて読めば書き方がわかるのかもしれないが、よくわからなかったのでひとまずネット上の記事を参考にして書いた。
+Caps Lock を Control へ 無変換 を Control へ 変換 を Shift へ (Apple Magic Keyboard) 英数 を Control へ (Apple Magic Keyboard) かな を Control へ xkbのドキュメントをすべて読めば書き方がわかるのかもしれないが、よくわからなかったのでひとまずネット上の記事を参考にして書いた。
 $ mkdir -p $HOME/.xkb/symbols $ cat - &amp;lt;&amp;lt;EOF &amp;gt;$HOME/.xkb/symbols/custom partial modifier_keys xkb_symbols { key &amp;lt;CAPS&amp;gt; { [ Control_L, Control_L ] }; modifier_map Control { &amp;lt;CAPS&amp;gt; }; key &amp;lt;MUHE&amp;gt; { [ Control_L, Control_L ] }; modifier_map Control { &amp;lt;MUHE&amp;gt; }; key &amp;lt;HENK&amp;gt; { [ Shift_R ] }; modifier_map Shift { &amp;lt;HENK&amp;gt; }; key &amp;lt;HJCV&amp;gt; { [ Control_L, Control_L ] }; modifier_map Control { &amp;lt;HJCV&amp;gt; }; key &amp;lt;HNGL&amp;gt; { [ Shift_R ] }; modifier_map Shift { &amp;lt;HNGL&amp;gt; }; }; EOF CAPS、MUHEなどの文字列は</description>
     </item>
     
@@ -30,8 +30,8 @@ $ mkdir -p $HOME/.xkb/symbols $ cat - &amp;lt;&amp;lt;EOF &amp;gt;$HOME/.xkb/sym
       
       <guid>https://blog.uyorum.net/post/ubuntu-multitouch/</guid>
       <description>久しぶりにデスクトップをUbuntuにしてみたところ、Magic Trackpadのジェスチャーの設定に苦戦したのでメモ。
-環境  Ubuntu 20.04 X11 GNOME Magic Trackpad (2じゃない)  設定 普通にペアリングしてタッチパッドの設定から以下の動作は設定できるようになる。
- スクロール方向 左右クリック 2本指スクロール  基本的にはこれでも十分使えるのだが、自分の場合は3本指スワイプで戻る・進む動作をさせたかったので方法を調べてみた。 Ubuntu wikiではginnというツールが紹介されている。 またいろいろとググっているとtoucheggというツールも見つかる。 どちらも試してみたが自分の環境ではどちらも期待通りに動かなかった。
+環境 Ubuntu 20.04 X11 GNOME Magic Trackpad (2じゃない) 設定 普通にペアリングしてタッチパッドの設定から以下の動作は設定できるようになる。
+スクロール方向 左右クリック 2本指スクロール 基本的にはこれでも十分使えるのだが、自分の場合は3本指スワイプで戻る・進む動作をさせたかったので方法を調べてみた。 Ubuntu wikiではginnというツールが紹介されている。 またいろいろとググっているとtoucheggというツールも見つかる。 どちらも試してみたが自分の環境ではどちらも期待通りに動かなかった。
 ドライバまわりの話 自分の中でLinuxでタッチパッド周りのドライバといえばSynapticsだったが現在はSynapticsは開発されておらず、 代わりにlibinputというドライバが使われるようになっているらしい。
 実際にMagic Trackpadにはlibinputが使われている模様。
 $ xinput list | grep -i trackpad ⎜ ↳ Magic Trackpad id=10 [slave pointer (2)] $ xinput list-props 10 Device &amp;#39;Magic Trackpad&amp;#39;: Device Enabled (168): 1 Coordinate Transformation Matrix (170): 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000 libinput Tapping Enabled (303): 1 libinput Tapping Enabled Default (304): 0 libinput Tapping Drag Enabled (305): 1 libinput Tapping Drag Enabled Default (306): 1 libinput Tapping Drag Lock Enabled (307): 0 libinput Tapping Drag Lock Enabled Default (308): 0 libinput Tapping Button Mapping Enabled (309): 1, 0 libinput Tapping Button Mapping Default (310): 1, 0 libinput Natural Scrolling Enabled (311): 0 libinput Natural Scrolling Enabled Default (312): 0 libinput Scroll Methods Available (313): 1, 1, 0 libinput Scroll Method Enabled (314): 1, 0, 0 libinput Scroll Method Enabled Default (315): 1, 0, 0 libinput Click Methods Available (316): 1, 1 libinput Click Method Enabled (317): 0, 1 libinput Click Method Enabled Default (318): 0, 1 libinput Middle Emulation Enabled (319): 0 libinput Middle Emulation Enabled Default (320): 0 libinput Accel Speed (321): 0.</description>
@@ -44,19 +44,21 @@ $ xinput list | grep -i trackpad ⎜ ↳ Magic Trackpad id=10 [slave pointer (2)
       
       <guid>https://blog.uyorum.net/post/fail2ban-1/</guid>
       <description>久しぶりにfail2banを使ったら設定方法を調べるのに苦戦したのでメモ
-やりたいこと  以下のようなアクセスを行なったIPアドレスをBotとみなす  SSHで認証に失敗したアクセスの送信元アドレス HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレス   BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする 一度BotとみなしたIPアドレスは永久にブロックする  環境 # cat /etc/redhat-release CentOS Linux release 7.6.1810 (Core) # yum list fail2ban fail2ban.noarch 0.9.7-1.el7 @epel 情報源 いろいろ調べたが結局manが一番参考になるし信用できる．
+やりたいこと 以下のようなアクセスを行なったIPアドレスをBotとみなす SSHで認証に失敗したアクセスの送信元アドレス HTTPやHTTPSでよくある攻撃対象のパスへアクセスしてきた送信元アドレス BotとみなしたIPアドレスからのアクセスは以後すべてのポートでDROPするようにする 一度BotとみなしたIPアドレスは永久にブロックする 環境 # cat /etc/redhat-release CentOS Linux release 7.6.1810 (Core) # yum list fail2ban fail2ban.noarch 0.9.7-1.el7 @epel 情報源 いろいろ調べたが結局manが一番参考になるし信用できる．
 man fail2ban man jail.conf man ipset インストール # yum install -y fail2ban 設定ファイル類 設定ファイルは/etc/fail2banに集まっている．
- fail2ban.conf
+fail2ban.conf
 fail2ban全般の設定を書く．変更するとしたらログレベルやログファイルのパスくらい． jail.conf
 filterとactionの組み合わせ(この記事ではルールと呼ぶことにする)をここで定義していく．デフォルトでいくつか定義されているがすべて無効化されている．
 またjail.d/*.confも読み込むようになっている． filter.d/*.conf
 どのログをどんな正規表現で監視するか(filter)を定義する action.d/*.conf
-IPをブロックする方法(action)を定義する  設定ファイルの書き方 デフォルトでは.confファイルが作成されているが，これらのファイルは編集せずに同名の.localファイルを同じディレクトリに作る方法が推奨されている． .confのうち上書きしたい部分だけを.localファイルに書けばその部分だけ上書きされる．
+IPをブロックする方法(action)を定義する 設定ファイルの書き方 デフォルトでは.confファイルが作成されているが，これらのファイルは編集せずに同名の.localファイルを同じディレクトリに作る方法が推奨されている． .confのうち上書きしたい部分だけを.localファイルに書けばその部分だけ上書きされる．
 jailの設定は各ルール共通の設定をjail.localに書き，各ルールの設定と有効化をjail.d/*.localに書くことにするときれいに管理できそう．
-fail2banのしくみ  jailのlogpathに設定したログファイルをtail jailのfilterに設定した条件(ログイン失敗など)に一致したログをカウント
+fail2banのしくみ jailのlogpathに設定したログファイルをtail jailのfilterに設定した条件(ログイン失敗など)に一致したログをカウント
 このときログに含まれる「アクセス元IPアドレス」も認識しておく 設定した頻度に逹したIPアドレスをブロック
-ブロックの手段はjailのbanactionで設定する  設定 上に書いたやりたいことを実現すべく設定していく．
-SSHで認証に失敗したアクセスの送信元アドレスをBotとみなす jail.</description>
+ブロックの手段はjailのbanactionで設定する 設定 上に書いたやりたいことを実現すべく設定していく．
+SSHで認証に失敗したアクセスの送信元アドレスをBotとみなす jail.confにははじめから以下の内容が書かれている(抜粋)
+jail.conf:
+[DEFAULT] enabled = false filter = %(__name__)s [sshd] port = ssh logpath = %(sshd_log)s backend = %(sshd_backend)s sshdjailは定義されているが無効化されている filter名はsshd(fail名と同名) sshd_logの値は別ファイルで定義されている パラメータはこのままでよさそうなのでこのjailを有効化する</description>
     </item>
     
     <item>
@@ -67,9 +69,11 @@ SSHで認証に失敗したアクセスの送信元アドレスをBotとみな�
       <guid>https://blog.uyorum.net/post/letsencrypt-nginx/</guid>
       <description>自分なりのベストな設定をメモ
 環境 $ cat /etc/redhat-release CentOS Linux release 7.6.1810 (Core) $ rpm -q certbot nginx certbot-0.29.1-1.el7.noarch nginx-1.12.2-2.el7.x86_64 証明書の新規発行 WebサーバにNginxを使用しているような環境で，Certbotを使って(更新を含む)証明書を発行するには以下 のような方法が考えられる．
-   Plugin 概要     Webroot 指定したディレクトリにトークンを配置し，任意のWebサーバ(今回の環境ではNginxを使うことになるだろう)で公開することで認証を行う   Nginx Nginxを使用して認証を行う．また取得した証明書を使うようNginxを自動で設定する   Standalone Certbot自身がHTTPをListenして認証を行う   DNS 取得したい証明書のドメインのTXTレコードにトークンを登録することで認証を行う    DNS Pluginを使えば認証のためにサーバを設定する必要がなくなるためベストなのだと思うが，自分が使用しているDNSサービス(No-IP)ではTXTレコードを設定できないため却下．Nginxの設定は自分で管理したいためNginx Pluginも却下． Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(ほぼ)デフォルトの設定で起動させて証明書を取得後，証明書を使うようNginxの設定を変更してからNginxを再起動するという面倒な手順になる．そのため，証明書の新規発行はNginxを起動させる前にStandalone Pluginで行う(既にNginxが起動していた場合は80番ポートが競合することになるためうまくいかない)．
+Plugin 概要 Webroot 指定したディレクトリにトークンを配置し，任意のWebサーバ(今回の環境ではNginxを使うことになるだろう)で公開することで認証を行う Nginx Nginxを使用して認証を行う．また取得した証明書を使うようNginxを自動で設定する Standalone Certbot自身がHTTPをListenして認証を行う DNS 取得したい証明書のドメインのTXTレコードにトークンを登録することで認証を行う DNS Pluginを使えば認証のためにサーバを設定する必要がなくなるためベストなのだと思うが，自分が使用しているDNSサービス(No-IP)ではTXTレコードを設定できないため却下．Nginxの設定は自分で管理したいためNginx Pluginも却下． Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(ほぼ)デフォルトの設定で起動させて証明書を取得後，証明書を使うようNginxの設定を変更してからNginxを再起動するという面倒な手順になる．そのため，証明書の新規発行はNginxを起動させる前にStandalone Pluginで行う(既にNginxが起動していた場合は80番ポートが競合することになるためうまくいかない)．
 # certbot certonly --standalone -d &amp;lt;DOMAIN NAME&amp;gt; -m &amp;lt;MAIL ADDRESS&amp;gt; --agree-tos -n これにより以下のファイルが作成される
- サーバ証明書…/etc/letsencrypt/live//fullchain.pem 秘密鍵…/etc/letsencrypt/live//privkey.pem  これらを使用するようNginxを設定すればよい．</description>
+サーバ証明書…/etc/letsencrypt/live//fullchain.pem 秘密鍵…/etc/letsencrypt/live//privkey.pem これらを使用するようNginxを設定すればよい．
+証明書の更新 以降はNginxが起動しているはずだ．Nginxが80番ポートをListenしないよう設定しているならよいが，自分の環境ではHTTPをHTTPSへリダイレクトするようにしたかったためNginxは80番ポートもListenしている． そのため証明書の更新ではStandalone Pluginは使えない．1 そこで証明書の更新はWebroot Pluginと既に起動中のNginxを使うことにする．Nginxにはそのための設定をあらかじめ入れておく．2
+server { listen 80; listen [::]:80; server_name &amp;lt;DOMAIN NAME&amp;gt;; # Load configuration files for the default server block.</description>
     </item>
     
     <item>

@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -76,12 +76,12 @@
     <section itemprop="entry-text">
       <p>自分なりのベストな設定をメモ</p>
 <h1 id="環境">環境</h1>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /etc/redhat-release
-CentOS Linux release 7.6.1810 <span class="o">(</span>Core<span class="o">)</span>
-$ rpm -q certbot nginx
-certbot-0.29.1-1.el7.noarch
-nginx-1.12.2-2.el7.x86_64
-</code></pre></div><h1 id="証明書の新規発行">証明書の新規発行</h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat /etc/redhat-release
+</span></span><span class="line"><span class="cl">CentOS Linux release 7.6.1810 <span class="o">(</span>Core<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ rpm -q certbot nginx
+</span></span><span class="line"><span class="cl">certbot-0.29.1-1.el7.noarch
+</span></span><span class="line"><span class="cl">nginx-1.12.2-2.el7.x86_64
+</span></span></code></pre></div><h1 id="証明書の新規発行">証明書の新規発行</h1>
 <p>WebサーバにNginxを使用しているような環境で，Certbotを使って(更新を含む)証明書を発行するには以下
 のような方法が考えられる．</p>
 <table>
@@ -112,8 +112,8 @@ nginx-1.12.2-2.el7.x86_64
 </table>
 <p>DNS Pluginを使えば認証のためにサーバを設定する必要がなくなるためベストなのだと思うが，自分が使用しているDNSサービス(No-IP)ではTXTレコードを設定できないため却下．Nginxの設定は自分で管理したいためNginx Pluginも却下．
 Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(ほぼ)デフォルトの設定で起動させて証明書を取得後，証明書を使うようNginxの設定を変更してからNginxを再起動するという面倒な手順になる．そのため，証明書の新規発行はNginxを起動させる前にStandalone Pluginで行う(既にNginxが起動していた場合は80番ポートが競合することになるためうまくいかない)．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># certbot certonly --standalone -d &lt;DOMAIN NAME&gt; -m &lt;MAIL ADDRESS&gt; --agree-tos -n</span>
-</code></pre></div><p>これにより以下のファイルが作成される</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># certbot certonly --standalone -d &lt;DOMAIN NAME&gt; -m &lt;MAIL ADDRESS&gt; --agree-tos -n</span>
+</span></span></code></pre></div><p>これにより以下のファイルが作成される</p>
 <ul>
 <li>サーバ証明書…/etc/letsencrypt/live/<!-- raw HTML omitted -->/fullchain.pem</li>
 <li>秘密鍵…/etc/letsencrypt/live/<!-- raw HTML omitted -->/privkey.pem</li>
@@ -123,51 +123,51 @@ Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(
 <p>以降はNginxが起動しているはずだ．Nginxが80番ポートをListenしないよう設定しているならよいが，自分の環境ではHTTPをHTTPSへリダイレクトするようにしたかったためNginxは80番ポートもListenしている．
 そのため証明書の更新ではStandalone Pluginは使えない．<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>
 そこで証明書の更新はWebroot Pluginと既に起動中のNginxを使うことにする．Nginxにはそのための設定をあらかじめ入れておく．<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
-<div class="highlight"><pre class="chroma"><code class="language-nginx" data-lang="nginx"><span class="k">server</span> <span class="p">{</span>
-  <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
-  <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
-  <span class="kn">server_name</span> <span class="s">&lt;DOMAIN</span> <span class="s">NAME&gt;</span><span class="p">;</span>
-
-  <span class="c1"># Load configuration files for the default server block.
-</span><span class="c1"></span>  <span class="kn">include</span> <span class="s">/etc/nginx/default.d/*.conf</span><span class="p">;</span>
-
-  <span class="kn">location</span> <span class="s">/.well-known/acme-challenge</span> <span class="p">{</span>
-    <span class="kn">default_type</span> <span class="s">&#34;text/plain&#34;</span><span class="p">;</span>
-    <span class="kn">root</span> <span class="s">/var/www/certbot</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
-    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$server_name$request_uri</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p><code>location /.well-known/acme-challenge</code>を<code>location /</code>より前に書いておくことで，<code>http://&lt;DOMAIN NAME&gt;/.well-known/acme-challenge/</code>以下へのアクセスはリダイレクトされずに<code>/var/www/certbot</code>をDocumentRootとしてレスポンスを返すようになる．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">server_name</span> <span class="s">&lt;DOMAIN</span> <span class="s">NAME&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Load configuration files for the default server block.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kn">include</span> <span class="s">/etc/nginx/default.d/*.conf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kn">location</span> <span class="s">/.well-known/acme-challenge</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">default_type</span> <span class="s">&#34;text/plain&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">root</span> <span class="s">/var/www/certbot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$server_name$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><code>location /.well-known/acme-challenge</code>を<code>location /</code>より前に書いておくことで，<code>http://&lt;DOMAIN NAME&gt;/.well-known/acme-challenge/</code>以下へのアクセスはリダイレクトされずに<code>/var/www/certbot</code>をDocumentRootとしてレスポンスを返すようになる．</p>
 <p>証明書の更新時は<code>/var/www/certbot</code>以下にトークンを保存するよう指定してCertbotを起動させればよい．(このディレクトリはあらかじめ作成しておく必要がある)</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># mkdir -p /var/www/certbot</span>
-<span class="c1"># certbot renew --webroot -w /var/www/certbot --post-hook &#39;/usr/bin/systemctl restart nginx&#39;</span>
-</code></pre></div><p>追記：自分の環境では<code>/var/www</code>をここで作成したせいか，SELinuxのコンテキストが<code>unconfined_u:object_r:var_t:s0</code>になってしまいNginxから参照できなくなってしまった．
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># mkdir -p /var/www/certbot</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># certbot renew --webroot -w /var/www/certbot --post-hook &#39;/usr/bin/systemctl restart nginx&#39;</span>
+</span></span></code></pre></div><p>追記：自分の環境では<code>/var/www</code>をここで作成したせいか，SELinuxのコンテキストが<code>unconfined_u:object_r:var_t:s0</code>になってしまいNginxから参照できなくなってしまった．
 そのためコンテキストの修正が必要だった．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># restorecon -R /var/www</span>
-</code></pre></div><p>(追記終わり)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># restorecon -R /var/www</span>
+</span></span></code></pre></div><p>(追記終わり)</p>
 <p>自分の場合はanacronを使って週次で実行するようにした．証明書の有効期限が1ヶ月を切っていた場合のみ証明書が更新される．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cat &lt;&lt;&#39;EOF&#39; &gt;/etc/cron.weekly/certbot</span>
-<span class="c1">#!/bin/bash</span>
-
-/usr/bin/certbot renew --webroot -w /var/www/certbot --post-hook <span class="s1">&#39;/usr/bin/systemctl restart nginx&#39;</span>
-<span class="c1"># chmod +x /etc/cron.weekly/certbot</span>
-</code></pre></div><p>以上．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># cat &lt;&lt;&#39;EOF&#39; &gt;/etc/cron.weekly/certbot</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/usr/bin/certbot renew --webroot -w /var/www/certbot --post-hook <span class="s1">&#39;/usr/bin/systemctl restart nginx&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># chmod +x /etc/cron.weekly/certbot</span>
+</span></span></code></pre></div><p>以上．</p>
 <h1 id="参考">参考</h1>
 <p><a href="https://certbot.eff.org/docs/using.html">User Guide — Certbot 0.29.0.dev0 documentation</a></p>
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
+<li id="fn:1">
 <p>Certbotを起動する前にNginxを停止すればできないこともないが，当然その間はWebサーバにアクセスできない&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
+<li id="fn:2">
 <p>ここではHTTPSのための設定は割愛する&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</section>
+</div>
 
     </section>
     <aside>
@@ -207,7 +207,7 @@ Webroot Pluginを使って証明書を新規発行する場合，一度Nginxを(
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

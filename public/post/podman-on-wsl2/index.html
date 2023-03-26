@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -78,59 +78,59 @@
 <p><a href="https://www.redhat.com/sysadmin/podman-windows-wsl2">How to run Podman on Windows with WSL2 | Enable Sysadmin</a><br>
 基本的にはこの記事どおりなのだが一部この記事の通りではいかない箇所があった。</p>
 <h2 id="podmanインストール">Podmanインストール</h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ . /etc/os-release
-$ sudo sh -c <span class="s2">&#34;echo &#39;deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x</span><span class="si">${</span><span class="nv">NAME</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">VERSION_ID</span><span class="si">}</span><span class="s2">/ /&#39; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list&#34;</span>
-$ wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x<span class="si">${</span><span class="nv">NAME</span><span class="si">}</span>_<span class="si">${</span><span class="nv">VERSION_ID</span><span class="si">}</span>/Release.key -O Release.key
-$ sudo apt-key add - &lt; Release.key
-$ sudo apt-get update -qq
-$ sudo apt-get -qq -y install podman
-$ sudo mkdir -p /etc/containers
-$ <span class="nb">echo</span> -e <span class="s2">&#34;[registries.search]\nregistries = [&#39;docker.io&#39;, &#39;quay.io&#39;]&#34;</span> <span class="p">|</span> sudo tee /etc/containers/registries.conf
-</code></pre></div><p>これでPodmanコマンドは使えるようになる</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ podman info
-host:
-  arch: amd64
-  buildahVersion: 1.19.4
-  cgroupManager: cgroupfs
-  cgroupVersion: v1
-  conmon:
-    package: <span class="s1">&#39;conmon: /usr/libexec/podman/conmon&#39;</span>
-    path: /usr/libexec/podman/conmon
-    version: <span class="s1">&#39;conmon version 2.0.27, commit: &#39;</span>
-    ..
-</code></pre></div><p>ただし、WSL2環境ではPodmanコマンドの度に以下のオプションを指定するよう書かれている</p>
-<pre><code>--cgroup-manager cgroupfs --event-logger file
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ . /etc/os-release
+</span></span><span class="line"><span class="cl">$ sudo sh -c <span class="s2">&#34;echo &#39;deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x</span><span class="si">${</span><span class="nv">NAME</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">VERSION_ID</span><span class="si">}</span><span class="s2">/ /&#39; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list&#34;</span>
+</span></span><span class="line"><span class="cl">$ wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x<span class="si">${</span><span class="nv">NAME</span><span class="si">}</span>_<span class="si">${</span><span class="nv">VERSION_ID</span><span class="si">}</span>/Release.key -O Release.key
+</span></span><span class="line"><span class="cl">$ sudo apt-key add - &lt; Release.key
+</span></span><span class="line"><span class="cl">$ sudo apt-get update -qq
+</span></span><span class="line"><span class="cl">$ sudo apt-get -qq -y install podman
+</span></span><span class="line"><span class="cl">$ sudo mkdir -p /etc/containers
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> -e <span class="s2">&#34;[registries.search]\nregistries = [&#39;docker.io&#39;, &#39;quay.io&#39;]&#34;</span> <span class="p">|</span> sudo tee /etc/containers/registries.conf
+</span></span></code></pre></div><p>これでPodmanコマンドは使えるようになる</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ podman info
+</span></span><span class="line"><span class="cl">host:
+</span></span><span class="line"><span class="cl">  arch: amd64
+</span></span><span class="line"><span class="cl">  buildahVersion: 1.19.4
+</span></span><span class="line"><span class="cl">  cgroupManager: cgroupfs
+</span></span><span class="line"><span class="cl">  cgroupVersion: v1
+</span></span><span class="line"><span class="cl">  conmon:
+</span></span><span class="line"><span class="cl">    package: <span class="s1">&#39;conmon: /usr/libexec/podman/conmon&#39;</span>
+</span></span><span class="line"><span class="cl">    path: /usr/libexec/podman/conmon
+</span></span><span class="line"><span class="cl">    version: <span class="s1">&#39;conmon version 2.0.27, commit: &#39;</span>
+</span></span><span class="line"><span class="cl">    ..
+</span></span></code></pre></div><p>ただし、WSL2環境ではPodmanコマンドの度に以下のオプションを指定するよう書かれている</p>
+<pre tabindex="0"><code>--cgroup-manager cgroupfs --event-logger file
 </code></pre><p>いちいちオプションを追加するのは面倒なので設定ファイルで設定することにする。</p>
 <p>ちなみに確認した限りではそのままだと以下のエラーが出る。<code>cgroup_manager</code>の必要性はよくわからない。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ podman run -it --rm centos:7 bash                                                                                                                          <span class="o">[</span>~<span class="o">]</span>
-ERRO<span class="o">[</span>0000<span class="o">]</span> unable to write pod event: <span class="s2">&#34;write unixgram @00037-&gt;/run/systemd/journal/socket: sendmsg: no such file or directory&#34;</span>
-ERRO<span class="o">[</span>0000<span class="o">]</span> unable to write pod event: <span class="s2">&#34;write unixgram @00037-&gt;/run/systemd/journal/socket: sendmsg: no such file or directory&#34;</span>
-ERRO<span class="o">[</span>0000<span class="o">]</span> unable to write pod event: <span class="s2">&#34;write unixgram @00037-&gt;/run/systemd/journal/socket: sendmsg: no such file or directory&#34;</span>
-ERRO<span class="o">[</span>0000<span class="o">]</span> unable to write pod event: <span class="s2">&#34;write unixgram @00037-&gt;/run/systemd/journal/socket: sendmsg: no such file or directory&#34;</span>
-<span class="o">[</span>root@9697f94b4a75 /<span class="o">]</span><span class="c1">#</span>
-</code></pre></div><h2 id="rootlessコンテナ用">Rootlessコンテナ用</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ podman run -it --rm centos:7 bash                                                                                                                          <span class="o">[</span>~<span class="o">]</span>
+</span></span><span class="line"><span class="cl">ERRO<span class="o">[</span>0000<span class="o">]</span> unable to write pod event: <span class="s2">&#34;write unixgram @00037-&gt;/run/systemd/journal/socket: sendmsg: no such file or directory&#34;</span>
+</span></span><span class="line"><span class="cl">ERRO<span class="o">[</span>0000<span class="o">]</span> unable to write pod event: <span class="s2">&#34;write unixgram @00037-&gt;/run/systemd/journal/socket: sendmsg: no such file or directory&#34;</span>
+</span></span><span class="line"><span class="cl">ERRO<span class="o">[</span>0000<span class="o">]</span> unable to write pod event: <span class="s2">&#34;write unixgram @00037-&gt;/run/systemd/journal/socket: sendmsg: no such file or directory&#34;</span>
+</span></span><span class="line"><span class="cl">ERRO<span class="o">[</span>0000<span class="o">]</span> unable to write pod event: <span class="s2">&#34;write unixgram @00037-&gt;/run/systemd/journal/socket: sendmsg: no such file or directory&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@9697f94b4a75 /<span class="o">]</span><span class="c1">#</span>
+</span></span></code></pre></div><h2 id="rootlessコンテナ用">Rootlessコンテナ用</h2>
 <p>podmanコマンドの設定ファイルで<code>--event-logger file</code>の部分を設定すればよい。
 デフォルトでは設定ファイルは存在しない（記事中には<code>podman info</code>などを実行すれば生成されるとあるが自分の環境では生成されなかった）ので自分で作成する。
 また記事中ではファイル名は<code>libpod.conf</code>となっているが、<code>containers.conf</code>でよい。</p>
 <p>この設定ファイルはtableとoptionという階層構造になっている。
 <code>man containers.conf</code>からそれらしい項目を探すと、「engine」tableの「events_logger=&ldquo;file&rdquo;」でよいことがわかる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ mkdir -p <span class="nv">$HOME</span>/.config/containers
-$ cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt;$HOME/.config/containers/containers.conf
-</span><span class="s">[engine]
-</span><span class="s">events_logger=&#34;file&#34;
-</span><span class="s">EOF</span>
-</code></pre></div><h2 id="rootfulコンテナ用">Rootfulコンテナ用</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ mkdir -p <span class="nv">$HOME</span>/.config/containers
+</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt;$HOME/.config/containers/containers.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">[engine]
+</span></span></span><span class="line"><span class="cl"><span class="s">events_logger=&#34;file&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></div><h2 id="rootfulコンテナ用">Rootfulコンテナ用</h2>
 <p>同様に探すと<code>cgroup_manager</code>も<code>engine</code>tableにある。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;&#39;EOF&#39; | sudo tee /etc/containers/containers.conf
-</span><span class="s">[engine]
-</span><span class="s">cgroup_manager=&#34;cgroupfs&#34;
-</span><span class="s">events_logger=&#34;file&#34;
-</span><span class="s">EOF</span>
-</code></pre></div><h2 id="確認">確認</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;&#39;EOF&#39; | sudo tee /etc/containers/containers.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">[engine]
+</span></span></span><span class="line"><span class="cl"><span class="s">cgroup_manager=&#34;cgroupfs&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">events_logger=&#34;file&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></div><h2 id="確認">確認</h2>
 <p>以上でコンテナが起動できるようになる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ podman run -it --rm centos:7 bash                                                                                                                          <span class="o">[</span>~<span class="o">]</span>
-<span class="o">[</span>root@8f869401da0f /<span class="o">]</span><span class="c1">#</span>
-</code></pre></div><p>以上</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ podman run -it --rm centos:7 bash                                                                                                                          <span class="o">[</span>~<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@8f869401da0f /<span class="o">]</span><span class="c1">#</span>
+</span></span></code></pre></div><p>以上</p>
 <div class="amazon-widget">
   <div class="amazon-widget-image">
     <a target="_blank" href="https://www.amazon.co.jp/dp/B07NDT526Q/?tag=uyorum-22">
@@ -185,7 +185,7 @@ $ cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt;$HOME/.config/containers/contain
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

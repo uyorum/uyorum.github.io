@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -86,8 +86,8 @@
 自分はavconvを使ったがたぶんffmpegも同じなんじゃないかな(適当)<br>
 オプション一覧はあるがその意味が説明されているドキュメントを見つけられなかったのでオプションの意味が間違ってるかもしれない．</p>
 <p>標題を達成するには&hellip;</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ avconv -y -s 320x240 -f rawvideo -pix_fmt rgb24 -r <span class="m">1</span> -i /dev/zero -i /path/to/mp3 -vcodec libx264 -acodec copy -shortest /name/of/output.mp4
-</code></pre></div><h3 id="各オプションの解説">各オプションの解説</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ avconv -y -s 320x240 -f rawvideo -pix_fmt rgb24 -r <span class="m">1</span> -i /dev/zero -i /path/to/mp3 -vcodec libx264 -acodec copy -shortest /name/of/output.mp4
+</span></span></code></pre></div><h3 id="各オプションの解説">各オプションの解説</h3>
 <ul>
 <li>
 <p><code>-y</code><br>
@@ -164,7 +164,7 @@ inputを指定する．映像とか音声とか自動で判別してくれる模
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

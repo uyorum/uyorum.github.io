@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -104,26 +104,26 @@
 <ul>
 <li>/etc/systemd/system/home-assistant.service</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Unit]</span>
-<span class="na">Description</span><span class="o">=</span><span class="s">Home Assistant</span>
-<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
-
-<span class="k">[Service]</span>
-<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
-<span class="na">User</span><span class="o">=</span><span class="s">ha</span>
-<span class="na">ExecStart</span><span class="o">=</span><span class="s">/srv/homeassistant/bin/hass -c &#34;/home/ha/.homeassistant&#34;</span>
-
-<span class="k">[Install]</span>
-<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
-</code></pre></div><p>「ha」という名前でシステムユーザを作成し，このユーザでHome Assistantを実行するようにしている．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Description</span><span class="o">=</span><span class="s">Home Assistant</span>
+</span></span><span class="line"><span class="cl"><span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+</span></span><span class="line"><span class="cl"><span class="na">User</span><span class="o">=</span><span class="s">ha</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/srv/homeassistant/bin/hass -c &#34;/home/ha/.homeassistant&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Install]</span>
+</span></span><span class="line"><span class="cl"><span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</span></span></code></pre></div><p>「ha」という名前でシステムユーザを作成し，このユーザでHome Assistantを実行するようにしている．</p>
 <p>参考: <a href="https://home-assistant.io/docs/autostart/systemd/">Autostart using systemd - Home Assistant</a></p>
 <ul>
 <li>有効化</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo systemctl daemon-reload
-sudo systemctl <span class="nb">enable</span> home-assistant
-sudo systemctl start home-assistant
-</code></pre></div><p>初回起動時はコンポーネントのインストールがあるため10分ほどかかる．
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo systemctl daemon-reload
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> home-assistant
+</span></span><span class="line"><span class="cl">sudo systemctl start home-assistant
+</span></span></code></pre></div><p>初回起動時はコンポーネントのインストールがあるため10分ほどかかる．
 ブラウザでポート8123へアクセスするとWebUIが表示される．</p>
 <p>実行ユーザのホームディレクトリに<code>.homeassistant/configuration.yaml</code>というファイルが自動で作成される．基本的に設定はこのファイルにYAML形式で書いていくことになる．</p>
 <h2 id="概念">概念</h2>
@@ -178,7 +178,7 @@ Netatmo，Zabbix，OpenWeatherMapなど，数値や文字列を取得できる�
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

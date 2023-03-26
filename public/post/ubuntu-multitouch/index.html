@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -98,42 +98,42 @@
 <p>自分の中でLinuxでタッチパッド周りのドライバといえばSynapticsだったが現在はSynapticsは開発されておらず、
 代わりにlibinputというドライバが使われるようになっているらしい。</p>
 <p>実際にMagic Trackpadにはlibinputが使われている模様。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ xinput list <span class="p">|</span> grep -i trackpad
-⎜   ↳ Magic Trackpad                            <span class="nv">id</span><span class="o">=</span><span class="m">10</span>   <span class="o">[</span>slave  pointer  <span class="o">(</span>2<span class="o">)]</span>
-$ xinput list-props <span class="m">10</span>
-Device <span class="s1">&#39;Magic Trackpad&#39;</span>:
-        Device Enabled <span class="o">(</span>168<span class="o">)</span>:   <span class="m">1</span>
-        Coordinate Transformation Matrix <span class="o">(</span>170<span class="o">)</span>: 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000
-        libinput Tapping Enabled <span class="o">(</span>303<span class="o">)</span>: <span class="m">1</span>
-        libinput Tapping Enabled Default <span class="o">(</span>304<span class="o">)</span>: <span class="m">0</span>
-        libinput Tapping Drag Enabled <span class="o">(</span>305<span class="o">)</span>:    <span class="m">1</span>
-        libinput Tapping Drag Enabled Default <span class="o">(</span>306<span class="o">)</span>:    <span class="m">1</span>
-        libinput Tapping Drag Lock Enabled <span class="o">(</span>307<span class="o">)</span>:       <span class="m">0</span>
-        libinput Tapping Drag Lock Enabled Default <span class="o">(</span>308<span class="o">)</span>:       <span class="m">0</span>
-        libinput Tapping Button Mapping Enabled <span class="o">(</span>309<span class="o">)</span>:  1, <span class="m">0</span>
-        libinput Tapping Button Mapping Default <span class="o">(</span>310<span class="o">)</span>:  1, <span class="m">0</span>
-        libinput Natural Scrolling Enabled <span class="o">(</span>311<span class="o">)</span>:       <span class="m">0</span>
-        libinput Natural Scrolling Enabled Default <span class="o">(</span>312<span class="o">)</span>:       <span class="m">0</span>
-        libinput Scroll Methods Available <span class="o">(</span>313<span class="o">)</span>:        1, 1, <span class="m">0</span>
-        libinput Scroll Method Enabled <span class="o">(</span>314<span class="o">)</span>:   1, 0, <span class="m">0</span>
-        libinput Scroll Method Enabled Default <span class="o">(</span>315<span class="o">)</span>:   1, 0, <span class="m">0</span>
-        libinput Click Methods Available <span class="o">(</span>316<span class="o">)</span>: 1, <span class="m">1</span>
-        libinput Click Method Enabled <span class="o">(</span>317<span class="o">)</span>:    0, <span class="m">1</span>
-        libinput Click Method Enabled Default <span class="o">(</span>318<span class="o">)</span>:    0, <span class="m">1</span>
-        libinput Middle Emulation Enabled <span class="o">(</span>319<span class="o">)</span>:        <span class="m">0</span>
-        libinput Middle Emulation Enabled Default <span class="o">(</span>320<span class="o">)</span>:        <span class="m">0</span>
-        libinput Accel Speed <span class="o">(</span>321<span class="o">)</span>:     0.551471
-        libinput Accel Speed Default <span class="o">(</span>322<span class="o">)</span>:     0.000000
-        libinput Left Handed Enabled <span class="o">(</span>323<span class="o">)</span>:     <span class="m">0</span>
-        libinput Left Handed Enabled Default <span class="o">(</span>324<span class="o">)</span>:     <span class="m">0</span>
-        libinput Send Events Modes Available <span class="o">(</span>288<span class="o">)</span>:     1, <span class="m">0</span>
-        libinput Send Events Mode Enabled <span class="o">(</span>289<span class="o">)</span>:        0, <span class="m">0</span>
-        libinput Send Events Mode Enabled Default <span class="o">(</span>290<span class="o">)</span>:        0, <span class="m">0</span>
-        Device Node <span class="o">(</span>291<span class="o">)</span>:      <span class="s2">&#34;/dev/input/event5&#34;</span>
-        Device Product ID <span class="o">(</span>292<span class="o">)</span>:        1452, <span class="m">782</span>
-        libinput Drag Lock Buttons <span class="o">(</span>325<span class="o">)</span>:       &lt;no items&gt;
-        libinput Horizontal Scroll Enabled <span class="o">(</span>326<span class="o">)</span>:       <span class="m">1</span>
-</code></pre></div><p>ginnもtoucheggもsynaptics用に作られているからlibinputの環境では動かないということだろうか？
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ xinput list <span class="p">|</span> grep -i trackpad
+</span></span><span class="line"><span class="cl">⎜   ↳ Magic Trackpad                            <span class="nv">id</span><span class="o">=</span><span class="m">10</span>   <span class="o">[</span>slave  pointer  <span class="o">(</span>2<span class="o">)]</span>
+</span></span><span class="line"><span class="cl">$ xinput list-props <span class="m">10</span>
+</span></span><span class="line"><span class="cl">Device <span class="s1">&#39;Magic Trackpad&#39;</span>:
+</span></span><span class="line"><span class="cl">        Device Enabled <span class="o">(</span>168<span class="o">)</span>:   <span class="m">1</span>
+</span></span><span class="line"><span class="cl">        Coordinate Transformation Matrix <span class="o">(</span>170<span class="o">)</span>: 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000
+</span></span><span class="line"><span class="cl">        libinput Tapping Enabled <span class="o">(</span>303<span class="o">)</span>: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">        libinput Tapping Enabled Default <span class="o">(</span>304<span class="o">)</span>: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Tapping Drag Enabled <span class="o">(</span>305<span class="o">)</span>:    <span class="m">1</span>
+</span></span><span class="line"><span class="cl">        libinput Tapping Drag Enabled Default <span class="o">(</span>306<span class="o">)</span>:    <span class="m">1</span>
+</span></span><span class="line"><span class="cl">        libinput Tapping Drag Lock Enabled <span class="o">(</span>307<span class="o">)</span>:       <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Tapping Drag Lock Enabled Default <span class="o">(</span>308<span class="o">)</span>:       <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Tapping Button Mapping Enabled <span class="o">(</span>309<span class="o">)</span>:  1, <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Tapping Button Mapping Default <span class="o">(</span>310<span class="o">)</span>:  1, <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Natural Scrolling Enabled <span class="o">(</span>311<span class="o">)</span>:       <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Natural Scrolling Enabled Default <span class="o">(</span>312<span class="o">)</span>:       <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Scroll Methods Available <span class="o">(</span>313<span class="o">)</span>:        1, 1, <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Scroll Method Enabled <span class="o">(</span>314<span class="o">)</span>:   1, 0, <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Scroll Method Enabled Default <span class="o">(</span>315<span class="o">)</span>:   1, 0, <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Click Methods Available <span class="o">(</span>316<span class="o">)</span>: 1, <span class="m">1</span>
+</span></span><span class="line"><span class="cl">        libinput Click Method Enabled <span class="o">(</span>317<span class="o">)</span>:    0, <span class="m">1</span>
+</span></span><span class="line"><span class="cl">        libinput Click Method Enabled Default <span class="o">(</span>318<span class="o">)</span>:    0, <span class="m">1</span>
+</span></span><span class="line"><span class="cl">        libinput Middle Emulation Enabled <span class="o">(</span>319<span class="o">)</span>:        <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Middle Emulation Enabled Default <span class="o">(</span>320<span class="o">)</span>:        <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Accel Speed <span class="o">(</span>321<span class="o">)</span>:     0.551471
+</span></span><span class="line"><span class="cl">        libinput Accel Speed Default <span class="o">(</span>322<span class="o">)</span>:     0.000000
+</span></span><span class="line"><span class="cl">        libinput Left Handed Enabled <span class="o">(</span>323<span class="o">)</span>:     <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Left Handed Enabled Default <span class="o">(</span>324<span class="o">)</span>:     <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Send Events Modes Available <span class="o">(</span>288<span class="o">)</span>:     1, <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Send Events Mode Enabled <span class="o">(</span>289<span class="o">)</span>:        0, <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        libinput Send Events Mode Enabled Default <span class="o">(</span>290<span class="o">)</span>:        0, <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        Device Node <span class="o">(</span>291<span class="o">)</span>:      <span class="s2">&#34;/dev/input/event5&#34;</span>
+</span></span><span class="line"><span class="cl">        Device Product ID <span class="o">(</span>292<span class="o">)</span>:        1452, <span class="m">782</span>
+</span></span><span class="line"><span class="cl">        libinput Drag Lock Buttons <span class="o">(</span>325<span class="o">)</span>:       &lt;no items&gt;
+</span></span><span class="line"><span class="cl">        libinput Horizontal Scroll Enabled <span class="o">(</span>326<span class="o">)</span>:       <span class="m">1</span>
+</span></span></code></pre></div><p>ginnもtoucheggもsynaptics用に作られているからlibinputの環境では動かないということだろうか？
 ともかく、libinputの場合にマルチタッチジェスチャーをするためのツールは<a href="https://wiki.archlinux.jp/index.php/Libinput#.E3.82.B8.E3.82.A7.E3.82.B9.E3.83.81.E3.83.A3.E3.83.BC">Arch wiki</a>が詳しい。
 説明を読んだ感じだとGnomeExtendedGesturesがよさそうだが、Ubuntuにはパッケージがないうえ、<a href="https://github.com/mpiannucci/gnome-shell-extended-gestures">GitHub</a>を見るとWaylandが必要とのことだったのでlibinput-gesturesを選択した。</p>
 <h2 id="libinput-gestures">libinput-gestures</h2>
@@ -145,18 +145,18 @@ Device <span class="s1">&#39;Magic Trackpad&#39;</span>:
 <li>4本指左右スワイプでワークスペース切替</li>
 <li>3本指または4本指上下スワイプですべてのウィンドウを表示</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat .config/libinput-gestures.conf
-gesture swipe left <span class="m">3</span> xdotool key alt+Left
-gesture swipe right <span class="m">3</span> xdotool key alt+Right
-
-gesture swipe left <span class="m">4</span> xdotool key super+Page_Up
-gesture swipe right <span class="m">4</span> xdotool key super+Page_Down
-
-gesture swipe up <span class="m">3</span> xdotool key alt+F1
-gesture swipe down <span class="m">3</span> xdotool key alt+F1
-gesture swipe up <span class="m">4</span> xdotool key alt+F1
-gesture swipe down <span class="m">4</span> xdotool key alt+F1
-</code></pre></div><p><code>libinput-gestures -d</code>でジェスチャーを認識しているか確認できる。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat .config/libinput-gestures.conf
+</span></span><span class="line"><span class="cl">gesture swipe left <span class="m">3</span> xdotool key alt+Left
+</span></span><span class="line"><span class="cl">gesture swipe right <span class="m">3</span> xdotool key alt+Right
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">gesture swipe left <span class="m">4</span> xdotool key super+Page_Up
+</span></span><span class="line"><span class="cl">gesture swipe right <span class="m">4</span> xdotool key super+Page_Down
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">gesture swipe up <span class="m">3</span> xdotool key alt+F1
+</span></span><span class="line"><span class="cl">gesture swipe down <span class="m">3</span> xdotool key alt+F1
+</span></span><span class="line"><span class="cl">gesture swipe up <span class="m">4</span> xdotool key alt+F1
+</span></span><span class="line"><span class="cl">gesture swipe down <span class="m">4</span> xdotool key alt+F1
+</span></span></code></pre></div><p><code>libinput-gestures -d</code>でジェスチャーを認識しているか確認できる。
 <code>libinput-gestures-setup start</code>で起動、<code>libinput-gestures-setup autostart</code>で自動起動設定</p>
 <p>もっと凝ったジェスチャーも設定できそうだがひとまずこれで使ってみることにする。</p>
 <div class="amazon-widget">
@@ -223,7 +223,7 @@ gesture swipe down <span class="m">4</span> xdotool key alt+F1
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

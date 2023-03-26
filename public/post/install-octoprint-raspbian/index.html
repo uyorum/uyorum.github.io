@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -96,13 +96,13 @@ OctoPrintにはWebカメラなどを使って印刷の様子をブラウザで�
 <p>自分の場合、ちょうどRaspberry Pi 4Bが手元にあったが別の用途でも使用中のため、OctoPrint専用に使うわけにはいかなかった。
 負荷的に同居でも問題なさそうなので、既存のRaspbianの上に手動でインストールを行うことにした。</p>
 <h3 id="環境">環境</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ lsb_release -a
-No LSB modules are available.
-Distributor ID: Raspbian
-Description:    Raspbian GNU/Linux <span class="m">10</span> <span class="o">(</span>buster<span class="o">)</span>
-Release:        <span class="m">10</span>
-Codename:       buster
-</code></pre></div><h3 id="設計">設計</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ lsb_release -a
+</span></span><span class="line"><span class="cl">No LSB modules are available.
+</span></span><span class="line"><span class="cl">Distributor ID: Raspbian
+</span></span><span class="line"><span class="cl">Description:    Raspbian GNU/Linux <span class="m">10</span> <span class="o">(</span>buster<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Release:        <span class="m">10</span>
+</span></span><span class="line"><span class="cl">Codename:       buster
+</span></span></code></pre></div><h3 id="設計">設計</h3>
 <ul>
 <li>Pythonはaptで入る3系のものを使う</li>
 <li>OctoPrintはPythonの仮想環境にインストールし、システムを汚さないようにする</li>
@@ -112,47 +112,47 @@ Codename:       buster
 <h2 id="手順">手順</h2>
 <h3 id="インストール">インストール</h3>
 <p>piユーザで実行</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt update
-$ sudo apt install python3-pip python3-dev python3-setuptools python3-venv git libyaml-dev build-essential
-$ sudo mkdir /usr/local/share/octoprint
-$ sudo chown -R pi:pi /usr/local/share/octoprint
-$ <span class="nb">cd</span> /usr/local/share/octoprint
-$ python3 -m venv venv
-$ <span class="nb">source</span> venv/bin/activate
-$ pip install pip --upgrade
-$ pip install octoprint
-</code></pre></div><h3 id="ユーザの準備">ユーザの準備</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo useradd -r octoprint -d /usr/local/share/octoprint
-$ sudo chown -R octoprint:octoprint /usr/local/share/octoprint
-$ sudo usermod -a -G tty octoprint
-$ sudo usermod -a -G dialout octoprint
-$ cat <span class="s">&lt;&lt;&#39;EOF&#39; | sudo tee /etc/sudoers.d/020_octoprint
-</span><span class="s">octoprint ALL=NOPASSWD: /sbin/shutdown
-</span><span class="s">octoprint ALL=NOPASSWD: /bin/systemctl restart octoprint
-</span><span class="s">EOF</span>
-$ <span class="nb">echo</span> <span class="s1">&#39;&#39;</span> <span class="p">|</span> sudo tee 
-$ sudo chmod <span class="m">440</span> /etc/sudoers.d/020_octoprint
-</code></pre></div><h3 id="systemdの設定">Systemdの設定</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;&#39;EOF&#39; | sudo tee /etc/systemd/system/octoprint.service
-</span><span class="s">[Unit]
-</span><span class="s">Description=The snappy web interface for your 3D printer
-</span><span class="s">After=network-online.target
-</span><span class="s">Wants=network-online.target
-</span><span class="s">
-</span><span class="s">[Service]
-</span><span class="s">Environment=&#34;LC_ALL=C.UTF-8&#34;
-</span><span class="s">Environment=&#34;LANG=C.UTF-8&#34;
-</span><span class="s">Type=simple
-</span><span class="s">User=octoprint
-</span><span class="s">ExecStart=/usr/local/share/octoprint/venv/bin/octoprint
-</span><span class="s">
-</span><span class="s">[Install]
-</span><span class="s">WantedBy=multi-user.target
-</span><span class="s">EOF</span>
-$ sudo systemctl daemon-reload
-$ sudo systemctl <span class="nb">enable</span> octoprint
-$ sudo systemctl start octoprint
-</code></pre></div><p>以上でOctoPrintが起動する。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo apt update
+</span></span><span class="line"><span class="cl">$ sudo apt install python3-pip python3-dev python3-setuptools python3-venv git libyaml-dev build-essential
+</span></span><span class="line"><span class="cl">$ sudo mkdir /usr/local/share/octoprint
+</span></span><span class="line"><span class="cl">$ sudo chown -R pi:pi /usr/local/share/octoprint
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> /usr/local/share/octoprint
+</span></span><span class="line"><span class="cl">$ python3 -m venv venv
+</span></span><span class="line"><span class="cl">$ <span class="nb">source</span> venv/bin/activate
+</span></span><span class="line"><span class="cl">$ pip install pip --upgrade
+</span></span><span class="line"><span class="cl">$ pip install octoprint
+</span></span></code></pre></div><h3 id="ユーザの準備">ユーザの準備</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo useradd -r octoprint -d /usr/local/share/octoprint
+</span></span><span class="line"><span class="cl">$ sudo chown -R octoprint:octoprint /usr/local/share/octoprint
+</span></span><span class="line"><span class="cl">$ sudo usermod -a -G tty octoprint
+</span></span><span class="line"><span class="cl">$ sudo usermod -a -G dialout octoprint
+</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;&#39;EOF&#39; | sudo tee /etc/sudoers.d/020_octoprint
+</span></span></span><span class="line"><span class="cl"><span class="s">octoprint ALL=NOPASSWD: /sbin/shutdown
+</span></span></span><span class="line"><span class="cl"><span class="s">octoprint ALL=NOPASSWD: /bin/systemctl restart octoprint
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;&#39;</span> <span class="p">|</span> sudo tee 
+</span></span><span class="line"><span class="cl">$ sudo chmod <span class="m">440</span> /etc/sudoers.d/020_octoprint
+</span></span></code></pre></div><h3 id="systemdの設定">Systemdの設定</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;&#39;EOF&#39; | sudo tee /etc/systemd/system/octoprint.service
+</span></span></span><span class="line"><span class="cl"><span class="s">[Unit]
+</span></span></span><span class="line"><span class="cl"><span class="s">Description=The snappy web interface for your 3D printer
+</span></span></span><span class="line"><span class="cl"><span class="s">After=network-online.target
+</span></span></span><span class="line"><span class="cl"><span class="s">Wants=network-online.target
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">[Service]
+</span></span></span><span class="line"><span class="cl"><span class="s">Environment=&#34;LC_ALL=C.UTF-8&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">Environment=&#34;LANG=C.UTF-8&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">Type=simple
+</span></span></span><span class="line"><span class="cl"><span class="s">User=octoprint
+</span></span></span><span class="line"><span class="cl"><span class="s">ExecStart=/usr/local/share/octoprint/venv/bin/octoprint
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">[Install]
+</span></span></span><span class="line"><span class="cl"><span class="s">WantedBy=multi-user.target
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">$ sudo systemctl daemon-reload
+</span></span><span class="line"><span class="cl">$ sudo systemctl <span class="nb">enable</span> octoprint
+</span></span><span class="line"><span class="cl">$ sudo systemctl start octoprint
+</span></span></code></pre></div><p>以上でOctoPrintが起動する。
 HTTPでRaspbianの5000番ポートへアクセスすることで初回セットアップが始まる。</p>
 <p>設定ファイルなどは実行ユーザの<code>${HOME}/.octoprint</code>に作成される模様。
 今回は<code>/usr/local/share/.octoprint</code>になる。</p>
@@ -310,7 +310,7 @@ SDカードが不要になる。</p>
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

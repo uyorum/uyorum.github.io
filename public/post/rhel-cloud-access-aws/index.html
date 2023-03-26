@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -151,25 +151,25 @@ Red Hatによるゴールデンイメージを使わない場合にこのオプ�
 このまま使い続けてもいいですしRHUIへの参照はやめて<code>subscription-manager</code>を使ってRed HatのCDNを参照してもよいです。<br>
 ハイブリッドクラウドコンソールでAWSアカウントと紐づけたためか、カスタマーポータルには自動で登録されているので<code>subscription-manager repos --enable</code>で目的のリポジトリを有効にすればよいです。<br>
 シンプルコンテンツアクセスでも説明した通り、サブスクリプションをアタッチする必要はありません。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">// RHUIは使わない
-$ sudo sed -i <span class="s1">&#39;s/^enabled=1/enabled=0/g&#39;</span> /etc/yum.repos.d/redhat-rhui*.repo
-// 起動時に戻ってしまうので止める
-$ sudo systemctl disable choose_repo
-// デフォルトでは<span class="sb">`</span>subscription-manager<span class="sb">`</span>による管理は無効化されているので有効化する
-$ sudo subscription-manager config <span class="p">|</span> grep -i manage_repo
-   <span class="nv">manage_repos</span> <span class="o">=</span> <span class="m">0</span>
-$ sudo subscription-manager config --rhsm.manage_repos<span class="o">=</span><span class="m">1</span>
-$ sudo subscription-manager config <span class="p">|</span> grep -i manage_repo
-   <span class="nv">manage_repos</span> <span class="o">=</span> <span class="o">[</span>1<span class="o">]</span>
-// リポジトリを有効化 <span class="o">(</span>RHEL9の場合<span class="o">)</span>
-$ sudo subscription-manager repos --enable rhel-9-for-x86_64-baseos-rpms
-$ sudo subscription-manager repos --enable rhel-9-for-x86_64-appstream-rpms
-$ sudo yum repolist
-Updating Subscription Management repositories.
-repo id                                                                         repo name
-rhel-9-for-x86_64-appstream-rpms                                                Red Hat Enterprise Linux <span class="m">9</span> <span class="k">for</span> x86_64 - AppStream <span class="o">(</span>RPMs<span class="o">)</span>
-rhel-9-for-x86_64-baseos-rpms                                                   Red Hat Enterprise Linux <span class="m">9</span> <span class="k">for</span> x86_64 - BaseOS <span class="o">(</span>RPMs<span class="o">)</span>
-</code></pre></div><p>以上</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">// RHUIは使わない
+</span></span><span class="line"><span class="cl">$ sudo sed -i <span class="s1">&#39;s/^enabled=1/enabled=0/g&#39;</span> /etc/yum.repos.d/redhat-rhui*.repo
+</span></span><span class="line"><span class="cl">// 起動時に戻ってしまうので止める
+</span></span><span class="line"><span class="cl">$ sudo systemctl disable choose_repo
+</span></span><span class="line"><span class="cl">// デフォルトでは<span class="sb">`</span>subscription-manager<span class="sb">`</span>による管理は無効化されているので有効化する
+</span></span><span class="line"><span class="cl">$ sudo subscription-manager config <span class="p">|</span> grep -i manage_repo
+</span></span><span class="line"><span class="cl">   <span class="nv">manage_repos</span> <span class="o">=</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl">$ sudo subscription-manager config --rhsm.manage_repos<span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">$ sudo subscription-manager config <span class="p">|</span> grep -i manage_repo
+</span></span><span class="line"><span class="cl">   <span class="nv">manage_repos</span> <span class="o">=</span> <span class="o">[</span>1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">// リポジトリを有効化 <span class="o">(</span>RHEL9の場合<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ sudo subscription-manager repos --enable rhel-9-for-x86_64-baseos-rpms
+</span></span><span class="line"><span class="cl">$ sudo subscription-manager repos --enable rhel-9-for-x86_64-appstream-rpms
+</span></span><span class="line"><span class="cl">$ sudo yum repolist
+</span></span><span class="line"><span class="cl">Updating Subscription Management repositories.
+</span></span><span class="line"><span class="cl">repo id                                                                         repo name
+</span></span><span class="line"><span class="cl">rhel-9-for-x86_64-appstream-rpms                                                Red Hat Enterprise Linux <span class="m">9</span> <span class="k">for</span> x86_64 - AppStream <span class="o">(</span>RPMs<span class="o">)</span>
+</span></span><span class="line"><span class="cl">rhel-9-for-x86_64-baseos-rpms                                                   Red Hat Enterprise Linux <span class="m">9</span> <span class="k">for</span> x86_64 - BaseOS <span class="o">(</span>RPMs<span class="o">)</span>
+</span></span></code></pre></div><p>以上</p>
 <h2 id="参考">参考</h2>
 <ul>
 <li><a href="https://access.redhat.com/documentation/ja-jp/red_hat_subscription_management/2022/html/red_hat_cloud_access_reference_guide/index">Red Hat Cloud Access リファレンスガイド Red Hat Subscription Management 2022 | Red Hat Customer Portal</a></li>
@@ -217,7 +217,7 @@ rhel-9-for-x86_64-baseos-rpms                                                   
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

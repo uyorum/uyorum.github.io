@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -81,64 +81,64 @@
 <li><a href="http://dev.classmethod.jp/series/golang-2/">golang ｜ シリーズ ｜ Developers.IO</a></li>
 </ul>
 <h2 id="プログラムの構造">プログラムの構造</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-  <span class="s">&#34;fmt&#34;</span>
-  <span class="s">&#34;strconv&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nx">func1</span> <span class="p">{</span>
-  <span class="c1">// definition of function
-</span><span class="c1"></span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nx">main</span> <span class="p">{</span>
-  <span class="c1">// main operation
-</span><span class="c1"></span>
-<span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;strconv&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">func1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// definition of function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">main</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// main operation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li>プログラムを実行するとまず<code>main</code>が実行される．</li>
 <li><code>import</code><br>
 使用するパッケージを指定する．ここで指定したがプログラム内で使用していないと実行時に警告が出力される．<br>
 括弧でまとめてimportすることができる．上記の例は以下と等価</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
-<span class="kn">import</span> <span class="s">&#34;strconv&#34;</span>
-</code></pre></div><h2 id="変数の宣言">変数の宣言</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">int1</span> <span class="kt">int</span>
-<span class="kd">var</span> <span class="nx">int2</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">1</span>
-<span class="kd">var</span> <span class="nx">int3</span> <span class="p">=</span> <span class="mi">2</span>
-<span class="kd">var</span> <span class="nx">str1</span><span class="p">,</span> <span class="nx">str2</span> <span class="kt">string</span>
-<span class="kd">var</span> <span class="nx">str1</span><span class="p">,</span> <span class="nx">str2</span> <span class="p">=</span> <span class="s">&#34;hoge&#34;</span><span class="p">,</span> <span class="s">&#34;huga&#34;</span>
-
-<span class="kd">func</span> <span class="nx">func1</span> <span class="p">{</span>
-  <span class="nx">boo</span> <span class="o">:=</span> <span class="kc">false</span>
-<span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;strconv&#34;</span>
+</span></span></code></pre></div><h2 id="変数の宣言">変数の宣言</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">int1</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">int2</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">int3</span> <span class="p">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">str1</span><span class="p">,</span> <span class="nx">str2</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">str1</span><span class="p">,</span> <span class="nx">str2</span> <span class="p">=</span> <span class="s">&#34;hoge&#34;</span><span class="p">,</span> <span class="s">&#34;huga&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">func1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">boo</span> <span class="o">:=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li><code>var 変数名 型</code>の形式で宣言する．</li>
 <li>宣言と同時に初期化することもできる．その場合は型の指定を省略でき，右辺の型が自動的に使用される．</li>
 <li><code>,</code>区切りで複数の変数を同時に宣言することもできる．</li>
 <li>関数内に限り<code>:=</code>を使用することで<code>var</code>を省略できる．</li>
 </ul>
 <h3 id="定数">定数</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="nx">PI</span> <span class="kt">float64</span> <span class="p">=</span> <span class="mf">3.14</span>
-<span class="c1">//PI = 3.141592 &lt;-エラー
-</span><span class="c1"></span>
-<span class="kd">const</span> <span class="p">(</span>
-  <span class="nx">const1</span> <span class="p">=</span> <span class="s">&#34;string&#34;</span>
-  <span class="nx">const2</span> <span class="p">=</span> <span class="mi">10</span>
-<span class="p">)</span>
-
-<span class="kd">const</span> <span class="p">(</span>
-  <span class="nx">x</span> <span class="p">=</span> <span class="kc">iota</span>
-  <span class="nx">y</span> <span class="p">=</span> <span class="kc">iota</span>
-  <span class="nx">z</span>
-<span class="p">)</span>
-
-<span class="c1">// 0 1 2 0
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">PI</span> <span class="kt">float64</span> <span class="p">=</span> <span class="mf">3.14</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//PI = 3.141592 &lt;-エラー
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">const1</span> <span class="p">=</span> <span class="s">&#34;string&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">const2</span> <span class="p">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">x</span> <span class="p">=</span> <span class="kc">iota</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">y</span> <span class="p">=</span> <span class="kc">iota</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">z</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 0 1 2 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
 <li><code>const 変数 [型] = 値</code>の形式で宣言する．</li>
 <li>変数と異なり，宣言と同時に初期化しないとエラーになる．</li>
 <li><code>const (   )</code>を使うことでまとめて宣言することもできる．
@@ -149,53 +149,53 @@
 <li><code>iota</code>は連番が生成される．</li>
 </ul>
 <h2 id="関数">関数</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">inc1</span><span class="p">(</span><span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
-  <span class="nx">i</span><span class="o">++</span>
-  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;inc1: i = &#34;</span> <span class="o">+</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
-  <span class="k">return</span> <span class="nx">i</span>
-<span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">inc1</span><span class="p">(</span><span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">i</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;inc1: i = &#34;</span> <span class="o">+</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li><code>func 関数名(引数 引数の型[, 引数 引数の型[, ...]]) [返り値の型]</code>の形式で宣言する</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">split</span><span class="p">(</span><span class="nx">sum</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span> <span class="mi">9</span>
-    <span class="nx">y</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">-</span> <span class="nx">x</span>
-    <span class="k">return</span>
-<span class="p">}</span>
-
-<span class="c1">// 7 10
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">split</span><span class="p">(</span><span class="mi">17</span><span class="p">))</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">split</span><span class="p">(</span><span class="nx">sum</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">x</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span> <span class="mi">9</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">y</span> <span class="p">=</span> <span class="nx">sum</span> <span class="o">-</span> <span class="nx">x</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 7 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">split</span><span class="p">(</span><span class="mi">17</span><span class="p">))</span>
+</span></span></code></pre></div><ul>
 <li>関数の宣言時に返り値で変数を指定することで<code>return</code>時に変数を省略できる．</li>
 </ul>
 <h3 id="可変長引数">可変長引数</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">fArgs</span><span class="p">(</span><span class="nx">strArgs</span> <span class="o">...</span><span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">for</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">value</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">strArgs</span> <span class="p">{</span>
-    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 0 Go
-</span><span class="c1">// 1 Java
-</span><span class="c1">// 2 Ruby
-</span><span class="c1"></span><span class="nf">fArgs</span><span class="p">(</span><span class="s">&#34;Go&#34;</span><span class="p">,</span> <span class="s">&#34;Java&#34;</span><span class="p">,</span> <span class="s">&#34;Ruby&#34;</span><span class="p">)</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">fArgs</span><span class="p">(</span><span class="nx">strArgs</span> <span class="o">...</span><span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">value</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">strArgs</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 0 Go
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 1 Java
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 2 Ruby
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nf">fArgs</span><span class="p">(</span><span class="s">&#34;Go&#34;</span><span class="p">,</span> <span class="s">&#34;Java&#34;</span><span class="p">,</span> <span class="s">&#34;Ruby&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
 <li>引数の型に<code>...</code>をつけることで可変長変数をとる関数を宣言できる</li>
 <li>配列に格納される．(Array? Slice?)</li>
 </ul>
 <h2 id="ポインタ">ポインタ</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">inc2</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
- <span class="o">*</span><span class="nx">i</span><span class="o">++</span>
- <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;inc2: i = &#34;</span> <span class="o">+</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="o">*</span><span class="nx">i</span><span class="p">))</span>
-<span class="p">}</span>
-
-<span class="nx">num</span> <span class="o">:=</span> <span class="mi">10</span>
-<span class="nf">inc1</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span>          <span class="c1">// inc1: i = 11
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span>   <span class="c1">// 10
-</span><span class="c1"></span><span class="nx">num</span> <span class="p">=</span> <span class="mi">10</span>
-<span class="nf">inc2</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">num</span><span class="p">)</span>         <span class="c1">// inc2: i = 11
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span>   <span class="c1">// 11
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">inc2</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="o">*</span><span class="nx">i</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl"> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;inc2: i = &#34;</span> <span class="o">+</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="o">*</span><span class="nx">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">num</span> <span class="o">:=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="nf">inc1</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span>          <span class="c1">// inc1: i = 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span>   <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">num</span> <span class="p">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="nf">inc2</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">num</span><span class="p">)</span>         <span class="c1">// inc2: i = 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span>   <span class="c1">// 11
+</span></span></span></code></pre></div><ul>
 <li><code>*型</code>形式で記述することで「指定した型を持つ値を指すポインタ」が渡される．</li>
 <li><code>*ポインタ名</code>形式で記述することで「そのポインタが指す値」が渡される．</li>
 <li><code>&amp;変数名</code>形式で記述することで「その変数のポインタ」が渡される．</li>
@@ -230,7 +230,7 @@
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

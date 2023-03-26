@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -100,14 +100,14 @@ Mongoose OSの設定とTSL2561を使うためのコードを書いていく．</
 <p>I2Cデバイスのピンをどのピンに接続すればよいのかわからずにここで結構時間を使った．
 <code>mos</code>で起動するMongoose OSのWeb UIから<code>Device Config</code>→<code>Expert View</code>からI2Cようの設定を見ることができる．自分の環境ではデフォルトで以下のようになっていた．
 sda端子を32ピン，scl端子を33ピンに接続すればよいことがわかる．</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;i2c&#34;</span><span class="err">:</span> <span class="p">{</span>
-  <span class="nt">&#34;enable&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&#34;freq&#34;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
-  <span class="nt">&#34;debug&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="nt">&#34;sda_gpio&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
-  <span class="nt">&#34;scl_gpio&#34;</span><span class="p">:</span> <span class="mi">33</span>
-<span class="p">}</span><span class="err">,</span>
-</code></pre></div><p>その他にVinを3.3V端子，GNDを適当なGNDピンに接続した．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;i2c&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;enable&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;freq&#34;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;debug&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;sda_gpio&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;scl_gpio&#34;</span><span class="p">:</span> <span class="mi">33</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">,</span>
+</span></span></code></pre></div><p>その他にVinを3.3V端子，GNDを適当なGNDピンに接続した．</p>
 <h2 id="mqttの設定">MQTTの設定</h2>
 <p>Brokerと認証の設定を行う．
 <code>Device Config</code>→<code>Simple View</code>→<code>MQTT Settings</code>で設定を行うのがおそらく最も簡単．</p>
@@ -141,17 +141,17 @@ sda端子を32ピン，scl端子を33ピンに接続すればよいことがわ�
   </div>
 </div>
 
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
+<li id="fn:1">
 <p><a href="http://qiita.com/boyaki_machine/items/a238e9d03455a2eea26e">Raspberry pi 3でストロベリー・リナックス社製「TSL2561 照度センサ・モジュール メーカー品番：TSL2561」を使う（試行錯誤編） - Qiita</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
+<li id="fn:2">
 <p><a href="https://mongoose-os.com/docs/libraries/hardware/i2c.html">Mongoose OS Documentation</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</section>
+</div>
     </section>
     <aside>
       <div class="share-box">
@@ -188,7 +188,7 @@ sda端子を32ピン，scl端子を33ピンに接続すればよいことがわ�
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

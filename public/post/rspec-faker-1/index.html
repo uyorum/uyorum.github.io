@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -82,133 +82,133 @@
 <ul>
 <li>models/user.rb</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
-  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="sr">/\A[a-zA-Z0-9 ]+\z/</span>
-<span class="k">end</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span></span><span class="line"><span class="cl">  <span class="n">validates</span> <span class="ss">:name</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="sr">/\A[a-zA-Z0-9 ]+\z/</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></div><ul>
 <li>factories/user.rb</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="no">FactoryBot</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span>
-    <span class="nb">name</span> <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Name</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">FactoryBot</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">name</span> <span class="p">{</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Name</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></div><ul>
 <li>spec/models/user_spec.rb</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
-
-<span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="no">User</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:model</span> <span class="k">do</span>
-  <span class="n">let!</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">FactoryBot</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
-
-  <span class="n">it</span> <span class="s2">&#34;can be destroyed&#34;</span> <span class="k">do</span>
-    <span class="n">expect</span> <span class="p">{</span>
-      <span class="n">user</span><span class="o">.</span><span class="n">destroy</span>
-    <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">change</span><span class="p">(</span><span class="no">User</span><span class="p">,</span> <span class="ss">:count</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></div><p><code>User</code>の<code>name</code>属性はバリデーションとして正規表現で<code>/\A[a-zA-Z0-9 ]+\z/</code>にマッチすることと設定している．<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="no">User</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="ss">:model</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">let!</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">FactoryBot</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">it</span> <span class="s2">&#34;can be destroyed&#34;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">expect</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">user</span><span class="o">.</span><span class="n">destroy</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">change</span><span class="p">(</span><span class="no">User</span><span class="p">,</span> <span class="ss">:count</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></div><p><code>User</code>の<code>name</code>属性はバリデーションとして正規表現で<code>/\A[a-zA-Z0-9 ]+\z/</code>にマッチすることと設定している．<br>
 しかし<code>Faker::Name.name</code>は値に「.」を含むことがある．<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><br>
 その場合にテスト中の<code>let!(:user) { FactoryBot.create(:user) }</code>に失敗し，結果的にテストがパスしないことになる．<br>
 しかもその際に表示されるメッセージは以下のようになり，原因がはっきりと表示されない．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ bin/rspec
-F
-
-Failures:
-
-  1<span class="o">)</span> User can destroy
-     Failure/Error: let!<span class="o">(</span>:user<span class="o">)</span> <span class="o">{</span> FactoryBot.create<span class="o">(</span>:user<span class="o">)</span> <span class="o">}</span>
-
-     ActiveRecord::RecordInvalid:
-       Validation failed: Name is invalid
-</code></pre></div><p>この例ははただの設定ミスであり，原因も単純なので「Fakerの生成した値が悪かったのかな」と推測もできるのだが，そのような状況ばかりではないだろう．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ bin/rspec
+</span></span><span class="line"><span class="cl">F
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Failures:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  1<span class="o">)</span> User can destroy
+</span></span><span class="line"><span class="cl">     Failure/Error: let!<span class="o">(</span>:user<span class="o">)</span> <span class="o">{</span> FactoryBot.create<span class="o">(</span>:user<span class="o">)</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">     ActiveRecord::RecordInvalid:
+</span></span><span class="line"><span class="cl">       Validation failed: Name is invalid
+</span></span></code></pre></div><p>この例ははただの設定ミスであり，原因も単純なので「Fakerの生成した値が悪かったのかな」と推測もできるのだが，そのような状況ばかりではないだろう．</p>
 <p>ちなみにRSpecのテストを再現させる方法というと，テストが通らなかったときと同じseed値を指定してRSpecを実行するという方法がある．<br>
 しかしこれはあくまでテストの実行順を再現させるだけであり，その他のランダム化されている箇所は再現できない．当然Fakerの生成する値も再現できない．</p>
 <h2 id="解決方法">解決方法</h2>
 <p>Fakerはその値の生成に<code>Random.rand</code>や<code>Kernel.rand</code>を使っているようなのでそのシード値を与えてやればよい．
 この方法はRSpecのドキュメントでも提案されており<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>，デフォルトの<code>spec_helper.rb</code>にもコメントアウトされた状態で書かれている．<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
 <p><strong>spec/spec_helper.rb</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="p">:</span>
-  <span class="no">Kernel</span><span class="o">.</span><span class="n">srand</span> <span class="n">config</span><span class="o">.</span><span class="n">seed</span>
-  <span class="p">:</span>
-<span class="k">end</span>
-</code></pre></div><p><code>Kernel.srand</code>に整数値を渡すことで<code>Kernel.rand</code>や<code>Random.rand</code>のシード値を設定することができる<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">  <span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="no">Kernel</span><span class="o">.</span><span class="n">srand</span> <span class="n">config</span><span class="o">.</span><span class="n">seed</span>
+</span></span><span class="line"><span class="cl">  <span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></div><p><code>Kernel.srand</code>に整数値を渡すことで<code>Kernel.rand</code>や<code>Random.rand</code>のシード値を設定することができる<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
 <h2 id="試してみる">試してみる</h2>
 <p>実際にこの設定の動作を確認してみるために以下のようなテストコードを用意する．</p>
 <ul>
 <li>spec/random_data_spec.rb</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
-
-<span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="s1">&#39;Randomized data&#39;</span> <span class="k">do</span>
-  <span class="n">it</span> <span class="s1">&#39;prints some random strings&#39;</span> <span class="k">do</span>
-    <span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="nb">puts</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Name</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></div><p><code>Faker::Name.name</code>を実行し値を出力する
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">RSpec</span><span class="o">.</span><span class="n">describe</span> <span class="s1">&#39;Randomized data&#39;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">it</span> <span class="s1">&#39;prints some random strings&#39;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="nb">puts</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Name</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></div><p><code>Faker::Name.name</code>を実行し値を出力する
 まずは上記設定を行なっていない状態でRSpecのseedを指定して実行する</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ bin/rspec spec/random_data_spec.rb --seed <span class="m">1234</span>
-
-Randomized with seed <span class="m">1234</span>
-Jackson Erdman DVM
-Miss Angelina Nolan
-Nicholaus Walker PhD
-Terrence Pacocha
-Camren Denesik
-.
-
-Finished in 0.54782 seconds <span class="o">(</span>files took 0.50447 seconds to load<span class="o">)</span>
-<span class="m">1</span> example, <span class="m">0</span> failures
-
-Randomized with seed <span class="m">1234</span>
-
-$ bin/rspec spec/random_data_spec.rb --seed <span class="m">1234</span>
-
-Randomized with seed <span class="m">1234</span>
-Kirsten Ondricka
-Thora Jenkins
-Lenny Mertz MD
-John Sauer
-Liliana Heathcote
-.
-
-Finished in 0.53317 seconds <span class="o">(</span>files took 0.50113 seconds to load<span class="o">)</span>
-<span class="m">1</span> example, <span class="m">0</span> failures
-
-Randomized with seed <span class="m">1234</span>
-</code></pre></div><p>当然Fakerは毎回異なる値を生成する．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ bin/rspec spec/random_data_spec.rb --seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Randomized with seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">Jackson Erdman DVM
+</span></span><span class="line"><span class="cl">Miss Angelina Nolan
+</span></span><span class="line"><span class="cl">Nicholaus Walker PhD
+</span></span><span class="line"><span class="cl">Terrence Pacocha
+</span></span><span class="line"><span class="cl">Camren Denesik
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Finished in 0.54782 seconds <span class="o">(</span>files took 0.50447 seconds to load<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> example, <span class="m">0</span> failures
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Randomized with seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ bin/rspec spec/random_data_spec.rb --seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Randomized with seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">Kirsten Ondricka
+</span></span><span class="line"><span class="cl">Thora Jenkins
+</span></span><span class="line"><span class="cl">Lenny Mertz MD
+</span></span><span class="line"><span class="cl">John Sauer
+</span></span><span class="line"><span class="cl">Liliana Heathcote
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Finished in 0.53317 seconds <span class="o">(</span>files took 0.50113 seconds to load<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> example, <span class="m">0</span> failures
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Randomized with seed <span class="m">1234</span>
+</span></span></code></pre></div><p>当然Fakerは毎回異なる値を生成する．</p>
 <p>それでは上記設定を行なった状態で同じように実行してみる．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ bin/rspec spec/random_data_spec.rb --seed <span class="m">1234</span>
-
-Randomized with seed <span class="m">1234</span>
-Ian Bruen
-Dallas Gutkowski
-Augusta Kulas DVM
-Glen Kuphal
-Jamarcus Watsica
-.
-
-Finished in 0.61383 seconds <span class="o">(</span>files took 0.59588 seconds to load<span class="o">)</span>
-<span class="m">1</span> example, <span class="m">0</span> failures
-
-Randomized with seed <span class="m">1234</span>
-
-$ bin/rspec spec/random_data_spec.rb --seed <span class="m">1234</span>
-
-Randomized with seed <span class="m">1234</span>
-Ian Bruen
-Dallas Gutkowski
-Augusta Kulas DVM
-Glen Kuphal
-Jamarcus Watsica
-.
-
-Finished in 0.57579 seconds <span class="o">(</span>files took 0.52938 seconds to load<span class="o">)</span>
-<span class="m">1</span> example, <span class="m">0</span> failures
-
-Randomized with seed <span class="m">1234</span>
-</code></pre></div><p>Fakerは同じ値を生成するようになった．
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ bin/rspec spec/random_data_spec.rb --seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Randomized with seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">Ian Bruen
+</span></span><span class="line"><span class="cl">Dallas Gutkowski
+</span></span><span class="line"><span class="cl">Augusta Kulas DVM
+</span></span><span class="line"><span class="cl">Glen Kuphal
+</span></span><span class="line"><span class="cl">Jamarcus Watsica
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Finished in 0.61383 seconds <span class="o">(</span>files took 0.59588 seconds to load<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> example, <span class="m">0</span> failures
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Randomized with seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ bin/rspec spec/random_data_spec.rb --seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Randomized with seed <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">Ian Bruen
+</span></span><span class="line"><span class="cl">Dallas Gutkowski
+</span></span><span class="line"><span class="cl">Augusta Kulas DVM
+</span></span><span class="line"><span class="cl">Glen Kuphal
+</span></span><span class="line"><span class="cl">Jamarcus Watsica
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Finished in 0.57579 seconds <span class="o">(</span>files took 0.52938 seconds to load<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> example, <span class="m">0</span> failures
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Randomized with seed <span class="m">1234</span>
+</span></span></code></pre></div><p>Fakerは同じ値を生成するようになった．
 この状態でCIを行い，テストが通らなかったらそのときのseed値を指定すれば手元でも(Fakerや<code>rand</code>を使った値に関しては)再現できるようになる．</p>
 <p>以上．</p>
 <p>なお，ここで挙げたコードはGitHubに上げてある．<br>
@@ -232,26 +232,26 @@ Randomized with seed <span class="m">1234</span>
   </div>
 </div>
 
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
+<li id="fn:1">
 <p><a href="https://github.com/stympy/faker">GitHub - stympy/faker: A library for generating fake data such as names, addresses, and phone numbers.</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
+<li id="fn:2">
 <p><a href="https://github.com/stympy/faker/blob/master/doc/name.md">faker/name.md at master · stympy/faker</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:3" role="doc-endnote">
+<li id="fn:3">
 <p><a href="https://relishapp.com/rspec/rspec-core/docs/command-line/randomization-can-be-reproduced-across-test-runs">Randomization can be reproduced across test runs - Command line - RSpec Core - RSpec - Relish</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:4" role="doc-endnote">
+<li id="fn:4">
 <p><a href="https://github.com/rspec/rspec-core/blob/v3.7.0/lib/rspec/core/project_initializer/spec/spec_helper.rb">rspec-core/spec_helper.rb at v3.7.0 · rspec/rspec-core</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:5" role="doc-endnote">
+<li id="fn:5">
 <p><a href="https://docs.ruby-lang.org/ja/latest/class/Kernel.html#M_SRAND">module Kernel (Ruby 2.4.0)</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</section>
+</div>
     </section>
     <aside>
       <div class="share-box">
@@ -284,7 +284,7 @@ Randomized with seed <span class="m">1234</span>
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

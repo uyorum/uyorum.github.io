@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -108,22 +108,22 @@ Discovery ServiceのURLは通常使い回しはせずに構築するクラスタ
 前者は普通にetcdを起動すればいいみたい．ここでetcdを起動するホストはクラスタに参加させたいホストとは別物なので注意．これに気づくまでに時間がかかった．<br>
 (Public Serviceの方法はetcd2でしか使えない？etcd 4.9ではなぜかだめだった．)<br>
 Public Discovery Serviceを使うには</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl https://discovery.etcd.io/new?size<span class="o">=</span><span class="m">3</span>
-</code></pre></div><p>で返ってきたURLを<code>-discovery</code>オプションに指定してetcdを起動する．sizeにははじめにクラスタを構成する際のノード数を指定する．<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl https://discovery.etcd.io/new?size<span class="o">=</span><span class="m">3</span>
+</span></span></code></pre></div><p>で返ってきたURLを<code>-discovery</code>オプションに指定してetcdを起動する．sizeにははじめにクラスタを構成する際のノード数を指定する．<br>
 ここで指定する値は重要で，ここで指定した台数が集まらないとetcdクラスタが完成しない．(KVSが機能しない)</p>
 <p>今回は1つのOSでポートを変えてetcdプロセスを3つ起動してクラスタを構成してみる．</p>
 <ul>
 <li>環境</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /etc/redhat-release 
-CentOS Linux release 7.1.1503 <span class="o">(</span>Core<span class="o">)</span>
- 
-$ etcd --version
-etcd Version: 2.0.13
-Git SHA: 92e3895
-Go Version: go1.4.2
-Go OS/Arch: linux/amd64
-</code></pre></div><p>ここではあえてCoreOSは使わない．etcdはCoreOSだけのものではないので．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat /etc/redhat-release 
+</span></span><span class="line"><span class="cl">CentOS Linux release 7.1.1503 <span class="o">(</span>Core<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">$ etcd --version
+</span></span><span class="line"><span class="cl">etcd Version: 2.0.13
+</span></span><span class="line"><span class="cl">Git SHA: 92e3895
+</span></span><span class="line"><span class="cl">Go Version: go1.4.2
+</span></span><span class="line"><span class="cl">Go OS/Arch: linux/amd64
+</span></span></code></pre></div><p>ここではあえてCoreOSは使わない．etcdはCoreOSだけのものではないので．</p>
 <p>このホスト上でetcdを3つ起動する．</p>
 <table>
 <thead>
@@ -158,159 +158,159 @@ KVSへのアクセスを受け付けるポート</li>
 etcd同士で通信するときに使用するポート</li>
 </ul>
 <p>1ノード目を起動させる</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ etcd -name machine1 -initial-advertise-peer-urls http://127.0.0.1:2380 <span class="se">\
-</span><span class="se"></span>&gt; -listen-peer-urls http://127.0.0.1:2380 <span class="se">\
-</span><span class="se"></span>&gt; -listen-client-urls http://127.0.0.1:2379 <span class="se">\
-</span><span class="se"></span>&gt; -advertise-client-urls http://127.0.0.1:2379 <span class="se">\
-</span><span class="se"></span>&gt; -discovery https://discovery.etcd.io/&lt;token&gt;
-2015/08/31 22:03:06 etcd: no data-dir provided, using default data-dir ./machine1.etcd
-2015/08/31 22:03:06 etcd: listening <span class="k">for</span> peers on http://127.0.0.1:2380
-2015/08/31 22:03:06 etcd: listening <span class="k">for</span> client requests on http://127.0.0.1:2379
-2015/08/31 22:03:06 etcdserver: datadir is valid <span class="k">for</span> the 2.0.1 format
-2015/08/31 22:03:07 discovery: found self b4adc113c23753cc in the cluster
-2015/08/31 22:03:07 discovery: found <span class="m">1</span> peer<span class="o">(</span>s<span class="o">)</span>, waiting <span class="k">for</span> <span class="m">2</span> more
-</code></pre></div><p>initial~で始まるオプションはクラスタの他のノードに伝えるURL(Discovery Serviceに登録される)<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ etcd -name machine1 -initial-advertise-peer-urls http://127.0.0.1:2380 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -listen-peer-urls http://127.0.0.1:2380 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -listen-client-urls http://127.0.0.1:2379 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -advertise-client-urls http://127.0.0.1:2379 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -discovery https://discovery.etcd.io/&lt;token&gt;
+</span></span><span class="line"><span class="cl">2015/08/31 22:03:06 etcd: no data-dir provided, using default data-dir ./machine1.etcd
+</span></span><span class="line"><span class="cl">2015/08/31 22:03:06 etcd: listening <span class="k">for</span> peers on http://127.0.0.1:2380
+</span></span><span class="line"><span class="cl">2015/08/31 22:03:06 etcd: listening <span class="k">for</span> client requests on http://127.0.0.1:2379
+</span></span><span class="line"><span class="cl">2015/08/31 22:03:06 etcdserver: datadir is valid <span class="k">for</span> the 2.0.1 format
+</span></span><span class="line"><span class="cl">2015/08/31 22:03:07 discovery: found self b4adc113c23753cc in the cluster
+</span></span><span class="line"><span class="cl">2015/08/31 22:03:07 discovery: found <span class="m">1</span> peer<span class="o">(</span>s<span class="o">)</span>, waiting <span class="k">for</span> <span class="m">2</span> more
+</span></span></code></pre></div><p>initial~で始まるオプションはクラスタの他のノードに伝えるURL(Discovery Serviceに登録される)<br>
 listen~はそのまま．listenするポートとインターフェース<br>
 <strong>マルチクラウドなど，NAT環境なんかでは両者をしっかり区別する必要がある</strong></p>
 <p>残りのノードも同じように起動するとクラスタの構成が完了する</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">2015/08/31 22:07:45 raft: a956683cc771ba75 <span class="o">[</span>logterm: 1, index: 3, vote: 0<span class="o">]</span> voted <span class="k">for</span> 2307dad4ec70be21 <span class="o">[</span>logterm: 1, index: 3<span class="o">]</span> at term <span class="m">2</span>
-2015/08/31 22:07:45 raft.node: a956683cc771ba75 elected leader 2307dad4ec70be21 at term <span class="m">2</span>
-2015/08/31 22:07:45 rafthttp: starting client stream to 2307dad4ec70be21 at term <span class="m">2</span>
-2015/08/31 22:07:45 etcdserver: published <span class="o">{</span>Name:machine1 ClientURLs:<span class="o">[</span>http://127.0.0.1:32379<span class="o">]}</span> to cluster 31fef011866a5fd7
-</code></pre></div><p>このノードがクラスタのLeaderに選ばれたのがわかる．このへんはRaftというアルゴリズムが用いられているらしい．Raftについてはあとで調べたい．<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">2015/08/31 22:07:45 raft: a956683cc771ba75 <span class="o">[</span>logterm: 1, index: 3, vote: 0<span class="o">]</span> voted <span class="k">for</span> 2307dad4ec70be21 <span class="o">[</span>logterm: 1, index: 3<span class="o">]</span> at term <span class="m">2</span>
+</span></span><span class="line"><span class="cl">2015/08/31 22:07:45 raft.node: a956683cc771ba75 elected leader 2307dad4ec70be21 at term <span class="m">2</span>
+</span></span><span class="line"><span class="cl">2015/08/31 22:07:45 rafthttp: starting client stream to 2307dad4ec70be21 at term <span class="m">2</span>
+</span></span><span class="line"><span class="cl">2015/08/31 22:07:45 etcdserver: published <span class="o">{</span>Name:machine1 ClientURLs:<span class="o">[</span>http://127.0.0.1:32379<span class="o">]}</span> to cluster 31fef011866a5fd7
+</span></span></code></pre></div><p>このノードがクラスタのLeaderに選ばれたのがわかる．このへんはRaftというアルゴリズムが用いられているらしい．Raftについてはあとで調べたい．<br>
 ちなみにクラスタ構成後にDiscovery URLを見てみると</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl https://discovery.etcd.io/9dfd14389c921bdde47847f13b7f51cb
-<span class="o">{</span>
-  <span class="s2">&#34;node&#34;</span>: <span class="o">{</span>
-    <span class="s2">&#34;createdIndex&#34;</span>: 780131509.0,
-    <span class="s2">&#34;modifiedIndex&#34;</span>: 780131509.0,
-    <span class="s2">&#34;nodes&#34;</span>: <span class="o">[</span>
-      <span class="o">{</span>
-        <span class="s2">&#34;createdIndex&#34;</span>: 780132766.0,
-        <span class="s2">&#34;modifiedIndex&#34;</span>: 780132766.0,
-        <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;machine1=http:\/\/127.0.0.1:2380&#34;</span>,
-        <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/a956683cc771ba75&#34;</span>
-      <span class="o">}</span>,
-      <span class="o">{</span>
-        <span class="s2">&#34;createdIndex&#34;</span>: 780132931.0,
-        <span class="s2">&#34;modifiedIndex&#34;</span>: 780132931.0,
-        <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;machine2=http:\/\/127.0.0.1:22380&#34;</span>,
-        <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/2307dad4ec70be21&#34;</span>
-      <span class="o">}</span>,
-      <span class="o">{</span>
-        <span class="s2">&#34;createdIndex&#34;</span>: 780133027.0,
-        <span class="s2">&#34;modifiedIndex&#34;</span>: 780133027.0,
-        <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;machine3=http:\/\/127.0.0.1:32380&#34;</span>,
-        <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/6693db807ca7130f&#34;</span>
-      <span class="o">}</span>
-    <span class="o">]</span>,
-    <span class="s2">&#34;dir&#34;</span>: true,
-    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb&#34;</span>
-  <span class="o">}</span>,
-  <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;get&#34;</span>
-<span class="o">}</span>
-</code></pre></div><p>jsonは別途，見やすくパースしてる．実際にはjsonが1行で表示される．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ curl https://discovery.etcd.io/9dfd14389c921bdde47847f13b7f51cb
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;node&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;createdIndex&#34;</span>: 780131509.0,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;modifiedIndex&#34;</span>: 780131509.0,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;nodes&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">      <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;createdIndex&#34;</span>: 780132766.0,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;modifiedIndex&#34;</span>: 780132766.0,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;machine1=http:\/\/127.0.0.1:2380&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/a956683cc771ba75&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">      <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;createdIndex&#34;</span>: 780132931.0,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;modifiedIndex&#34;</span>: 780132931.0,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;machine2=http:\/\/127.0.0.1:22380&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/2307dad4ec70be21&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">      <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;createdIndex&#34;</span>: 780133027.0,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;modifiedIndex&#34;</span>: 780133027.0,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;machine3=http:\/\/127.0.0.1:32380&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb\/6693db807ca7130f&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;dir&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/_etcd\/registry\/9dfd14389c921bdde47847f13b7f51cb&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;get&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>jsonは別途，見やすくパースしてる．実際にはjsonが1行で表示される．</p>
 <p>このクラスタに後からノードを追加したい場合は同じURLを指定してetcdを実行すればよい．内容を見て自動でクラスタに参加してくれる．
 (このURLはいつまで有効？)</p>
 <h3 id="kvsの使用">KVSの使用</h3>
 <p>試しにKVSに値を入れてみる(APIは<a href="https://github.com/coreos/etcd/blob/master/Documentation/api.md">ここ</a>を参照)</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl http://127.0.0.1:2379/v2/keys/foo -XPUT -d <span class="nv">value</span><span class="o">=</span>bar
-<span class="o">{</span>
-  <span class="s2">&#34;node&#34;</span>: <span class="o">{</span>
-    <span class="s2">&#34;createdIndex&#34;</span>: 7,
-    <span class="s2">&#34;modifiedIndex&#34;</span>: 7,
-    <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;bar&#34;</span>,
-    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/foo&#34;</span>
-  <span class="o">}</span>,
-  <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;set&#34;</span>
-<span class="o">}</span>
-$ curl http://127.0.0.1:2379/v2/keys/foo
-<span class="o">{</span>
-  <span class="s2">&#34;node&#34;</span>: <span class="o">{</span>
-    <span class="s2">&#34;createdIndex&#34;</span>: 7,
-    <span class="s2">&#34;modifiedIndex&#34;</span>: 7,
-    <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;bar&#34;</span>,
-    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/foo&#34;</span>
-  <span class="o">}</span>,
-  <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;get&#34;</span>
-<span class="o">}</span>
-</code></pre></div><p>登録された．別のノード(22379番ポート)に同じキーを問い合わせてみる</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl http://127.0.0.1:22379/v2/keys/foo
-<span class="o">{</span>
-  <span class="s2">&#34;node&#34;</span>: <span class="o">{</span>
-    <span class="s2">&#34;createdIndex&#34;</span>: 7,
-    <span class="s2">&#34;modifiedIndex&#34;</span>: 7,
-    <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;bar&#34;</span>,
-    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/foo&#34;</span>
-  <span class="o">}</span>,
-  <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;get&#34;</span>
-<span class="o">}</span>
-</code></pre></div><h2 id="coreosでは">CoreOSでは</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ curl http://127.0.0.1:2379/v2/keys/foo -XPUT -d <span class="nv">value</span><span class="o">=</span>bar
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;node&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;createdIndex&#34;</span>: 7,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;modifiedIndex&#34;</span>: 7,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;bar&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/foo&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;set&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">$ curl http://127.0.0.1:2379/v2/keys/foo
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;node&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;createdIndex&#34;</span>: 7,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;modifiedIndex&#34;</span>: 7,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;bar&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/foo&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;get&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>登録された．別のノード(22379番ポート)に同じキーを問い合わせてみる</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ curl http://127.0.0.1:22379/v2/keys/foo
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;node&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;createdIndex&#34;</span>: 7,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;modifiedIndex&#34;</span>: 7,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;bar&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;\/foo&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;get&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="coreosでは">CoreOSでは</h2>
 <p>etcd2はsystemdによりdaemonとして起動させる．先ほどコマンドオプションで与えていた情報はCloud-Configで設定できる．</p>
 <ul>
 <li>cloud-config.yml</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">coreos</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">units</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">etcd2.service</span><span class="w">
-</span><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">start</span><span class="w">
-</span><span class="w">  </span><span class="nt">etcd2</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">discovery</span><span class="p">:</span><span class="w"> </span><span class="l">https://discovery.etcd.io/&lt;token&gt;</span><span class="w">
-</span><span class="w">    </span><span class="nt">listen-client-urls</span><span class="p">:</span><span class="w"> </span><span class="l">http://0.0.0.0:2379</span><span class="w">
-</span><span class="w">    </span><span class="nt">advertise-client-urls</span><span class="p">:</span><span class="w"> </span><span class="l">http://$private_ipv4:2379</span><span class="w">
-</span><span class="w">    </span><span class="nt">listen-peer-urls</span><span class="p">:</span><span class="w"> </span><span class="l">http://$private_ipv4:2380</span><span class="w">
-</span><span class="w">    </span><span class="nt">initial-advertise-peer-urls</span><span class="p">:</span><span class="w"> </span><span class="l">http://$private_ipv4:2380</span><span class="w">
-</span></code></pre></div><p>tokenはもう一度取得しなおすこと．起動させてからコマンドで確認してみると．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ fleetctl list-machines -l
-MACHINE                                 IP              METADATA
-4c5b32d1d79c47ff8e4847e1df78ab53        10.0.0.111      -
-79e7347d66de4ce8b3ec423cdd93e314        10.0.0.124      -
-ef6ce0b8871844beb929411f8926b686        10.0.0.139      -
-</code></pre></div><p>クラスタを構成できていることがわかる．<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">coreos</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">units</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">etcd2.service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">start</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">etcd2</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">discovery</span><span class="p">:</span><span class="w"> </span><span class="l">https://discovery.etcd.io/&lt;token&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">listen-client-urls</span><span class="p">:</span><span class="w"> </span><span class="l">http://0.0.0.0:2379</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">advertise-client-urls</span><span class="p">:</span><span class="w"> </span><span class="l">http://$private_ipv4:2379</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">listen-peer-urls</span><span class="p">:</span><span class="w"> </span><span class="l">http://$private_ipv4:2380</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">initial-advertise-peer-urls</span><span class="p">:</span><span class="w"> </span><span class="l">http://$private_ipv4:2380</span><span class="w">
+</span></span></span></code></pre></div><p>tokenはもう一度取得しなおすこと．起動させてからコマンドで確認してみると．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ fleetctl list-machines -l
+</span></span><span class="line"><span class="cl">MACHINE                                 IP              METADATA
+</span></span><span class="line"><span class="cl">4c5b32d1d79c47ff8e4847e1df78ab53        10.0.0.111      -
+</span></span><span class="line"><span class="cl">79e7347d66de4ce8b3ec423cdd93e314        10.0.0.124      -
+</span></span><span class="line"><span class="cl">ef6ce0b8871844beb929411f8926b686        10.0.0.139      -
+</span></span></code></pre></div><p>クラスタを構成できていることがわかる．<br>
 なお，Amazon EC2, Google Compute Engine, OpenStack, Rackspace, DigitalOcean, Vagrantに限り，<code>$private_ipv4</code>や<code>$public_ipv4</code>という変数が使える．</p>
 <h3 id="任意の環境でprivate_ipv4を使う">任意の環境でprivate_ipv4を使う</h3>
 <p>ここからは自分で検証した結果をまとめておく．</p>
 <p>前述の通りprivate_ipv4等の変数は一部の環境でしか使えない．<br>
 そのためCoreOSホスト毎にcloud-config.ymlを用意するでもない限り，その他の環境では少し工夫する必要がある．</p>
 <p><code>cloud-config.yml</code>を読み込むとetcdの設定ファイル<code>/run/systemd/system/etcd2.service.d/20-cloudinit.conf</code>が生成される．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_ADVERTISE_CLIENT_URLS=http://:2379&#34;</span>
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_DISCOVERY=https://discovery.etcd.io/7d7a0ede23474b12c32b88e5b968b2a5&#34;</span>
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_INITIAL_ADVERTISE_PEER_URLS=http://:2380&#34;</span>
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379&#34;</span>
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_LISTEN_PEER_URLS=http://:2380&#34;</span>
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_NAME=default&#34;</span>
-</code></pre></div><p><code>$private_ipv4</code>が空なのでIPアドレスが空になってる．<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>Service<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_ADVERTISE_CLIENT_URLS=http://:2379&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_DISCOVERY=https://discovery.etcd.io/7d7a0ede23474b12c32b88e5b968b2a5&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_INITIAL_ADVERTISE_PEER_URLS=http://:2380&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_LISTEN_PEER_URLS=http://:2380&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;ETCD_NAME=default&#34;</span>
+</span></span></code></pre></div><p><code>$private_ipv4</code>が空なのでIPアドレスが空になってる．<br>
 1つの方法としてはOS起動後にこのファイルを編集してetcdを再起動することで対応できる．</p>
 <p>または<code>/etc/environment</code>でも設定できる．このファイルを作成し，以下のような内容にすることでそれぞれ<code>$public_ipv4</code>と<code>$private_ipv4</code>がセットされる．</p>
 <ul>
 <li>/etc/environment</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">COREOS_PUBLIC_IPV4</span><span class="o">=</span>XXX.XXX.XXX.XXX
-<span class="nv">COREOS_PRIVATE_IPV4</span><span class="o">=</span>10.0.0.100
-</code></pre></div><p>systemctlのunitを作成し，IPアドレスを取得し上記のファイルを作成するようにしている．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">COREOS_PUBLIC_IPV4</span><span class="o">=</span>XXX.XXX.XXX.XXX
+</span></span><span class="line"><span class="cl"><span class="nv">COREOS_PRIVATE_IPV4</span><span class="o">=</span>10.0.0.100
+</span></span></code></pre></div><p>systemctlのunitを作成し，IPアドレスを取得し上記のファイルを作成するようにしている．</p>
 <ul>
 <li>cloud-config.yml</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">coreos</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">update</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">reboot-strategy</span><span class="p">:</span><span class="w"> </span><span class="l">reboot</span><span class="w">
-</span><span class="w">    </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">master</span><span class="w">
-</span><span class="w">  </span><span class="nt">units</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="c"># Create etcd2 parameters</span><span class="w">
-</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">create-etcd-env.service</span><span class="w">
-</span><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">start</span><span class="w">
-</span><span class="w">      </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
-</span><span class="sd">        [Unit]
-</span><span class="sd">        Description=creates etcd environment
-</span><span class="sd">        Before=etcd2.service</span><span class="w">        
-</span><span class="w"> 
-</span><span class="w">        </span><span class="p">[</span><span class="l">Service]</span><span class="w">
-</span><span class="w">        </span><span class="l">Type=oneshot</span><span class="w">
-</span><span class="w">        </span><span class="l">ExecStart=/bin/bash -c &#34;echo COREOS_PUBLIC_IPV4=`curl -s ipinfo.io | jq -r &#39;.ip&#39;` &gt; /etc/environment&#34;</span><span class="w">
-</span><span class="w">        </span><span class="l">ExecStart=/bin/bash -c &#34;echo COREOS_PRIVATE_IPV4=`ip addr show eth0 | grep -o &#39;inet [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+&#39; | grep -o [0-9].*` &gt;&gt; /etc/environment&#34;</span><span class="w">
-</span><span class="w">        </span><span class="l">Execstart=/bin/systemctl restart user-configdrive.service</span><span class="w">
-</span></code></pre></div><p>※ 最後に<code>user-configdrive.service</code>を再起動し設定ファイルを生成し直すようにしたいがなぜかうまくいかない．手で叩くとうまくいくのだが？？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">coreos</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">update</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">reboot-strategy</span><span class="p">:</span><span class="w"> </span><span class="l">reboot</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">master</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">units</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># Create etcd2 parameters</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">create-etcd-env.service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">start</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">        [Unit]
+</span></span></span><span class="line"><span class="cl"><span class="sd">        Description=creates etcd environment
+</span></span></span><span class="line"><span class="cl"><span class="sd">        Before=etcd2.service</span><span class="w">        
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">[</span><span class="l">Service]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">Type=oneshot</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">ExecStart=/bin/bash -c &#34;echo COREOS_PUBLIC_IPV4=`curl -s ipinfo.io | jq -r &#39;.ip&#39;` &gt; /etc/environment&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">ExecStart=/bin/bash -c &#34;echo COREOS_PRIVATE_IPV4=`ip addr show eth0 | grep -o &#39;inet [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+&#39; | grep -o [0-9].*` &gt;&gt; /etc/environment&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">Execstart=/bin/systemctl restart user-configdrive.service</span><span class="w">
+</span></span></span></code></pre></div><p>※ 最後に<code>user-configdrive.service</code>を再起動し設定ファイルを生成し直すようにしたいがなぜかうまくいかない．手で叩くとうまくいくのだが？？</p>
     </section>
     <aside>
       <div class="share-box">
@@ -341,7 +341,7 @@ ef6ce0b8871844beb929411f8926b686        10.0.0.139      -
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

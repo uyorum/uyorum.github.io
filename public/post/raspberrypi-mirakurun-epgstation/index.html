@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -104,18 +104,18 @@ bootパーティション直下に<code>ssh</code>という空のファイルを
 <p>いったん弱いパスワードで設定したがあとでパスワードは無効化するため問題ない。</p>
 </li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">touch /boot/ssh
-<span class="nb">echo</span> pi:<span class="k">$(</span><span class="nb">echo</span> password <span class="p">|</span> openssl passwd -6 -stdin<span class="k">)</span> &gt;/boot/userconf.txt
-</code></pre></div><h3 id="os設定">OS設定</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">touch /boot/ssh
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> pi:<span class="k">$(</span><span class="nb">echo</span> password <span class="p">|</span> openssl passwd -6 -stdin<span class="k">)</span> &gt;/boot/userconf.txt
+</span></span></code></pre></div><h3 id="os設定">OS設定</h3>
 <p>以上の内容でSDカードをセットアップしたらSSHでログインできる状態でOSが起動してくる。
 SSHでログインできるようになったら以下の設定を入れていく</p>
 <h4 id="アップデート">アップデート</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo rpi-update
-sudo apt update
-sudo apt upgrade
-</code></pre></div><h4 id="raspi-config">raspi-config</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo raspi-config
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo rpi-update
+</span></span><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt upgrade
+</span></span></code></pre></div><h4 id="raspi-config">raspi-config</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo raspi-config
+</span></span></code></pre></div><ul>
 <li>ホスト名を設定</li>
 <li>VNCを無効化</li>
 <li>locale -&gt; en_US.UTF-8に設定</li>
@@ -125,60 +125,60 @@ sudo apt upgrade
 <p>いったんここでrebootしておく</p>
 <h4 id="パスワード無効化">パスワード無効化</h4>
 <p><code>authorized_keys</code>に公開鍵を設定 (ssh-copy-idを使用)してから以下を実行</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo passwd -d pi
-sudo sed -i <span class="s1">&#39;s/^#\?PasswordAuthentication.*/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
-sudo systemctl restart ssh
-</code></pre></div><h4 id="スワップを無効化">スワップを無効化</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo passwd -d pi
+</span></span><span class="line"><span class="cl">sudo sed -i <span class="s1">&#39;s/^#\?PasswordAuthentication.*/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
+</span></span><span class="line"><span class="cl">sudo systemctl restart ssh
+</span></span></code></pre></div><h4 id="スワップを無効化">スワップを無効化</h4>
 <p>SDカードの書き込みを減らすために設定</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo swapoff --all
-sudo systemctl stop dphys-swapfile
-sudo systemctl disable dphys-swapfile
-</code></pre></div><h4 id="時刻同期">時刻同期</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt install -y chrony
-$ sudo vi /etc/chrony/chrony.conf
-// pool行を「pool time.google.com iburst」に変更
-$ sudo systemctl restart chrony
-</code></pre></div><h4 id="bluetoothを無効化">Bluetoothを無効化</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo swapoff --all
+</span></span><span class="line"><span class="cl">sudo systemctl stop dphys-swapfile
+</span></span><span class="line"><span class="cl">sudo systemctl disable dphys-swapfile
+</span></span></code></pre></div><h4 id="時刻同期">時刻同期</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo apt install -y chrony
+</span></span><span class="line"><span class="cl">$ sudo vi /etc/chrony/chrony.conf
+</span></span><span class="line"><span class="cl">// pool行を「pool time.google.com iburst」に変更
+</span></span><span class="line"><span class="cl">$ sudo systemctl restart chrony
+</span></span></code></pre></div><h4 id="bluetoothを無効化">Bluetoothを無効化</h4>
 <p>少しでも消費電力を少なくするために設定しておく</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;EOF | sudo tee -a /boot/config.txt
-</span><span class="s">
-</span><span class="s"># Disable Bluetooth
-</span><span class="s">dtoverlay=disable-bt
-</span><span class="s">EOF</span>
-$ sudo systemctl disable hciuart.service
-$ sudo systemctl disable bluealsa.service
-$ sudo systemctl disable bluetooth.service
-</code></pre></div><h4 id="wifi無効化">WiFi無効化</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo iwconfig wlan0 txpower off
-</code></pre></div><h4 id="ハードウェアエンコード有効化">ハードウェアエンコード有効化</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s1">&#39;SUBSYSTEM==&#34;vchiq&#34;,GROUP=&#34;video&#34;,MODE=&#34;0666&#34;&#39;</span> <span class="p">|</span> sudo tee /etc/udev/rules.d/10-vchiq-permissions.rules
-</code></pre></div><h4 id="外付けhddをマウント">外付けHDDをマウント</h4>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt install xfsprogs
-$ sudo fdisk /dev/sda
-// sda1を作成
-$ sudo mkfs.xfs /dev/sda1
-$ sudo mkdir /mnt/recorded
-$ <span class="nb">echo</span> <span class="s1">&#39;/dev/sda1 /mnt/recorded xfs defaults 0 0&#39;</span> <span class="p">|</span> sudo tee -a /etc/fstab
-$ sudo mount -a
-$ sudo chmod <span class="m">777</span> /mnt/recorded
-</code></pre></div><p>最後にパーミッションを777にしているのはEPGStationコンテナ内のプロセス(ffmpeg)から書き込みできるようにするため。<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | sudo tee -a /boot/config.txt
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># Disable Bluetooth
+</span></span></span><span class="line"><span class="cl"><span class="s">dtoverlay=disable-bt
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">$ sudo systemctl disable hciuart.service
+</span></span><span class="line"><span class="cl">$ sudo systemctl disable bluealsa.service
+</span></span><span class="line"><span class="cl">$ sudo systemctl disable bluetooth.service
+</span></span></code></pre></div><h4 id="wifi無効化">WiFi無効化</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo iwconfig wlan0 txpower off
+</span></span></code></pre></div><h4 id="ハードウェアエンコード有効化">ハードウェアエンコード有効化</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;SUBSYSTEM==&#34;vchiq&#34;,GROUP=&#34;video&#34;,MODE=&#34;0666&#34;&#39;</span> <span class="p">|</span> sudo tee /etc/udev/rules.d/10-vchiq-permissions.rules
+</span></span></code></pre></div><h4 id="外付けhddをマウント">外付けHDDをマウント</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo apt install xfsprogs
+</span></span><span class="line"><span class="cl">$ sudo fdisk /dev/sda
+</span></span><span class="line"><span class="cl">// sda1を作成
+</span></span><span class="line"><span class="cl">$ sudo mkfs.xfs /dev/sda1
+</span></span><span class="line"><span class="cl">$ sudo mkdir /mnt/recorded
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;/dev/sda1 /mnt/recorded xfs defaults 0 0&#39;</span> <span class="p">|</span> sudo tee -a /etc/fstab
+</span></span><span class="line"><span class="cl">$ sudo mount -a
+</span></span><span class="line"><span class="cl">$ sudo chmod <span class="m">777</span> /mnt/recorded
+</span></span></code></pre></div><p>最後にパーミッションを777にしているのはEPGStationコンテナ内のプロセス(ffmpeg)から書き込みできるようにするため。<br>
 ネットではEPGStationのUIDを1000にするのがよく見つかるが、UIDを固定するのがしっくりこなかったため自分はこのようにした。</p>
 <p>このあたりで一度rebootしておく。</p>
 <h3 id="チューナードライバをインストール">チューナードライバをインストール</h3>
 <p>メジャーなチューナーなので方法は検索すればすぐ見つかる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">wget http://plex-net.co.jp/plex/px-s1ud/PX-S1UD_driver_Ver.1.0.1.zip
-unzip PX-S1UD_driver_Ver.1.0.1.zip
-sudo cp PX-S1UD_driver_Ver.1.0.1/x64/amd64/isdbt_rio.inp /lib/firmware/
-</code></pre></div><h3 id="カードリーダー">カードリーダー</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wget http://plex-net.co.jp/plex/px-s1ud/PX-S1UD_driver_Ver.1.0.1.zip
+</span></span><span class="line"><span class="cl">unzip PX-S1UD_driver_Ver.1.0.1.zip
+</span></span><span class="line"><span class="cl">sudo cp PX-S1UD_driver_Ver.1.0.1/x64/amd64/isdbt_rio.inp /lib/firmware/
+</span></span></code></pre></div><h3 id="カードリーダー">カードリーダー</h3>
 <p>これは不要かもしれない</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt install pcscd pcsc-tools libccid
-sudo pcsc_scan
-</code></pre></div><p>最後に「Japanese Chijou Digital B-CAS Card (pay TV)」という文字列が表示される。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install pcscd pcsc-tools libccid
+</span></span><span class="line"><span class="cl">sudo pcsc_scan
+</span></span></code></pre></div><p>最後に「Japanese Chijou Digital B-CAS Card (pay TV)」という文字列が表示される。
 Ctrl-Cで終了。</p>
 <h3 id="docker">Docker</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl -sSL https://get.docker.com/ <span class="p">|</span> <span class="nv">CHANNEL</span><span class="o">=</span>stable sh
-sudo usermod -aG docker <span class="nv">$USER</span>
-</code></pre></div><p>最後の<code>usermod</code>はpiユーザでsudoなしで<code>docker</code>コマンドを実行できるようにするため。<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl -sSL https://get.docker.com/ <span class="p">|</span> <span class="nv">CHANNEL</span><span class="o">=</span>stable sh
+</span></span><span class="line"><span class="cl">sudo usermod -aG docker <span class="nv">$USER</span>
+</span></span></code></pre></div><p>最後の<code>usermod</code>はpiユーザでsudoなしで<code>docker</code>コマンドを実行できるようにするため。<br>
 変更を反映させるためにSSHで再ログインしておく。</p>
 <h3 id="mirakurunepgstation">Mirakurun/EPGStation</h3>
 <p>一式をDockerで動かすためのComposeファイルはすでに<a href="https://github.com/l3tnun/docker-mirakurun-epgstation">公開されている</a>が、Raspberry Piではそのままでは動かないためいくつか変更する。</p>
@@ -186,24 +186,24 @@ sudo usermod -aG docker <span class="nv">$USER</span>
 <a href="https://github.com/CH3COOH/docker-mirakurun-epgstation">CH3COOH/docker-mirakurun-epgstation: Mirakurun + EPGStation on Docker</a></p>
 <p>リポジトリはここで公開している。<br>
 <a href="https://github.com/uyorum/rpi-docker-mirakurun-epgstation">uyorum/rpi-docker-mirakurun-epgstation: Mirakurun + EPGStation on Docker tuned for Raspberry Pi</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl -sf https://raw.githubusercontent.com/uyorum/rpi-docker-mirakurun-epgstation/v2/setup.sh <span class="p">|</span> sh -s
-<span class="nb">cd</span> rpi-docker-mirakurun-epgstation
-</code></pre></div><p><code>mirakurun/conf/channels.yml</code>と<code>docker-compose.yml</code>を適宜編集する。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl -sf https://raw.githubusercontent.com/uyorum/rpi-docker-mirakurun-epgstation/v2/setup.sh <span class="p">|</span> sh -s
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> rpi-docker-mirakurun-epgstation
+</span></span></code></pre></div><p><code>mirakurun/conf/channels.yml</code>と<code>docker-compose.yml</code>を適宜編集する。
 自分の場合、録画データは外付けHDDをマウントした<code>/mnt/recorded</code>に保存したかったので<code>docker-compose.yml</code>を以下のように変更した。</p>
-<div class="highlight"><pre class="chroma"><code class="language-diff" data-lang="diff"><span class="gu">@@ -52,7 +52,7 @@ services:
-</span><span class="gu"></span>             - ./epgstation/data:/app/data
-             - ./epgstation/thumbnail:/app/thumbnail
-             - ./epgstation/logs:/app/logs
-<span class="gd">-            - ./recorded:/app/recorded
-</span><span class="gd"></span><span class="gi">+            - /mnt/recorded:/app/recorded
-</span><span class="gi"></span>             - /opt/vc/lib:/opt/vc/lib:ro
-         environment:
-             TZ: &#34;Asia/Tokyo&#34;
-</code></pre></div><p>編集が終わったら以下のコマンドでコンテナを起動する。初回はイメージのビルドとともにffmpegをビルドするので数十分かかる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">docker compose up -d
-</code></pre></div><p>コンテナが無事起動したらチャンネルスキャンを実行しておく。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl -X PUT <span class="s2">&#34;http://localhost:40772/api/config/channels/scan&#34;</span>
-</code></pre></div><p>これで<code>http://IP:8888</code>にアクセスすればEPGStationのWebUIが表示される。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gu">@@ -52,7 +52,7 @@ services:
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span>             - ./epgstation/data:/app/data
+</span></span><span class="line"><span class="cl">             - ./epgstation/thumbnail:/app/thumbnail
+</span></span><span class="line"><span class="cl">             - ./epgstation/logs:/app/logs
+</span></span><span class="line"><span class="cl"><span class="gd">-            - ./recorded:/app/recorded
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+            - /mnt/recorded:/app/recorded
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span>             - /opt/vc/lib:/opt/vc/lib:ro
+</span></span><span class="line"><span class="cl">         environment:
+</span></span><span class="line"><span class="cl">             TZ: &#34;Asia/Tokyo&#34;
+</span></span></code></pre></div><p>編集が終わったら以下のコマンドでコンテナを起動する。初回はイメージのビルドとともにffmpegをビルドするので数十分かかる。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker compose up -d
+</span></span></code></pre></div><p>コンテナが無事起動したらチャンネルスキャンを実行しておく。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl -X PUT <span class="s2">&#34;http://localhost:40772/api/config/channels/scan&#34;</span>
+</span></span></code></pre></div><p>これで<code>http://IP:8888</code>にアクセスすればEPGStationのWebUIが表示される。</p>
 <p>以上</p>
 <h2 id="参考">参考</h2>
 <ul>
@@ -252,7 +252,7 @@ sudo usermod -aG docker <span class="nv">$USER</span>
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

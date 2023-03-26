@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -76,35 +76,35 @@
     <section itemprop="entry-text">
       <p>久しぶりにアップデートしたら日本語入力ができなくなってしまったのでメモ。</p>
 <h2 id="環境">環境</h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /etc/debian_version
-11.5
-</code></pre></div><h2 id="これまでの設定方法">これまでの設定方法</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat /etc/debian_version
+</span></span><span class="line"><span class="cl">11.5
+</span></span></code></pre></div><h2 id="これまでの設定方法">これまでの設定方法</h2>
 <p>これまでの方法は調べるといくつも見つかる。例えばこれ
 <a href="https://3nmt.com/chromebook_linux_japanese/">ChromebookのLinux環境(日本語)セットアップ</a></p>
 <p>この状態で日本語入力ができていたのだが、Debianを上記のバージョンにアップデートしたところ、GUIで日本語入力ができなくなった。
 調べたところ、<code>cros-garcon.service</code>で環境変数を設定する方法はDeprecatedになったらしい。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /etc/systemd/user/cros-garcon.service.d/cros-garcon-override.conf
-<span class="c1"># This file has been deprecated and could be removed in the future.</span>
-<span class="c1"># Environment variables in the container can be set session-wide by systemd.</span>
-<span class="c1"># See environment.d(5) or the following URL for more information:</span>
-<span class="c1"># https://chromium.googlesource.com/chromiumos/docs/+/main/containers_and_vms.md#Can-I-set-environment-variables-for-my-container</span>
-</code></pre></div><p>自分はデフォルトで存在する上記のファイルではなく、別のファイルを作成して環境変数を設定していた。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat /etc/systemd/user/cros-garcon.service.d/cros-garcon-override.conf
+</span></span><span class="line"><span class="cl"><span class="c1"># This file has been deprecated and could be removed in the future.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Environment variables in the container can be set session-wide by systemd.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># See environment.d(5) or the following URL for more information:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://chromium.googlesource.com/chromiumos/docs/+/main/containers_and_vms.md#Can-I-set-environment-variables-for-my-container</span>
+</span></span></code></pre></div><p>自分はデフォルトで存在する上記のファイルではなく、別のファイルを作成して環境変数を設定していた。
 もし上記のファイルを変更していた場合はDebianをアップデートしても上記のコメントは挿入されないかもしれない。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /etc/systemd/user/cros-garcon.service.d/99-fcitx.conf
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;GTK_IM_MODULE=fcitx&#34;</span>
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;QT_IM_MODULE=fcitx&#34;</span>
-<span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;XMODIFIERS=@im=fcitx&#34;</span>
-</code></pre></div><h2 id="新しい設定方法">新しい設定方法</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat /etc/systemd/user/cros-garcon.service.d/99-fcitx.conf
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;GTK_IM_MODULE=fcitx&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;QT_IM_MODULE=fcitx&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Environment</span><span class="o">=</span><span class="s2">&#34;XMODIFIERS=@im=fcitx&#34;</span>
+</span></span></code></pre></div><h2 id="新しい設定方法">新しい設定方法</h2>
 <p>代わりの方法は上のファイルに書かれている通り、<code>man 5 environment.d</code>を確認してみる。
 どうやら設定ファイルに1行ずつ<code>KEY=VALUE</code>形式で書いてやればよさそう。
 使えるファイル名はいくつかあるが、<code>/etc/environment.d/99-fcitx.conf</code>に書く。たぶんこのディレクトリがベスト。
 読み込み順はファイル名でソートされる（後のものが優先）ため、適当に数字をつけておく。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/environment.d/99-fcitx.conf
-</span><span class="s">GTK_IM_MODULE=fcitx
-</span><span class="s">QT_IM_MODULE=fcitx
-</span><span class="s">XMODIFIERS=@im=fcitx
-</span><span class="s">EOF</span>
-</code></pre></div><p>これでLinuxを再起動（不要かも）をすれば反映される。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/environment.d/99-fcitx.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">GTK_IM_MODULE=fcitx
+</span></span></span><span class="line"><span class="cl"><span class="s">QT_IM_MODULE=fcitx
+</span></span></span><span class="line"><span class="cl"><span class="s">XMODIFIERS=@im=fcitx
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></div><p>これでLinuxを再起動（不要かも）をすれば反映される。</p>
 <div class="amazon-widget">
   <div class="amazon-widget-image">
     <a target="_blank" href="https://www.amazon.co.jp/dp/B0895WXXKL/?tag=uyorum-22">
@@ -146,7 +146,7 @@
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     
