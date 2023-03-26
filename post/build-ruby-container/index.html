@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -88,23 +88,23 @@
 <p>よくよく見てみるとReadmeに普通に書いてある。<br>
 <a href="https://github.com/rbenv/ruby-build">rbenv/ruby-build: Compile and install Ruby</a></p>
 <p>Dockerfileは以下のようになる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> centos:7</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> yum install -y git make gcc bzip2 openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel <span class="o">&amp;&amp;</span> <span class="se">\
-</span><span class="se"></span>  git clone https://github.com/rbenv/ruby-build.git <span class="o">&amp;&amp;</span> <span class="se">\
-</span><span class="se"></span>  <span class="nv">PREFIX</span><span class="o">=</span>/usr/local ./ruby-build/install.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">GEM_HOME</span><span class="o">=</span>/tmp/gems<span class="err">
-</span><span class="err"></span><span class="k">VOLUME</span><span class="s"> ${GEM_HOME}</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">RUBY_VERSION</span><span class="o">=</span><span class="m">2</span>.7.3<span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">RUBY_DIR</span><span class="o">=</span>/usr/local/ruby-<span class="si">${</span><span class="nv">RUBY_VERSION</span><span class="si">}</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> /usr/local/bin/ruby-build <span class="si">${</span><span class="nv">RUBY_VERSION</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUBY_DIR</span><span class="si">}</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">PATH</span><span class="o">=</span>/tmp/gems/bin:<span class="si">${</span><span class="nv">RUBY_DIR</span><span class="si">}</span>/bin:<span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">CMD</span> irb<span class="err">
-</span></code></pre></div><p>以下のように設計してある。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> centos:7</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> yum install -y git make gcc bzip2 openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  git clone https://github.com/rbenv/ruby-build.git <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="nv">PREFIX</span><span class="o">=</span>/usr/local ./ruby-build/install.sh<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">GEM_HOME</span><span class="o">=</span>/tmp/gems<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">VOLUME</span><span class="s"> ${GEM_HOME}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">RUBY_VERSION</span><span class="o">=</span><span class="m">2</span>.7.3<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">RUBY_DIR</span><span class="o">=</span>/usr/local/ruby-<span class="si">${</span><span class="nv">RUBY_VERSION</span><span class="si">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> /usr/local/bin/ruby-build <span class="si">${</span><span class="nv">RUBY_VERSION</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUBY_DIR</span><span class="si">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">PATH</span><span class="o">=</span>/tmp/gems/bin:<span class="si">${</span><span class="nv">RUBY_DIR</span><span class="si">}</span>/bin:<span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> irb<span class="err">
+</span></span></span></code></pre></div><p>以下のように設計してある。</p>
 <ul>
 <li>コマンドを与えない場合、irbが起動するようにしている</li>
 <li>Gemはコンテナ内の<code>/tmp/gems</code>へインストールされる</li>
@@ -180,7 +180,7 @@ OpenShiftのS2Iビルド用のイメージだが、おそらくそれ以外の�
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

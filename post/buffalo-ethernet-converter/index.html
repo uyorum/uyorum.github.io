@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -91,31 +91,31 @@
 <h2 id="pingで確認">Pingで確認</h2>
 <p>Host A → Host B へPingを打ってみる．</p>
 <h3 id="host-aでパケットキャプチャ">Host Aでパケットキャプチャ</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo tcpdump -i eno1 -n -e icmp
-tcpdump: verbose output suppressed, use -v or -vv <span class="k">for</span> full protocol decode
-listening on eno1, link-type EN10MB <span class="o">(</span>Ethernet<span class="o">)</span>, capture size <span class="m">262144</span> bytes
-21:43:06.274393 ec:a8:6b:f9:7a:60 &gt; 28:cf:da:02:a5:40, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP <span class="nb">echo</span> request, id 1749, seq 1, length <span class="m">64</span>
-21:43:06.276067 28:cf:da:02:a5:40 &gt; ec:a8:6b:f9:7a:60, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP <span class="nb">echo</span> reply, id 1749, seq 1, length <span class="m">64</span>
-</code></pre></div><h3 id="host-bでパケットキャプチャ">Host Bでパケットキャプチャ</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo tcpdump -i en1 -n -e icmp
-tcpdump: verbose output suppressed, use -v or -vv <span class="k">for</span> full protocol decode
-listening on en1, link-type EN10MB <span class="o">(</span>Ethernet<span class="o">)</span>, capture size <span class="m">262144</span> bytes
-21:43:06.299805 34:3d:c4:ee:aa:61 &gt; 28:cf:da:02:a5:40, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP <span class="nb">echo</span> request, id 1749, seq 1, length <span class="m">64</span>
-21:43:06.299877 28:cf:da:02:a5:40 &gt; 34:3d:c4:ee:aa:61, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP <span class="nb">echo</span> reply, id 1749, seq 1, length <span class="m">64</span>
-</code></pre></div><p>ICMP echo requestの送信元MACが異なる値となっている．
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo tcpdump -i eno1 -n -e icmp
+</span></span><span class="line"><span class="cl">tcpdump: verbose output suppressed, use -v or -vv <span class="k">for</span> full protocol decode
+</span></span><span class="line"><span class="cl">listening on eno1, link-type EN10MB <span class="o">(</span>Ethernet<span class="o">)</span>, capture size <span class="m">262144</span> bytes
+</span></span><span class="line"><span class="cl">21:43:06.274393 ec:a8:6b:f9:7a:60 &gt; 28:cf:da:02:a5:40, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP <span class="nb">echo</span> request, id 1749, seq 1, length <span class="m">64</span>
+</span></span><span class="line"><span class="cl">21:43:06.276067 28:cf:da:02:a5:40 &gt; ec:a8:6b:f9:7a:60, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP <span class="nb">echo</span> reply, id 1749, seq 1, length <span class="m">64</span>
+</span></span></code></pre></div><h3 id="host-bでパケットキャプチャ">Host Bでパケットキャプチャ</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo tcpdump -i en1 -n -e icmp
+</span></span><span class="line"><span class="cl">tcpdump: verbose output suppressed, use -v or -vv <span class="k">for</span> full protocol decode
+</span></span><span class="line"><span class="cl">listening on en1, link-type EN10MB <span class="o">(</span>Ethernet<span class="o">)</span>, capture size <span class="m">262144</span> bytes
+</span></span><span class="line"><span class="cl">21:43:06.299805 34:3d:c4:ee:aa:61 &gt; 28:cf:da:02:a5:40, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.3 &gt; 10.0.0.153: ICMP <span class="nb">echo</span> request, id 1749, seq 1, length <span class="m">64</span>
+</span></span><span class="line"><span class="cl">21:43:06.299877 28:cf:da:02:a5:40 &gt; 34:3d:c4:ee:aa:61, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length 98: 10.0.0.153 &gt; 10.0.0.3: ICMP <span class="nb">echo</span> reply, id 1749, seq 1, length <span class="m">64</span>
+</span></span></code></pre></div><p>ICMP echo requestの送信元MACが異なる値となっている．
 元のパケットの送信元MAC(<code>ec:a8:6b:f9:7a:60</code>)はHost AのNICのMACアドレスなのだが，Host Bが受け取ったパケットの送信元MAC(<code>34:3d:c4:ee:aa:61</code>)はWEX-G300のMACアドレスである．(WEX-G300のMACアドレスはWeb UIから確認できる)</p>
 <p>またICMP echo replyの宛先MACも異なる値となっている．おそらくWEX-G300自身が内部でIPアドレスとMACアドレスの対応表(またはARPテーブル)を持っており，その対応表をもとに正しいMACアドレスと考えられる．</p>
 <p>ほとんどの通信ではこの仕様でも問題は発生しないだろうが，ペイロードにMACアドレスが含まれるような通信では問題となりうる．
 自分の環境では，DHCP<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>で払い出したはずのIPアドレスを別のMACアドレスが使っている(ARPスプーフィング)と誤検知し，ルータでパケットをドロップするという事象が発生した．</p>
 <p>以上</p>
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
+<li id="fn:1">
 <p>DHCPではEthernetヘッダではなくUDP上のDHCPペイロード内に含まれるMACアドレスを使用しており，かつWEX-G300ではここの書き換えには対応していないからだと考えられる&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</section>
+</div>
 
     </section>
     <aside>
@@ -155,7 +155,7 @@ listening on en1, link-type EN10MB <span class="o">(</span>Ethernet<span class="
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

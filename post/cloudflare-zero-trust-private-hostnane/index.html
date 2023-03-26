@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -102,12 +102,12 @@ DNSサーバは複数指定することが可能です。複数指定した場�
 </ol>
 <h3 id="cloudflaredの設定を更新">cloudflaredの設定を更新</h3>
 <p>cloudflaredの設定ファイルに<code>protocol: quic</code>を追加してcloudflaredを再起動します。</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">tunnel</span><span class="p">:</span><span class="w"> </span><span class="l">65b71b5e-7356-4f1e-90bc-88f9a9b8db7b</span><span class="w">
-</span><span class="w"></span><span class="nt">credentials-file</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/cloudflared/65b71b5e-7356-4f1e-90bc-88f9a9b8db7b.json</span><span class="w">
-</span><span class="w"></span><span class="nt">warp-routing</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w"></span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">quic</span><span class="w">
-</span></code></pre></div><h3 id="確認">確認</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">tunnel</span><span class="p">:</span><span class="w"> </span><span class="l">65b71b5e-7356-4f1e-90bc-88f9a9b8db7b</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">credentials-file</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/cloudflared/65b71b5e-7356-4f1e-90bc-88f9a9b8db7b.json</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">warp-routing</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">quic</span><span class="w">
+</span></span></span></code></pre></div><h3 id="確認">確認</h3>
 <p>以上で設定は終わりです。<br>
 WARPクライアントが入った端末からイントラ上のホスト名でサーバにアクセスできるはずです。</p>
 <h2 id="参考">参考</h2>
@@ -166,7 +166,7 @@ WARPクライアントが入った端末からイントラ上のホスト名で�
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -120,39 +120,39 @@ Raspbian jessie liteの上にHome Assistantをインストール済み</p>
 <ul>
 <li>configration.yaml</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">binary_sensor</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>- <span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">rpi_gpio</span><span class="w">
-</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">4</span><span class="p">:</span><span class="w"> </span><span class="l">PIR Sensor</span><span class="w">
-</span><span class="w">    </span><span class="nt">pull_mode</span><span class="p">:</span><span class="w"> </span><span class="l">down</span><span class="w">
-</span><span class="w">    </span><span class="nt">bouncetime</span><span class="p">:</span><span class="w"> </span><span class="m">50</span><span class="w">
-</span><span class="w">    </span><span class="nt">invert_logic</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span></code></pre></div><p>なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを<code>gpio</code>グループに所属させればよい．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo usermod -a -G gpio ha
-sudo systemctl restart home-assistant
-</code></pre></div><h2 id="home-assistantでmilightを使う">Home AssistantでMiLightを使う</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">binary_sensor</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">rpi_gpio</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">4</span><span class="p">:</span><span class="w"> </span><span class="l">PIR Sensor</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">pull_mode</span><span class="p">:</span><span class="w"> </span><span class="l">down</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">bouncetime</span><span class="p">:</span><span class="w"> </span><span class="m">50</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">invert_logic</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span></code></pre></div><p>なおGPIO端子の操作にはOS上で相応の権限が必要となる．今回使用しているRaspbian Jessieの場合はHome Assistantの実行ユーザを<code>gpio</code>グループに所属させればよい．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo usermod -a -G gpio ha
+</span></span><span class="line"><span class="cl">sudo systemctl restart home-assistant
+</span></span></code></pre></div><h2 id="home-assistantでmilightを使う">Home AssistantでMiLightを使う</h2>
 <p>MiLight(中身はLimitlessLED)ははじめからComponentとして提供されているためこれを利用する．<a href="https://home-assistant.io/components/light.limitlessled/">LimitlessLED - Home Assistant</a></p>
 <ul>
 <li>configuration.yaml</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">light</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>- <span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">limitlessled</span><span class="w">
-</span><span class="w">    </span><span class="nt">bridges</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l">x.x.x.x</span><span class="w">
-</span><span class="w">        </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
-</span><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8899</span><span class="w">
-</span><span class="w">        </span><span class="nt">groups</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span>- <span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
-</span><span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MiLight</span><span class="w">
-</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">rgbw</span><span class="w">
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">light</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">limitlessled</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">bridges</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l">x.x.x.x</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8899</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">groups</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MiLight</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">rgbw</span><span class="w">
+</span></span></span></code></pre></div><ul>
 <li>イルミカで購入できるWiFiブリッジはVersion 5，カラー電球のタイプはrgbw(rgbwwではない)</li>
 <li>グループ番号はタイプごとに1~4のいずれかになる．今回はrgbwグループのグループ1に登録している</li>
 </ul>
 <p>なお，Home AssistantはWebインターフェースで設定ファイルを読み直すことができるが，プロセスを再起動しないと反映されないものが多い．
 確実に設定を反映させるため，プロセスを再起動する．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo systemctl restart home-assistant
-</code></pre></div><h2 id="automationを設定する">Automationを設定する</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo systemctl restart home-assistant
+</span></span></code></pre></div><h2 id="automationを設定する">Automationを設定する</h2>
 <p>ここまでで，WebインターフェースではセンサーのON/OFFが表示され，MiLightを操作できるようになっているはず．
 次に，これらを組み合わせて以下の動作を実現する．</p>
 <ul>
@@ -165,42 +165,42 @@ sudo systemctl restart home-assistant
 <ul>
 <li>configuration.yaml</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">- <span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l">Turn on light</span><span class="w">
-</span><span class="w">  </span><span class="nt">trigger</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">state</span><span class="w">
-</span><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">binary_sensor.pir_sensor</span><span class="w">
-</span><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;on&#39;</span><span class="w">
-</span><span class="w">  </span><span class="nt">action</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l">homeassistant.turn_on</span><span class="w">
-</span><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">light.milight</span><span class="w">
-</span><span class="w">    </span><span class="nt">data</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">brightness</span><span class="p">:</span><span class="w"> </span><span class="m">150</span><span class="w">
-</span><span class="w"></span>- <span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l">Turn off light</span><span class="w">
-</span><span class="w">  </span><span class="nt">trigger</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">state</span><span class="w">
-</span><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">binary_sensor.pir_sensor</span><span class="w">
-</span><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;off&#39;</span><span class="w">
-</span><span class="w">    </span><span class="nt">for</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">minutes</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
-</span><span class="w">  </span><span class="nt">action</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l">homeassistant.turn_off</span><span class="w">
-</span><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">light.milight</span><span class="w">
-</span></code></pre></div><p>ハマった箇所をいくつか</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l">Turn on light</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">trigger</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">state</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">binary_sensor.pir_sensor</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;on&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">action</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l">homeassistant.turn_on</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">light.milight</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">brightness</span><span class="p">:</span><span class="w"> </span><span class="m">150</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l">Turn off light</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">trigger</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">state</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">binary_sensor.pir_sensor</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;off&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">for</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">minutes</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">action</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l">homeassistant.turn_off</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">light.milight</span><span class="w">
+</span></span></span></code></pre></div><p>ハマった箇所をいくつか</p>
 <h3 id="entity_idの命名規則">entity_idの命名規則</h3>
 <p>entity_idに指定する名前はそれぞれのComponentで設定した<code>name</code>値になる．空白や大文字はスネークケースへ変換される．
 つまり，nameを「PIR Sensor」のようにした場合，entity_idでは「pir_sensor」のように指定する</p>
 <h3 id="ある状態が一定時間続くをトリガーにする">「ある状態が一定時間続く」をトリガーにする</h3>
 <p>action内では一定時間の経過を待つ<code>delay</code>文が使える</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">- <span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l">Turn off light</span><span class="w">
-</span><span class="w">  </span><span class="nt">trigger</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">state</span><span class="w">
-</span><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">binary_sensor.pir_sensor</span><span class="w">
-</span><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;off&#39;</span><span class="w">
-</span><span class="w">  </span><span class="nt">action</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="p">:</span><span class="m">01</span><span class="w">
-</span><span class="w">    </span>- <span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l">homeassistant.turn_off</span><span class="w">
-</span><span class="w">      </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">light.milight</span><span class="w">
-</span></code></pre></div><p>だが，これでは「センサーに反応がなくなってから1分後」になるため，例えば30秒後にセンサーに反応が戻っても結局そのまま消灯してしまう．<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l">Turn off light</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">trigger</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">state</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">binary_sensor.pir_sensor</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;off&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">action</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="p">:</span><span class="m">01</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l">homeassistant.turn_off</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">entity_id</span><span class="p">:</span><span class="w"> </span><span class="l">light.milight</span><span class="w">
+</span></span></span></code></pre></div><p>だが，これでは「センサーに反応がなくなってから1分後」になるため，例えば30秒後にセンサーに反応が戻っても結局そのまま消灯してしまう．<br>
 しばらく悩んでいたのだが，Triggerで<code>for</code>を使うことで希望の動作ができることがわかったので簡単に希望の動作を実現できた．</p>
 <h2 id="参考">参考</h2>
 <ul>
@@ -240,7 +240,7 @@ sudo systemctl restart home-assistant
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

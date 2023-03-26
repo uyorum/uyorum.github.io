@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -77,24 +77,24 @@
       <p>今日の分．</p>
 <h2 id="制御構文">制御構文</h2>
 <h3 id="if">if</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">x</span> <span class="o">:=</span> <span class="kc">false</span>
-<span class="k">if</span> <span class="nx">x</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;x is true&#34;</span><span class="p">)</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;x is false&#34;</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="nx">rand</span><span class="p">.</span><span class="nf">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">UnixNano</span><span class="p">())</span>
-<span class="c1">// [0, 10)の乱数(整数)を生成
-</span><span class="c1"></span><span class="k">if</span> <span class="nx">y</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="nx">y</span> <span class="p">&lt;</span> <span class="mi">5</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s">&#34;is less than 5&#34;</span><span class="p">)</span>
-<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">y</span> <span class="p">&gt;</span> <span class="mi">5</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s">&#34;is greater than 5&#34;</span><span class="p">)</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s">&#34;is equal to 5&#34;</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span>		<span class="c1">// undefined: y
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">x</span> <span class="o">:=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nx">x</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;x is true&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;x is false&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">rand</span><span class="p">.</span><span class="nf">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">UnixNano</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [0, 10)の乱数(整数)を生成
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="nx">y</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="nx">y</span> <span class="p">&lt;</span> <span class="mi">5</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s">&#34;is less than 5&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">y</span> <span class="p">&gt;</span> <span class="mi">5</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s">&#34;is greater than 5&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s">&#34;is equal to 5&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span>		<span class="c1">// undefined: y
+</span></span></span></code></pre></div><ul>
 <li><code>if 条件式 {trueの場合の処理}</code>のように書く</li>
 <li>条件式を<code>( )</code>で囲む必要はない</li>
 <li><code>else</code>や<code>else if</code>が使える</li>
@@ -105,10 +105,10 @@
 </li>
 </ul>
 <h3 id="for">for</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li><code>for Expression1; Expression2; Expression3 {処理内容}</code>のように書く
 <ul>
 <li>Expression1はforループの開始前に呼ばれる</li>
@@ -123,32 +123,32 @@
 </li>
 </ul>
 <h3 id="switch">switch</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">i</span> <span class="o">:=</span> <span class="mi">5</span>
-<span class="c1">// i is 5
-</span><span class="c1">// i is greater than 4
-</span><span class="c1"></span><span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
-<span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i is 1&#34;</span><span class="p">)</span>
-<span class="k">case</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i is 2, 3 or 4&#34;</span><span class="p">)</span>
-<span class="k">case</span> <span class="mi">5</span><span class="p">:</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i is 5&#34;</span><span class="p">)</span>
-	<span class="k">fallthrough</span>
-<span class="k">default</span><span class="p">:</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i is greater than 4&#34;</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="k">switch</span> <span class="p">{</span>
-<span class="k">case</span> <span class="nx">i</span> <span class="o">%</span> <span class="mi">15</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;FizzBuzz&#34;</span><span class="p">)</span>
-<span class="k">case</span> <span class="nx">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Fizz&#34;</span><span class="p">)</span>
-<span class="k">case</span> <span class="nx">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Buzz&#34;</span><span class="p">)</span>
-<span class="k">default</span><span class="p">:</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">i</span> <span class="o">:=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// i is 5
+</span></span></span><span class="line"><span class="cl"><span class="c1">// i is greater than 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i is 1&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i is 2, 3 or 4&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="mi">5</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i is 5&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">fallthrough</span>
+</span></span><span class="line"><span class="cl"><span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;i is greater than 4&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">switch</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="nx">i</span> <span class="o">%</span> <span class="mi">15</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;FizzBuzz&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="nx">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Fizz&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="nx">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Buzz&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li><code>switch 変数 { case 値: 処理内容 }</code>のように書く</li>
 <li>値は,区切りで複数書くこともできる</li>
 <li>マッチした場合は処理を実行してswitch文を抜ける
@@ -164,90 +164,90 @@
 <li>値に等しいかどうかだけでなく，不等式なども使うことができる</li>
 </ul>
 <h2 id="インターフェース">インターフェース</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// インターフェースを宣言
-</span><span class="c1">// メソッド名と引数，戻り値のみ定義する
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Interface1</span> <span class="kd">interface</span> <span class="p">{</span>
-	<span class="nf">returnVariable</span><span class="p">()</span> <span class="kt">string</span>
-<span class="p">}</span>
-
-<span class="c1">// ひとつめの構造体を定義
-</span><span class="c1">// インターフェース内で定義したメソッドreturnVariableを実装する
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Struct1</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">var1</span> <span class="kt">string</span>
-<span class="p">}</span>
-<span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Struct1</span><span class="p">)</span> <span class="nf">returnVariable</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="s">&#34;valiable: &#34;</span> <span class="o">+</span> <span class="nx">s</span><span class="p">.</span><span class="nx">var1</span>
-<span class="p">}</span>
-
-<span class="c1">// ふたつめの構造体を定義
-</span><span class="c1">// こちらでもインターフェース内で定義したメソッドを実装する
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Struct2</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">var1</span> <span class="kt">string</span>
-<span class="p">}</span>
-<span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Struct2</span><span class="p">)</span> <span class="nf">returnVariable</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">var1</span> <span class="o">+</span> <span class="s">&#34; is the variable of this&#34;</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">printVariable</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Interface1</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nf">returnVariable</span><span class="p">())</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">s1</span> <span class="o">:=</span> <span class="nx">Struct1</span><span class="p">{</span><span class="nx">var1</span><span class="p">:</span> <span class="s">&#34;hoge&#34;</span><span class="p">}</span>
-	<span class="nx">s2</span> <span class="o">:=</span> <span class="nx">Struct2</span><span class="p">{</span><span class="nx">var1</span><span class="p">:</span> <span class="s">&#34;huga&#34;</span><span class="p">}</span>
-
-	<span class="c1">// Struct1，Struct2ともにInterface1型として扱える
-</span><span class="c1"></span>	<span class="nf">printVariable</span><span class="p">(</span><span class="nx">s1</span><span class="p">)</span>      <span class="c1">// valiable: hoge
-</span><span class="c1"></span>	<span class="nf">printVariable</span><span class="p">(</span><span class="nx">s2</span><span class="p">)</span>      <span class="c1">// huga is the variable of this
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// インターフェースを宣言
+</span></span></span><span class="line"><span class="cl"><span class="c1">// メソッド名と引数，戻り値のみ定義する
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Interface1</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">returnVariable</span><span class="p">()</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ひとつめの構造体を定義
+</span></span></span><span class="line"><span class="cl"><span class="c1">// インターフェース内で定義したメソッドreturnVariableを実装する
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Struct1</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">var1</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Struct1</span><span class="p">)</span> <span class="nf">returnVariable</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="s">&#34;valiable: &#34;</span> <span class="o">+</span> <span class="nx">s</span><span class="p">.</span><span class="nx">var1</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ふたつめの構造体を定義
+</span></span></span><span class="line"><span class="cl"><span class="c1">// こちらでもインターフェース内で定義したメソッドを実装する
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Struct2</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">var1</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Struct2</span><span class="p">)</span> <span class="nf">returnVariable</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">var1</span> <span class="o">+</span> <span class="s">&#34; is the variable of this&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">printVariable</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Interface1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nf">returnVariable</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">s1</span> <span class="o">:=</span> <span class="nx">Struct1</span><span class="p">{</span><span class="nx">var1</span><span class="p">:</span> <span class="s">&#34;hoge&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">s2</span> <span class="o">:=</span> <span class="nx">Struct2</span><span class="p">{</span><span class="nx">var1</span><span class="p">:</span> <span class="s">&#34;huga&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Struct1，Struct2ともにInterface1型として扱える
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">printVariable</span><span class="p">(</span><span class="nx">s1</span><span class="p">)</span>      <span class="c1">// valiable: hoge
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">printVariable</span><span class="p">(</span><span class="nx">s2</span><span class="p">)</span>      <span class="c1">// huga is the variable of this
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li><code>type インターフェース名 interface</code>形式で宣言する</li>
 <li>インターフェース内で定義したメソッドを全て実装するとでインターフェースを利用できるようになる</li>
 </ul>
 <h3 id="空インターフェース">空インターフェース</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">x</span> <span class="kd">interface</span><span class="p">{}</span>
-<span class="nx">num</span> <span class="o">:=</span> <span class="mi">0</span>
-<span class="nx">str</span> <span class="o">:=</span> <span class="s">&#34;hello&#34;</span>
-<span class="c1">// Integer
-</span><span class="c1"></span><span class="nx">x</span> <span class="p">=</span> <span class="nx">num</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%d\n&#34;</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
-<span class="c1">// String
-</span><span class="c1"></span><span class="nx">x</span> <span class="p">=</span> <span class="nx">str</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">x</span> <span class="kd">interface</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">num</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nx">str</span> <span class="o">:=</span> <span class="s">&#34;hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Integer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">x</span> <span class="p">=</span> <span class="nx">num</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%d\n&#34;</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// String
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">x</span> <span class="p">=</span> <span class="nx">str</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
 <li>1つもメソッドを定義しないインターフェースを「空インターフェース」と呼ぶ</li>
 <li>空のインターフェースには何の機能もないが，空インターフェース型の変数には任意の型の値を格納することができる</li>
 </ul>
 <h3 id="型アサーション">型アサーション</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">isString</span><span class="p">(</span><span class="nx">a</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
-	<span class="nx">_</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">a</span><span class="p">.(</span><span class="kt">string</span><span class="p">)</span>
-	<span class="k">return</span> <span class="nx">ok</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">printType</span><span class="p">(</span><span class="nx">a</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
-	<span class="k">switch</span> <span class="nx">value</span> <span class="o">:=</span> <span class="nx">a</span><span class="p">.(</span><span class="kd">type</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">case</span> <span class="kt">int</span><span class="p">:</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;int %d\n&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
-	<span class="k">case</span> <span class="kt">string</span><span class="p">:</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;string %s\n&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
-	<span class="k">default</span><span class="p">:</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;other&#34;</span><span class="p">)</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="kd">var</span> <span class="nx">y</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">=</span> <span class="mi">10</span>
-	<span class="nx">i1</span><span class="p">,</span> <span class="nx">i2</span> <span class="o">:=</span> <span class="nx">y</span><span class="p">.(</span><span class="kt">int</span><span class="p">)</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i1</span><span class="p">,</span> <span class="nx">i2</span><span class="p">)</span>            <span class="c1">// 10 true
-</span><span class="c1"></span>
-	<span class="kd">var</span> <span class="nx">j1</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">=</span> <span class="mi">1</span>
-	<span class="kd">var</span> <span class="nx">j2</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">=</span> <span class="s">&#34;hoge&#34;</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">isString</span><span class="p">(</span><span class="nx">j1</span><span class="p">))</span>      <span class="c1">// false
-</span><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">isString</span><span class="p">(</span><span class="nx">j2</span><span class="p">))</span>      <span class="c1">// true
-</span><span class="c1"></span>	<span class="nf">printType</span><span class="p">(</span><span class="nx">j1</span><span class="p">)</span>                  <span class="c1">// int 1
-</span><span class="c1"></span>	<span class="nf">printType</span><span class="p">(</span><span class="nx">j2</span><span class="p">)</span>                  <span class="c1">// string hoge
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">isString</span><span class="p">(</span><span class="nx">a</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">_</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">a</span><span class="p">.(</span><span class="kt">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">ok</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">printType</span><span class="p">(</span><span class="nx">a</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">switch</span> <span class="nx">value</span> <span class="o">:=</span> <span class="nx">a</span><span class="p">.(</span><span class="kd">type</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">case</span> <span class="kt">int</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;int %d\n&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">case</span> <span class="kt">string</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;string %s\n&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;other&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">y</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">i1</span><span class="p">,</span> <span class="nx">i2</span> <span class="o">:=</span> <span class="nx">y</span><span class="p">.(</span><span class="kt">int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i1</span><span class="p">,</span> <span class="nx">i2</span><span class="p">)</span>            <span class="c1">// 10 true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">j1</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">j2</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">=</span> <span class="s">&#34;hoge&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">isString</span><span class="p">(</span><span class="nx">j1</span><span class="p">))</span>      <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">isString</span><span class="p">(</span><span class="nx">j2</span><span class="p">))</span>      <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">printType</span><span class="p">(</span><span class="nx">j1</span><span class="p">)</span>                  <span class="c1">// int 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nf">printType</span><span class="p">(</span><span class="nx">j2</span><span class="p">)</span>                  <span class="c1">// string hoge
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li><code>インターフェース型変数.(型名)</code>で<code>変数に格納された値, boolean</code>が返る
 <ul>
 <li>booleanには，変数に格納された値の型が引数に与えた型に一致する場合にtrueが格納される</li>
@@ -287,7 +287,7 @@
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

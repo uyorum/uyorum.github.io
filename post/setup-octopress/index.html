@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -92,40 +92,40 @@
 <ol>
 <li>
 <p>ソースをclone</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git clone https://github.com/imathis/octopress
-Cloning into <span class="s1">&#39;octopress&#39;</span>...
-remote: Counting objects: 10786, <span class="k">done</span>.
-remote: Compressing objects: 100% <span class="o">(</span>26/26<span class="o">)</span>, <span class="k">done</span>.
-remote: Total <span class="m">10786</span> <span class="o">(</span>delta 8<span class="o">)</span>, reused <span class="m">5</span> <span class="o">(</span>delta 1<span class="o">)</span>
-Receiving objects: 100% <span class="o">(</span>10786/10786<span class="o">)</span>, 2.85 MiB <span class="p">|</span> 1.68 MiB/s, <span class="k">done</span>.
-Resolving deltas: 100% <span class="o">(</span>5178/5178<span class="o">)</span>, <span class="k">done</span>.
-Checking connectivity... <span class="k">done</span>.
-$ ls
-octopress
-$ <span class="nb">cd</span> octopress
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git clone https://github.com/imathis/octopress
+</span></span><span class="line"><span class="cl">Cloning into <span class="s1">&#39;octopress&#39;</span>...
+</span></span><span class="line"><span class="cl">remote: Counting objects: 10786, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Compressing objects: 100% <span class="o">(</span>26/26<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Total <span class="m">10786</span> <span class="o">(</span>delta 8<span class="o">)</span>, reused <span class="m">5</span> <span class="o">(</span>delta 1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Receiving objects: 100% <span class="o">(</span>10786/10786<span class="o">)</span>, 2.85 MiB <span class="p">|</span> 1.68 MiB/s, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">Resolving deltas: 100% <span class="o">(</span>5178/5178<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">Checking connectivity... <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">$ ls
+</span></span><span class="line"><span class="cl">octopress
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> octopress
+</span></span></code></pre></div></li>
 <li>
 <p>Rubyのバージョンを指定</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">echo</span> <span class="s1">&#39;1.9.3-p551&#39;</span> &gt; .ruby-version
-$ rbenv versions
-  system
-* 1.9.3-p551
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;1.9.3-p551&#39;</span> &gt; .ruby-version
+</span></span><span class="line"><span class="cl">$ rbenv versions
+</span></span><span class="line"><span class="cl">  system
+</span></span><span class="line"><span class="cl">* 1.9.3-p551
+</span></span></code></pre></div></li>
 <li>
 <p>gemsetを作成</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ rbenv gemset create 1.9.3-p551 octopress
-created octopress <span class="k">for</span> 1.9.3-p551
-$ <span class="nb">echo</span> octopress &gt; .rbenv-gemsets
-$ rbenv gemset active
-octopress global
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ rbenv gemset create 1.9.3-p551 octopress
+</span></span><span class="line"><span class="cl">created octopress <span class="k">for</span> 1.9.3-p551
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> octopress &gt; .rbenv-gemsets
+</span></span><span class="line"><span class="cl">$ rbenv gemset active
+</span></span><span class="line"><span class="cl">octopress global
+</span></span></code></pre></div></li>
 </ol>
 <p>あとは公式の手順に従えばOK</p>
 <p>自分の環境では途中でJavaScript Runtimeがないと怒られたので<a href="https://github.com/imathis/octopress/issues/1612">ここ</a>を参考にGemfileに以下を追加</p>
-<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="c1"># jekyll needs javascript runtime</span>
-<span class="c1"># detail: https://github.com/imathis/octopress/issues/1612</span>
-<span class="n">gem</span> <span class="s1">&#39;therubyracer&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 0.12.1&#39;</span>
-</code></pre></div><p>編集後に再び<code>bundle install</code>を実行．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1"># jekyll needs javascript runtime</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># detail: https://github.com/imathis/octopress/issues/1612</span>
+</span></span><span class="line"><span class="cl"><span class="n">gem</span> <span class="s1">&#39;therubyracer&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 0.12.1&#39;</span>
+</span></span></code></pre></div><p>編集後に再び<code>bundle install</code>を実行．</p>
     </section>
     <aside>
       <div class="share-box">
@@ -156,7 +156,7 @@ octopress global
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

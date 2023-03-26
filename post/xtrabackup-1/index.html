@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -97,12 +97,12 @@
 <ul>
 <li>
 <p>フルバックアップ</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">innobackupex --history<span class="o">=</span>xbhistory --compact --stream<span class="o">=</span>xbstream ./ <span class="p">|</span> gzip - &gt; base.xbstream.gz
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">innobackupex --history<span class="o">=</span>xbhistory --compact --stream<span class="o">=</span>xbstream ./ <span class="p">|</span> gzip - &gt; base.xbstream.gz
+</span></span></code></pre></div></li>
 <li>
 <p>増分バックアップ</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">innobackupex --incremental --history<span class="o">=</span>xbhistory --incremental-history-name<span class="o">=</span>xbhistory --compact --stream<span class="o">=</span>xbstream ./ <span class="p">|</span> gzip - &gt; inc.xbstream.gz
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">innobackupex --incremental --history<span class="o">=</span>xbhistory --incremental-history-name<span class="o">=</span>xbhistory --compact --stream<span class="o">=</span>xbstream ./ <span class="p">|</span> gzip - &gt; inc.xbstream.gz
+</span></span></code></pre></div></li>
 </ul>
 <p>以下で各オプションの使用した理由などを解説していきます</p>
 <h3 id="--streamxbstream"><code>--stream=xbstream</code></h3>
@@ -119,40 +119,40 @@
 <li>前回のバックアップ時の情報を対象のDBに保存する(<code>--history</code>)</li>
 </ul>
 <p>前回バックアップ時のLSNはバックアップ先ディレクトリの<code>xtrabackup_checkpoints</code>ファイルに記録されています(<code>to_lsn</code>)</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat xtrabackup_checkpoints 
-<span class="nv">backup_type</span> <span class="o">=</span> full-backuped
-<span class="nv">from_lsn</span> <span class="o">=</span> <span class="m">0</span>
-<span class="nv">to_lsn</span> <span class="o">=</span> <span class="m">2353547498</span>
-<span class="nv">last_lsn</span> <span class="o">=</span> <span class="m">2353547498</span>
-<span class="nv">compact</span> <span class="o">=</span> <span class="m">0</span>
-<span class="nv">recover_binlog_info</span> <span class="o">=</span> <span class="m">0</span>
-</code></pre></div><p>xbstream形式だと特定のファイルのみ展開したりすることができなさそうだし，今回は取得したバックアップはクラウド上にアップロードしてローカルからはすぐに削除するつもりなので，先2つの方法はとれなさそうです．
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat xtrabackup_checkpoints 
+</span></span><span class="line"><span class="cl"><span class="nv">backup_type</span> <span class="o">=</span> full-backuped
+</span></span><span class="line"><span class="cl"><span class="nv">from_lsn</span> <span class="o">=</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">to_lsn</span> <span class="o">=</span> <span class="m">2353547498</span>
+</span></span><span class="line"><span class="cl"><span class="nv">last_lsn</span> <span class="o">=</span> <span class="m">2353547498</span>
+</span></span><span class="line"><span class="cl"><span class="nv">compact</span> <span class="o">=</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">recover_binlog_info</span> <span class="o">=</span> <span class="m">0</span>
+</span></span></code></pre></div><p>xbstream形式だと特定のファイルのみ展開したりすることができなさそうだし，今回は取得したバックアップはクラウド上にアップロードしてローカルからはすぐに削除するつもりなので，先2つの方法はとれなさそうです．
 よって<code>--history</code>オプションを使用することにします．</p>
 <p><code>--history</code>を使用した場合，バックアップの情報は対象インスタンスの<code>PERCONA_SCHEMA.xtrabackup_history</code>に保存されます．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ innobackupex --history<span class="o">=</span>xbhistory /data/backups
-$ mysql -uroot -ppassword
-&gt; <span class="k">select</span> * from PERCONA_SCHEMA.xtrabackup_history<span class="se">\G</span>
-*************************** 1. row ***************************
-            uuid: 3c60a347-78d8-11e6-95ea-06b838280a4d
-            name: xbhistory
-       tool_name: innobackupex
-    tool_command: --history<span class="o">=</span>xbhistory /data/backups
-    tool_version: 2.3.5
-ibbackup_version: 2.3.5
-  server_version: 5.5.50-MariaDB
-      start_time: 2016-09-12 11:01:01
-        end_time: 2016-09-12 11:01:20
-       lock_time: <span class="m">0</span>
-      binlog_pos: NULL
- innodb_from_lsn: <span class="m">0</span>
-   innodb_to_lsn: <span class="m">2353547508</span>
-         partial: N
-     incremental: N
-          format: file
-         compact: N
-      compressed: N
-       encrypted: N
-</code></pre></div><p>増分バックアップを取得するときは<code>--incremental-history-name</code>オプションを使います．
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ innobackupex --history<span class="o">=</span>xbhistory /data/backups
+</span></span><span class="line"><span class="cl">$ mysql -uroot -ppassword
+</span></span><span class="line"><span class="cl">&gt; <span class="k">select</span> * from PERCONA_SCHEMA.xtrabackup_history<span class="se">\G</span>
+</span></span><span class="line"><span class="cl">*************************** 1. row ***************************
+</span></span><span class="line"><span class="cl">            uuid: 3c60a347-78d8-11e6-95ea-06b838280a4d
+</span></span><span class="line"><span class="cl">            name: xbhistory
+</span></span><span class="line"><span class="cl">       tool_name: innobackupex
+</span></span><span class="line"><span class="cl">    tool_command: --history<span class="o">=</span>xbhistory /data/backups
+</span></span><span class="line"><span class="cl">    tool_version: 2.3.5
+</span></span><span class="line"><span class="cl">ibbackup_version: 2.3.5
+</span></span><span class="line"><span class="cl">  server_version: 5.5.50-MariaDB
+</span></span><span class="line"><span class="cl">      start_time: 2016-09-12 11:01:01
+</span></span><span class="line"><span class="cl">        end_time: 2016-09-12 11:01:20
+</span></span><span class="line"><span class="cl">       lock_time: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">      binlog_pos: NULL
+</span></span><span class="line"><span class="cl"> innodb_from_lsn: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">   innodb_to_lsn: <span class="m">2353547508</span>
+</span></span><span class="line"><span class="cl">         partial: N
+</span></span><span class="line"><span class="cl">     incremental: N
+</span></span><span class="line"><span class="cl">          format: file
+</span></span><span class="line"><span class="cl">         compact: N
+</span></span><span class="line"><span class="cl">      compressed: N
+</span></span><span class="line"><span class="cl">       encrypted: N
+</span></span></code></pre></div><p>増分バックアップを取得するときは<code>--incremental-history-name</code>オプションを使います．
 <code>--history</code>オプションを付けないとその回はDBに保存されないようなので増分バックアップのときも<code>--history</code>オプションを使います．
 毎回，前回のフルバックアップからの増分を取得する，のようなバックアップ設計のときは<code>--history</code>オプションを付けないと実現できそうです．</p>
 <h3 id="--compact"><code>--compact</code></h3>
@@ -253,7 +253,7 @@ ibbackup_version: 2.3.5
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

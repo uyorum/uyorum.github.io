@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -77,21 +77,21 @@
       <p>4日目</p>
 <h2 id="データ型">データ型</h2>
 <h3 id="array">Array</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">a1</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a1</span><span class="p">)</span>		<span class="c1">// [0 0 0 0 0]
-</span><span class="c1"></span><span class="nx">a1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">2</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a1</span><span class="p">)</span>		<span class="c1">// [2 0 0 0 0]
-</span><span class="c1"></span>
-<span class="kd">var</span> <span class="nx">a3</span> <span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a3</span><span class="p">)</span>		<span class="c1">// [[0 0 0] [0 0 0]]
-</span><span class="c1"></span>
-<span class="nx">a2</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;hoge&#34;</span><span class="p">,</span> <span class="s">&#34;huga&#34;</span><span class="p">,</span> <span class="s">&#34;foo&#34;</span><span class="p">,</span> <span class="s">&#34;bar&#34;</span><span class="p">}</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">)</span>		<span class="c1">// [hoge huga foo bar]
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>	<span class="c1">// [hoge huga foo]
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>	<span class="c1">// [foo]
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>	<span class="c1">// [foo bar]
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">a2</span><span class="p">))</span>	<span class="c1">// 4
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">a1</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a1</span><span class="p">)</span>		<span class="c1">// [0 0 0 0 0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">a1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a1</span><span class="p">)</span>		<span class="c1">// [2 0 0 0 0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">a3</span> <span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a3</span><span class="p">)</span>		<span class="c1">// [[0 0 0] [0 0 0]]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">a2</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;hoge&#34;</span><span class="p">,</span> <span class="s">&#34;huga&#34;</span><span class="p">,</span> <span class="s">&#34;foo&#34;</span><span class="p">,</span> <span class="s">&#34;bar&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">)</span>		<span class="c1">// [hoge huga foo bar]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>	<span class="c1">// [hoge huga foo]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>	<span class="c1">// [foo]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>	<span class="c1">// [foo bar]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">a2</span><span class="p">))</span>	<span class="c1">// 4
+</span></span></span></code></pre></div><ul>
 <li><code>[要素数]型</code>でArray型を表現する</li>
 <li>宣言と同時に初期化するには<code>[要素数]型{ 値を列挙 }</code>で表現する</li>
 <li>多重配列も利用可能
@@ -112,36 +112,36 @@
 </li>
 </ul>
 <h3 id="slice">Slice</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">s1</span> <span class="p">[]</span><span class="kt">int</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s1</span><span class="p">)</span>			<span class="c1">// []
-</span><span class="c1"></span><span class="nx">s2</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s2</span><span class="p">)</span>			<span class="c1">// [10 20 30 40 50]
-</span><span class="c1"></span><span class="kd">var</span> <span class="nx">s3</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s3</span><span class="p">)</span>			<span class="c1">//[0 0 0]
-</span><span class="c1"></span><span class="nx">s3</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">=</span> <span class="mi">1</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s3</span><span class="p">)</span>			<span class="c1">//[0 0 0]
-</span><span class="c1"></span>
-<span class="nx">s4</span> <span class="o">:=</span> <span class="nx">a2</span><span class="p">[:]</span>			<span class="c1">// a2 == [hoge huga foo bar]
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span>			<span class="c1">// [hoge huga foo bar]
-</span><span class="c1"></span><span class="nx">a2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;piyo&#34;</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span>			<span class="c1">// [hoge piyo foo bar]
-</span><span class="c1"></span>
-<span class="kd">var</span> <span class="nx">s4</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span>			<span class="c1">//[0 0 0]
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">s4</span><span class="p">))</span>		<span class="c1">// 3
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">cap</span><span class="p">(</span><span class="nx">s4</span><span class="p">))</span>		<span class="c1">// 4
-</span><span class="c1"></span><span class="nx">s4</span> <span class="p">=</span> <span class="nx">s4</span><span class="p">[:</span><span class="nb">cap</span><span class="p">(</span><span class="nx">s4</span><span class="p">)]</span>		<span class="c1">// 長さを拡張
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span>			<span class="c1">// [0 0 0 0]
-</span><span class="c1"></span>
-<span class="nx">s4</span> <span class="p">=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">}</span>
-<span class="nx">s5</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s4</span><span class="p">),</span> <span class="p">(</span><span class="nb">cap</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-<span class="nb">copy</span><span class="p">(</span><span class="nx">s5</span><span class="p">,</span> <span class="nx">s4</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">s5</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">s5</span><span class="p">))</span>	<span class="c1">// 4, 5
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s5</span><span class="p">)</span>				<span class="c1">// [10 20 30 40]
-</span><span class="c1"></span>
-<span class="nx">s6</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s6</span><span class="p">)</span>				<span class="c1">// [10 20 30 40 50 60]
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">s1</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s1</span><span class="p">)</span>			<span class="c1">// []
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">s2</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s2</span><span class="p">)</span>			<span class="c1">// [10 20 30 40 50]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">s3</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s3</span><span class="p">)</span>			<span class="c1">//[0 0 0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">s3</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s3</span><span class="p">)</span>			<span class="c1">//[0 0 0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">s4</span> <span class="o">:=</span> <span class="nx">a2</span><span class="p">[:]</span>			<span class="c1">// a2 == [hoge huga foo bar]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span>			<span class="c1">// [hoge huga foo bar]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">a2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;piyo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span>			<span class="c1">// [hoge piyo foo bar]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">s4</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span>			<span class="c1">//[0 0 0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">s4</span><span class="p">))</span>		<span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">cap</span><span class="p">(</span><span class="nx">s4</span><span class="p">))</span>		<span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">s4</span> <span class="p">=</span> <span class="nx">s4</span><span class="p">[:</span><span class="nb">cap</span><span class="p">(</span><span class="nx">s4</span><span class="p">)]</span>		<span class="c1">// 長さを拡張
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span>			<span class="c1">// [0 0 0 0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">s4</span> <span class="p">=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">s5</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s4</span><span class="p">),</span> <span class="p">(</span><span class="nb">cap</span><span class="p">(</span><span class="nx">s4</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">copy</span><span class="p">(</span><span class="nx">s5</span><span class="p">,</span> <span class="nx">s4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">s5</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">s5</span><span class="p">))</span>	<span class="c1">// 4, 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s5</span><span class="p">)</span>				<span class="c1">// [10 20 30 40]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">s6</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s6</span><span class="p">)</span>				<span class="c1">// [10 20 30 40 50 60]
+</span></span></span></code></pre></div><ul>
 <li><code>[]型</code>で表現する</li>
 <li>Sliceの各要素には値へのポインタが格納される</li>
 <li>ArrayからSliceを生成することができる
@@ -166,23 +166,23 @@
 <li>要素を削除する関数は用意されていないので自分で作る必要がある</li>
 </ul>
 <h3 id="map">Map</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">m1</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span>
-<span class="nx">m1</span><span class="p">[</span><span class="s">&#34;x&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="mi">10</span>
-<span class="nx">m1</span><span class="p">[</span><span class="s">&#34;y&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="mi">20</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">m1</span><span class="p">[</span><span class="s">&#34;x&#34;</span><span class="p">])</span>			<span class="c1">// 10
-</span><span class="c1"></span>
-<span class="nb">delete</span><span class="p">(</span><span class="nx">m1</span><span class="p">,</span> <span class="s">&#34;x&#34;</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">m1</span><span class="p">)</span>					<span class="c1">// map[y:20]
-</span><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">m1</span><span class="p">[</span><span class="s">&#34;x&#34;</span><span class="p">])</span>			<span class="c1">// 0
-</span><span class="c1"></span>
-<span class="nx">m2</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&#34;x&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#34;y&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
-<span class="c1">// Undefined
-</span><span class="c1"></span><span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">m2</span><span class="p">[</span><span class="s">&#34;z&#34;</span><span class="p">];</span> <span class="nx">ok</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Defined&#34;</span><span class="p">)</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Undefined&#34;</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">m1</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">m1</span><span class="p">[</span><span class="s">&#34;x&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="nx">m1</span><span class="p">[</span><span class="s">&#34;y&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">m1</span><span class="p">[</span><span class="s">&#34;x&#34;</span><span class="p">])</span>			<span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nb">delete</span><span class="p">(</span><span class="nx">m1</span><span class="p">,</span> <span class="s">&#34;x&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">m1</span><span class="p">)</span>					<span class="c1">// map[y:20]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">m1</span><span class="p">[</span><span class="s">&#34;x&#34;</span><span class="p">])</span>			<span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">m2</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&#34;x&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#34;y&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">m2</span><span class="p">[</span><span class="s">&#34;z&#34;</span><span class="p">];</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Defined&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Undefined&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li>いわゆる連想配列</li>
 <li><code>make(map[Keyの型]Valueの型)</code>
 <ul>
@@ -199,32 +199,32 @@
 <li>MapはArrayやSliceと異なり各要素に順番がない</li>
 </ul>
 <h3 id="range">range</h3>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">array1</span> <span class="o">:=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">}</span>
-<span class="nx">slice1</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">array1</span><span class="p">[:],</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-<span class="nx">map1</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&#34;hoge&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#34;huga&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
-
-<span class="c1">// index: 0 value: 10
-</span><span class="c1">// index: 1 value: 20
-</span><span class="c1">// index: 2 value: 30
-</span><span class="c1"></span><span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">array1</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;index:&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="s">&#34;value:&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="c1">// index: 0 value: 10
-</span><span class="c1">// index: 1 value: 20
-</span><span class="c1">// index: 2 value: 30
-</span><span class="c1">// index: 3 value: 40
-</span><span class="c1">// index: 4 value: 50
-</span><span class="c1"></span><span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">slice1</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;index:&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="s">&#34;value:&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="c1">// key: hoge value: 10
-</span><span class="c1">// key: huga value: 20
-</span><span class="c1"></span><span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">map1</span> <span class="p">{</span>
-	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;key:&#34;</span><span class="p">,</span> <span class="nx">k</span><span class="p">,</span> <span class="s">&#34;value:&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">array1</span> <span class="o">:=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">slice1</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">array1</span><span class="p">[:],</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">map1</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&#34;hoge&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#34;huga&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// index: 0 value: 10
+</span></span></span><span class="line"><span class="cl"><span class="c1">// index: 1 value: 20
+</span></span></span><span class="line"><span class="cl"><span class="c1">// index: 2 value: 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">array1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;index:&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="s">&#34;value:&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// index: 0 value: 10
+</span></span></span><span class="line"><span class="cl"><span class="c1">// index: 1 value: 20
+</span></span></span><span class="line"><span class="cl"><span class="c1">// index: 2 value: 30
+</span></span></span><span class="line"><span class="cl"><span class="c1">// index: 3 value: 40
+</span></span></span><span class="line"><span class="cl"><span class="c1">// index: 4 value: 50
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">slice1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;index:&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="s">&#34;value:&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// key: hoge value: 10
+</span></span></span><span class="line"><span class="cl"><span class="c1">// key: huga value: 20
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">map1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;key:&#34;</span><span class="p">,</span> <span class="nx">k</span><span class="p">,</span> <span class="s">&#34;value:&#34;</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li>Array, Slice, Mapなどの各要素に対するループ処理を実行するときに使う</li>
 <li><code>range 変数</code>で2つの戻り値が返る
 <ul>
@@ -270,7 +270,7 @@
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

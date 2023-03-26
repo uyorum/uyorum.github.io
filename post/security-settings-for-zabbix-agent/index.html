@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -78,90 +78,90 @@
 Zabbix Agentを例にとって記述するが，他の監視エージェントでも同様のことが言えると思う．</p>
 <p>なお，ここでは監視に必要な必要最低限の権限を付与するという点を最優先した設定を考える．運用を考えると必ずしも最適とは言えない可能性があるため注意が必要．</p>
 <h2 id="環境">環境</h2>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat /etc/redhat-release
-CentOS Linux release 7.5.1804 <span class="o">(</span>Core<span class="o">)</span>
-$ yum list installed zabbix-agent
-zabbix-agent.x86_64                3.4.10-1.el7                     @zabbix
-</code></pre></div><h2 id="実行ユーザ">実行ユーザ</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ cat /etc/redhat-release
+</span></span><span class="line"><span class="cl">CentOS Linux release 7.5.1804 <span class="o">(</span>Core<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ yum list installed zabbix-agent
+</span></span><span class="line"><span class="cl">zabbix-agent.x86_64                3.4.10-1.el7                     @zabbix
+</span></span></code></pre></div><h2 id="実行ユーザ">実行ユーザ</h2>
 <p>エージェントの実行ユーザは<code>root</code>などの特別な権限を持ったユーザは避ける．
 Zabbix Agentではデフォルトで<code>zabbix</code>ユーザで実行するようになっているためそのままにする．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ps -ef <span class="p">|</span> grep <span class="o">[</span>z<span class="o">]</span>abbix
-zabbix    <span class="m">9075</span>     <span class="m">1</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf
-zabbix    <span class="m">9076</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: collector <span class="o">[</span>idle <span class="m">1</span> sec<span class="o">]</span>
-zabbix    <span class="m">9077</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: listener <span class="c1">#1 [waiting for connection]</span>
-zabbix    <span class="m">9078</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: listener <span class="c1">#2 [waiting for connection]</span>
-zabbix    <span class="m">9079</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: listener <span class="c1">#3 [waiting for connection]</span>
-zabbix    <span class="m">9080</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: active checks <span class="c1">#1 [idle 1 sec]</span>
-</code></pre></div><h2 id="パーミッション">パーミッション</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ps -ef <span class="p">|</span> grep <span class="o">[</span>z<span class="o">]</span>abbix
+</span></span><span class="line"><span class="cl">zabbix    <span class="m">9075</span>     <span class="m">1</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf
+</span></span><span class="line"><span class="cl">zabbix    <span class="m">9076</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: collector <span class="o">[</span>idle <span class="m">1</span> sec<span class="o">]</span>
+</span></span><span class="line"><span class="cl">zabbix    <span class="m">9077</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: listener <span class="c1">#1 [waiting for connection]</span>
+</span></span><span class="line"><span class="cl">zabbix    <span class="m">9078</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: listener <span class="c1">#2 [waiting for connection]</span>
+</span></span><span class="line"><span class="cl">zabbix    <span class="m">9079</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: listener <span class="c1">#3 [waiting for connection]</span>
+</span></span><span class="line"><span class="cl">zabbix    <span class="m">9080</span>  <span class="m">9075</span>  <span class="m">0</span> 01:23 ?        00:00:00 /usr/sbin/zabbix_agentd: active checks <span class="c1">#1 [idle 1 sec]</span>
+</span></span></code></pre></div><h2 id="パーミッション">パーミッション</h2>
 <p>このままでも各種メトリクスは取得できるが，ログ監視のために追加の設定が必要となる．
 例えば<code>/var/log/messages</code>は以下のような権限が設定されており，そのままだと<code>zabbix</code>ユーザでは監視することができない．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ls -l /var/log/messages
--rw-------. <span class="m">1</span> root root <span class="m">75591</span>  6月 <span class="m">10</span> 02:35 /var/log/messages
-$ sudo su -s /bin/sh zabbix sh -c <span class="s1">&#39;tail /var/log/messages&#39;</span>
-tail: cannot open <span class="s1">&#39;/var/log/messages&#39;</span> <span class="k">for</span> reading: Permission denied
-</code></pre></div><p>zabbixユーザでファイルを開けるようにするには以下のような設定が考えられる．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ls -l /var/log/messages
+</span></span><span class="line"><span class="cl">-rw-------. <span class="m">1</span> root root <span class="m">75591</span>  6月 <span class="m">10</span> 02:35 /var/log/messages
+</span></span><span class="line"><span class="cl">$ sudo su -s /bin/sh zabbix sh -c <span class="s1">&#39;tail /var/log/messages&#39;</span>
+</span></span><span class="line"><span class="cl">tail: cannot open <span class="s1">&#39;/var/log/messages&#39;</span> <span class="k">for</span> reading: Permission denied
+</span></span></code></pre></div><p>zabbixユーザでファイルを開けるようにするには以下のような設定が考えられる．</p>
 <p>rootグループに対して読み取り権限を設定しzabbixユーザをrootグループに所属させる</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo usermod -a -G root zabbix
-$ sudo chmod g+r /var/log/messages
-</code></pre></div><p>これでログを開けるようになる．さらに少ない権限でいくなら<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/acls-setting">アクセスACL</a>という機能が使える．<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo usermod -a -G root zabbix
+</span></span><span class="line"><span class="cl">$ sudo chmod g+r /var/log/messages
+</span></span></code></pre></div><p>これでログを開けるようになる．さらに少ない権限でいくなら<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/acls-setting">アクセスACL</a>という機能が使える．<br>
 この機能を使えば特定のユーザに対して特定のファイルにのみ権限を設定することができる．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ getfacl /var/log/messages
-getfacl: Removing leading <span class="s1">&#39;/&#39;</span> from absolute path names
-<span class="c1"># file: var/log/messages</span>
-<span class="c1"># owner: root</span>
-<span class="c1"># group: root</span>
-user::rw-
-group::---
-other::---
-$ sudo setfacl -m u:zabbix:r /var/log/messages
-$ sudo getfacl /var/log/messages
-getfacl: Removing leading <span class="s1">&#39;/&#39;</span> from absolute path names
-<span class="c1"># file: var/log/messages</span>
-<span class="c1"># owner: root</span>
-<span class="c1"># group: root</span>
-user::rw-
-user:zabbix:r--
-group::---
-mask::r--
-other::---
-</code></pre></div><h2 id="selinux">SELinux</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ getfacl /var/log/messages
+</span></span><span class="line"><span class="cl">getfacl: Removing leading <span class="s1">&#39;/&#39;</span> from absolute path names
+</span></span><span class="line"><span class="cl"><span class="c1"># file: var/log/messages</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># owner: root</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># group: root</span>
+</span></span><span class="line"><span class="cl">user::rw-
+</span></span><span class="line"><span class="cl">group::---
+</span></span><span class="line"><span class="cl">other::---
+</span></span><span class="line"><span class="cl">$ sudo setfacl -m u:zabbix:r /var/log/messages
+</span></span><span class="line"><span class="cl">$ sudo getfacl /var/log/messages
+</span></span><span class="line"><span class="cl">getfacl: Removing leading <span class="s1">&#39;/&#39;</span> from absolute path names
+</span></span><span class="line"><span class="cl"><span class="c1"># file: var/log/messages</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># owner: root</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># group: root</span>
+</span></span><span class="line"><span class="cl">user::rw-
+</span></span><span class="line"><span class="cl">user:zabbix:r--
+</span></span><span class="line"><span class="cl">group::---
+</span></span><span class="line"><span class="cl">mask::r--
+</span></span><span class="line"><span class="cl">other::---
+</span></span></code></pre></div><h2 id="selinux">SELinux</h2>
 <p>上の設定だけでは不十分で，実際にはSELinuxによりZabbix Agentは/var/log/messagesを開くことはできない．
 audit.logには以下のようなログが記録される．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo ausearch -c <span class="s1">&#39;zabbix_agentd&#39;</span>
-time-&gt;Tue Jun <span class="m">12</span> 13:25:06 <span class="m">2018</span>
-<span class="nv">type</span><span class="o">=</span>PROCTITLE <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528809906.258:3512<span class="o">)</span>: <span class="nv">proctitle</span><span class="o">=</span>2F7573722F7362696E2F7A61626269785F6167656E74643A2061637469766520636865636B73202331205B70726F63657373696E672061637469766520636865636B735D
-<span class="nv">type</span><span class="o">=</span>SYSCALL <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528809906.258:3512<span class="o">)</span>: <span class="nv">arch</span><span class="o">=</span>c000003e <span class="nv">syscall</span><span class="o">=</span><span class="m">2</span> <span class="nv">success</span><span class="o">=</span>no <span class="nv">exit</span><span class="o">=</span>-13 <span class="nv">a0</span><span class="o">=</span>55745cdc7ee0 <span class="nv">a1</span><span class="o">=</span><span class="m">0</span> <span class="nv">a2</span><span class="o">=</span><span class="m">0</span> <span class="nv">a3</span><span class="o">=</span><span class="m">2</span> <span class="nv">items</span><span class="o">=</span><span class="m">0</span> <span class="nv">ppid</span><span class="o">=</span><span class="m">14622</span> <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">auid</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">uid</span><span class="o">=</span><span class="m">997</span> <span class="nv">gid</span><span class="o">=</span><span class="m">994</span> <span class="nv">euid</span><span class="o">=</span><span class="m">997</span> <span class="nv">suid</span><span class="o">=</span><span class="m">997</span> <span class="nv">fsuid</span><span class="o">=</span><span class="m">997</span> <span class="nv">egid</span><span class="o">=</span><span class="m">994</span> <span class="nv">sgid</span><span class="o">=</span><span class="m">994</span> <span class="nv">fsgid</span><span class="o">=</span><span class="m">994</span> <span class="nv">tty</span><span class="o">=(</span>none<span class="o">)</span> <span class="nv">ses</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">exe</span><span class="o">=</span><span class="s2">&#34;/usr/sbin/zabbix_agentd&#34;</span> <span class="nv">subj</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">key</span><span class="o">=(</span>null<span class="o">)</span>
-<span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528809906.258:3512<span class="o">)</span>: avc:  denied  <span class="o">{</span> <span class="nb">read</span> <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;messages&#34;</span> <span class="nv">dev</span><span class="o">=</span><span class="s2">&#34;sda1&#34;</span> <span class="nv">ino</span><span class="o">=</span><span class="m">8802128</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:var_log_t:s0 <span class="nv">tclass</span><span class="o">=</span>file
-</code></pre></div><p>これを許可するようなBooleanもなさそう</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo semanage boolean -l <span class="p">|</span> grep zabbix
-zabbix_can_network             <span class="o">(</span>off  ,  off<span class="o">)</span>  Allow zabbix to can network
-httpd_can_connect_zabbix       <span class="o">(</span>off  ,  off<span class="o">)</span>  Allow httpd to can connect zabbix
-</code></pre></div><p>そのため独自の許可ルールを作成することになる</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo ausearch -c <span class="s1">&#39;zabbix_agentd&#39;</span>
+</span></span><span class="line"><span class="cl">time-&gt;Tue Jun <span class="m">12</span> 13:25:06 <span class="m">2018</span>
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>PROCTITLE <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528809906.258:3512<span class="o">)</span>: <span class="nv">proctitle</span><span class="o">=</span>2F7573722F7362696E2F7A61626269785F6167656E74643A2061637469766520636865636B73202331205B70726F63657373696E672061637469766520636865636B735D
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>SYSCALL <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528809906.258:3512<span class="o">)</span>: <span class="nv">arch</span><span class="o">=</span>c000003e <span class="nv">syscall</span><span class="o">=</span><span class="m">2</span> <span class="nv">success</span><span class="o">=</span>no <span class="nv">exit</span><span class="o">=</span>-13 <span class="nv">a0</span><span class="o">=</span>55745cdc7ee0 <span class="nv">a1</span><span class="o">=</span><span class="m">0</span> <span class="nv">a2</span><span class="o">=</span><span class="m">0</span> <span class="nv">a3</span><span class="o">=</span><span class="m">2</span> <span class="nv">items</span><span class="o">=</span><span class="m">0</span> <span class="nv">ppid</span><span class="o">=</span><span class="m">14622</span> <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">auid</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">uid</span><span class="o">=</span><span class="m">997</span> <span class="nv">gid</span><span class="o">=</span><span class="m">994</span> <span class="nv">euid</span><span class="o">=</span><span class="m">997</span> <span class="nv">suid</span><span class="o">=</span><span class="m">997</span> <span class="nv">fsuid</span><span class="o">=</span><span class="m">997</span> <span class="nv">egid</span><span class="o">=</span><span class="m">994</span> <span class="nv">sgid</span><span class="o">=</span><span class="m">994</span> <span class="nv">fsgid</span><span class="o">=</span><span class="m">994</span> <span class="nv">tty</span><span class="o">=(</span>none<span class="o">)</span> <span class="nv">ses</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">exe</span><span class="o">=</span><span class="s2">&#34;/usr/sbin/zabbix_agentd&#34;</span> <span class="nv">subj</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">key</span><span class="o">=(</span>null<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528809906.258:3512<span class="o">)</span>: avc:  denied  <span class="o">{</span> <span class="nb">read</span> <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;messages&#34;</span> <span class="nv">dev</span><span class="o">=</span><span class="s2">&#34;sda1&#34;</span> <span class="nv">ino</span><span class="o">=</span><span class="m">8802128</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:var_log_t:s0 <span class="nv">tclass</span><span class="o">=</span>file
+</span></span></code></pre></div><p>これを許可するようなBooleanもなさそう</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo semanage boolean -l <span class="p">|</span> grep zabbix
+</span></span><span class="line"><span class="cl">zabbix_can_network             <span class="o">(</span>off  ,  off<span class="o">)</span>  Allow zabbix to can network
+</span></span><span class="line"><span class="cl">httpd_can_connect_zabbix       <span class="o">(</span>off  ,  off<span class="o">)</span>  Allow httpd to can connect zabbix
+</span></span></code></pre></div><p>そのため独自の許可ルールを作成することになる</p>
 <p>SELinuxをPermissiveモードにして拒否されるであろう動作を洗い出す</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo setenforce <span class="m">0</span>
-<span class="o">(</span>しばらく待つ<span class="o">)</span>
-$ sudo ausearch -c <span class="s1">&#39;zabbix_agentd&#39;</span>
-time-&gt;Tue Jun <span class="m">12</span> 13:40:21 <span class="m">2018</span>
-<span class="nv">type</span><span class="o">=</span>PROCTITLE <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528810821.374:3621<span class="o">)</span>: <span class="nv">proctitle</span><span class="o">=</span>2F7573722F7362696E2F7A61626269785F6167656E74643A2061637469766520636865636B73202331205B70726F63657373696E672061637469766520636865636B735D
-<span class="nv">type</span><span class="o">=</span>SYSCALL <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528810821.374:3621<span class="o">)</span>: <span class="nv">arch</span><span class="o">=</span>c000003e <span class="nv">syscall</span><span class="o">=</span><span class="m">2</span> <span class="nv">success</span><span class="o">=</span>yes <span class="nv">exit</span><span class="o">=</span><span class="m">6</span> <span class="nv">a0</span><span class="o">=</span>55745cdc7ee0 <span class="nv">a1</span><span class="o">=</span><span class="m">0</span> <span class="nv">a2</span><span class="o">=</span><span class="m">0</span> <span class="nv">a3</span><span class="o">=</span><span class="m">2</span> <span class="nv">items</span><span class="o">=</span><span class="m">0</span> <span class="nv">ppid</span><span class="o">=</span><span class="m">14622</span> <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">auid</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">uid</span><span class="o">=</span><span class="m">997</span> <span class="nv">gid</span><span class="o">=</span><span class="m">994</span> <span class="nv">euid</span><span class="o">=</span><span class="m">997</span> <span class="nv">suid</span><span class="o">=</span><span class="m">997</span> <span class="nv">fsuid</span><span class="o">=</span><span class="m">997</span> <span class="nv">egid</span><span class="o">=</span><span class="m">994</span> <span class="nv">sgid</span><span class="o">=</span><span class="m">994</span> <span class="nv">fsgid</span><span class="o">=</span><span class="m">994</span> <span class="nv">tty</span><span class="o">=(</span>none<span class="o">)</span> <span class="nv">ses</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">exe</span><span class="o">=</span><span class="s2">&#34;/usr/sbin/zabbix_agentd&#34;</span> <span class="nv">subj</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">key</span><span class="o">=(</span>null<span class="o">)</span>
-<span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528810821.374:3621<span class="o">)</span>: avc:  denied  <span class="o">{</span> open <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">path</span><span class="o">=</span><span class="s2">&#34;/var/log/messages&#34;</span> <span class="nv">dev</span><span class="o">=</span><span class="s2">&#34;sda1&#34;</span> <span class="nv">ino</span><span class="o">=</span><span class="m">8802128</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:var_log_t:s0 <span class="nv">tclass</span><span class="o">=</span>file
-<span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528810821.374:3621<span class="o">)</span>: avc:  denied  <span class="o">{</span> <span class="nb">read</span> <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;messages&#34;</span> <span class="nv">dev</span><span class="o">=</span><span class="s2">&#34;sda1&#34;</span> <span class="nv">ino</span><span class="o">=</span><span class="m">8802128</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:var_log_t:s0 <span class="nv">tclass</span><span class="o">=</span>file
-</code></pre></div><p>カスタムルールを生成して読み込ませる</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo ausearch -c <span class="s1">&#39;zabbix_agentd&#39;</span> --raw <span class="p">|</span> audit2allow -M my-zabbixagentd
-$ cat my-zabbixagentd.te
-
-module my-zabbixagentd 1.0<span class="p">;</span>
-
-require <span class="o">{</span>
-        <span class="nb">type</span> var_log_t<span class="p">;</span>
-        <span class="nb">type</span> zabbix_agent_t<span class="p">;</span>
-        class file <span class="o">{</span> open <span class="nb">read</span> <span class="o">}</span><span class="p">;</span>
-<span class="o">}</span>
-
-<span class="c1">#============= zabbix_agent_t ==============</span>
-allow zabbix_agent_t var_log_t:file <span class="o">{</span> open <span class="nb">read</span> <span class="o">}</span><span class="p">;</span>
-$ sudo semodule -i my-zabbixagentd.pp
-</code></pre></div><p>これでログが読めるようになる．
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo setenforce <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>しばらく待つ<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ sudo ausearch -c <span class="s1">&#39;zabbix_agentd&#39;</span>
+</span></span><span class="line"><span class="cl">time-&gt;Tue Jun <span class="m">12</span> 13:40:21 <span class="m">2018</span>
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>PROCTITLE <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528810821.374:3621<span class="o">)</span>: <span class="nv">proctitle</span><span class="o">=</span>2F7573722F7362696E2F7A61626269785F6167656E74643A2061637469766520636865636B73202331205B70726F63657373696E672061637469766520636865636B735D
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>SYSCALL <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528810821.374:3621<span class="o">)</span>: <span class="nv">arch</span><span class="o">=</span>c000003e <span class="nv">syscall</span><span class="o">=</span><span class="m">2</span> <span class="nv">success</span><span class="o">=</span>yes <span class="nv">exit</span><span class="o">=</span><span class="m">6</span> <span class="nv">a0</span><span class="o">=</span>55745cdc7ee0 <span class="nv">a1</span><span class="o">=</span><span class="m">0</span> <span class="nv">a2</span><span class="o">=</span><span class="m">0</span> <span class="nv">a3</span><span class="o">=</span><span class="m">2</span> <span class="nv">items</span><span class="o">=</span><span class="m">0</span> <span class="nv">ppid</span><span class="o">=</span><span class="m">14622</span> <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">auid</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">uid</span><span class="o">=</span><span class="m">997</span> <span class="nv">gid</span><span class="o">=</span><span class="m">994</span> <span class="nv">euid</span><span class="o">=</span><span class="m">997</span> <span class="nv">suid</span><span class="o">=</span><span class="m">997</span> <span class="nv">fsuid</span><span class="o">=</span><span class="m">997</span> <span class="nv">egid</span><span class="o">=</span><span class="m">994</span> <span class="nv">sgid</span><span class="o">=</span><span class="m">994</span> <span class="nv">fsgid</span><span class="o">=</span><span class="m">994</span> <span class="nv">tty</span><span class="o">=(</span>none<span class="o">)</span> <span class="nv">ses</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">exe</span><span class="o">=</span><span class="s2">&#34;/usr/sbin/zabbix_agentd&#34;</span> <span class="nv">subj</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">key</span><span class="o">=(</span>null<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528810821.374:3621<span class="o">)</span>: avc:  denied  <span class="o">{</span> open <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">path</span><span class="o">=</span><span class="s2">&#34;/var/log/messages&#34;</span> <span class="nv">dev</span><span class="o">=</span><span class="s2">&#34;sda1&#34;</span> <span class="nv">ino</span><span class="o">=</span><span class="m">8802128</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:var_log_t:s0 <span class="nv">tclass</span><span class="o">=</span>file
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1528810821.374:3621<span class="o">)</span>: avc:  denied  <span class="o">{</span> <span class="nb">read</span> <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">14627</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;zabbix_agentd&#34;</span> <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;messages&#34;</span> <span class="nv">dev</span><span class="o">=</span><span class="s2">&#34;sda1&#34;</span> <span class="nv">ino</span><span class="o">=</span><span class="m">8802128</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:zabbix_agent_t:s0 <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:var_log_t:s0 <span class="nv">tclass</span><span class="o">=</span>file
+</span></span></code></pre></div><p>カスタムルールを生成して読み込ませる</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo ausearch -c <span class="s1">&#39;zabbix_agentd&#39;</span> --raw <span class="p">|</span> audit2allow -M my-zabbixagentd
+</span></span><span class="line"><span class="cl">$ cat my-zabbixagentd.te
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">module my-zabbixagentd 1.0<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">require <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">type</span> var_log_t<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">type</span> zabbix_agent_t<span class="p">;</span>
+</span></span><span class="line"><span class="cl">        class file <span class="o">{</span> open <span class="nb">read</span> <span class="o">}</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#============= zabbix_agent_t ==============</span>
+</span></span><span class="line"><span class="cl">allow zabbix_agent_t var_log_t:file <span class="o">{</span> open <span class="nb">read</span> <span class="o">}</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">$ sudo semodule -i my-zabbixagentd.pp
+</span></span></code></pre></div><p>これでログが読めるようになる．
 ちなみにSELinuxによる拒否が発生した場合に必要なアクションを調べるには<code>setroubleshoot</code>パッケージが便利．</p>
 <p>監視内容によってはまだ追加の設定が必要になると思うが，基本的には上の考え方を応用すれば設定できるはず．</p>
 <div class="amazon-widget">
@@ -224,7 +224,7 @@ $ sudo semodule -i my-zabbixagentd.pp
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

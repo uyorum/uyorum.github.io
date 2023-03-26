@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -91,62 +91,62 @@ ER-XはLinuxベースではありますがCPUがMIPSアーキテクチャです�
 <p>cloudflaredはGoで書かれているので、Goが入った環境があればかんたんにMIPS向けにクロスコンパイルができます。
 自分は適当なLinux環境を用意してクロスコンパイルしました。
 <code>GOARCH=mips</code>でビルドしたところ動かなかったので<code>GOARCH=mipsle</code>を指定しています。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ git clone https://github.com/cloudflare/cloudflared.git
-$ <span class="nb">cd</span> cloudflared/cmd/cloudflared
-$ <span class="nv">GOOS</span><span class="o">=</span>linux <span class="nv">GOARCH</span><span class="o">=</span>mipsle go build
-$ file cloudflared
-cloudflared: ELF 32-bit LSB executable, MIPS, MIPS32 version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, statically linked, Go <span class="nv">BuildID</span><span class="o">=</span>q_P-LGbj9vqwTTHowwBy/7Tk5tV1mPGz9w77J1-Ua/Hfb51RmrmdHravgslRT8/GYp4QzVANZXUOcLjO8Gr, not stripped
-</code></pre></div><p><code>cloudflared/cmd/cloudflared/cloudflared</code>にバイナリが出来上がっているので、これをER-Xの<code>/usr/local/sbin/</code>に置いておきます。(ディレクトリは新たに作成)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git clone https://github.com/cloudflare/cloudflared.git
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> cloudflared/cmd/cloudflared
+</span></span><span class="line"><span class="cl">$ <span class="nv">GOOS</span><span class="o">=</span>linux <span class="nv">GOARCH</span><span class="o">=</span>mipsle go build
+</span></span><span class="line"><span class="cl">$ file cloudflared
+</span></span><span class="line"><span class="cl">cloudflared: ELF 32-bit LSB executable, MIPS, MIPS32 version <span class="m">1</span> <span class="o">(</span>SYSV<span class="o">)</span>, statically linked, Go <span class="nv">BuildID</span><span class="o">=</span>q_P-LGbj9vqwTTHowwBy/7Tk5tV1mPGz9w77J1-Ua/Hfb51RmrmdHravgslRT8/GYp4QzVANZXUOcLjO8Gr, not stripped
+</span></span></code></pre></div><p><code>cloudflared/cmd/cloudflared/cloudflared</code>にバイナリが出来上がっているので、これをER-Xの<code>/usr/local/sbin/</code>に置いておきます。(ディレクトリは新たに作成)</p>
 <h3 id="ログイン">ログイン</h3>
 <p>ここから先はER-X上で実行します。<br>
 はじめにバイナリに実行権限を設定します。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo -i
-<span class="c1"># chown root:root /usr/local/sbin/cloudflared</span>
-<span class="c1"># chmod 755 /usr/local/sbin/cloudflared</span>
-</code></pre></div><p>次にcloudflaredでCloudflareにログインし証明書をダウンロードします。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo -i
+</span></span><span class="line"><span class="cl"><span class="c1"># chown root:root /usr/local/sbin/cloudflared</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># chmod 755 /usr/local/sbin/cloudflared</span>
+</span></span></code></pre></div><p>次にcloudflaredでCloudflareにログインし証明書をダウンロードします。
 コマンドを実行するとURLが表示されるので、PCでアクセスしてログインするという流れです。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cloudflared tunnel login</span>
-Please open the following URL and log in with your Cloudflare account:
-
-https://dash.cloudflare.com/argotunnel?callback<span class="o">=</span>https%3A%2F%2Flogin.cloudflareaccess.org%2FXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx%3D
-
-Leave cloudflared running to download the cert automatically.
-2023-01-03T09:06:42Z INF Waiting <span class="k">for</span> login...
-</code></pre></div><p>ログインするとドメインを選択する画面が表示されるので、先ほど登録したドメインを選択し「承認」します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># cloudflared tunnel login</span>
+</span></span><span class="line"><span class="cl">Please open the following URL and log in with your Cloudflare account:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">https://dash.cloudflare.com/argotunnel?callback<span class="o">=</span>https%3A%2F%2Flogin.cloudflareaccess.org%2FXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx%3D
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Leave cloudflared running to download the cert automatically.
+</span></span><span class="line"><span class="cl">2023-01-03T09:06:42Z INF Waiting <span class="k">for</span> login...
+</span></span></code></pre></div><p>ログインするとドメインを選択する画面が表示されるので、先ほど登録したドメインを選択し「承認」します。</p>
 <p><img src="/cloudflare-tunnel-edgerouter-x/select_domain.jpg" alt="select_domain"></p>
 <p>ER-Xに戻ると証明書を保存しコマンドが終了しています。
 関連ファイルは<code>/etc/cloudflared</code>に集めたかったので移動しておきます。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">You have successfully logged in.
-If you wish to copy your credentials to a server, they have been saved to:
-/root/.cloudflared/cert.pem
-<span class="c1"># mkdir /etc/cloudflared</span>
-<span class="c1"># mv /root/.cloudflared/cert.pem /etc/cloudflared</span>
-<span class="c1"># rm -rf /root/.cloudflared</span>
-</code></pre></div><p>cloudflaredは設定ファイルを<code>~/.cloudflared</code>、<code>/etc/cloudflared</code>、<code>/usr/local/etc/cloudflared</code>の順に探してくれるので移動させても問題ありません。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">You have successfully logged in.
+</span></span><span class="line"><span class="cl">If you wish to copy your credentials to a server, they have been saved to:
+</span></span><span class="line"><span class="cl">/root/.cloudflared/cert.pem
+</span></span><span class="line"><span class="cl"><span class="c1"># mkdir /etc/cloudflared</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># mv /root/.cloudflared/cert.pem /etc/cloudflared</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rm -rf /root/.cloudflared</span>
+</span></span></code></pre></div><p>cloudflaredは設定ファイルを<code>~/.cloudflared</code>、<code>/etc/cloudflared</code>、<code>/usr/local/etc/cloudflared</code>の順に探してくれるので移動させても問題ありません。</p>
 <p><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-useful-terms/#default-cloudflared-directory">Useful terms · Cloudflare Zero Trust docs</a></p>
 <h3 id="tunnelの作成と設定">Tunnelの作成と設定</h3>
 <p>続いてTunnelを作成していきます。Tunnel名は「Home」にします。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cloudflared tunnel create Home</span>
-Tunnel credentials written to /etc/cloudflared/65b71b5e-7356-4f1e-90bc-88f9a9b8db7b.json. cloudflared chose this file based on where your origin certificate was found. Keep this file secret. To revoke these credentials, delete the tunnel.
-
-Created tunnel Home with id 65b71b5e-7356-4f1e-90bc-88f9a9b8db7b
-</code></pre></div><p>Tunnelの接続に使われる認証情報が<code>/etc/cloudflared/*.json</code>として保存されます。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># cloudflared tunnel create Home</span>
+</span></span><span class="line"><span class="cl">Tunnel credentials written to /etc/cloudflared/65b71b5e-7356-4f1e-90bc-88f9a9b8db7b.json. cloudflared chose this file based on where your origin certificate was found. Keep this file secret. To revoke these credentials, delete the tunnel.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Created tunnel Home with id 65b71b5e-7356-4f1e-90bc-88f9a9b8db7b
+</span></span></code></pre></div><p>Tunnelの接続に使われる認証情報が<code>/etc/cloudflared/*.json</code>として保存されます。</p>
 <p>次にcloudflaredの設定ファイルを作成します。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># vi /etc/cloudflared/config.yml</span>
-<span class="c1"># cat /etc/cloudflared/config.yml</span>
-tunnel: 65b71b5e-7356-4f1e-90bc-88f9a9b8db7b
-credentials-file: /etc/cloudflared/65b71b5e-7356-4f1e-90bc-88f9a9b8db7b.json
-warp-routing:
-  enabled: <span class="nb">true</span>
-</code></pre></div><h3 id="cloudflaredを起動">cloudflaredを起動</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># vi /etc/cloudflared/config.yml</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cat /etc/cloudflared/config.yml</span>
+</span></span><span class="line"><span class="cl">tunnel: 65b71b5e-7356-4f1e-90bc-88f9a9b8db7b
+</span></span><span class="line"><span class="cl">credentials-file: /etc/cloudflared/65b71b5e-7356-4f1e-90bc-88f9a9b8db7b.json
+</span></span><span class="line"><span class="cl">warp-routing:
+</span></span><span class="line"><span class="cl">  enabled: <span class="nb">true</span>
+</span></span></code></pre></div><h3 id="cloudflaredを起動">cloudflaredを起動</h3>
 <p>恒久的にはデーモン化が必要ですが、ひとまず手で実行します。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cloudflared --config /etc/cloudflared/config.yml tunnel run</span>
-...
-2023-01-03T13:17:07Z INF Connection 556e7512-0b96-4f0d-9232-b7eab07a76a4 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">0</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>KIX
-2023-01-03T13:17:07Z INF Connection c05977a3-78f8-4edd-9a31-e21e8932e6a7 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">1</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>NRT
-2023-01-03T13:17:09Z INF Connection cf942eca-718f-46ed-9f4d-1bc7cd839f0f registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">2</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>KIX
-2023-01-03T13:17:09Z INF Connection ddc90b1d-70ab-45b0-93ba-5fd482f68be2 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">3</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>NRT
-</code></pre></div><p>いろいろ表示されますがどうやら接続されたようです。<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># cloudflared --config /etc/cloudflared/config.yml tunnel run</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">2023-01-03T13:17:07Z INF Connection 556e7512-0b96-4f0d-9232-b7eab07a76a4 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">0</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>KIX
+</span></span><span class="line"><span class="cl">2023-01-03T13:17:07Z INF Connection c05977a3-78f8-4edd-9a31-e21e8932e6a7 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">1</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>NRT
+</span></span><span class="line"><span class="cl">2023-01-03T13:17:09Z INF Connection cf942eca-718f-46ed-9f4d-1bc7cd839f0f registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">2</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>KIX
+</span></span><span class="line"><span class="cl">2023-01-03T13:17:09Z INF Connection ddc90b1d-70ab-45b0-93ba-5fd482f68be2 registered with protocol: quic <span class="nv">connIndex</span><span class="o">=</span><span class="m">3</span> <span class="nv">ip</span><span class="o">=</span>x.x.x.x <span class="nv">location</span><span class="o">=</span>NRT
+</span></span></code></pre></div><p>いろいろ表示されますがどうやら接続されたようです。<br>
 Cloudflare Zero TrustのWeb画面でもStatusがHEALTHYと表示されています。</p>
 <p><img src="/cloudflare-tunnel-edgerouter-x/tunnel_status.jpg" alt="tunnel_status"></p>
 <p>いったん以上でTunnelの接続まではできました。WARPクライアントからER-X側のLANにアクセスするにはまだいろいろと設定が必要ですがER-X側の残りの設定をしていきます。</p>
@@ -154,29 +154,29 @@ Cloudflare Zero TrustのWeb画面でもStatusがHEALTHYと表示されていま�
 <p><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/as-a-service/linux/">Run as a service on Linux · Cloudflare Zero Trust docs</a></p>
 <p>cloudflaredには自身をサービスとしてインストールすることができるようなのでこの機能を使います。
 ER-X自身もSystemdが動いているのでこの仕組みに乗っかればよさそうです。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># cloudflared service install</span>
-2023-01-03T13:37:04Z INF Using Systemd
-2023-01-03T13:37:07Z INF Linux service <span class="k">for</span> cloudflared installed successfully
-</code></pre></div><p>確認したところ以下の3つのUnitがインストールされたようです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># cloudflared service install</span>
+</span></span><span class="line"><span class="cl">2023-01-03T13:37:04Z INF Using Systemd
+</span></span><span class="line"><span class="cl">2023-01-03T13:37:07Z INF Linux service <span class="k">for</span> cloudflared installed successfully
+</span></span></code></pre></div><p>確認したところ以下の3つのUnitがインストールされたようです。</p>
 <ul>
 <li>/etc/systemd/system/cloudflared.service</li>
 <li>/etc/systemd/system/cloudflared-update.service</li>
 <li>/etc/systemd/system/cloudflared-update.timer</li>
 </ul>
 <p>cloudflared-update.{service,timer}はcloudflared自身を日次で更新するUnitですが、ER-X向けは自分でビルドしないといけないので意味がありません。この2つは削除します。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># rm /etc/systemd/system/cloudflared-update.service</span>
-<span class="c1"># rm /etc/systemd/system/cloudflared-update.timer</span>
-<span class="c1"># systemctl daemon-reload</span>
-<span class="c1"># systemctl enable cloudflared</span>
-<span class="c1"># systemctl start cloudflared</span>
-<span class="c1"># systemctl status cloudflared</span>
-* cloudflared.service - cloudflared
-   Loaded: loaded <span class="o">(</span>/etc/systemd/system/cloudflared.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
-   Active: active <span class="o">(</span>running<span class="o">)</span> since Tue 2023-01-03 22:37:07 JST<span class="p">;</span> 13min ago
- Main PID: <span class="m">7846</span> <span class="o">(</span>cloudflared<span class="o">)</span>
-   CGroup: /system.slice/cloudflared.service
-           <span class="sb">`</span>-7846 /usr/local/sbin/cloudflared --no-autoupdate --config /etc/cloudflared/config.yml tunnel run
-</code></pre></div><p>デーモン化はこれでよさそうです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># rm /etc/systemd/system/cloudflared-update.service</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rm /etc/systemd/system/cloudflared-update.timer</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl daemon-reload</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl enable cloudflared</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl start cloudflared</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl status cloudflared</span>
+</span></span><span class="line"><span class="cl">* cloudflared.service - cloudflared
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/etc/systemd/system/cloudflared.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since Tue 2023-01-03 22:37:07 JST<span class="p">;</span> 13min ago
+</span></span><span class="line"><span class="cl"> Main PID: <span class="m">7846</span> <span class="o">(</span>cloudflared<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   CGroup: /system.slice/cloudflared.service
+</span></span><span class="line"><span class="cl">           <span class="sb">`</span>-7846 /usr/local/sbin/cloudflared --no-autoupdate --config /etc/cloudflared/config.yml tunnel run
+</span></span></code></pre></div><p>デーモン化はこれでよさそうです。</p>
 <h3 id="tunnelをweb-ui管理に変更">TunnelをWeb UI管理に変更</h3>
 <p>今回のTunnelはコマンドで作ったため、Cloudflare Zero TrustのWeb UIでは変更が行えないようになっています。
 考え方次第ですが、個人的にこのままでは不便なのでWeb UIから管理できるようにしておきます。
@@ -244,7 +244,7 @@ EdgeRouterはNAPTでインターネットへ出ていく構成なんですが、
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

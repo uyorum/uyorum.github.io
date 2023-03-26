@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -77,31 +77,31 @@
       <p>Hugoで書いている本ブログのパスを変えたかった。静的サイトではできないんじゃないのと思っていたができたのでまとめておく。</p>
 <p><a href="https://gohugo.io/content-management/urls/#aliases">Aliases | Hugo</a>
 方法はドキュメントに記載されている。記事ソースののFront Matterで<code>aliases</code>を定義すればよい。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">+++</span>
-<span class="na">slug</span> <span class="o">=</span> <span class="s">&#34;&#34;</span>
-<span class="na">tags</span> <span class="o">=</span> <span class="s">[&#34;&#34;, &#34;&#34;]</span>
-<span class="na">title</span> <span class="o">=</span> <span class="s">&#34;3Dプリンタ IUSE IUM1 を買った&#34;</span>
-<span class="na">date</span> <span class="o">=</span> <span class="s">&#34;2020-09-06T13:34:00+09:00&#34;</span>
-<span class="hl"><span class="na">aliases</span> <span class="o">=</span> <span class="s">[&#34;/blog/3d-printer-1/&#34;]      # /blog/3d-printer-1/から本来のURLへリダイレクトされる</span>
-</span><span class="na">+++</span>
-</code></pre></div><h2 id="一括でソースを更新する">一括でソースを更新する</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">+++</span>
+</span></span><span class="line"><span class="cl"><span class="na">slug</span> <span class="o">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="na">tags</span> <span class="o">=</span> <span class="s">[&#34;&#34;, &#34;&#34;]</span>
+</span></span><span class="line"><span class="cl"><span class="na">title</span> <span class="o">=</span> <span class="s">&#34;3Dプリンタ IUSE IUM1 を買った&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="na">date</span> <span class="o">=</span> <span class="s">&#34;2020-09-06T13:34:00+09:00&#34;</span>
+</span></span><span class="line hl"><span class="cl"><span class="na">aliases</span> <span class="o">=</span> <span class="s">[&#34;/blog/3d-printer-1/&#34;]      # /blog/3d-printer-1/から本来のURLへリダイレクトされる</span>
+</span></span><span class="line"><span class="cl"><span class="na">+++</span>
+</span></span></code></pre></div><h2 id="一括でソースを更新する">一括でソースを更新する</h2>
 <p>今回、自分は記事URLのPrefixを一括で変えたかったので、各ソースを一括で更新するスクリプトを書いた。</p>
-<div class="highlight"><pre class="chroma"><code class="language-diff" data-lang="diff"><span class="gd">--- a/config.toml
-</span><span class="gd"></span><span class="gi">+++ b/config.toml
-</span><span class="gi"></span> [permalinks]
-<span class="gd">-  post = &#34;/blog/:filename/&#34;
-</span><span class="gd"></span><span class="gi">+  post = &#34;/post/:filename/&#34;
-</span></code></pre></div><p>旧URLには検索サイトからインデックスが貼られているので、旧URLから新URLへのリダイレクトを設定する。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gd">--- a/config.toml
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+++ b/config.toml
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> [permalinks]
+</span></span><span class="line"><span class="cl"><span class="gd">-  post = &#34;/blog/:filename/&#34;
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+  post = &#34;/post/:filename/&#34;
+</span></span></span></code></pre></div><p>旧URLには検索サイトからインデックスが貼られているので、旧URLから新URLへのリダイレクトを設定する。
 以下のスクリプトで記事ソースにaliases行を追加していく。</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span>
-<span class="k">for</span> file in content/post/*.md<span class="p">;</span> <span class="k">do</span>
-  <span class="nv">filename</span><span class="o">=</span><span class="k">$(</span>basename <span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="k">)</span>
-  <span class="nv">postname</span><span class="o">=</span><span class="si">${</span><span class="nv">filename</span><span class="p">%.md</span><span class="si">}</span>
-  <span class="nv">insert</span><span class="o">=</span><span class="s2">&#34;aliases = [\&#34;/blog/</span><span class="si">${</span><span class="nv">postname</span><span class="si">}</span><span class="s2">/\&#34;]&#34;</span>
-  sed -i <span class="s2">&#34;6i</span><span class="si">${</span><span class="nv">insert</span><span class="si">}</span><span class="s2">&#34;</span> <span class="si">${</span><span class="nv">file</span><span class="si">}</span>
-<span class="k">done</span>
-</code></pre></div><p>自分の場合は一律でファイルの6行目に挿入でよかったが、各ソースで行数が異なる場合はもう少し丁寧にsedのオプションを書く必要があるかもしれない。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> file in content/post/*.md<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">filename</span><span class="o">=</span><span class="k">$(</span>basename <span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">postname</span><span class="o">=</span><span class="si">${</span><span class="nv">filename</span><span class="p">%.md</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">insert</span><span class="o">=</span><span class="s2">&#34;aliases = [\&#34;/blog/</span><span class="si">${</span><span class="nv">postname</span><span class="si">}</span><span class="s2">/\&#34;]&#34;</span>
+</span></span><span class="line"><span class="cl">  sed -i <span class="s2">&#34;6i</span><span class="si">${</span><span class="nv">insert</span><span class="si">}</span><span class="s2">&#34;</span> <span class="si">${</span><span class="nv">file</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>自分の場合は一律でファイルの6行目に挿入でよかったが、各ソースで行数が異なる場合はもう少し丁寧にsedのオプションを書く必要があるかもしれない。</p>
 <p>以上</p>
 <div class="amazon-widget">
   <div class="amazon-widget-image">
@@ -153,7 +153,7 @@
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

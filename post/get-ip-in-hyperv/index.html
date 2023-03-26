@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -79,47 +79,47 @@ HostからGuestへアクセスするときにアドレスが変わると困る�
 Guestを固定アドレスにすればいいのかも知れないが，何かの拍子でセグメントが変わったら面倒なので自動で取得できるようする．</p>
 <h2 id="環境">環境</h2>
 <h3 id="host">Host</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">&gt; systeminfo
-<span class="o">(</span>抜粋<span class="o">)</span>
-OS Name:                   Microsoft Windows <span class="m">10</span> Pro
-OS Version:                10.0.10240 N/A Build <span class="m">10240</span>
-</code></pre></div><h3 id="guest">Guest</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ lsb_release -a
-No LSB modules are available.
-Distributor ID: Debian
-Description:    Debian GNU/Linux unstable <span class="o">(</span>sid<span class="o">)</span>
-Release:        unstable
-Codename:       sid
-</code></pre></div><h2 id="準備">準備</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">&gt; systeminfo
+</span></span><span class="line"><span class="cl"><span class="o">(</span>抜粋<span class="o">)</span>
+</span></span><span class="line"><span class="cl">OS Name:                   Microsoft Windows <span class="m">10</span> Pro
+</span></span><span class="line"><span class="cl">OS Version:                10.0.10240 N/A Build <span class="m">10240</span>
+</span></span></code></pre></div><h3 id="guest">Guest</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ lsb_release -a
+</span></span><span class="line"><span class="cl">No LSB modules are available.
+</span></span><span class="line"><span class="cl">Distributor ID: Debian
+</span></span><span class="line"><span class="cl">Description:    Debian GNU/Linux unstable <span class="o">(</span>sid<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Release:        unstable
+</span></span><span class="line"><span class="cl">Codename:       sid
+</span></span></code></pre></div><h2 id="準備">準備</h2>
 <p>Guest OSにAgentをインストール</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo apt-get install hyperv-daemons
-$ dpkg -l hyperv-daemons
-<span class="nv">要望</span><span class="o">=(</span>U<span class="o">)</span>不明/<span class="o">(</span>I<span class="o">)</span>インストール/<span class="o">(</span>R<span class="o">)</span>削除/<span class="o">(</span>P<span class="o">)</span>完全削除/<span class="o">(</span>H<span class="o">)</span>保持
-<span class="p">|</span> <span class="nv">状態</span><span class="o">=(</span>N<span class="o">)</span>無/<span class="o">(</span>I<span class="o">)</span>インストール済/<span class="o">(</span>C<span class="o">)</span>設定/<span class="o">(</span>U<span class="o">)</span>展開/<span class="o">(</span>F<span class="o">)</span>設定失敗/<span class="o">(</span>H<span class="o">)</span>半インストール/<span class="o">(</span>W<span class="o">)</span>トリガ待ち/<span class="o">(</span>T<span class="o">)</span>トリガ保留
-<span class="p">|</span>/ エラー?<span class="o">=(</span>空欄<span class="o">)</span>無/<span class="o">(</span>R<span class="o">)</span>要再インストール <span class="o">(</span>状態,エラーの大文字<span class="o">=</span>異常<span class="o">)</span>
-<span class="o">||</span>/ 名前                          バージョン          アーキテクチャ      説明
-+++-<span class="o">=============================</span>-<span class="o">===================</span>-<span class="o">===================</span>-<span class="o">================================================================</span>
-ii  hyperv-daemons                4.2-2               amd64               Support daemons <span class="k">for</span> Linux running on Hyper-V
-$ systemctl status hyperv-daemons.hv-fcopy-daemon.service
-● hyperv-daemons.hv-fcopy-daemon.service - Hyper-V file copy service <span class="o">(</span>FCOPY<span class="o">)</span> daemon
-   Loaded: loaded <span class="o">(</span>/lib/systemd/system/hyperv-daemons.hv-fcopy-daemon.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
-   Active: inactive <span class="o">(</span>dead<span class="o">)</span>
-Condition: start condition failed at 金 2015-11-06 22:31:17 JST<span class="p">;</span> <span class="m">3</span> days ago
-$ systemctl status hyperv-daemons.hv-kvp-daemon.service
-● hyperv-daemons.hv-kvp-daemon.service - Hyper-V key-value pair <span class="o">(</span>KVP<span class="o">)</span> daemon
-   Loaded: loaded <span class="o">(</span>/lib/systemd/system/hyperv-daemons.hv-kvp-daemon.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
-   Active: active <span class="o">(</span>running<span class="o">)</span> since 金 2015-11-06 22:31:17 JST<span class="p">;</span> <span class="m">3</span> days ago
- Main PID: <span class="m">673</span> <span class="o">(</span>hv_kvp_daemon<span class="o">)</span>
-   CGroup: /system.slice/hyperv-daemons.hv-kvp-daemon.service
-           └─673 /usr/sbin/hv_kvp_daemon -n
-$ systemctl status hyperv-daemons.hv-vss-daemon.service
-● hyperv-daemons.hv-vss-daemon.service - Hyper-V volume shadow copy service <span class="o">(</span>VSS<span class="o">)</span> daemon
-   Loaded: loaded <span class="o">(</span>/lib/systemd/system/hyperv-daemons.hv-vss-daemon.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
-   Active: active <span class="o">(</span>running<span class="o">)</span> since 金 2015-11-06 22:31:17 JST<span class="p">;</span> <span class="m">3</span> days ago
- Main PID: <span class="m">667</span> <span class="o">(</span>hv_vss_daemon<span class="o">)</span>
-   CGroup: /system.slice/hyperv-daemons.hv-vss-daemon.service
-           └─667 /usr/sbin/hv_vss_daemon -n
-</code></pre></div><p>daemonのひとつで起動に失敗しているがとりあえず放置．それぞれの役割はこんな感じ．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo apt-get install hyperv-daemons
+</span></span><span class="line"><span class="cl">$ dpkg -l hyperv-daemons
+</span></span><span class="line"><span class="cl">要望<span class="o">=(</span>U<span class="o">)</span>不明/<span class="o">(</span>I<span class="o">)</span>インストール/<span class="o">(</span>R<span class="o">)</span>削除/<span class="o">(</span>P<span class="o">)</span>完全削除/<span class="o">(</span>H<span class="o">)</span>保持
+</span></span><span class="line"><span class="cl"><span class="p">|</span> 状態<span class="o">=(</span>N<span class="o">)</span>無/<span class="o">(</span>I<span class="o">)</span>インストール済/<span class="o">(</span>C<span class="o">)</span>設定/<span class="o">(</span>U<span class="o">)</span>展開/<span class="o">(</span>F<span class="o">)</span>設定失敗/<span class="o">(</span>H<span class="o">)</span>半インストール/<span class="o">(</span>W<span class="o">)</span>トリガ待ち/<span class="o">(</span>T<span class="o">)</span>トリガ保留
+</span></span><span class="line"><span class="cl"><span class="p">|</span>/ エラー?<span class="o">=(</span>空欄<span class="o">)</span>無/<span class="o">(</span>R<span class="o">)</span>要再インストール <span class="o">(</span>状態,エラーの大文字<span class="o">=</span>異常<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">||</span>/ 名前                          バージョン          アーキテクチャ      説明
+</span></span><span class="line"><span class="cl">+++-<span class="o">=============================</span>-<span class="o">===================</span>-<span class="o">===================</span>-<span class="o">================================================================</span>
+</span></span><span class="line"><span class="cl">ii  hyperv-daemons                4.2-2               amd64               Support daemons <span class="k">for</span> Linux running on Hyper-V
+</span></span><span class="line"><span class="cl">$ systemctl status hyperv-daemons.hv-fcopy-daemon.service
+</span></span><span class="line"><span class="cl">● hyperv-daemons.hv-fcopy-daemon.service - Hyper-V file copy service <span class="o">(</span>FCOPY<span class="o">)</span> daemon
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/lib/systemd/system/hyperv-daemons.hv-fcopy-daemon.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: inactive <span class="o">(</span>dead<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Condition: start condition failed at 金 2015-11-06 22:31:17 JST<span class="p">;</span> <span class="m">3</span> days ago
+</span></span><span class="line"><span class="cl">$ systemctl status hyperv-daemons.hv-kvp-daemon.service
+</span></span><span class="line"><span class="cl">● hyperv-daemons.hv-kvp-daemon.service - Hyper-V key-value pair <span class="o">(</span>KVP<span class="o">)</span> daemon
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/lib/systemd/system/hyperv-daemons.hv-kvp-daemon.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since 金 2015-11-06 22:31:17 JST<span class="p">;</span> <span class="m">3</span> days ago
+</span></span><span class="line"><span class="cl"> Main PID: <span class="m">673</span> <span class="o">(</span>hv_kvp_daemon<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   CGroup: /system.slice/hyperv-daemons.hv-kvp-daemon.service
+</span></span><span class="line"><span class="cl">           └─673 /usr/sbin/hv_kvp_daemon -n
+</span></span><span class="line"><span class="cl">$ systemctl status hyperv-daemons.hv-vss-daemon.service
+</span></span><span class="line"><span class="cl">● hyperv-daemons.hv-vss-daemon.service - Hyper-V volume shadow copy service <span class="o">(</span>VSS<span class="o">)</span> daemon
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/lib/systemd/system/hyperv-daemons.hv-vss-daemon.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since 金 2015-11-06 22:31:17 JST<span class="p">;</span> <span class="m">3</span> days ago
+</span></span><span class="line"><span class="cl"> Main PID: <span class="m">667</span> <span class="o">(</span>hv_vss_daemon<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   CGroup: /system.slice/hyperv-daemons.hv-vss-daemon.service
+</span></span><span class="line"><span class="cl">           └─667 /usr/sbin/hv_vss_daemon -n
+</span></span></code></pre></div><p>daemonのひとつで起動に失敗しているがとりあえず放置．それぞれの役割はこんな感じ．</p>
 <blockquote>
 <p>hv_fcopy_daemon provides the file copy service, allowing the host to copy files into the guest.
 hv_kvp_daemon provides the key-value pair (KVP) service, allowing the host to get and set the IP networking configuration of the guest. (This requires helper scripts which are not currently included.)
@@ -129,15 +129,15 @@ hv_vss_daemon provides the volume shadow copy service (VSS), allowing the host t
 <p>今回必要なのはおそらく<code>hv_kvp_daemon</code></p>
 <h2 id="ホスト側のpowershellでコマンドを実行">ホスト側のPowerShellでコマンドを実行</h2>
 <p>管理者権限がないと値を取得できないので注意</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">&gt; Get-VMNetworkAdapter -VMName &lt;VM Name&gt; <span class="p">|</span> Select IPAddresses
-IPAddresses
------------
-<span class="o">{</span>192.168.137.214, fe80::215:5dff:fe02:103<span class="o">}</span>
-</code></pre></div><p>以下のような感じでIPv4アドレスだけ取得できた</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">&gt; <span class="nv">$vm</span> <span class="o">=</span> Get-VMNetworkAdapter -VMName &lt;VM Name&gt;
-&gt; <span class="nv">$vm</span>.IPAddresses -match <span class="s2">&#34;^\d+\.\d+\.\d+\.\d+</span>$<span class="s2">&#34;</span>
-192.168.137.214
-</code></pre></div><p>以上</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">&gt; Get-VMNetworkAdapter -VMName &lt;VM Name&gt; <span class="p">|</span> Select IPAddresses
+</span></span><span class="line"><span class="cl">IPAddresses
+</span></span><span class="line"><span class="cl">-----------
+</span></span><span class="line"><span class="cl"><span class="o">{</span>192.168.137.214, fe80::215:5dff:fe02:103<span class="o">}</span>
+</span></span></code></pre></div><p>以下のような感じでIPv4アドレスだけ取得できた</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">&gt; <span class="nv">$vm</span> <span class="o">=</span> Get-VMNetworkAdapter -VMName &lt;VM Name&gt;
+</span></span><span class="line"><span class="cl">&gt; <span class="nv">$vm</span>.IPAddresses -match <span class="s2">&#34;^\d+\.\d+\.\d+\.\d+</span>$<span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">192.168.137.214
+</span></span></code></pre></div><p>以上</p>
 <div class="amazon-widget">
   <div class="amazon-widget-image">
     <a target="_blank" href="https://www.amazon.co.jp/dp/4822253929/?tag=uyorum-22">
@@ -179,7 +179,7 @@ IPAddresses
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

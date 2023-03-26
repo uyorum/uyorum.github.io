@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.110.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
@@ -79,11 +79,11 @@
 最後にESP32へのMongooseOSのインストールも行っておく．</p>
 <h2 id="環境">環境</h2>
 <h3 id="作業端末">作業端末</h3>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sw_vers
-ProductName:    Mac OS X
-ProductVersion: 10.11.6
-BuildVersion:   15G1611
-</code></pre></div><h3 id="ハードウェア">ハードウェア</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sw_vers
+</span></span><span class="line"><span class="cl">ProductName:    Mac OS X
+</span></span><span class="line"><span class="cl">ProductVersion: 10.11.6
+</span></span><span class="line"><span class="cl">BuildVersion:   15G1611
+</span></span></code></pre></div><h3 id="ハードウェア">ハードウェア</h3>
 <ul>
 <li><a href="http://akizukidenshi.com/catalog/g/gM-08219/">ＴＳＬ２５６１使用　照度センサーモジュール: センサ一般 秋月電子通商 電子部品 ネット通販</a></li>
 <li><a href="http://akizukidenshi.com/catalog/g/gM-11819/">ＥＳＰ３２－ＤｅｖＫｉｔＣ　ＥＳＰ－ＷＲＯＯＭ－３２開発ボード: 無線、高周波関連商品 秋月電子通商 電子部品 ネット通販</a></li>
@@ -92,12 +92,12 @@ BuildVersion:   15G1611
 <h3 id="rasbianのセットアップ">Rasbianのセットアップ</h3>
 <p>I2C向けのセットアップは以下の書籍を参考にした．<br>
 <a href="http://bluebacks.kodansha.co.jp/special/rspi.html">Raspberry Piで学ぶ電子工作　超小型コンピュータで電子回路を制御する　サポートページ｜ブルーバックス｜講談社BOOK倶楽部</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo raspi-config
-<span class="o">(</span>Interfacing -&gt; I2C -&gt; <span class="nb">enable</span><span class="o">)</span>
-$ sudo reboot
-$ sudo apt-get update
-$ sudo apt-get install -y i2c-tools python-smbus
-</code></pre></div><p>センサーモジュールの各端子はRaspberryPiの以下のピンに接続する</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo raspi-config
+</span></span><span class="line"><span class="cl"><span class="o">(</span>Interfacing -&gt; I2C -&gt; <span class="nb">enable</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ sudo reboot
+</span></span><span class="line"><span class="cl">$ sudo apt-get update
+</span></span><span class="line"><span class="cl">$ sudo apt-get install -y i2c-tools python-smbus
+</span></span></code></pre></div><p>センサーモジュールの各端子はRaspberryPiの以下のピンに接続する</p>
 <table>
 <thead>
 <tr>
@@ -135,9 +135,9 @@ $ sudo apt-get install -y i2c-tools python-smbus
 <li><a href="https://jp.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers">USB - UART ブリッジ VCP ドライバ|Silicon Labs</a> からドライバをダウンロード、インストールしておく</li>
 </ul>
 <p>ESP32へのMongooseOSのインストールは公式サイト記載の方法ではうまくいかなった．いろいろ調べたところ以下の方法でインストールできた．</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">mos flash --firmware https://mongoose-os.com/downloads/mos-esp32.zip
-mos wifi &lt;SSID&gt; &lt;PASSWORD&gt;
-</code></pre></div><p>コマンド<code>mos</code>を実行するとブラウザが起動してGUIからMongooseOSを操作できるようになる．コードもここで書いていくことになる．</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mos flash --firmware https://mongoose-os.com/downloads/mos-esp32.zip
+</span></span><span class="line"><span class="cl">mos wifi &lt;SSID&gt; &lt;PASSWORD&gt;
+</span></span></code></pre></div><p>コマンド<code>mos</code>を実行するとブラウザが起動してGUIからMongooseOSを操作できるようになる．コードもここで書いていくことになる．</p>
 <p>ここまででTSL2561の扱いの理解とMongooseOSでコードを書く準備ができた．続いてMongooseOS用のコードを実装していく．</p>
 <p>続く</p>
 <div class="amazon-widget">
@@ -198,7 +198,7 @@ mos wifi &lt;SSID&gt; &lt;PASSWORD&gt;
     <div class="disqus-comments">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     
