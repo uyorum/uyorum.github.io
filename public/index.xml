@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Fri, 06 Jan 2023 19:03:24 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Mar 2023 16:08:05 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cloudflare Zero Trustでイントラネット上のサービスをインターネットへ公開する</title>
+      <link>https://blog.uyorum.net/post/cloudflare-zero-trust-publish-service/</link>
+      <pubDate>Sun, 26 Mar 2023 16:08:05 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/cloudflare-zero-trust-publish-service/</guid>
+      <description>&lt;p&gt;自宅で動いているHome AssistantをGoogle Assistantから操作したかったのでインターネットへ公開することにした。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Cloudflare Zero TrustのWarpクライアントからTunnel側のホストへアクセスする(ホスト名ベース)</title>
       <link>https://blog.uyorum.net/post/cloudflare-zero-trust-private-hostnane/</link>
