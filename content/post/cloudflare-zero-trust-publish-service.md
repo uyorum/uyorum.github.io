@@ -31,3 +31,5 @@ date = "2023-03-26T16:08:05+09:00"
 ## 参考
 
 [DNS record · Cloudflare Zero Trust docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/routing-to-tunnel/dns/)
+
+{{< affiliate asin="4297126257" title="ゼロトラストネットワーク[実践]入門" >}}
