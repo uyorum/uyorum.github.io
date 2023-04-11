@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 26 Mar 2023 16:08:05 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 Apr 2023 00:55:25 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Chrome OSのLinux環境のMozcの設定画面を開く</title>
+      <link>https://blog.uyorum.net/post/chromeos-config-mozc/</link>
+      <pubDate>Wed, 12 Apr 2023 00:55:25 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/chromeos-config-mozc/</guid>
+      <description>&lt;p&gt;Mozcの設定画面を開こうとして苦労したのでメモしておく。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Cloudflare Zero Trustでイントラネット上のサービスをインターネットへ公開する</title>
       <link>https://blog.uyorum.net/post/cloudflare-zero-trust-publish-service/</link>
