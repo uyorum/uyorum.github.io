@@ -16,7 +16,7 @@ OSが初期化されるのでついでにファイルシステムをbtrfs化し�
 購入したSSDは以下。Western DigitalのSN740(1TB)です。  
 私が購入したときはセール中で8,700円でした。めちゃくちゃ安い。
 
-[Western Digital WD SN740 SN530 M.2 2230 SSD 1TB 2TB 512GB NVMe PCIe Gen4 x4 for Microsoft Surface Pro X Surface Laptop 3 - AliExpress](https://www.aliexpress.com/item/1005005539645580.html)
+[Western Digital WD SN740 SN530 M.2 2230 SSD 1TB 2TB 512GB NVMe PCIe Gen4 x4 for Microsoft Surface Pro X Surface Laptop 3 - AliExpress](https://s.click.aliexpress.com/e/_DmPObuP)
 
 換装手順は参考サイトの通りなので割愛。  
 開始早々、筐体外側のネジをなめてしまいましたがマイナスドライバも使いなんとか外しました。  
