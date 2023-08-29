@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.115.3">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>SteamDeckのSSD換装とWindowsインストールしてディスク共有化まで - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">SteamDeckのSSD換装とWindowsインストールしてディスク共有化まで</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2023-08-27">August 27, 2023
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteamdeck-upgrade-ssd-and-install-windows%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=SteamDeck%e3%81%aeSSD%e6%8f%9b%e8%a3%85%e3%81%a8Windows%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%97%e3%81%a6%e3%83%87%e3%82%a3%e3%82%b9%e3%82%af%e5%85%b1%e6%9c%89%e5%8c%96%e3%81%be%e3%81%a7 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteamdeck-upgrade-ssd-and-install-windows%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteamdeck-upgrade-ssd-and-install-windows%2f&amp;title=SteamDeck%e3%81%aeSSD%e6%8f%9b%e8%a3%85%e3%81%a8Windows%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%97%e3%81%a6%e3%83%87%e3%82%a3%e3%82%b9%e3%82%af%e5%85%b1%e6%9c%89%e5%8c%96%e3%81%be%e3%81%a7 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=SteamDeck%e3%81%aeSSD%e6%8f%9b%e8%a3%85%e3%81%a8Windows%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%97%e3%81%a6%e3%83%87%e3%82%a3%e3%82%b9%e3%82%af%e5%85%b1%e6%9c%89%e5%8c%96%e3%81%be%e3%81%a7 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteamdeck-upgrade-ssd-and-install-windows%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p>AliexpressのセールでM.2 SSDがめちゃくちゃ安かったのでSteamDeckのSSDを換装してやります。<br>
+OSが初期化されるのでついでにファイルシステムをbtrfs化してWindowsとディスクを共有できるようにします。<br>
+また、関係ないですが原神がSteamOSで動くようになったと聞いたので試してみます。</p>
+<h2 id="ssd換装">SSD換装</h2>
+<p>購入したSSDは以下。Western DigitalのSN740(1TB)です。<br>
+私が購入したときはセール中で8,700円でした。めちゃくちゃ安い。</p>
+<p><a href="https://www.aliexpress.com/item/1005005539645580.html">Western Digital WD SN740 SN530 M.2 2230 SSD 1TB 2TB 512GB NVMe PCIe Gen4 x4 for Microsoft Surface Pro X Surface Laptop 3 - AliExpress</a></p>
+<p>換装手順は参考サイトの通りなので割愛。<br>
+開始早々、筐体外側のネジをなめてしまいましたがマイナスドライバも使いなんとか外しました。<br>
+内側下の2本のネジだけネジロック剤が付いているようなのでおそらく外しにくくなっています。今回なめてしまったネジもこのうちの１つです。
+代わりのネジは早速Amazonで発注しました。到着までしばらくかかりますが、ネジ1本だけなら使用する分には問題ないので気長に待ちます。</p>
+<p><div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B0C3HFSXFG/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B0C3HFSXFG&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B0C3HFSXFG/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        ネジセットfor Steam deckゲーム機の裏蓋ねじ裏蓋交換フィリップスねじセットに適用 ネジロング4本ショート4本
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+<br>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B08W1RXZB9/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B08W1RXZB9&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B08W1RXZB9/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        アネックス(ANEX) なめたネジはずし 精密用 ハンドル付 M1~2.6 No.3610-N
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+</p>
+<h3 id="参考">参考</h3>
+<p><a href="https://yoshives.com/steamdeck-ssd-upgrade/">もしかして、全員SSD交換するべきかもしれないSteamDeck | yoshives</a><br>
+<a href="https://jp.ifixit.com/Guide/Steam+Deck+SSD%E3%81%AE%E4%BA%A4%E6%8F%9B/148989">Steam Deck SSDの交換 - iFixit 修理ガイド</a></p>
+<h2 id="btrfs化">btrfs化</h2>
+<p>btrfs化することでSteamOSとWindowsでディスク容量（ファイルシステム）を共有できます。<br>
+<a href="../steam-deck-windows-sd-card/">以前の記事</a>ではSDカードのパーティションを分割することでSteamOSとWindowsの双方でSDカードを使えるようにしました。
+こちらはパーティションを分割して両者に割り当てる方法と違い、パーティション（ファイルシステム）自体は全体でひとつ（内蔵ディスクとSDカードは別々になります）で、両者で柔軟に容量を融通しあえるので使い勝手がいいです。
+作業手順の中でSteamOSを初期化することになるので、SSD換装したこのタイミングで行ってしまいます。</p>
+<p>こちらも手順は参考サイトの通り。
+Windows用のパーティションは128GiB切り出しました。元の<code>/home</code>の容量から128Giを引いて1024をかけた容量（MiB）にパーティションを縮小します。</p>
+<p>Windowsには以下のドライバやソフトウェアを入れておきます。</p>
+<ul>
+<li><a href="https://help.steampowered.com/ja/faqs/view/6121-ECCD-D643-BAA8">公式のデバイスドライバ一式</a></li>
+<li><a href="https://github.com/maharmstone/btrfs">WinBtrfs</a><br>
+Windows用のbtrfsドライバです<br>
+インストール後、再起動するとSteamOSの<code>/home</code>領域が見えるようになります。</li>
+<li><a href="https://github.com/mKenfenheuer/steam-deck-windows-usermode-driver">SWICD</a><br>
+SteamDeckのコントローラがWindowsで使用できるようになります</li>
+<li><a href="https://tonchikiroku.com/steamdeck-refresh-rate-40hz-how-to/">Custom Resolution Utility</a>
+本来SteamDeck上のWindowsは60fps固定のところを変更できるようにします。<br>
+fpsを下げることで消費電力削減を狙っています。</li>
+</ul>
+<p>参考サイトで紹介されているRefindの導入はいったん見送りました。SteamOSアップデート時の対応がやや面倒そうだったので。<br>
+UEFIで起動の優先順位を変えればSteamOSをデフォルトにできそうなので後日調査することにします。</p>
+<h3 id="参考-1">参考</h3>
+<p><a href="https://note.com/asami_konno/n/n9fdb07744546#e69be92a-8df1-4f72-8b86-d64c51a79382">SteamDeckにWindowsを入れてデュアルブートにしてみた（BTRFS） #SteamDeck｜小判</a><br>
+<a href="https://gitlab.com/popsulfr/steamos-btrfs">Philipp Richter / SteamOS Btrfs · GitLab</a><br>
+<a href="https://github.com/mKenfenheuer/steam-deck-windows-usermode-driver">mKenfenheuer/steam-deck-windows-usermode-driver: A windows usermode controller driver for the steam deck internal controller.</a></p>
+<h2 id="steamosで原神を動かす">SteamOSで原神を動かす</h2>
+<p>SteamDeck発売直後はSteamOSで原神は動かなかったのですが、その後のSteamOS（Proton）のアップデートにより動くようになったそうです。<br>
+SteamDeckにWindowsをインストールしてWindowsで原神を動かしたり、原神に独自パッチを当ててSteamOS上で動かす記事が見つかりますが、そういった回避は不要で普通にSteamOSで原神を動かします。<br>
+ただし原神はSteamにはないので少しインストール手順が複雑です。</p>
+<p>手順は<a href="https://time-gadget.com/2023/07/27/%E3%80%90%E7%94%BB%E5%83%8F%E3%81%A7%E8%A7%A3%E8%AA%AC%E3%80%91steam-deck%E3%81%AEsteam-os%E3%81%A7%E5%8E%9F%E7%A5%9E%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B/">参考サイト</a>を参照。
+この方は内蔵ディスクに原神をインストールする方法も<a href="https://time-gadget.com/2023/08/17/%E3%80%90%E7%94%BB%E5%83%8F%E3%81%A7%E8%A7%A3%E8%AA%AC%E3%80%91steam-deck%E3%81%AEsteam-os%E3%81%A7%E5%8E%9F%E7%A5%9E%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B-2">記事</a>にされていますが、SDカードにインストールする手順の方で原神のインストール先をデフォルト（Cドライブ）のままインストールを進めて問題なくインストールできました。</p>
+<h3 id="バイナリの探し方">バイナリの探し方</h3>
+<p>参考サイトではSDカードに原神をインストールしていますが、今回はデフォルトのまま（Cドライブ=内蔵SSD）
+にインストールするのでインストールした原神のバイナリの探し方が異なります。
+デスクトップモードでターミナルを起動し以下のコマンドで見つけることができます。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">find .local -type f -name launcher.exe
+</span></span></code></pre></div><p>原神インストーラをSteamに登録していると思いますので、それを編集してlauncher.exeのパスへ変更してやるのが楽です。</p>
+<h3 id="動かしてみて">動かしてみて</h3>
+<p>Windowsよりパフォーマンスはやや落ちるかなという印象です。画質設定「中」だと頻繁にフレームレートが落ちるので「低」へ変更したほうがよいです。数日遊んでみましたが動作がおかしいところは特になかったのでしばらく常用してみようと思います。<br>
+ただしSteamOSのアップデートで動かなくなる可能性があるのでWindowsの方にもインストールしておいた方がいいかも。</p>
+<p>読み込み速度はWindowsで原神をSDカードにインストールしていた場合と体感それほど変わりませんでした。残念。</p>
+<h3 id="参考-2">参考</h3>
+<p><a href="https://time-gadget.com/2023/07/27/%E3%80%90%E7%94%BB%E5%83%8F%E3%81%A7%E8%A7%A3%E8%AA%AC%E3%80%91steam-deck%E3%81%AEsteam-os%E3%81%A7%E5%8E%9F%E7%A5%9E%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B/">【画像で解説】Steam Deckのsteam OSで原神をインストールする方法（microSD編） | ガジェットの時間</a></p>
+<p>私が使っているSDカードはこちら↓
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B08927YRXX/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B08927YRXX&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B08927YRXX/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        SanDisk マイクロSD 512GB サンディスク Extreme microSDXC A2 SDSQXA1-512G-GN6MN SD変換アダプターなし 海外パッケージ品
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+</p>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteamdeck-upgrade-ssd-and-install-windows%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=SteamDeck%e3%81%aeSSD%e6%8f%9b%e8%a3%85%e3%81%a8Windows%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%97%e3%81%a6%e3%83%87%e3%82%a3%e3%82%b9%e3%82%af%e5%85%b1%e6%9c%89%e5%8c%96%e3%81%be%e3%81%a7 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteamdeck-upgrade-ssd-and-install-windows%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteamdeck-upgrade-ssd-and-install-windows%2f&amp;title=SteamDeck%e3%81%aeSSD%e6%8f%9b%e8%a3%85%e3%81%a8Windows%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%97%e3%81%a6%e3%83%87%e3%82%a3%e3%82%b9%e3%82%af%e5%85%b1%e6%9c%89%e5%8c%96%e3%81%be%e3%81%a7 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=SteamDeck%e3%81%aeSSD%e6%8f%9b%e8%a3%85%e3%81%a8Windows%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%97%e3%81%a6%e3%83%87%e3%82%a3%e3%82%b9%e3%82%af%e5%85%b1%e6%9c%89%e5%8c%96%e3%81%be%e3%81%a7 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fsteamdeck-upgrade-ssd-and-install-windows%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+
