@@ -5,10 +5,19 @@
     <loc>https://blog.uyorum.net/</loc>
     <lastmod>2023-08-27T02:35:50+09:00</lastmod>
   </url><url>
+    <loc>https://blog.uyorum.net/tags/game/</loc>
+    <lastmod>2023-08-27T02:35:50+09:00</lastmod>
+  </url><url>
     <loc>https://blog.uyorum.net/post/</loc>
     <lastmod>2023-08-27T02:35:50+09:00</lastmod>
   </url><url>
+    <loc>https://blog.uyorum.net/tags/steamdeck/</loc>
+    <lastmod>2023-08-27T02:35:50+09:00</lastmod>
+  </url><url>
     <loc>https://blog.uyorum.net/post/steamdeck-upgrade-ssd-and-install-windows/</loc>
+    <lastmod>2023-08-27T02:35:50+09:00</lastmod>
+  </url><url>
+    <loc>https://blog.uyorum.net/tags/</loc>
     <lastmod>2023-08-27T02:35:50+09:00</lastmod>
   </url><url>
     <loc>https://blog.uyorum.net/post/chromeos-config-mozc/</loc>
@@ -18,9 +27,6 @@
     <lastmod>2023-03-26T16:08:05+09:00</lastmod>
   </url><url>
     <loc>https://blog.uyorum.net/post/cloudflare-zero-trust-publish-service/</loc>
-    <lastmod>2023-03-26T16:08:05+09:00</lastmod>
-  </url><url>
-    <loc>https://blog.uyorum.net/tags/</loc>
     <lastmod>2023-03-26T16:08:05+09:00</lastmod>
   </url><url>
     <loc>https://blog.uyorum.net/post/cloudflare-zero-trust-private-hostnane/</loc>
@@ -40,9 +46,6 @@
   </url><url>
     <loc>https://blog.uyorum.net/post/raspberrypi-mirakurun-epgstation/</loc>
     <lastmod>2023-01-02T16:46:36+09:00</lastmod>
-  </url><url>
-    <loc>https://blog.uyorum.net/tags/steamdeck/</loc>
-    <lastmod>2022-12-19T22:43:20+09:00</lastmod>
   </url><url>
     <loc>https://blog.uyorum.net/post/steam-deck-windows-sd-card/</loc>
     <lastmod>2022-12-19T22:43:20+09:00</lastmod>
