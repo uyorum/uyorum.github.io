@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = ["steamdeck"]
+tags = ["steamdeck","game"]
 title = "SteamDeckでSteamOSとWindowsの両方でSDカードを使用する"
 date = "2022-12-19T22:43:20+09:00"
 +++

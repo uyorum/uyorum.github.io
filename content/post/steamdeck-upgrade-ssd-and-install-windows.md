@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = []
+tags = ["steamdeck","game"]
 title = "SteamDeckのSSD換装とWindowsインストールしてディスク共有化まで"
 date = "2023-08-27T02:35:50+09:00"
 +++

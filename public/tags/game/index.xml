@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>steamdeck on @uyorumの雑記帳</title>
-    <link>https://blog.uyorum.net/tags/steamdeck/</link>
-    <description>Recent content in steamdeck on @uyorumの雑記帳</description>
+    <title>game on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/game/</link>
+    <description>Recent content in game on @uyorumの雑記帳</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 27 Aug 2023 02:35:50 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/steamdeck/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 27 Aug 2023 02:35:50 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/game/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SteamDeckのSSD換装とWindowsインストールしてディスク共有化まで</title>
       <link>https://blog.uyorum.net/post/steamdeck-upgrade-ssd-and-install-windows/</link>
