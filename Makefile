@@ -16,6 +16,10 @@ post:
 	$(eval FILENAME := $(shell bash -c 'read -p "Enter filename: " filename; echo $$filename'))
 	hugo new post/$(FILENAME).md
 
+## Remove EXIF tag from jpg
+removeexif:
+	jhead -purejpg static/*/*.jpg
+
 ## Deploy blog and push source
 deploy:
 	echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
