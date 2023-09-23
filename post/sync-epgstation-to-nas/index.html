@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.112.7">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>EPGStationの録画データをNASへ自動で同期する - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">EPGStationの録画データをNASへ自動で同期する</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2023-09-23">September 23, 2023
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fsync-epgstation-to-nas%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=EPGStation%e3%81%ae%e9%8c%b2%e7%94%bb%e3%83%87%e3%83%bc%e3%82%bf%e3%82%92NAS%e3%81%b8%e8%87%aa%e5%8b%95%e3%81%a7%e5%90%8c%e6%9c%9f%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsync-epgstation-to-nas%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsync-epgstation-to-nas%2f&amp;title=EPGStation%e3%81%ae%e9%8c%b2%e7%94%bb%e3%83%87%e3%83%bc%e3%82%bf%e3%82%92NAS%e3%81%b8%e8%87%aa%e5%8b%95%e3%81%a7%e5%90%8c%e6%9c%9f%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=EPGStation%e3%81%ae%e9%8c%b2%e7%94%bb%e3%83%87%e3%83%bc%e3%82%bf%e3%82%92NAS%e3%81%b8%e8%87%aa%e5%8b%95%e3%81%a7%e5%90%8c%e6%9c%9f%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fsync-epgstation-to-nas%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p>EPGStation上に置いたままだと何かと取り回しづらいのでNASへ同期するようにしました。</p>
+<p>以下のような設計、コンセプトで実装します。</p>
+<ul>
+<li>NASのプロトコルはNFSを使う（EPGStation側に追加のソフトウェアを入れたくなかったため）
+<ul>
+<li>NFSはroot squashを有効にする</li>
+</ul>
+</li>
+<li>EPGStationからはautofsを用いて自動マウント・アンマウントを設定する（不要なときはNAS側のディスクを止めたいため）</li>
+<li>同期はrsyncを使ってmp4のみコピーする。m2tsはコピーしない</li>
+<li>ffmpegでエンコード中のmp4はコピーしない</li>
+</ul>
+<p>EPGStation側の設定は以前<a href="../raspberrypi-mirakurun-epgstation/">この記事</a>でまとめています。</p>
+<p>なお、機種によるのでNAS側の設定は省略します。</p>
+<h2 id="autofsの設定">autofsの設定</h2>
+<p>/mnt/nas/recordedにマウントするようにします。<br>
+マウントポイントのディレクトリは自動で作成してくれるので自分で作る必要はありません。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo apt install -y autofs
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;/mnt/nas /etc/auto-nas.misc&#39;</span> <span class="p">|</span> sudo tee /etc/auto.master.d/nas.autofs
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;recorded -fstype=nfs,rw,async,defaults NAS-IP:/shared/path&#39;</span> <span class="p">|</span> sudo tee /etc/auto-nas.misc
+</span></span><span class="line"><span class="cl">$ sudo systemctl <span class="nb">enable</span> autofs
+</span></span><span class="line"><span class="cl">$ sudo systemctl restart autofs
+</span></span></code></pre></div><p>autofsで使用する設定ファイルは2種類あり、</p>
+<ul>
+<li>autofsで制御するマウントポイントとその設定を定義するファイル（/etc/auto.master.d以下に作成する）</li>
+<li>上で定義したマウントポイント以下のフォルダに何をマウントするのか定義するファイル（ファイルパスは上のファイルで指定する）</li>
+</ul>
+<p>今回は<code>/mnt/nas/recorded</code>にNASの<code>/shared/path</code>をマウントしています。
+restartで反映させたあとにこのディレクトリにアクセスすると自動でマウントされることがわかります。</p>
+<p>ちなみにアンマウントまでの時間はデフォルトでは5分のようです。</p>
+<p>/etc/autofs.conf</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># timeout - set the default mount timeout in seconds. The internal</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#           program default is 10 minutes, but the default installed</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#           configuration overrides this and sets the timeout to 5</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#           minutes to be consistent with earlier autofs releases.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="nv">timeout</span> <span class="o">=</span> <span class="m">300</span>
+</span></span></code></pre></div><h3 id="参考">参考</h3>
+<p><a href="https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/7/html/storage_administration_guide/nfs-autofs#s2-nfs-config-autofs">8.3. autofs Red Hat Enterprise Linux 7 | Red Hat Customer Portal</a></p>
+<h2 id="rsyncコマンドの精査">rsyncコマンドの精査</h2>
+<p>今回一番悩んだポイントはffmpegでエンコード中のmp4はコピーしないようにすること。<br>
+方法はいろいろ考えましたがrsync単体ではできなさそうなのでスクリプトにすることにしました。<br>
+<code>ps</code>でffmpegプロセスを探してその出力先のファイルをrsyncの<code>exclude</code>オプションに渡すことにします。<br>
+スクリプトはこんな感じ。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">RECORD_ROOT</span><span class="o">=</span>/app/recorded/
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">RSYNC_FROM</span><span class="o">=</span>/mnt/recorded/
+</span></span><span class="line"><span class="cl"><span class="nb">readonly</span> <span class="nv">RSYNC_DEST</span><span class="o">=</span>/mnt/nas/recorded
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Access to mount-point to mount NAS</span>
+</span></span><span class="line"><span class="cl"><span class="nb">test</span> -d <span class="si">${</span><span class="nv">RSYNC_DEST</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># `RSYNC_FROM`からの相対パスに変換</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rsyncにそのまま渡すために[と]をエスケープする</span>
+</span></span><span class="line"><span class="cl"><span class="nv">encoding_files</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span> grep <span class="o">[</span>f<span class="o">]</span>fmpeg <span class="p">|</span> awk <span class="s1">&#39;{ print $NF }&#39;</span> <span class="p">|</span> sed -e <span class="s2">&#34;s#</span><span class="si">${</span><span class="nv">RECORD_ROOT</span><span class="si">}</span><span class="s2">##g&#34;</span> -e <span class="s1">&#39;s#\([].[]\)#\\\1#g&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">excludes</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> file in <span class="si">${</span><span class="nv">encoding_files</span><span class="si">}</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">excludes</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">excludes</span><span class="si">}</span><span class="s2"> --exclude=</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># root_squashでマウントしているため`-a`オプションは使えない（所有者と所有グループを保持できない）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># r: サブディレクトリ内も対象にする</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># l: シンボリックリンクもそのまま転送する</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># t: 更新時刻を保持する</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># O: ディレクトリはtオプションの対象外とする（後述）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># u: 上書きするかどうかを更新時刻で判定する</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># prune-empty-dirs: 空ディレクトリは転送しない</span>
+</span></span><span class="line"><span class="cl">rsync -rltuOvn <span class="si">${</span><span class="nv">excludes</span><span class="si">}</span> --include<span class="o">=</span><span class="s1">&#39;*/&#39;</span> --include<span class="o">=</span><span class="s1">&#39;*.mp4&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;*&#39;</span> --prune-empty-dirs <span class="si">${</span><span class="nv">RSYNC_FROM</span><span class="si">}</span> <span class="si">${</span><span class="nv">RSYNC_DEST</span><span class="si">}</span>
+</span></span></code></pre></div><ul>
+<li>EPGStationをDockerで稼働させているため、ffmpegに渡している出力先フォルダはコンテナ内のもの（<code>RECORD_ROOT</code>）でありホストから見たパス（<code>RSYNC_FROM</code>）と異なります</li>
+<li><code>grep</code>に渡している<code>[f]fmpeg</code>はgrepプロセス自身が出てこないようにするテクニックです</li>
+<li>manによるとrsyncの<code>-a</code>オプションは<code>-rlptgoD</code>と同等のようなので<code>root_squash</code>環境では実現できない<code>-pgoD</code>を除きました</li>
+</ul>
+<p>rsyncの<code>O</code>オプションなしで実行したところ以下のエラーが発生したので<code>O</code>オプションを追加しました。宛先の最上位ディレクトリの更新時刻を変更しようとして失敗しているようです。
+一応そのままでも転送はできましたが気になったのでエラーが出ないようにします。</p>
+<blockquote>
+<p>rsync: [generator] failed to set times on &ldquo;/mnt/nas/recorded/.&rdquo;: Operation not permitted (1)</p>
+</blockquote>
+<h3 id="参考-1">参考</h3>
+<ul>
+<li><a href="https://yanor.net/wiki/?UNIX/rsync/%E6%8C%87%E5%AE%9A%E3%81%97%E3%81%9F%E6%8B%A1%E5%BC%B5%E5%AD%90%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A0%E3%81%91%E5%90%8C%E6%9C%9F%E3%81%99%E3%82%8B">UNIX/rsync/指定した拡張子のファイルだけ同期する - yanor.net/wiki</a></li>
+<li><a href="https://gozuk16.hatenablog.com/entry/2014/09/30/224900">rsyncでエラーが出たけどコピーはできてる - ごずろぐ</a></li>
+</ul>
+<h2 id="定期実行">定期実行</h2>
+<p>あとはこのスクリプトを適当なパスに置いて定期的に実行するようにします。<br>
+すでに大量の録画データがある場合は初回稼働は手で実行したほうがいいかも。</p>
+<p>昔ながらの方法なら定期実行はcronで設定することですが、今回はせっかくなのでSystemdのtimerで行うことにしました。</p>
+<p>/etc/systemd/system/sync-to-nas.service</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Description</span><span class="o">=</span><span class="s">Sync recorded movies to NAS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">User</span><span class="o">=</span><span class="s">pi</span>
+</span></span><span class="line"><span class="cl"><span class="na">Type</span><span class="o">=</span><span class="s">oneshot</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/sync-to-nas.sh</span>
+</span></span><span class="line"><span class="cl"><span class="na">RemainAfterExit</span><span class="o">=</span><span class="s">no</span>
+</span></span></code></pre></div><p>/etc/systemd/system/sync-to-nas.timer</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Description</span><span class="o">=</span><span class="s">Sync recorded movies to NAS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Timer]</span>
+</span></span><span class="line"><span class="cl"><span class="na">OnCalendar</span><span class="o">=</span><span class="s">*-*-* 6:00:00</span>
+</span></span><span class="line"><span class="cl"><span class="na">Persistent</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Install]</span>
+</span></span><span class="line"><span class="cl"><span class="na">WantedBy</span><span class="o">=</span><span class="s">timers.target</span>
+</span></span></code></pre></div><p>毎日6:00に実行するようにしました。
+本当はもっと頻繁に実行したいところですが、差分がなくても毎回NASへのアクセスが発生してNASのディスクが起動してしまうのでやめました。</p>
+<p>ファイルを作成したらSystemdを再読み込みして反映させます。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo systemctl daemon-reload
+</span></span><span class="line"><span class="cl">$ sudo systemctl <span class="nb">enable</span> --now sync-to-nas.timer
+</span></span><span class="line"><span class="cl">$ sudo systemctl status sync-to-nas.timer
+</span></span><span class="line"><span class="cl">● sync-to-nas.timer - Sync recorded movies to NAS
+</span></span><span class="line"><span class="cl">     Loaded: loaded <span class="o">(</span>/etc/systemd/system/sync-to-nas.timer<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">     Active: active <span class="o">(</span>waiting<span class="o">)</span> since Sat 2023-09-23 23:14:51 JST<span class="p">;</span> 12min ago
+</span></span><span class="line"><span class="cl">    Trigger: Sun 2023-09-24 06:00:00 JST<span class="p">;</span> 6h left
+</span></span><span class="line"><span class="cl">   Triggers: ● sync-to-nas.service
+</span></span></code></pre></div><p>以上</p>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B07JGYV4Q8/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B07JGYV4Q8&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B07JGYV4Q8/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        ［改訂第3版］シェルスクリプト基本リファレンス ──#!/bin/shで、ここまでできる
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fsync-epgstation-to-nas%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=EPGStation%e3%81%ae%e9%8c%b2%e7%94%bb%e3%83%87%e3%83%bc%e3%82%bf%e3%82%92NAS%e3%81%b8%e8%87%aa%e5%8b%95%e3%81%a7%e5%90%8c%e6%9c%9f%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsync-epgstation-to-nas%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fsync-epgstation-to-nas%2f&amp;title=EPGStation%e3%81%ae%e9%8c%b2%e7%94%bb%e3%83%87%e3%83%bc%e3%82%bf%e3%82%92NAS%e3%81%b8%e8%87%aa%e5%8b%95%e3%81%a7%e5%90%8c%e6%9c%9f%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=EPGStation%e3%81%ae%e9%8c%b2%e7%94%bb%e3%83%87%e3%83%bc%e3%82%bf%e3%82%92NAS%e3%81%b8%e8%87%aa%e5%8b%95%e3%81%a7%e5%90%8c%e6%9c%9f%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fsync-epgstation-to-nas%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+

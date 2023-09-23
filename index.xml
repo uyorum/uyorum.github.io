@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Mon, 18 Sep 2023 03:26:16 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 23 Sep 2023 23:22:31 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>EPGStationの録画データをNASへ自動で同期する</title>
+      <link>https://blog.uyorum.net/post/sync-epgstation-to-nas/</link>
+      <pubDate>Sat, 23 Sep 2023 23:22:31 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/sync-epgstation-to-nas/</guid>
+      <description>&lt;p&gt;EPGStation上に置いたままだと何かと取り回しづらいのでNASへ同期するようにしました。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>ロール式ベビーゲートの修理</title>
       <link>https://blog.uyorum.net/post/repair-roll-type-baby-gate/</link>
