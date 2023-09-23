@@ -7,16 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sat, 23 Sep 2023 23:22:31 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/linux/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>EPGStationの録画データをNASへ自動で同期する</title>
-      <link>https://blog.uyorum.net/post/sync-epgstation-to-nas/</link>
-      <pubDate>Sat, 23 Sep 2023 23:22:31 +0900</pubDate>
-      
-      <guid>https://blog.uyorum.net/post/sync-epgstation-to-nas/</guid>
-      <description>&lt;p&gt;EPGStation上に置いたままだと何かと取り回しづらいのでNASへ同期するようにしました。&lt;/p&gt;</description>
-    </item>
-    
+    <lastBuildDate>Wed, 20 May 2020 23:43:30 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ubuntu 20.04でキーマップをカスタマイズする</title>
       <link>https://blog.uyorum.net/post/ubuntu-custom-keymap/</link>

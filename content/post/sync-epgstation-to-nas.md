@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = ["epgstation", "linux", "systemd", "shellscript"]
+tags = ["epgstation", "systemd", "shellscript"]
 title = "EPGStationの録画データをNASへ自動で同期する"
 date = "2023-09-23T23:22:31+09:00"
 +++

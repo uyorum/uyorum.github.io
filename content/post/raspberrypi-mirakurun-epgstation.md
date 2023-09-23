@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = []
+tags = ["epgstation", "raspberrypi", "docker"]
 title = "Raspberry PiにDockerでMirakurun/EPGStationを導入する"
 date = "2023-01-02T16:46:36+09:00"
 +++

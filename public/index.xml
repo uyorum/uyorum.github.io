@@ -7,7 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sat, 23 Sep 2023 23:22:31 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Sep 2023 00:34:11 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RaspberryPi上のEPGStationコンテナ用にffmpegをビルドする（2023年9月版）</title>
+      <link>https://blog.uyorum.net/post/raspberrypi-build-ffmpeg-2023/</link>
+      <pubDate>Sun, 24 Sep 2023 00:34:11 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/raspberrypi-build-ffmpeg-2023/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../raspberrypi-mirakurun-epgstation/&#34;&gt;以前&lt;/a&gt;、RaspberryPi上にEPGStationをDockerを使ってセットアップしました。
+この中でRaspberryPiのハードウェアエンコードが有効なffmpegをビルドしたのですが、
+今回軽い気持ちでEPGStationコンテナを最新化しようとしたところこのffmpegのビルドがエラー連発で大苦戦してしまいました。
+Dockerfileは変えていなかったので外部の要因によるもののようです。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>EPGStationの録画データをNASへ自動で同期する</title>
       <link>https://blog.uyorum.net/post/sync-epgstation-to-nas/</link>
