@@ -112,7 +112,7 @@ armv7l
 
 ## `docker compose build`だとコケる
 
-その後もなぜかdocker compose buildだとエラーになります。
+その後もなぜかdocker compose buildだと`./configure`の段でエラーになります。
 
 ``` shell
 gcc is unable to create an executable file.
@@ -132,6 +132,57 @@ solve the problem.
 
 いろいろと試行錯誤した結果、あらかじめ`docker pull l3tnun/epgstation:master-debian`でローカルのイメージを最新化しておくとでなくなったように見えます。
 そもそも`docker compose build --pull`でビルドしていたのにイメージをPullしていなかった模様。原因は不明。
+
+## `cc1: error: '-mfloat-abi=hard': selected architecture lacks an FPU`
+
+続いてこのエラー。
+`./cofigure`で上と同じエラーになりますがこちらは`docker run`で実行しても再現する。
+メッセージにあるように`ffbuild/config.log`を見てみるとこのエラーが書いてある。
+
+[Raspberry Pi (Ubuntu Server) でOpenSSLをビルドする - Qiita](https://qiita.com/P_man2976/items/04a4eb7b5dacadf118bc)
+
+上の記事はOpenSSLのビルドの話ですが、gccの`-march`オプションで`armv7-a+fp`を指定すればよいとのこと。
+同じようにするためにどうすればよいか、`configure`のソースを眺めてみる。
+
+``` shell
+elif enabled arm; the
+    ..
+    case $cpu in
+        armv*)
+            cpuflags="-march=$cpu"
+            subarch=$(echo $cpu | sed 's/[^a-z0-9]//g')
+        ;;
+```
+
+`$cpu`の値をそのまま`-march`に渡している。
+`configure`には`--cpu`というオプションがあるようなのでそこで指定すれば`$cpu`に入るのか？と思い`configure`に`--cpu=armv7-a+fp`オプションを追加してみたところビルドに成功した。
+
+現在のオプション
+
+``` shell
+./configure \
+    --prefix=/usr/local \
+    --disable-shared \
+    --pkg-config-flags=--static \
+    --cpu=armv7-a+fp \
+    --enable-gpl \
+    --enable-libass \
+    --enable-libfreetype \
+    --enable-libmp3lame \
+    --enable-libopus \
+    --enable-libtheora \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-omx \
+    --enable-omx-rpi \
+    --enable-version3 \
+    --enable-libaribb24 \
+    --enable-nonfree \
+    --disable-debug \
+    --disable-doc \
+```
 
 コンテナ化してもなかなか再現性を維持するのは難しい…。
 

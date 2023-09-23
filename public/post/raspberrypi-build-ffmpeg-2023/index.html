@@ -156,7 +156,7 @@ Dockerfileは変えていなかったので外部の要因によるもののよ�
 </span></span><span class="line"><span class="cl">armv7l
 </span></span></code></pre></div><p>これで上のエラーは回避できます。</p>
 <h2 id="docker-compose-buildだとコケる"><code>docker compose build</code>だとコケる</h2>
-<p>その後もなぜかdocker compose buildだとエラーになります。</p>
+<p>その後もなぜかdocker compose buildだと<code>./configure</code>の段でエラーになります。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc is unable to create an executable file.
 </span></span><span class="line"><span class="cl">If gcc is a cross-compiler, use the --enable-cross-compile option.
 </span></span><span class="line"><span class="cl">Only <span class="k">do</span> this <span class="k">if</span> you know what cross compiling means.
@@ -171,7 +171,46 @@ Dockerfileは変えていなかったので外部の要因によるもののよ�
 しかも<code>docker build</code>でもエラーにならず、ビルドは成功した。</p>
 <p>いろいろと試行錯誤した結果、あらかじめ<code>docker pull l3tnun/epgstation:master-debian</code>でローカルのイメージを最新化しておくとでなくなったように見えます。
 そもそも<code>docker compose build --pull</code>でビルドしていたのにイメージをPullしていなかった模様。原因は不明。</p>
-<p>コンテナ化してもなかなか再現性を維持するのは難しい…。</p>
+<h2 id="cc1-error--mfloat-abihard-selected-architecture-lacks-an-fpu"><code>cc1: error: '-mfloat-abi=hard': selected architecture lacks an FPU</code></h2>
+<p>続いてこのエラー。
+<code>./cofigure</code>で上と同じエラーになりますがこちらは<code>docker run</code>で実行しても再現する。
+メッセージにあるように<code>ffbuild/config.log</code>を見てみるとこのエラーが書いてある。</p>
+<p><a href="https://qiita.com/P_man2976/items/04a4eb7b5dacadf118bc">Raspberry Pi (Ubuntu Server) でOpenSSLをビルドする - Qiita</a></p>
+<p>上の記事はOpenSSLのビルドの話ですが、gccの<code>-march</code>オプションで<code>armv7-a+fp</code>を指定すればよいとのこと。
+同じようにするためにどうすればよいか、<code>configure</code>のソースを眺めてみる。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="k">elif</span> enabled arm<span class="p">;</span> the
+</span></span><span class="line"><span class="cl">    ..
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nv">$cpu</span> in
+</span></span><span class="line"><span class="cl">        armv*<span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">cpuflags</span><span class="o">=</span><span class="s2">&#34;-march=</span><span class="nv">$cpu</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">subarch</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$cpu</span> <span class="p">|</span> sed <span class="s1">&#39;s/[^a-z0-9]//g&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">;;</span>
+</span></span></code></pre></div><p><code>$cpu</code>の値をそのまま<code>-march</code>に渡している。
+<code>configure</code>には<code>--cpu</code>というオプションがあるようなのでそこで指定すれば<code>$cpu</code>に入るのか？と思い<code>configure</code>に<code>--cpu=armv7-a+fp</code>オプションを追加してみたところビルドに成功した。</p>
+<p>現在のオプション</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">./configure <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --prefix<span class="o">=</span>/usr/local <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --disable-shared <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --pkg-config-flags<span class="o">=</span>--static <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --cpu<span class="o">=</span>armv7-a+fp <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-gpl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libass <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libfreetype <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libmp3lame <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libopus <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libtheora <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libvorbis <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libvpx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libx264 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libx265 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-omx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-omx-rpi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-version3 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-libaribb24 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enable-nonfree <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --disable-debug <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --disable-doc <span class="se">\
+</span></span></span></code></pre></div><p>コンテナ化してもなかなか再現性を維持するのは難しい…。</p>
 <div class="amazon-widget">
   <div class="amazon-widget-image">
     <a target="_blank" href="https://www.amazon.co.jp/dp/B081YD3VL5/?tag=uyorum-22">
