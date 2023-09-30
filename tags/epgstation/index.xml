@@ -7,7 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 24 Sep 2023 00:34:11 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/epgstation/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 30 Sep 2023 21:58:49 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/epgstation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>EPGStationでときどきエンコードに失敗する</title>
+      <link>https://blog.uyorum.net/post/epgstation-fail-to-encode/</link>
+      <pubDate>Sat, 30 Sep 2023 21:58:49 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/epgstation-fail-to-encode/</guid>
+      <description>&lt;p&gt;EPGStationで録画した番組は自動でmp4にエンコードするようにしています。
+しかしいくつかの番組でmp4のファイルサイズが0バイトになっておりエンコードに失敗しているようです。
+しかも既存のスクリプトではこの状況をエンコード失敗として検知できないらしく、エンコードが完了したとしてソースのtsファイルを削除してしまうのでリカバリできず痛手となっていました。&lt;/p&gt;
+&lt;p&gt;ひとまずはエンコード完了後のtsファイル削除をしない設定にしていましたがきちんと対処します。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>RaspberryPi上のEPGStationコンテナ用にffmpegをビルドする（2023年9月版）</title>
       <link>https://blog.uyorum.net/post/raspberrypi-build-ffmpeg-2023/</link>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.110.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>EPGStationでときどきエンコードに失敗する - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">EPGStationでときどきエンコードに失敗する</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2023-09-30">September 30, 2023
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fepgstation-fail-to-encode%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=EPGStation%e3%81%a7%e3%81%a8%e3%81%8d%e3%81%a9%e3%81%8d%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%ab%e5%a4%b1%e6%95%97%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fepgstation-fail-to-encode%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fepgstation-fail-to-encode%2f&amp;title=EPGStation%e3%81%a7%e3%81%a8%e3%81%8d%e3%81%a9%e3%81%8d%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%ab%e5%a4%b1%e6%95%97%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=EPGStation%e3%81%a7%e3%81%a8%e3%81%8d%e3%81%a9%e3%81%8d%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%ab%e5%a4%b1%e6%95%97%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fepgstation-fail-to-encode%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p>EPGStationで録画した番組は自動でmp4にエンコードするようにしています。
+しかしいくつかの番組でmp4のファイルサイズが0バイトになっておりエンコードに失敗しているようです。
+しかも既存のスクリプトではこの状況をエンコード失敗として検知できないらしく、エンコードが完了したとしてソースのtsファイルを削除してしまうのでリカバリできず痛手となっていました。</p>
+<p>ひとまずはエンコード完了後のtsファイル削除をしない設定にしていましたがきちんと対処します。</p>
+<p>対処内容は以下の2つです。</p>
+<ul>
+<li>正常にエンコードできるようにする</li>
+<li>出力ファイルサイズが異様に小さい場合は失敗扱いにするようにする<br>
+こうすることで、万が一別の要因で今回と同じような状況になっても、EPGStationがエンコード失敗を検知してtsファイルの削除をしないはず（未確認）</li>
+</ul>
+<h2 id="正常にエンコードできるようにする">正常にエンコードできるようにする</h2>
+<p>原因と対処方法はこちらのIssueが非常に参考になりました。</p>
+<p><a href="https://github.com/l3tnun/EPGStation/issues/583">エンコードに失敗する場合がある · Issue #583 · l3tnun/EPGStation</a></p>
+<p>どうやら前の番組のストリーム情報が残ってしまい、存在しないはずのストリームが存在するとffmpegが誤検知するためにエンコードに失敗することがあるようです。</p>
+<p>試しに手元にある問題のtsファイルのストリーム情報を確認してみます。確認には<code>ffprobe</code>というコマンドが使えるようです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ffprobe problem.m2ts
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:0[0x100]: Video: mpeg2video (Main) ([2][0][0][0] / 0x0002), yuv420p(tv, t709, top first), 1440x1080 [SAR 4:3 DAR 16:9], 29.97 fps, 29.97 tbr, 90k tbn, 59.94 bc</span>
+</span></span><span class="line"><span class="cl">  Side data:
+</span></span><span class="line"><span class="cl">    cpb: bitrate max/min/avg: 20000000/0/0 buffer size: <span class="m">9781248</span> vbv_delay: N/A
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:1[0x110]: Audio: aac (LC) ([15][0][0][0] / 0x000F), 48000 Hz, stereo, fltp, 55 kb/s</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:2[0x130]: Subtitle: arib_caption (Profile A) ([6][0][0][0] / 0x0006)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:3[0x138]: Data: bin_data ([6][0][0][0] / 0x0006)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:4[0x140]: Unknown: none ([13][0][0][0] / 0x000D)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:5[0x160]: Unknown: none ([13][0][0][0] / 0x000D)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:6[0x161]: Unknown: none ([13][0][0][0] / 0x000D)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:7[0x162]: Unknown: none ([13][0][0][0] / 0x000D)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:8[0x163]: Unknown: none ([13][0][0][0] / 0x000D)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:9[0x164]: Unknown: none ([13][0][0][0] / 0x000D)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:10[0x165]: Unknown: none ([13][0][0][0] / 0x000D)</span>
+</span></span><span class="line"><span class="cl">Stream <span class="c1">#0:11[0x111]: Audio: aac ([15][0][0][0] / 0x000F), 0 channels...</span>
+</span></span></code></pre></div><p>0:11ストリームがおかしいです。オーディオストリームのようですが0 channelsとなっています。
+上のIssueと同じ事象のようですが、ストリーム番号が異なります。</p>
+<p>他のいくつかのtsファイルを見てみましたがストリーム10以降にオーディオが入ることはなさそうなので
+いっそ10以降のストリームにオーディオストリームがあっても無視するようにします。</p>
+<p><code>enc.js</code>を修正します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gu">@@ -52,12 +53,16 @@ if (isDualMono) {
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span>     ]);
+</span></span><span class="line"><span class="cl"> } else {
+</span></span><span class="line"><span class="cl">     Array.prototype.push.apply(args, [&#39;-map&#39;, &#39;0:a&#39;]);
+</span></span><span class="line"><span class="cl"><span class="gi">+    // 不要なストリームを削除
+</span></span></span><span class="line"><span class="cl"><span class="gi">+    for (let s of [10, 11, 12, 13]) {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+        Array.prototype.push.apply(args, [&#39;-map&#39;, `-0:${s}?`]);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+    };
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> }
+</span></span></code></pre></div><p><code>-map</code>は出力ファイルに含めるストリームを選択するオプションですが、ストリーム番号の頭に<code>-</code>をつけることで、それより前のオプションで選択されていてもそのストリームは除外するようになります。</p>
+<p><a href="https://trac.ffmpeg.org/wiki/Map#Modifiers">Map – FFmpeg</a></p>
+<p>これによる副作用は不明ですがひとまずこれで問題のtsもエンコードできるようになりました。</p>
+<h2 id="出力ファイルサイズが小さい場合は失敗扱いにする">出力ファイルサイズが小さい場合は失敗扱いにする</h2>
+<p>上で貼ったIssueでも提案されていますが、エンコード時の適切なオプションは入力ファイルのストリームによって調整すべきなので上の修正でも場合によっては失敗する可能性があります。
+そのためエンコード終了時に出力ファイルサイズが極端に小さい場合はエンコード失敗となるよう<code>enc.js</code>を修正します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gu">@@ -1,3 +1,4 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span><span class="gi">+const fs = require(&#39;fs&#39;);
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> const spawn = require(&#39;child_process&#39;).spawn;
+</span></span><span class="line"><span class="cl"> const execFile = require(&#39;child_process&#39;).execFile;
+</span></span><span class="line"><span class="cl"> const ffmpeg = process.env.FFMPEG;
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -163,6 +168,15 @@ Array.prototype.push.apply(args, [output]);
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span>         throw new Error(err);
+</span></span><span class="line"><span class="cl">     });
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gi">+    // 出力ファイルのサイズが10KBより小さい場合は失敗とみなす
+</span></span></span><span class="line"><span class="cl"><span class="gi">+    child.on(&#39;exit&#39;, (code) =&gt; {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+        var stat = fs.statSync(output);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+        if (stat.size &lt; 10 * 1024) {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+            console.error(`File size ${stat.size} bytes is too small (&lt; 10k). Raising error`);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+            throw new Error(1);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+        }
+</span></span></span><span class="line"><span class="cl"><span class="gi">+    });
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span>     process.on(&#39;SIGINT&#39;, () =&gt; {
+</span></span><span class="line"><span class="cl">         child.kill(&#39;SIGINT&#39;);
+</span></span><span class="line"><span class="cl">     });
+</span></span></code></pre></div><p>これで今回のように出力ファイルが0バイトになった場合は失敗扱いになるようになります。</p>
+<p>以上</p>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fepgstation-fail-to-encode%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=EPGStation%e3%81%a7%e3%81%a8%e3%81%8d%e3%81%a9%e3%81%8d%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%ab%e5%a4%b1%e6%95%97%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fepgstation-fail-to-encode%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fepgstation-fail-to-encode%2f&amp;title=EPGStation%e3%81%a7%e3%81%a8%e3%81%8d%e3%81%a9%e3%81%8d%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%ab%e5%a4%b1%e6%95%97%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=EPGStation%e3%81%a7%e3%81%a8%e3%81%8d%e3%81%a9%e3%81%8d%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%ab%e5%a4%b1%e6%95%97%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fepgstation-fail-to-encode%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/raspberrypi-build-ffmpeg-2023/">RaspberryPi上のEPGStationコンテナ用にffmpegをビルドする（2023年9月版）</a></li>
+  
+  <li><a href="/post/sync-epgstation-to-nas/">EPGStationの録画データをNASへ自動で同期する</a></li>
+  
+  <li><a href="/post/raspberrypi-mirakurun-epgstation/">Raspberry PiにDockerでMirakurun/EPGStationを導入する</a></li>
+  
+  <li><a href="/post/create-blank-video-with-ffmpeg/">ffmpeg(avconv)でmp3からブランクスクリーン(黒)のmp4を作成する</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+
