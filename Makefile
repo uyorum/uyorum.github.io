@@ -18,7 +18,8 @@ post:
 
 ## Remove EXIF tag from jpg
 removeexif:
-	jhead -purejpg static/*/*.jpg
+	jhead -purejpg $$(git status -s static/*/*.jpg | grep -oP '(?<=^\?\? ).+')
+# git status -s static/*/*.jpg | grep -oP '(?<=^\?\? ).+' | jhead -purejpg static/*/*.jpg
 
 ## Deploy blog and push source
 deploy:
