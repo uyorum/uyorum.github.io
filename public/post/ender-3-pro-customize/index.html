@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.112.7">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>Ender 3 Pro 改造まとめ - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">Ender 3 Pro 改造まとめ</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2024-01-02">January 02, 2024
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fender-3-pro-customize%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Ender%203%20Pro%20%e6%94%b9%e9%80%a0%e3%81%be%e3%81%a8%e3%82%81 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fender-3-pro-customize%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fender-3-pro-customize%2f&amp;title=Ender%203%20Pro%20%e6%94%b9%e9%80%a0%e3%81%be%e3%81%a8%e3%82%81 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Ender%203%20Pro%20%e6%94%b9%e9%80%a0%e3%81%be%e3%81%a8%e3%82%81 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fender-3-pro-customize%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p>私自身は<a href="../3d-printer-1/">数年前</a>に3Dプリンタに入門してからEnder 3 Proという機種にいくつかの改造を施して使っています。<br>
+改造自体は2020年頃に行ったもので、それ以降は特に変更を加えずに使っていましたが、いろいろとソフトウェアアップデートが溜まっていることもあり、いろいろと最新化しておこうと思います。<br>
+改造の記録をどこにも残していなかったので、アップデート手順の確認と壊れてしまったときのバックアップを兼ねて構築記録を残しておこうと思います。<br>
+アップデート手順はまた別の記事にまとめます。</p>
+<h1 id="構成の概要">構成の概要</h1>
+<p>ざっくりと以下のような構成となっています。</p>
+<ul>
+<li>本体はEnder 3 Pro</li>
+<li>メインボードをBIGTREETECHのSKR v1.3に変更</li>
+<li>モータードライバをTMC2208に変更</li>
+<li>SKR v1.3のファームウェアに<a href="https://www.klipper3d.org/">Klipper</a>を使用</li>
+<li>インターフェースはRaspberry Pi 3B+に<a href="https://octoprint.org/">OctoPi(OctoPrint)</a>を導入</li>
+<li><a href="https://www.aliexpress.com/item/1005006043879133.html">3DTouch</a>でオートレベリングを実現</li>
+<li>エクストルーダーを<a href="https://s.click.aliexpress.com/e/_Dcvw0Hj">アルミ製</a>に変更</li>
+<li>電源ファンを静音なものに変更</li>
+<li>ヘッドのファンダクトを<a href="https://www.thingiverse.com/thing:3092044">Hero Me Fanduct</a>に変更</li>
+<li>電装系は<a href="https://www.thingiverse.com/thing:3688967">universal rear electronics case</a>に収納</li>
+</ul>
+<p>上記の変更に伴い配線やファンの変更等も行っていますが省略</p>
+<h1 id="構築の流れ">構築の流れ</h1>
+<p>前述の通りこれから行うソフトウェアアップデートのため、まとめるのはソフトウェア関連の手順のみに絞ります。（それ以外の手順は正直覚えていません）<br>
+各ハードウェアの接続は済ませた上で大まかな流れは以下の通りです。</p>
+<ol>
+<li>OctoPiの導入</li>
+<li>Klipperファームウェアのビルド</li>
+<li>Klipperファームウェアのフラッシュ</li>
+<li>OctoPrintの設定（Klipperへ接続）</li>
+<li>Klipperの設定（printer.cfgの作成）</li>
+</ol>
+<p>細かい手順は当時の記録が残っていないのと、現在でも通用する手順か不明なためここには書きません。<br>
+壊れて再構築することになったら、調べてまとめ直そうと思います。</p>
+<p>以上</p>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fender-3-pro-customize%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Ender%203%20Pro%20%e6%94%b9%e9%80%a0%e3%81%be%e3%81%a8%e3%82%81 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fender-3-pro-customize%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fender-3-pro-customize%2f&amp;title=Ender%203%20Pro%20%e6%94%b9%e9%80%a0%e3%81%be%e3%81%a8%e3%82%81 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Ender%203%20Pro%20%e6%94%b9%e9%80%a0%e3%81%be%e3%81%a8%e3%82%81 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fender-3-pro-customize%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/install-octoprint-raspbian/">Raspberry Pi OS(Raspbian)にOctoPrintをインストールする</a></li>
+  
+  <li><a href="/post/3d-printer-1/">3Dプリンタ IUSE IUM1 を買った</a></li>
+  
+  <li><a href="/post/build-bm40/">BM40ビルドログ</a></li>
+  
+  <li><a href="/post/lenovo-wireless-multi-device-mouse/">Lenovo Go USB Type-C ワイヤレス マルチデバイスマウスを買った</a></li>
+  
+  <li><a href="/post/buffalo-ethernet-converter/">バッファローのイーサネットコンバータでトラブった話</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>自作キーボード on @uyorumの雑記帳</title>
+    <link>https://blog.uyorum.net/tags/%E8%87%AA%E4%BD%9C%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89/</link>
+    <description>Recent content in 自作キーボード on @uyorumの雑記帳</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>uyorum All Right Reserved.</copyright>
+    <lastBuildDate>Sun, 24 Dec 2023 03:45:24 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/%E8%87%AA%E4%BD%9C%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BM40ビルドログ</title>
+      <link>https://blog.uyorum.net/post/build-bm40/</link>
+      <pubDate>Sun, 24 Dec 2023 03:45:24 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/build-bm40/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://blog.uyorum.net/build-bm40/001.jpg&#34; alt=&#34;001.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;なにかキーボードを組みたいと思っていたところ、Aliexpressでセールしていたため思い切ってBM40という40%キーボードを購入してみました。
+自分としては初めての40%キーボードになります。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

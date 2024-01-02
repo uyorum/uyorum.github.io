@@ -1,6 +1,6 @@
 +++
 slug = ""
-tags = ["gadget"]
+tags = ["ガジェット"]
 title = "Lenovo Go USB Type-C ワイヤレス マルチデバイスマウスを買った"
 date = "2023-10-14T10:45:31+09:00"
 +++

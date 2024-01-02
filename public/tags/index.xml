@@ -7,13 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 24 Dec 2023 03:45:24 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Jan 2024 17:35:40 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>gadget</title>
-      <link>https://blog.uyorum.net/tags/gadget/</link>
+      <title>3Dプリンタ</title>
+      <link>https://blog.uyorum.net/tags/3d%E3%83%97%E3%83%AA%E3%83%B3%E3%82%BF/</link>
+      <pubDate>Tue, 02 Jan 2024 17:35:40 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/tags/3d%E3%83%97%E3%83%AA%E3%83%B3%E3%82%BF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ガジェット</title>
+      <link>https://blog.uyorum.net/tags/%E3%82%AC%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/</link>
+      <pubDate>Tue, 02 Jan 2024 17:35:40 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/tags/%E3%82%AC%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>自作キーボード</title>
+      <link>https://blog.uyorum.net/tags/%E8%87%AA%E4%BD%9C%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89/</link>
       <pubDate>Sun, 24 Dec 2023 03:45:24 +0900</pubDate>
       
-      <guid>https://blog.uyorum.net/tags/gadget/</guid>
+      <guid>https://blog.uyorum.net/tags/%E8%87%AA%E4%BD%9C%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89/</guid>
       <description></description>
     </item>
     
@@ -203,24 +221,6 @@
       <pubDate>Sun, 04 Apr 2021 22:18:27 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/tags/raspberry-pi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>3Dプリンタ</title>
-      <link>https://blog.uyorum.net/tags/3d%E3%83%97%E3%83%AA%E3%83%B3%E3%82%BF/</link>
-      <pubDate>Wed, 16 Sep 2020 20:36:56 +0900</pubDate>
-      
-      <guid>https://blog.uyorum.net/tags/3d%E3%83%97%E3%83%AA%E3%83%B3%E3%82%BF/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ガジェット</title>
-      <link>https://blog.uyorum.net/tags/%E3%82%AC%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/</link>
-      <pubDate>Wed, 16 Sep 2020 20:36:56 +0900</pubDate>
-      
-      <guid>https://blog.uyorum.net/tags/%E3%82%AC%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/</guid>
       <description></description>
     </item>
     

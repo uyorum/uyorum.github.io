@@ -7,7 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 24 Dec 2023 03:45:24 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Jan 2024 17:35:40 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ender 3 Pro 改造まとめ</title>
+      <link>https://blog.uyorum.net/post/ender-3-pro-customize/</link>
+      <pubDate>Tue, 02 Jan 2024 17:35:40 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/ender-3-pro-customize/</guid>
+      <description>&lt;p&gt;私自身は&lt;a href=&#34;../3d-printer-1/&#34;&gt;数年前&lt;/a&gt;に3Dプリンタに入門してからEnder 3 Proという機種にいくつかの改造を施して使っています。&lt;br&gt;
+改造自体は2020年頃に行ったもので、それ以降は特に変更を加えずに使っていましたが、いろいろとソフトウェアアップデートが溜まっていることもあり、いろいろと最新化しておこうと思います。&lt;br&gt;
+改造の記録をどこにも残していなかったので、アップデート手順の確認と壊れてしまったときのバックアップを兼ねて構築記録を残しておこうと思います。&lt;br&gt;
+アップデート手順はまた別の記事にまとめます。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>BM40ビルドログ</title>
       <link>https://blog.uyorum.net/post/build-bm40/</link>
