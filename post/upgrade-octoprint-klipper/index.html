@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.112.7">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>OctoprintとKlipper環境をアップグレードする - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">OctoprintとKlipper環境をアップグレードする</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2024-01-07">January 07, 2024
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fupgrade-octoprint-klipper%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Octoprint%e3%81%a8Klipper%e7%92%b0%e5%a2%83%e3%82%92%e3%82%a2%e3%83%83%e3%83%97%e3%82%b0%e3%83%ac%e3%83%bc%e3%83%89%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fupgrade-octoprint-klipper%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fupgrade-octoprint-klipper%2f&amp;title=Octoprint%e3%81%a8Klipper%e7%92%b0%e5%a2%83%e3%82%92%e3%82%a2%e3%83%83%e3%83%97%e3%82%b0%e3%83%ac%e3%83%bc%e3%83%89%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Octoprint%e3%81%a8Klipper%e7%92%b0%e5%a2%83%e3%82%92%e3%82%a2%e3%83%83%e3%83%97%e3%82%b0%e3%83%ac%e3%83%bc%e3%83%89%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fupgrade-octoprint-klipper%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p><a href="../ender-3-pro-customize/">前回</a>まとめた構成の3Dプリンタの各種ソフトウェアをアップグレードしていきます。</p>
+<h1 id="大方針">大方針</h1>
+<p>私の環境ではOctoPiイメージを使って構築しています。<br>
+最新版の<a href="https://octoprint.org/blog/2023/02/22/octopi-release-1-0-0/">OctoPi 1.0.0</a>ではDebian 11(Bullseye)ベースのRaspberry Pi OSが採用されていますが、それより古いOctoPiはバージョンはDebian 10(Buster)が採用されています。<br>
+今のところRaspberry Pi OSでBusterからBullseyeにアップグレードする方法は公式では存在しないようです（Debianのお作法に従えばできはすると思いますが）。そのためOctoPi 1.0.0にするにはイメージを焼き直して再構築する必要があります。<br>
+今回はその手順は省略し、Busterの中で最新までアップグレードすることにします。<br>
+（OctoPrintやKlipperは最新版もBusterで問題なく動作するようなので最新版にできないのはOSのみです）</p>
+<h1 id="手順">手順</h1>
+<h2 id="バックアップ">バックアップ</h2>
+<p>念のためバックアップを取っておきます。<br>
+OctoPrintのバックアップはWeb UIから可能です。<br>
+printer.cfgも外部にコピーしておきます。</p>
+<h2 id="os">OS</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo rpi-update
+</span></span><span class="line"><span class="cl">$ sudo reboot
+</span></span><span class="line"><span class="cl">$ sudo apt update
+</span></span><span class="line"><span class="cl">$ sudo apt upgrade
+</span></span><span class="line"><span class="cl">$ sudo reboot
+</span></span></code></pre></div><h2 id="octoprint">OctoPrint</h2>
+<p>OctoPrintインストール当時はPython 2製でしたが、現在は<a href="https://octoprint.org/blog/2022/01/31/octoprint-1.8.0-will-require-python-3/">Python 3でしか動かないようです</a>。<br>
+そのため、、Python 3の実行環境を用意する必要がありますが、幸いなことにセットアップ用のスクリプトが用意されています。（最新版のOctoPiを焼き直せばそれで済む話ですが、前述の通り今回はそれを見送ります）</p>
+<p><a href="https://github.com/cp2004/OctoPrint-Upgrade-To-Py3">cp2004/Octoprint-Upgrade-To-Py3: A script to move an existing OctoPrint install from Python 2 to Python 3</a></p>
+<p>ただしこのスクリプトを使えるのはOctoPi 0.17以上のみです。それ未満の場合は素直にOctoPiを焼き直すのがいいでしょう。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ <span class="nb">cd</span> oprint
+</span></span><span class="line"><span class="cl">$ curl -L https://get.octoprint.org/py3/upgrade.py --output upgrade.py
+</span></span><span class="line"><span class="cl">$ python3 upgrade.py
+</span></span><span class="line"><span class="cl">OctoPrint Upgrade to Py <span class="m">3</span> <span class="o">(</span>v2.2.2<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">This script will move your existing OctoPrint configuration from Python <span class="m">2</span> to Python <span class="m">3</span>
+</span></span><span class="line"><span class="cl">This script requires an internet connection and it will disrupt any ongoing print jobs.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">It will install the latest version of OctoPrint and all plugins.
+</span></span><span class="line"><span class="cl">No configuration or other files will be overwritten
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Press <span class="o">[</span>enter<span class="o">]</span> to <span class="k">continue</span> or ctrl-c to quit
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Checking system info...
+</span></span><span class="line"><span class="cl">Detected OctoPi version 0.17.0
+</span></span><span class="line"><span class="cl">Found version: Python 2.7.16
+</span></span><span class="line"><span class="cl">Checking OctoPrint version...
+</span></span><span class="line"><span class="cl">OctoPrint version: 1.5.3
+</span></span><span class="line"><span class="cl">Reading installed plugins...
+</span></span><span class="line"><span class="cl">No plugins found
+</span></span><span class="line"><span class="cl">If you think this is an error, please ask <span class="k">for</span> help. Note this doesn<span class="s1">&#39;t include bundled plugins.
+</span></span></span><span class="line"><span class="cl"><span class="s1">Press [enter] to continue or ctrl-c to quit
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">Updating package list...
+</span></span></span><span class="line"><span class="cl"><span class="s1">[sudo] password for pi:
+</span></span></span><span class="line"><span class="cl"><span class="s1">Checking package list for python3-dev
+</span></span></span><span class="line"><span class="cl"><span class="s1">Installing python3-dev...
+</span></span></span><span class="line"><span class="cl"><span class="s1">Use &#39;</span>sudo apt autoremove<span class="s1">&#39; to remove them.
+</span></span></span><span class="line"><span class="cl"><span class="s1">Successfully installed python3-dev
+</span></span></span><span class="line"><span class="cl"><span class="s1">Checking package list for python3-venv
+</span></span></span><span class="line"><span class="cl"><span class="s1">Installing python3-venv...
+</span></span></span><span class="line"><span class="cl"><span class="s1">Use &#39;</span>sudo apt autoremove<span class="s1">&#39; to remove them.
+</span></span></span><span class="line"><span class="cl"><span class="s1">Successfully installed python3-venv
+</span></span></span><span class="line"><span class="cl"><span class="s1">Creating new Python 3 environment...
+</span></span></span><span class="line"><span class="cl"><span class="s1">Successfully created Python 3 environment at /home/pi/oprint
+</span></span></span><span class="line"><span class="cl"><span class="s1">Installing build dependencies...
+</span></span></span><span class="line"><span class="cl"><span class="s1">  Cache entry deserialization failed, entry ignored
+</span></span></span><span class="line"><span class="cl"><span class="s1">  Cache entry deserialization failed, entry ignored
+</span></span></span><span class="line"><span class="cl"><span class="s1">Updating pip...
+</span></span></span><span class="line"><span class="cl"><span class="s1">Cache entry deserialization failed, entry ignored
+</span></span></span><span class="line"><span class="cl"><span class="s1">Cache entry deserialization failed, entry ignored
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">Installing OctoPrint... (This may take a while - Do not cancel!)
+</span></span></span><span class="line"><span class="cl"><span class="s1">Collecting required packages
+</span></span></span><span class="line"><span class="cl"><span class="s1">WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by &#39;</span>ProtocolError<span class="o">(</span><span class="s1">&#39;Connection aborted.&#39;</span>, RemoteDisconnected<span class="o">(</span><span class="s1">&#39;Remote end closed connection without response&#39;</span><span class="o">))</span><span class="s1">&#39;: /simple/cachelib/
+</span></span></span><span class="line"><span class="cl"><span class="s1">Installing collected packages
+</span></span></span><span class="line"><span class="cl"><span class="s1">Collecting required packages
+</span></span></span><span class="line"><span class="cl"><span class="s1">Installing collected packages
+</span></span></span><span class="line"><span class="cl"><span class="s1">Collecting required packages
+</span></span></span><span class="line"><span class="cl"><span class="s1">Installing collected packages
+</span></span></span><span class="line"><span class="cl"><span class="s1">OctoPrint successfully installed!
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">Cleaning up...
+</span></span></span><span class="line"><span class="cl"><span class="s1">Finished! OctoPrint should be ready to go
+</span></span></span><span class="line"><span class="cl"><span class="s1">Once you have verified the install works, you can safely remove the folder /home/pi/oprint.bak
+</span></span></span><span class="line"><span class="cl"><span class="s1">If you want to go back (If it doesn&#39;</span>t work<span class="o">)</span> to Python <span class="m">2</span> download the file at:
+</span></span><span class="line"><span class="cl">https://raw.githubusercontent.com/cp2004/Octoprint-Upgrade-To-Py3/master/go_back.py
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ sudo reboot
+</span></span><span class="line"><span class="cl">$ sudo apt autoremove
+</span></span></code></pre></div><p>再起動後にOctoPrintのWebUIにアクセスすると以下のエラーが表示されていましたが <code>octoprint</code> サービスを再起動すると表示されなくなりました。<br>
+（videoグループにはすでに追加されていました）</p>
+<blockquote>
+<p>OctoPrint cannot check for throttling situations reported by your Pi. vcgencmd doesn&rsquo;t work as expected. Make sure the system user OctoPrint is running under is a member of the &ldquo;video&rdquo; group.</p>
+</blockquote>
+<h2 id="klipper">Klipper</h2>
+<p>続いてKlipperも上げていきます。手順は公式ページに従って進めていきます。</p>
+<p><a href="https://www.klipper3d.org/FAQ.html?h=update#how-do-i-upgrade-to-the-latest-software">Frequently Asked Questions - Klipper documentation</a><br>
+<a href="https://www.klipper3d.org/SDCard_Updates.html">SDCard updates - Klipper documentation</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ <span class="nb">cd</span> klipper
+</span></span><span class="line"><span class="cl">$ git pull
+</span></span><span class="line"><span class="cl">$ scripts/install-octopi.sh
+</span></span><span class="line"><span class="cl">$ sudo systemctl stop klipper 
+</span></span><span class="line"><span class="cl">$ make menuconfig
+</span></span><span class="line"><span class="cl">$ make clean
+</span></span><span class="line"><span class="cl">$ make
+</span></span></code></pre></div><p>続いてファームウェアをボードに焼いていきます。スクリプトが用意されているようなのでそれを使います。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ./scripts/flash-sdcard.sh /dev/ttyAMA0 btt-skr-v1.3
+</span></span><span class="line"><span class="cl">Flashing /home/pi/klipper/out/klipper.bin to /dev/ttyAMA0
+</span></span><span class="line"><span class="cl">Checking FatFS CFFI Build...
+</span></span><span class="line"><span class="cl">Building FatFS shared library...Done
+</span></span><span class="line"><span class="cl">Connecting to MCU...Connected
+</span></span><span class="line"><span class="cl">Checking Current MCU Configuration...Trying fallback...Done
+</span></span><span class="line"><span class="cl">MCU needs restart: <span class="nv">is_config</span><span class="o">=</span>1, <span class="nv">is_shutdown</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">Attempting MCU Reset...Done
+</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> device to reconnect...Done
+</span></span><span class="line"><span class="cl">Connecting to MCU...Connected
+</span></span><span class="line"><span class="cl">Trying fallback...Initializing SD Card and Mounting file system...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">SD Card Information:
+</span></span><span class="line"><span class="cl">Version: 2.0
+</span></span><span class="line"><span class="cl">SDHC/SDXC: False
+</span></span><span class="line"><span class="cl">Write Protected: False
+</span></span><span class="line"><span class="cl">Sectors: <span class="m">245760</span>
+</span></span><span class="line"><span class="cl">manufacturer_id: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">oem_id: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">product_name: APPSD
+</span></span><span class="line"><span class="cl">product_revision: 0.0
+</span></span><span class="line"><span class="cl">serial_number: <span class="m">00000057</span>
+</span></span><span class="line"><span class="cl">manufacturing_date: 12/2019
+</span></span><span class="line"><span class="cl">capacity: 120.0 MiB
+</span></span><span class="line"><span class="cl">fs_type: FAT16
+</span></span><span class="line"><span class="cl">volume_label: 
+</span></span><span class="line"><span class="cl">volume_serial: <span class="m">2826674516</span>
+</span></span><span class="line"><span class="cl">Uploading Klipper Firmware to SD Card...Done
+</span></span><span class="line"><span class="cl">Validating Upload...Done
+</span></span><span class="line"><span class="cl">Firmware Upload Complete: firmware.bin, Size: 27656, Checksum <span class="o">(</span>SHA1<span class="o">)</span>: 73FCDF5209F2DC55E8A110880C93F6EE87E27E55
+</span></span><span class="line"><span class="cl">Attempting MCU Reset...Done
+</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> device to reconnect...Done
+</span></span><span class="line"><span class="cl">Connecting to MCU...............................................................................................
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">SD Card Flash Error: Unable to connect to MCU
+</span></span><span class="line"><span class="cl">Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/scripts/spi_flash/spi_flash.py&#34;</span>, line 1647, in main
+</span></span><span class="line"><span class="cl">    spiflash.run<span class="o">()</span>
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/scripts/spi_flash/spi_flash.py&#34;</span>, line 1589, in run
+</span></span><span class="line"><span class="cl">    self.run_reactor_task<span class="o">(</span>self.run_verify<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/scripts/spi_flash/spi_flash.py&#34;</span>, line 1570, in run_reactor_task
+</span></span><span class="line"><span class="cl">    k_reactor.run<span class="o">()</span>
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/klippy/reactor.py&#34;</span>, line 292, in run
+</span></span><span class="line"><span class="cl">    g_next.switch<span class="o">()</span>
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/klippy/reactor.py&#34;</span>, line 340, in _dispatch_loop
+</span></span><span class="line"><span class="cl">    <span class="nv">timeout</span> <span class="o">=</span> self._check_timers<span class="o">(</span>eventtime, busy<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/klippy/reactor.py&#34;</span>, line 158, in _check_timers
+</span></span><span class="line"><span class="cl">    t.waketime <span class="o">=</span> <span class="nv">waketime</span> <span class="o">=</span> t.callback<span class="o">(</span>eventtime<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/klippy/reactor.py&#34;</span>, line 48, in invoke
+</span></span><span class="line"><span class="cl">    <span class="nv">res</span> <span class="o">=</span> self.callback<span class="o">(</span>eventtime<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/scripts/spi_flash/spi_flash.py&#34;</span>, line 1556, in run_verify
+</span></span><span class="line"><span class="cl">    self.mcu_conn.connect<span class="o">()</span>
+</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/home/pi/klipper/scripts/spi_flash/spi_flash.py&#34;</span>, line 1202, in connect
+</span></span><span class="line"><span class="cl">    raise SPIFlashError<span class="o">(</span><span class="s2">&#34;Unable to connect to MCU&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">SPIFlashError: Unable to connect to MCU
+</span></span></code></pre></div><p>失敗しました。ファームウェアを焼いてボードを再起動するところまではうまくいっていましたが、再起動後にボードに接続できなくなったようです。
+OctoPrintからも接続できません。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Send: STATUS
+</span></span><span class="line"><span class="cl">Recv: // mcu <span class="s1">&#39;mcu&#39;</span>: Unable to connect
+</span></span><span class="line"><span class="cl">Recv: // Once the underlying issue is corrected, use the
+</span></span><span class="line"><span class="cl">Recv: // <span class="s2">&#34;FIRMWARE_RESTART&#34;</span> <span class="nb">command</span> to reset the firmware, reload the
+</span></span><span class="line"><span class="cl">Recv: // config, and restart the host software.
+</span></span><span class="line"><span class="cl">Recv: // Error configuring printer
+</span></span><span class="line"><span class="cl">Recv: // Klipper state: Not ready
+</span></span><span class="line"><span class="cl">Recv: !! mcu <span class="s1">&#39;mcu&#39;</span>: Unable to connect
+</span></span></code></pre></div><p>現在は配線をシンプルにするためRaspberry PiとSKRはUSBではなくGPIOポートを使ってシリアル接続しています。
+いろいろと調べたところ<code>make menuconfig</code>で通信方法がUSBになっていることを発見したのでシリアルへ変更してビルドし直しました。
+（今までなぜ接続できていたのか不明）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ make menuconfig
+</span></span><span class="line"><span class="cl">$ make
+</span></span></code></pre></div><p>ボードには接続できないのでSKRのSDカードの直下に <code>firmware.bin</code> というファイル名でコピーして電源を入れ直します。
+念のためRaspberry Piも再起動するとうまく接続できたようです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Send: STATUS
+</span></span><span class="line"><span class="cl">Recv: // Klipper state: Ready
+</span></span><span class="line"><span class="cl">Send: M115
+</span></span><span class="line"><span class="cl">Recv: ok FIRMWARE_VERSION:v0.12.0-60-g0665dc89 FIRMWARE_NAME:Klipper
+</span></span></code></pre></div><p>バージョン番号の末尾文字列はGitのハッシュ値のようです。ひとまずこれで最新版まで上がったことを確認できました。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git log
+</span></span><span class="line"><span class="cl">commit 0665dc89766bd85c095f18ba84028dc47def2f19 <span class="o">(</span>HEAD -&gt; master, origin/master, origin/HEAD<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Author: I3DBeeTech &lt;129617321+I3DBeeTech@users.noreply.github.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Tue Jan <span class="m">2</span> 22:01:30 <span class="m">2024</span> +0530
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    config: I3DBEEZ9 New board <span class="o">(</span><span class="c1">#6447)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    Signed-off-by: Venkata Kamesh &lt;i3dbee@gmail.com&gt;
+</span></span></code></pre></div><h2 id="printercfg">printer.cfg</h2>
+<p>Klipperの設定ファイルは互換性がなくなっているのでドキュメントを見るかサンプルコンフィグ（configディレクトリ以下にあります）を見て必要なところを修正していきます。</p>
+<p><a href="https://www.klipper3d.org/Config_Changes.html">Configuration Changes - Klipper documentation</a></p>
+<p>ドキュメントをざっと見たところ修正が必要そうなところは<a href="https://www.klipper3d.org/Rotation_Distance.html">rotation_distance</a>だけでしたのでサンプルの該当箇所を見ながら直していきました。<br>
+<code>rotation_distance</code>はステッピングモーターによるところのようだったので <code>printer-creality-ender3pro-2020.cfg</code>を参考に、その他のコメントは <code>generic-bigtreetech-skr-v1.3.cfg</code>をもとに追加しておきました。
+※本来 <code>rotation_distance</code> は以下のように計算できるようなのでハードウェアの仕様を調べればよいのですが横着しました。</p>
+<p><a href="https://www.klipper3d.org/Rotation_Distance.html">Rotation distance - Klipper documentation</a></p>
+<p>差分はこんな感じ。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gd">--- printer.cfg.bak     2022-11-16 00:25:03.602359503 +0900
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+++ printer.cfg 2024-01-03 23:39:21.849433768 +0900
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span><span class="gu">@@ -8,7 +8,8 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> step_pin: P2.2
+</span></span><span class="line"><span class="cl"> dir_pin: !P2.6
+</span></span><span class="line"><span class="cl"> enable_pin: !P2.1
+</span></span><span class="line"><span class="cl"><span class="gd">-step_distance: .0125
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+microsteps: 16
+</span></span></span><span class="line"><span class="cl"><span class="gi">+rotation_distance: 40
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> endstop_pin: P1.29  # P1.28 for X-max
+</span></span><span class="line"><span class="cl"> position_endstop: 0
+</span></span><span class="line"><span class="cl"> position_max: 320
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -18,7 +19,8 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> step_pin: P0.19
+</span></span><span class="line"><span class="cl"> dir_pin: !P0.20
+</span></span><span class="line"><span class="cl"> enable_pin: !P2.8
+</span></span><span class="line"><span class="cl"><span class="gd">-step_distance: .0125
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+microsteps: 16
+</span></span></span><span class="line"><span class="cl"><span class="gi">+rotation_distance: 40
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> endstop_pin: P1.27  # P1.26 for Y-max
+</span></span><span class="line"><span class="cl"> position_endstop: 0
+</span></span><span class="line"><span class="cl"> position_max: 300
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -28,7 +30,8 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> step_pin: P0.22
+</span></span><span class="line"><span class="cl"> dir_pin: P2.11
+</span></span><span class="line"><span class="cl"> enable_pin: !P0.21
+</span></span><span class="line"><span class="cl"><span class="gd">-step_distance: .0025
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+microsteps: 16
+</span></span></span><span class="line"><span class="cl"><span class="gi">+rotation_distance: 8
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> endstop_pin: probe:z_virtual_endstop
+</span></span><span class="line"><span class="cl"> position_max: 250
+</span></span><span class="line"><span class="cl"> position_min: -1.5
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -37,7 +40,8 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> step_pin: P2.13
+</span></span><span class="line"><span class="cl"> dir_pin: !P0.11
+</span></span><span class="line"><span class="cl"> enable_pin: !P2.12
+</span></span><span class="line"><span class="cl"><span class="gd">-step_distance: .010526
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+microsteps: 16
+</span></span></span><span class="line"><span class="cl"><span class="gi">+rotation_distance: 34.406
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> nozzle_diameter: 0.400
+</span></span><span class="line"><span class="cl"> filament_diameter: 1.750
+</span></span><span class="line"><span class="cl"> heater_pin: P2.7
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -98,30 +102,35 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> #[tmc2208 stepper_x]
+</span></span><span class="line"><span class="cl"> #uart_pin: P1.17
+</span></span><span class="line"><span class="cl"> #run_current: 0.800
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.500
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 250
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> #[tmc2208 stepper_y]
+</span></span><span class="line"><span class="cl"> #uart_pin: P1.15
+</span></span><span class="line"><span class="cl"> #run_current: 0.800
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.500
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 250
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> #[tmc2208 stepper_z]
+</span></span><span class="line"><span class="cl"> #uart_pin: P1.10
+</span></span><span class="line"><span class="cl"> #run_current: 0.650
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.450
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 30
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> #[tmc2208 extruder]
+</span></span><span class="line"><span class="cl"> #uart_pin: P1.8
+</span></span><span class="line"><span class="cl"> #run_current: 0.800
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.500
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 5
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> #[tmc2208 extruder1]
+</span></span><span class="line"><span class="cl"> #uart_pin: P1.1
+</span></span><span class="line"><span class="cl"> #run_current: 0.800
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.500
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 5
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -141,6 +150,7 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> #spi_software_sclk_pin: P0.4
+</span></span><span class="line"><span class="cl"> ##diag1_pin: P1.29
+</span></span><span class="line"><span class="cl"> #run_current: 0.800
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.500
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 250
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -151,6 +161,7 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> #spi_software_sclk_pin: P0.4
+</span></span><span class="line"><span class="cl"> ##diag1_pin: P1.27
+</span></span><span class="line"><span class="cl"> #run_current: 0.800
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.500
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 250
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -161,6 +172,7 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> #spi_software_sclk_pin: P0.4
+</span></span><span class="line"><span class="cl"> ##diag1_pin: P1.25
+</span></span><span class="line"><span class="cl"> #run_current: 0.650
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.450
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 30
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -171,6 +183,7 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> #spi_software_sclk_pin: P0.4
+</span></span><span class="line"><span class="cl"> ##diag1_pin: P1.28
+</span></span><span class="line"><span class="cl"> #run_current: 0.800
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.500
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 5
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -181,6 +194,7 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> #spi_software_sclk_pin: P0.4
+</span></span><span class="line"><span class="cl"> ##diag1_pin: P1.26
+</span></span><span class="line"><span class="cl"> #run_current: 0.800
+</span></span><span class="line"><span class="cl"><span class="gi">+#stealthchop_threshold: 999999
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> #hold_current: 0.500
+</span></span><span class="line"><span class="cl"> #stealthchop_threshold: 5
+</span></span></code></pre></div><p>修正後はサービスを再起動</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">systemctl restart klipper
+</span></span></code></pre></div><p>値については確信がなかったので実際に印刷してみてテストしました。</p>
+<p>以上</p>
+<p>↓今欲しい3Dプリンター</p>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B0C2PJFLC5/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B0C2PJFLC5&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B0C2PJFLC5/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        Creality K1 MAX 3Dプリンター 600mm/S高速 300℃高温 AIカメラ アラーム Wifi印刷可能 ハンズフリー自動レベリング エアフィルター Core-XY構造 高精度印刷300x300x300mm 組み立て無し FDM 3dプリンタ本体 業務用 家庭用 
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+
+<h1 id="参考">参考</h1>
+<ul>
+<li><a href="https://octoprint.org/blog/2020/09/10/upgrade-to-py3/">OctoPrint.org - Upgrade your OctoPrint install to Python 3!</a></li>
+<li><a href="https://www.klipper3d.org/FAQ.html?h=update#how-do-i-upgrade-to-the-latest-software">Frequently Asked Questions - Klipper documentation</a></li>
+<li><a href="https://www.klipper3d.org/SDCard_Updates.html">SDCard updates - Klipper documentation</a></li>
+<li><a href="https://www.klipper3d.org/Rotation_Distance.html">Rotation distance - Klipper documentation</a></li>
+</ul>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fupgrade-octoprint-klipper%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Octoprint%e3%81%a8Klipper%e7%92%b0%e5%a2%83%e3%82%92%e3%82%a2%e3%83%83%e3%83%97%e3%82%b0%e3%83%ac%e3%83%bc%e3%83%89%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fupgrade-octoprint-klipper%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fupgrade-octoprint-klipper%2f&amp;title=Octoprint%e3%81%a8Klipper%e7%92%b0%e5%a2%83%e3%82%92%e3%82%a2%e3%83%83%e3%83%97%e3%82%b0%e3%83%ac%e3%83%bc%e3%83%89%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Octoprint%e3%81%a8Klipper%e7%92%b0%e5%a2%83%e3%82%92%e3%82%a2%e3%83%83%e3%83%97%e3%82%b0%e3%83%ac%e3%83%bc%e3%83%89%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fupgrade-octoprint-klipper%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/ender-3-pro-customize/">Ender 3 Pro 改造まとめ</a></li>
+  
+  <li><a href="/post/install-octoprint-raspbian/">Raspberry Pi OS(Raspbian)にOctoPrintをインストールする</a></li>
+  
+  <li><a href="/post/3d-printer-1/">3Dプリンタ IUSE IUM1 を買った</a></li>
+  
+  <li><a href="/post/build-bm40/">BM40ビルドログ</a></li>
+  
+  <li><a href="/post/lenovo-wireless-multi-device-mouse/">Lenovo Go USB Type-C ワイヤレス マルチデバイスマウスを買った</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+
