@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.110.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>Docker Build Cloudを試す - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">Docker Build Cloudを試す</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2024-02-13">February 13, 2024
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fdocker-build-cloud%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Docker%20Build%20Cloud%e3%82%92%e8%a9%a6%e3%81%99 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fdocker-build-cloud%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fdocker-build-cloud%2f&amp;title=Docker%20Build%20Cloud%e3%82%92%e8%a9%a6%e3%81%99 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Docker%20Build%20Cloud%e3%82%92%e8%a9%a6%e3%81%99 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fdocker-build-cloud%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p>Docker Build Cloudがリリースされたので、試しにかねてよりアウトソースしたいと思っていた<a href="../raspberrypi-mirakurun-epgstation/">EPGStation on RaspberryPi用のイメージビルド</a>を実装してみます。</p>
+<h1 id="対象">対象</h1>
+<p>ビルドしたいDockerfileは<a href="https://github.com/uyorum/rpi-docker-mirakurun-epgstation/blob/v2/epgstation/debian.Dockerfile">ここ</a>にあります。
+ラズパイ上で動かすイメージのため、アーキテクチャは<code>Arm/v7</code>向けのみビルドします。</p>
+<h1 id="全体的な構成">全体的な構成</h1>
+<p>登場人物と全体的な流れは以下の通りになります。</p>
+<ol>
+<li>GitHubへのプッシュをトリガーにWodkflowを実行</li>
+<li>Workflow内で以下の処理を実行
+<ol>
+<li>DockerHubへログイン</li>
+<li>Docker Build Cloudへビルド要求をリクエスト</li>
+</ol>
+</li>
+<li>Docker Build Cloud（Builder）上でイメージがビルドされる</li>
+<li>イメージをBuilderからDocker Hubへ直接アップロード</li>
+</ol>
+<p>なお <code>Arm/v7</code> でのビルドはDocker Build Cloud（buildx）で実現するためGitHub Actionsは通常通り <code>amd64</code> でOKです。</p>
+<h1 id="設定">設定</h1>
+<h2 id="docker-build-cloud">Docker Build Cloud</h2>
+<ol>
+<li><a href="https://build.docker.com/">Docker Build Cloud</a>へログインします</li>
+<li>プランを選択します<br>
+今回はお試しということで無償プランの「Starter」を選択します</li>
+<li>Builderを作成します<br>
+Builderとは、イメージをビルドするためのインスタンスで、実体はBuildKitというデーモンです。<br>
+BuilderはBuild Cloud以前からある概念のようで、元来は自分たちで用意するものだったようです。<br>
+つまりDocker Build CloudはBuilderが提供されるクラウドサービスということができそうです。</li>
+</ol>
+<h2 id="githubリポジトリ">GitHub（リポジトリ）</h2>
+<ul>
+<li>リポジトリシークレットを作成します
+<ol>
+<li>リポジトリのSettings &gt; Secrets and variables &gt; Actions</li>
+<li>Repository secretsから2つのシークレットを作成し、それぞれDockerHubログイン時に使う値を設定しておきます
+<ul>
+<li><code>DOCKER_USER</code></li>
+<li><code>DOCKER_PASSWORD</code></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="ワークフローファイル">ワークフローファイル</h2>
+<p>リポジトリ内にワークフローファイルを作成しGitHubへプッシュします。<br>
+文法は<a href="https://docs.docker.com/build/cloud/ci/">公式ドキュメント</a>を参考に。<br>
+今回作成したファイルは<a href="https://github.com/uyorum/rpi-docker-mirakurun-epgstation/blob/v2/.github/workflows/docker-build.yml">こちら</a>。</p>
+<h3 id="dockerbuild-push-actionv5">docker/build-push-action@v5</h3>
+<p>公式ドキュメントのサンプルでは説明が不足していますが、利用できるオプションは<a href="https://github.com/docker/build-push-action">ここ</a>から確認できます。<br>
+ターゲットのアーキテクチャは <code>platform</code> オプションで指定できます。利用可能な値は<a href="https://docs.docker.com/engine/reference/commandline/buildx_build/#platform">ここ</a>から確認できます。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Build and push</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">docker/build-push-action@v5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;./epgstation&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;./epgstation/debian.Dockerfile&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;uyorum/rpi-mirakurun-epgstation&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">platforms</span><span class="p">:</span><span class="w"> </span><span class="l">linux/arm/v7</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># For pull requests, export results to the build cache.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># Otherwise, push to a registry.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">outputs</span><span class="p">:</span><span class="w"> </span><span class="l">${{ github.event_name == &#39;pull_request&#39; &amp;&amp; &#39;type=cacheonly&#39; || &#39;type=registry,push=true&#39; }}</span><span class="w">
+</span></span></span></code></pre></div><p>ここまで正しく設定できていればワークフローが自動で始まりDockerHubへイメージがプッシュされるはずです。</p>
+<h1 id="docker-build-cloudを使うメリット">Docker Build Cloudを使うメリット</h1>
+<p>Buildxを使うことによるメリットと、さらにBuilderがクラウドで提供されることによるメリットがあります。<br>
+前者は主に「開発中とCIの両方でビルド環境を共有できること」にあると思います。今回は触れませんでしたが、うまく設定することでキャッシュの共有などを行い、チーム全体の作業時間を短縮することができそうです。<br>
+後者は言わずもがな、Builderの管理負荷の軽減でしょう。<br>
+なお、実は今回対象にしたイメージはビルド中にffmpegのコンパイルも行っています。これまではラズパイ上でこのコンパイルを行っていたためイメージのビルドに40分以上かかっていました。今回Docker Build Cloudをつかうことでここの高速化も密かに期待していましたが、<a href="https://github.com/uyorum/rpi-docker-mirakurun-epgstation/actions/runs/7684924144">結果的に30分以上かかっている</a>ため、単純なCPU性能はそこまで高くなさそうです。<br>
+ここについてはDockerfileを調整してもう少し時間短縮をしてみようと思います。</p>
+<h1 id="参照">参照</h1>
+<p><a href="https://docs.docker.com/build/cloud/">Docker Build Cloud | Docker Docs</a></p>
+<p><a href="https://matsuand.github.io/docs.docker.jp.onthefly/buildx/working-with-buildx/">Docker Buildx | Docker ドキュメント</a></p>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fdocker-build-cloud%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Docker%20Build%20Cloud%e3%82%92%e8%a9%a6%e3%81%99 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fdocker-build-cloud%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fdocker-build-cloud%2f&amp;title=Docker%20Build%20Cloud%e3%82%92%e8%a9%a6%e3%81%99 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Docker%20Build%20Cloud%e3%82%92%e8%a9%a6%e3%81%99 - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fdocker-build-cloud%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/raspberrypi-build-ffmpeg-2023/">RaspberryPi上のEPGStationコンテナ用にffmpegをビルドする（2023年9月版）</a></li>
+  
+  <li><a href="/post/raspberrypi-mirakurun-epgstation/">Raspberry PiにDockerでMirakurun/EPGStationを導入する</a></li>
+  
+  <li><a href="/post/epgstation-fail-to-encode/">EPGStationでときどきエンコードに失敗する</a></li>
+  
+  <li><a href="/post/sync-epgstation-to-nas/">EPGStationの録画データをNASへ自動で同期する</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+

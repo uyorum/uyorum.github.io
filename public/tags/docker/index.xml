@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 24 Sep 2023 00:34:11 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Feb 2024 16:06:18 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker Build Cloudを試す</title>
+      <link>https://blog.uyorum.net/post/docker-build-cloud/</link>
+      <pubDate>Tue, 13 Feb 2024 16:06:18 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/docker-build-cloud/</guid>
+      <description>&lt;p&gt;Docker Build Cloudがリリースされたので、試しにかねてよりアウトソースしたいと思っていた&lt;a href=&#34;../raspberrypi-mirakurun-epgstation/&#34;&gt;EPGStation on RaspberryPi用のイメージビルド&lt;/a&gt;を実装してみます。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>RaspberryPi上のEPGStationコンテナ用にffmpegをビルドする（2023年9月版）</title>
       <link>https://blog.uyorum.net/post/raspberrypi-build-ffmpeg-2023/</link>

@@ -7,11 +7,11 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 07 Jan 2024 01:06:55 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/%E3%82%AC%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Jan 2024 01:15:19 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/%E3%82%AC%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>OctoprintとKlipper環境をアップグレードする</title>
       <link>https://blog.uyorum.net/post/upgrade-octoprint-klipper/</link>
-      <pubDate>Sun, 07 Jan 2024 01:06:55 +0900</pubDate>
+      <pubDate>Sun, 07 Jan 2024 01:15:19 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/post/upgrade-octoprint-klipper/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;../ender-3-pro-customize/&#34;&gt;前回&lt;/a&gt;まとめた構成の3Dプリンタの各種ソフトウェアをアップグレードしていきます。&lt;/p&gt;</description>
