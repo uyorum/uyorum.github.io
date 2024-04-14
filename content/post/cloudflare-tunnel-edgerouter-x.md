@@ -197,4 +197,4 @@ EdgeRouterはNAPTでインターネットへ出ていく構成なんですが、
 * [notes for installing on a Ubiquiti Edgerouter 4 · Issue #19 · cloudflare/cloudflared](https://github.com/cloudflare/cloudflared/issues/19)
 * [Run as a service on Linux · Cloudflare Zero Trust docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/as-a-service/linux/)
 
-{{< affiliate asin="B0144R449W" title="Ubiquiti Networks Edgerouter X ER-X 5port Gigabit Router with PassivePoE" >}}
+{{< affiliate asin="B00YFJT29C" title="Ubiquiti EdgeRouter X Advanced Gigabit Ethernet Routers ER-X 256MB Storage 5 Gigabit RJ45 ports by Ubiquiti" >}}

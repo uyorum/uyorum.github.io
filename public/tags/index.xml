@@ -7,11 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Tue, 13 Feb 2024 16:06:18 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Apr 2024 22:37:59 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>edge-router</title>
+      <link>https://blog.uyorum.net/tags/edge-router/</link>
+      <pubDate>Sun, 14 Apr 2024 22:37:59 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/tags/edge-router/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Docker</title>
       <link>https://blog.uyorum.net/tags/docker/</link>
-      <pubDate>Tue, 13 Feb 2024 16:06:18 +0900</pubDate>
+      <pubDate>Tue, 13 Feb 2024 16:12:00 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/tags/docker/</guid>
       <description></description>
@@ -20,7 +29,7 @@
     <item>
       <title>epgstation</title>
       <link>https://blog.uyorum.net/tags/epgstation/</link>
-      <pubDate>Tue, 13 Feb 2024 16:06:18 +0900</pubDate>
+      <pubDate>Tue, 13 Feb 2024 16:12:00 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/tags/epgstation/</guid>
       <description></description>

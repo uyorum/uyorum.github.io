@@ -7,11 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Tue, 13 Feb 2024 16:06:18 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Apr 2024 22:37:59 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Edge Router ER-XでワイルドカードDNSレコードを実装する</title>
+      <link>https://blog.uyorum.net/post/edge-router-wildcard-dns/</link>
+      <pubDate>Sun, 14 Apr 2024 22:37:59 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/edge-router-wildcard-dns/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Docker Build Cloudを試す</title>
       <link>https://blog.uyorum.net/post/docker-build-cloud/</link>
-      <pubDate>Tue, 13 Feb 2024 16:06:18 +0900</pubDate>
+      <pubDate>Tue, 13 Feb 2024 16:12:00 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/post/docker-build-cloud/</guid>
       <description>&lt;p&gt;Docker Build Cloudがリリースされたので、試しにかねてよりアウトソースしたいと思っていた&lt;a href=&#34;../raspberrypi-mirakurun-epgstation/&#34;&gt;EPGStation on RaspberryPi用のイメージビルド&lt;/a&gt;を実装してみます。&lt;/p&gt;</description>
