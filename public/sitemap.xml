@@ -3,19 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blog.uyorum.net/</loc>
-    <lastmod>2024-04-14T22:37:59+09:00</lastmod>
+    <lastmod>2024-04-17T00:22:52+09:00</lastmod>
   </url><url>
-    <loc>https://blog.uyorum.net/post/edge-router-wildcard-dns/</loc>
-    <lastmod>2024-04-14T22:37:59+09:00</lastmod>
+    <loc>https://blog.uyorum.net/post/setup-microshift/</loc>
+    <lastmod>2024-04-17T00:22:52+09:00</lastmod>
   </url><url>
-    <loc>https://blog.uyorum.net/tags/edge-router/</loc>
-    <lastmod>2024-04-14T22:37:59+09:00</lastmod>
+    <loc>https://blog.uyorum.net/tags/openshift/</loc>
+    <lastmod>2024-04-17T00:22:52+09:00</lastmod>
   </url><url>
     <loc>https://blog.uyorum.net/post/</loc>
-    <lastmod>2024-04-14T22:37:59+09:00</lastmod>
+    <lastmod>2024-04-17T00:22:52+09:00</lastmod>
+  </url><url>
+    <loc>https://blog.uyorum.net/tags/rhel/</loc>
+    <lastmod>2024-04-17T00:22:52+09:00</lastmod>
   </url><url>
     <loc>https://blog.uyorum.net/tags/</loc>
-    <lastmod>2024-04-14T22:37:59+09:00</lastmod>
+    <lastmod>2024-04-17T00:22:52+09:00</lastmod>
+  </url><url>
+    <loc>https://blog.uyorum.net/post/edge-router-wildcard-dns/</loc>
+    <lastmod>2024-04-15T00:05:01+09:00</lastmod>
+  </url><url>
+    <loc>https://blog.uyorum.net/tags/edge-router/</loc>
+    <lastmod>2024-04-15T00:05:01+09:00</lastmod>
   </url><url>
     <loc>https://blog.uyorum.net/tags/docker/</loc>
     <lastmod>2024-02-13T16:12:00+09:00</lastmod>
@@ -94,9 +103,6 @@
   </url><url>
     <loc>https://blog.uyorum.net/post/cloudflare-zero-trust-private-hostnane/</loc>
     <lastmod>2023-01-06T19:03:24+09:00</lastmod>
-  </url><url>
-    <loc>https://blog.uyorum.net/tags/rhel/</loc>
-    <lastmod>2023-01-05T20:07:45+09:00</lastmod>
   </url><url>
     <loc>https://blog.uyorum.net/post/rhel-cloud-access-aws/</loc>
     <lastmod>2023-01-05T20:07:45+09:00</lastmod>
