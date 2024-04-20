@@ -7,11 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 14 Apr 2024 22:37:59 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 17 Apr 2024 00:22:52 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>openshift</title>
+      <link>https://blog.uyorum.net/tags/openshift/</link>
+      <pubDate>Wed, 17 Apr 2024 00:22:52 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/tags/openshift/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RHEL</title>
+      <link>https://blog.uyorum.net/tags/rhel/</link>
+      <pubDate>Wed, 17 Apr 2024 00:22:52 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/tags/rhel/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>edge-router</title>
       <link>https://blog.uyorum.net/tags/edge-router/</link>
-      <pubDate>Sun, 14 Apr 2024 22:37:59 +0900</pubDate>
+      <pubDate>Mon, 15 Apr 2024 00:05:01 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/tags/edge-router/</guid>
       <description></description>
@@ -131,15 +149,6 @@
       <pubDate>Sun, 26 Mar 2023 16:08:05 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/tags/cloudflare/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RHEL</title>
-      <link>https://blog.uyorum.net/tags/rhel/</link>
-      <pubDate>Thu, 05 Jan 2023 20:07:45 +0900</pubDate>
-      
-      <guid>https://blog.uyorum.net/tags/rhel/</guid>
       <description></description>
     </item>
     

@@ -7,11 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sun, 14 Apr 2024 22:37:59 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 17 Apr 2024 00:22:52 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MicroShiftをインストールする</title>
+      <link>https://blog.uyorum.net/post/setup-microshift/</link>
+      <pubDate>Wed, 17 Apr 2024 00:22:52 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/setup-microshift/</guid>
+      <description>&lt;p&gt;PC環境の見直しによりN100ミニPCが余ったので自宅サーバーにするためにRHELとMicroShiftを入れてみた。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Edge Router ER-XでワイルドカードDNSレコードを実装する</title>
       <link>https://blog.uyorum.net/post/edge-router-wildcard-dns/</link>
-      <pubDate>Sun, 14 Apr 2024 22:37:59 +0900</pubDate>
+      <pubDate>Mon, 15 Apr 2024 00:05:01 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/post/edge-router-wildcard-dns/</guid>
       <description></description>
