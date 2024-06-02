@@ -227,7 +227,8 @@ route.route.openshift.io/hello   hello-default.apps.uyorum.net    True       hel
 ```
 
 手元のPCで`https://hello-default.apps.uyorum.net`でアクセスし、Nginxのデフォルトページが表示されることを確認します。  
-hosts等で`hello-default.apps.uyorum.net`がMicroShiftホストのIPアドレスへ名前解決できるようにしておいてください。IPアドレスでのアクセスでは正しく表示されません。
+hosts等で`hello-default.apps.uyorum.net`がMicroShiftホストのIPアドレスへ名前解決できるようにしておく必要があります。IPアドレスでのアクセスでは正しく表示されません。  
+自分の場合は[ワイルドカードDNSレコードをEdge Routerで設定](../edge-router-wildcard-dns/)し、宅内からはホスト名でアクセスできるようにしました。
 
 以上です。
 

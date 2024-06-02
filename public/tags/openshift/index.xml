@@ -7,11 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Wed, 17 Apr 2024 00:22:52 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/openshift/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Apr 2024 18:02:52 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/openshift/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Microshiftでtopolvmを使ってPVをを作成する</title>
+      <link>https://blog.uyorum.net/post/microshift-topolvm/</link>
+      <pubDate>Sat, 20 Apr 2024 18:02:52 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/microshift-topolvm/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../setup-microshift/&#34;&gt;前回&lt;/a&gt;セットアップしたMicroShiftではLVMシンプールを使ってPVを作成するように設定したので、各種動作を確認してみます。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>MicroShiftをインストールする</title>
       <link>https://blog.uyorum.net/post/setup-microshift/</link>
-      <pubDate>Wed, 17 Apr 2024 00:22:52 +0900</pubDate>
+      <pubDate>Sat, 20 Apr 2024 18:01:51 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/post/setup-microshift/</guid>
       <description>&lt;p&gt;PC環境の見直しによりN100ミニPCが余ったので自宅サーバーにするためにRHELとMicroShiftを入れてみた。&lt;/p&gt;</description>

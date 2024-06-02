@@ -191,6 +191,59 @@ EdgeRouterはNAPTでインターネットへ出ていく構成なんですが、
 私も一時期そのようなマンションに住んでいたのですが、その時は[こんなこと](../publish-with-openvpn-1/)をやってました。
 それがサービスで、しかも無料で実現できるのは素晴らしいです。
 
+## 2024/4/25 追記
+
+Edge Routerのファームウェアを更新したところcloudflaredが消えたため再度インストールと設定を行いました。
+初回と手順が異なったのでメモ。
+
+### インストール
+
+`cloudflared`のビルドとインストールまでは前回と同じです。
+ただしビルドにGo 1.21以上が必要なようだったので[ここ](https://go.dev/doc/install)から最新版をダウンロードしました。
+
+### 設定
+
+ログインは同じコマンドでOKです。
+
+``` shell
+# cloudflared tunnel login
+Please open the following URL and log in with your Cloudflare account:
+
+https://dash.cloudflare.com/argotunnel?aud=&callback=https%3A%2F%2Flogin.cloudflareaccess.org%2FXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX%3D
+
+Leave cloudflared running to download the cert automatically.
+You have successfully logged in.
+If you wish to copy your credentials to a server, they have been saved to:
+/root/.cloudflared/cert.pem
+# mkdir /etc/cloudflared
+# mv /root/.cloudflared/cert.pem /etc/cloudflared
+# rm -rf /root/.cloudflared
+```
+
+前回はこの後トンネルの作成を行いましたが、今回はすでにあるトンネルに接続します。  
+Cloudflare Zero Trustのコンソールにログインし、対象のトンネルの設定画面を開き、`If you already have cloudflared installed on your machine:`の下のコマンドを実行します。
+実行には2分ほどかかりました。
+
+``` shell
+# cloudflared service install XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+2024-04-25T14:13:14Z INF Using Systemd
+2024-04-25T14:15:39Z INF Linux service for cloudflared installed successfully
+```
+
+あとは前回と同じようにサービス自動起動の設定を行います。
+
+``` shell
+# rm /etc/systemd/system/cloudflared-update.service
+# rm /etc/systemd/system/cloudflared-update.timer
+# systemctl daemon-reload
+# systemctl enable --now cloudflared
+```
+
+今回は`/etc/cloudflared/config.yml`を作っていませんので、どこかに情報が保存されているようです。  
+今回そのあたりはあまり調査できていません。
+
+--- 
+
 ## 参考
 
 * [Via the command line · Cloudflare Zero Trust docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/)

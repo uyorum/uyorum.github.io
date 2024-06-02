@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.112.7">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>Microshiftでtopolvmを使ってPVをを作成する - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">Microshiftでtopolvmを使ってPVをを作成する</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2024-04-20">April 20, 2024
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fmicroshift-topolvm%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Microshift%e3%81%a7topolvm%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6PV%e3%82%92%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fmicroshift-topolvm%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fmicroshift-topolvm%2f&amp;title=Microshift%e3%81%a7topolvm%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6PV%e3%82%92%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Microshift%e3%81%a7topolvm%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6PV%e3%82%92%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fmicroshift-topolvm%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p><a href="../setup-microshift/">前回</a>セットアップしたMicroShiftではLVMシンプールを使ってPVを作成するように設定したので、各種動作を確認してみます。</p>
+<h2 id="設定内容">設定内容</h2>
+<p>前回、デバイスクラスを作成しました。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo cat /etc/microshift/lvmd.yaml
+</span></span><span class="line"><span class="cl">socket-name:
+</span></span><span class="line"><span class="cl">device-classes:
+</span></span><span class="line"><span class="cl">  - name: thin
+</span></span><span class="line"><span class="cl">    default: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">    spare-gb: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">    thin-pool:
+</span></span><span class="line"><span class="cl">      name: ocpthinpool
+</span></span><span class="line"><span class="cl">      overprovision-ratio: <span class="m">10</span>
+</span></span><span class="line"><span class="cl">    type: thin
+</span></span><span class="line"><span class="cl">    volume-group: rhel
+</span></span></code></pre></div><p>「デバイスクラス」の明確な定義は見つかりませんでしたが、topolvmが使用するバックエンド（VG）を指しているようで、HDDやSSD、RAIDなど、ストレージのプロファイルに対応する概念のようです。<br>
+cf. <a href="https://github.com/topolvm/topolvm/blob/main/docs/lvmd.md">lvmd.md</a></p>
+<p>topolvmを使用する<a href="https://kubernetes.io/ja/docs/concepts/storage/storage-classes/">ストレージクラス</a>はデフォルトで1つ存在します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc get storageclasses.storage.k8s.io topolvm-provisioner -o yaml
+</span></span><span class="line"><span class="cl">allowVolumeExpansion: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">apiVersion: storage.k8s.io/v1
+</span></span><span class="line"><span class="cl">kind: StorageClass
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  annotations:
+</span></span><span class="line"><span class="cl">    storageclass.kubernetes.io/is-default-class: <span class="s2">&#34;true&#34;</span>
+</span></span><span class="line"><span class="cl">  creationTimestamp: <span class="s2">&#34;2024-04-06T10:06:36Z&#34;</span>
+</span></span><span class="line"><span class="cl">  name: topolvm-provisioner
+</span></span><span class="line"><span class="cl">  resourceVersion: <span class="s2">&#34;391&#34;</span>
+</span></span><span class="line"><span class="cl">  uid: 29bf1ab6-82c2-4274-9aeb-ea099306cf51
+</span></span><span class="line"><span class="cl">parameters:
+</span></span><span class="line"><span class="cl">  csi.storage.k8s.io/fstype: xfs
+</span></span><span class="line"><span class="cl">provisioner: topolvm.io
+</span></span><span class="line"><span class="cl">reclaimPolicy: Delete
+</span></span><span class="line"><span class="cl">volumeBindingMode: WaitForFirstConsumer
+</span></span></code></pre></div><p>ストレージクラスの方も「プロファイル」に対応する概念のようなのでストレージクラスとデバイスクラスは１：１に対応するように設定するのがわかりやすそうですが、
+今回はストレージもローカルディスク１つしかないのでデフォルトのストレージクラスをそのまま使います。</p>
+<h2 id="pvを作成する">PVを作成する</h2>
+<p>まずは上の設定を使ってPVを作って適当なコンテナへアタッチしてみます。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc apply -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: PersistentVolumeClaim
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: test-claim-thin
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  accessModes:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - ReadWriteOnce
+</span></span></span><span class="line"><span class="cl"><span class="s">  resources:
+</span></span></span><span class="line"><span class="cl"><span class="s">    requests:
+</span></span></span><span class="line"><span class="cl"><span class="s">      storage: 1Gi
+</span></span></span><span class="line"><span class="cl"><span class="s">  storageClassName: topolvm-provisioner
+</span></span></span><span class="line"><span class="cl"><span class="s">---
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: Pod
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: base
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  containers:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - image: docker.io/nginx:stable-alpine
+</span></span></span><span class="line"><span class="cl"><span class="s">    name: test-container
+</span></span></span><span class="line"><span class="cl"><span class="s">    volumeMounts:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - mountPath: /vol
+</span></span></span><span class="line"><span class="cl"><span class="s">      name: test-vol
+</span></span></span><span class="line"><span class="cl"><span class="s">  volumes:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - name: test-vol
+</span></span></span><span class="line"><span class="cl"><span class="s">    persistentVolumeClaim:
+</span></span></span><span class="line"><span class="cl"><span class="s">      claimName: test-claim-thin
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">persistentvolumeclaim/test-claim-thin created
+</span></span><span class="line"><span class="cl">pod/base created
+</span></span></code></pre></div><p>PVが作成されました。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc get pvc
+</span></span><span class="line"><span class="cl">NAME              STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
+</span></span><span class="line"><span class="cl">test-claim-thin   Bound    pvc-f8c20f2e-7d1a-4a3d-a2b0-e6d942c044dc   1Gi        RWO            topolvm-provisioner   50s
+</span></span><span class="line"><span class="cl">$ oc get pv pvc-f8c20f2e-7d1a-4a3d-a2b0-e6d942c044dc
+</span></span><span class="line"><span class="cl">NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                     STORAGECLASS          REASON   AGE
+</span></span><span class="line"><span class="cl">pvc-f8c20f2e-7d1a-4a3d-a2b0-e6d942c044dc   1Gi        RWO            Delete           Bound    default/test-claim-thin   topolvm-provisioner            82s
+</span></span><span class="line"><span class="cl">$ oc describe pv pvc-f8c20f2e-7d1a-4a3d-a2b0-e6d942c044dc
+</span></span><span class="line"><span class="cl">Name:              pvc-f8c20f2e-7d1a-4a3d-a2b0-e6d942c044dc
+</span></span><span class="line"><span class="cl">Labels:            &lt;none&gt;
+</span></span><span class="line"><span class="cl">Annotations:       pv.kubernetes.io/provisioned-by: topolvm.io
+</span></span><span class="line"><span class="cl">                   volume.kubernetes.io/provisioner-deletion-secret-name:
+</span></span><span class="line"><span class="cl">                   volume.kubernetes.io/provisioner-deletion-secret-namespace:
+</span></span><span class="line"><span class="cl">Finalizers:        <span class="o">[</span>kubernetes.io/pv-protection<span class="o">]</span>
+</span></span><span class="line"><span class="cl">StorageClass:      topolvm-provisioner
+</span></span><span class="line"><span class="cl">Status:            Bound
+</span></span><span class="line"><span class="cl">Claim:             default/test-claim-thin
+</span></span><span class="line"><span class="cl">Reclaim Policy:    Delete
+</span></span><span class="line"><span class="cl">Access Modes:      RWO
+</span></span><span class="line"><span class="cl">VolumeMode:        Filesystem
+</span></span><span class="line"><span class="cl">Capacity:          1Gi
+</span></span><span class="line"><span class="cl">Node Affinity:
+</span></span><span class="line"><span class="cl">  Required Terms:
+</span></span><span class="line"><span class="cl">    Term 0:        topology.topolvm.io/node in <span class="o">[</span>beelink<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Message:
+</span></span><span class="line"><span class="cl">Source:
+</span></span><span class="line"><span class="cl">    Type:              CSI <span class="o">(</span>a Container Storage Interface <span class="o">(</span>CSI<span class="o">)</span> volume <span class="nb">source</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    Driver:            topolvm.io
+</span></span><span class="line"><span class="cl">    FSType:            xfs
+</span></span><span class="line"><span class="cl">    VolumeHandle:      1d0a104e-8655-4de8-a62c-827498301575
+</span></span><span class="line"><span class="cl">    ReadOnly:          <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">    VolumeAttributes:      storage.kubernetes.io/csiProvisionerIdentity<span class="o">=</span>1713637484909-2854-topolvm.io
+</span></span><span class="line"><span class="cl">Events:                &lt;none&gt;
+</span></span><span class="line"><span class="cl">$ sudo lvs
+</span></span><span class="line"><span class="cl">  LV                                   VG   Attr       LSize   Pool        Origin Data%  Meta%  Move Log Cpy%Sync Convert
+</span></span><span class="line"><span class="cl">  1d0a104e-8655-4de8-a62c-827498301575 rhel Vwi-aotz--   1.00g ocpthinpool        6.32
+</span></span><span class="line"><span class="cl">  ocpthinpool                          rhel twi-aotz-- 100.00g                    0.06   10.45
+</span></span><span class="line"><span class="cl">  root                                 rhel -wi-ao---- 100.00g
+</span></span><span class="line"><span class="cl">  swap                                 rhel -wi-ao----  &lt;7.76g
+</span></span></code></pre></div><p>設定した通り、シンプールを通してLVが作成されていることがわかります。</p>
+<h2 id="スナップショット">スナップショット</h2>
+<p>スナップショットとは、</p>
+<p><a href="https://access.redhat.com/documentation/ja-jp/red_hat_build_of_microshift/4.15/html-single/storage/index#microshift-volume-snapshot-classes_volume-snapshots-microshift">Storage Red Hat build of MicroShift 4.15 | Red Hat Customer Portal</a>
+<a href="https://kubernetes.io/ja/docs/concepts/storage/volume-snapshots/">ボリュームのスナップショット | Kubernetes</a></p>
+<blockquote>
+<p>ボリュームスナップショットは、完全に新しいボリュームを作成することなく、特定の時点でボリュームの内容をコピーするための標準化された方法をKubernetesユーザーに提供します。この機能により、たとえばデータベース管理者は、編集または削除の変更を実行する前にデータベースをバックアップできます。</p>
+</blockquote>
+<p>スナップショットを作成するため、スナップショットクラスを作成します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc apply -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: snapshot.storage.k8s.io/v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: VolumeSnapshotClass
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: topolvm-snapclass
+</span></span></span><span class="line"><span class="cl"><span class="s">  annotations:
+</span></span></span><span class="line"><span class="cl"><span class="s">    snapshot.storage.kubernetes.io/is-default-class: &#34;true&#34; 
+</span></span></span><span class="line"><span class="cl"><span class="s">driver: topolvm.io 
+</span></span></span><span class="line"><span class="cl"><span class="s">deletionPolicy: Delete 
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></div><p>このPVのスナップショットを作成します。
+ですが、試しにPodを止めずにスナップショットを作成した際はPVへの書き込みはほとんどないにも関わらず出来上がったLVMスナップショットをマウントできませんでした。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo mount /dev/rhel/e1bd464a-c351-4173-8bd8-b5234d9b2279 /mnt/snapshot
+</span></span><span class="line"><span class="cl">mount: /mnt/snapshot: cannot mount /dev/mapper/rhel-e1bd464a--c351--4173--8bd8--b5234d9b2279 read-only.
+</span></span></code></pre></div><p>PVへの書き込みを停止するためにあらかじめPodを削除します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc delete pod base
+</span></span><span class="line"><span class="cl">pod <span class="s2">&#34;base&#34;</span> deleted
+</span></span><span class="line"><span class="cl">$ oc get pv
+</span></span><span class="line"><span class="cl">NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                     STORAGECLASS          REASON   AGE
+</span></span><span class="line"><span class="cl">pvc-f8c20f2e-7d1a-4a3d-a2b0-e6d942c044dc   1Gi        RWO            Delete           Bound    default/test-claim-thin   topolvm-provisioner            35s
+</span></span><span class="line"><span class="cl">$ oc apply -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: snapshot.storage.k8s.io/v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: VolumeSnapshot
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: test-snapshot
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  volumeSnapshotClassName: topolvm-snapclass
+</span></span></span><span class="line"><span class="cl"><span class="s">  source:
+</span></span></span><span class="line"><span class="cl"><span class="s">    persistentVolumeClaimName: test-claim-thin
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">volumesnapshot.snapshot.storage.k8s.io/test-snapshot created
+</span></span></code></pre></div><p>作成されたようです。取得したスナップショットの情報を確認してみます。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc get volumesnapshot
+</span></span><span class="line"><span class="cl">NAME            READYTOUSE   SOURCEPVC         SOURCESNAPSHOTCONTENT   RESTORESIZE   SNAPSHOTCLASS       SNAPSHOTCONTENT                                    CREATIONTIME   AGE
+</span></span><span class="line"><span class="cl">test-snapshot   <span class="nb">true</span>         test-claim-thin                           1Gi           topolvm-snapclass   snapcontent-a8443d82-ac86-448d-b068-ddb09eecbb9c   32s            33s
+</span></span><span class="line"><span class="cl">$ sudo lvs
+</span></span><span class="line"><span class="cl">  LV                                   VG   Attr       LSize   Pool        Origin                               Data%  Meta%  Move Log Cpy%Sync Convert
+</span></span><span class="line"><span class="cl">  4adb15e6-2d9e-46dc-a3a1-a9e4ef405627 rhel Vri-a-tz--   1.00g ocpthinpool 1d0a104e-8655-4de8-a62c-827498301575 6.32
+</span></span><span class="line"><span class="cl">  1d0a104e-8655-4de8-a62c-827498301575 rhel Vwi-aotz--   1.00g ocpthinpool                                      6.32
+</span></span><span class="line"><span class="cl">  ocpthinpool                          rhel twi-aotz-- 100.00g                                                  0.06   10.45
+</span></span><span class="line"><span class="cl">  root                                 rhel -wi-ao---- 100.00g
+</span></span><span class="line"><span class="cl">  swap                                 rhel -wi-ao----  &lt;7.76g
+</span></span></code></pre></div><p>LVMのレイヤでは対象のLVから（LVMの）スナップショットを取得していることがわかります。<br>
+ただしこのままではこのホストが壊れたらスナップショットも失われてしまうためバックアップとしては弱いです。
+きちんと障害に備えるにはこのスナップショットを別のハードウェア等に退避しておいたほうがよいです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo mkdir /mnt/snapshot
+</span></span><span class="line"><span class="cl">$ sudo mount /dev/rhel/4adb15e6-2d9e-46dc-a3a1-a9e4ef405627 /mnt/snapshot/
+</span></span><span class="line"><span class="cl">mount: /mnt/snapshot: WARNING: <span class="nb">source</span> write-protected, mounted read-only.sudo mount /dev/ /mnt/snapshot
+</span></span><span class="line"><span class="cl">$ sudo cp -a /mnt/snapshot DESTINATION
+</span></span></code></pre></div><h2 id="スナップショットからリストア">スナップショットからリストア</h2>
+<p>スナップショットからPVCを作ってPodへアタッチします。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc apply -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: PersistentVolumeClaim
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: snapshot-restore
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  accessModes:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - ReadWriteOnce
+</span></span></span><span class="line"><span class="cl"><span class="s">  dataSource:
+</span></span></span><span class="line"><span class="cl"><span class="s">    apiGroup: snapshot.storage.k8s.io
+</span></span></span><span class="line"><span class="cl"><span class="s">    kind: VolumeSnapshot
+</span></span></span><span class="line"><span class="cl"><span class="s">    name: test-snapshot
+</span></span></span><span class="line"><span class="cl"><span class="s">  resources:
+</span></span></span><span class="line"><span class="cl"><span class="s">    requests:
+</span></span></span><span class="line"><span class="cl"><span class="s">      storage: 1Gi
+</span></span></span><span class="line"><span class="cl"><span class="s">---
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: Pod
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: base
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  containers:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - image: docker.io/nginx:stable-alpine
+</span></span></span><span class="line"><span class="cl"><span class="s">    name: test-container
+</span></span></span><span class="line"><span class="cl"><span class="s">    volumeMounts:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - mountPath: /vol
+</span></span></span><span class="line"><span class="cl"><span class="s">      name: test-vol
+</span></span></span><span class="line"><span class="cl"><span class="s">  volumes:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - name: test-vol
+</span></span></span><span class="line"><span class="cl"><span class="s">    persistentVolumeClaim:
+</span></span></span><span class="line"><span class="cl"><span class="s">      claimName: snapshot-restore
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">persistentvolumeclaim/snapshot-restore created
+</span></span><span class="line"><span class="cl">pod/base created
+</span></span><span class="line"><span class="cl">$ oc get pv
+</span></span><span class="line"><span class="cl">NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                      STORAGECLASS          REASON   AGE
+</span></span><span class="line"><span class="cl">pvc-462ea98a-e038-4218-8418-eaf56d6d5f8f   1Gi        RWO            Delete           Bound    default/snapshot-restore   topolvm-provisioner            23h
+</span></span><span class="line"><span class="cl">pvc-9aa6b184-f7b5-4cbd-9948-26cccfd9a107   1Gi        RWO            Delete           Bound    default/test-claim-thin    topolvm-provisioner            24h
+</span></span><span class="line"><span class="cl">$ oc describe pv pvc-462ea98a-e038-4218-8418-eaf56d6d5f8f
+</span></span><span class="line"><span class="cl">Name:              pvc-462ea98a-e038-4218-8418-eaf56d6d5f8f
+</span></span><span class="line"><span class="cl">Labels:            &lt;none&gt;
+</span></span><span class="line"><span class="cl">Annotations:       pv.kubernetes.io/provisioned-by: topolvm.io
+</span></span><span class="line"><span class="cl">                   volume.kubernetes.io/provisioner-deletion-secret-name:
+</span></span><span class="line"><span class="cl">                   volume.kubernetes.io/provisioner-deletion-secret-namespace:
+</span></span><span class="line"><span class="cl">Finalizers:        <span class="o">[</span>kubernetes.io/pv-protection<span class="o">]</span>
+</span></span><span class="line"><span class="cl">StorageClass:      topolvm-provisioner
+</span></span><span class="line"><span class="cl">Status:            Bound
+</span></span><span class="line"><span class="cl">Claim:             default/snapshot-restore
+</span></span><span class="line"><span class="cl">Reclaim Policy:    Delete
+</span></span><span class="line"><span class="cl">Access Modes:      RWO
+</span></span><span class="line"><span class="cl">VolumeMode:        Filesystem
+</span></span><span class="line"><span class="cl">Capacity:          1Gi
+</span></span><span class="line"><span class="cl">Node Affinity:
+</span></span><span class="line"><span class="cl">  Required Terms:
+</span></span><span class="line"><span class="cl">    Term 0:        topology.topolvm.io/node in <span class="o">[</span>beelink<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Message:
+</span></span><span class="line"><span class="cl">Source:
+</span></span><span class="line"><span class="cl">    Type:              CSI <span class="o">(</span>a Container Storage Interface <span class="o">(</span>CSI<span class="o">)</span> volume <span class="nb">source</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    Driver:            topolvm.io
+</span></span><span class="line"><span class="cl">    FSType:            xfs
+</span></span><span class="line"><span class="cl">    VolumeHandle:      1a36fc28-9e75-45a2-a8d2-7444c3ada58e
+</span></span><span class="line"><span class="cl">    ReadOnly:          <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">    VolumeAttributes:      storage.kubernetes.io/csiProvisionerIdentity<span class="o">=</span>1714679255467-5370-topolvm.io
+</span></span><span class="line"><span class="cl">Events:                &lt;none&gt;
+</span></span><span class="line"><span class="cl">$ sudo lvs
+</span></span><span class="line"><span class="cl">  LV                                   VG   Attr       LSize   Pool        Origin                               Data%  Meta%  Move Log Cpy%Sync Convert
+</span></span><span class="line"><span class="cl">  1a36fc28-9e75-45a2-a8d2-7444c3ada58e rhel Vwi-aotz--   1.00g ocpthinpool 4adb15e6-2d9e-46dc-a3a1-a9e4ef405627 6.32
+</span></span><span class="line"><span class="cl">  4adb15e6-2d9e-46dc-a3a1-a9e4ef405627 rhel Vri-a-tz--   1.00g ocpthinpool 1d0a104e-8655-4de8-a62c-827498301575 6.32
+</span></span><span class="line"><span class="cl">  1d0a104e-8655-4de8-a62c-827498301575 rhel Vwi-a-tz--   1.00g ocpthinpool                                      6.32
+</span></span><span class="line"><span class="cl">  ocpthinpool                          rhel twi-aotz-- 100.00g                                                  0.07   10.46
+</span></span><span class="line"><span class="cl">  root                                 rhel -wi-ao---- 100.00g
+</span></span><span class="line"><span class="cl">  swap                                 rhel -wi-ao----  &lt;7.76g
+</span></span></code></pre></div><p>LVMレイヤでは、LVMスナップショットから新たなLVが作成されています。</p>
+<h2 id="スナップショットの削除">スナップショットの削除</h2>
+<p>スナップショットの削除時に実体となるLVを削除するかどうかをVolumeSnapshotClassで設定できます。<br>
+VolumeSnapshotClass（再掲）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc apply -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: snapshot.storage.k8s.io/v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: VolumeSnapshotClass
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: topolvm-snapclass
+</span></span></span><span class="line"><span class="cl"><span class="s">  annotations:
+</span></span></span><span class="line"><span class="cl"><span class="s">    snapshot.storage.kubernetes.io/is-default-class: &#34;true&#34; 
+</span></span></span><span class="line"><span class="cl"><span class="s">driver: topolvm.io 
+</span></span></span><span class="line"><span class="cl"><span class="s">deletionPolicy: Delete 
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></div><p><code>deletionPolicy</code>をDeleteに設定した場合、VolumeSnapshotの削除と同時に実体のLV（MicroShift上ではVolumeSnapshotContentリソースとして管理されています）も削除されます。
+Retainに設定した場合はVolumeSnapshotContentが削除されずに残ります。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc delete volumesnapshot test-snapshot
+</span></span><span class="line"><span class="cl">volumesnapshot.snapshot.storage.k8s.io <span class="s2">&#34;test-snapshot&#34;</span> deleted
+</span></span><span class="line"><span class="cl">$ sudo lvs
+</span></span><span class="line"><span class="cl">  LV                                   VG   Attr       LSize   Pool        Origin Data%  Meta%  Move Log Cpy%Sync Convert
+</span></span><span class="line"><span class="cl">  1a36fc28-9e75-45a2-a8d2-7444c3ada58e rhel Vwi-aotz--   1.00g ocpthinpool        6.32
+</span></span><span class="line"><span class="cl">  1d0a104e-8655-4de8-a62c-827498301575 rhel Vwi-a-tz--   1.00g ocpthinpool        6.32
+</span></span><span class="line"><span class="cl">  ocpthinpool                          rhel twi-aotz-- 100.00g                    0.07   10.46
+</span></span><span class="line"><span class="cl">  root                                 rhel -wi-ao---- 100.00g
+</span></span><span class="line"><span class="cl">  swap                                 rhel -wi-ao----  &lt;7.76g
+</span></span></code></pre></div><p>Retainに設定した場合：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc patch volumesnapshotclass topolvm-snapclass --type<span class="o">=</span><span class="s1">&#39;json&#39;</span> -p<span class="o">=</span><span class="s1">&#39;[{&#34;op&#34;: &#34;replace&#34;, &#34;path&#34;: &#34;/deletionPolicy&#34;, &#34;value&#34;:&#34;Retain&#34;}]&#39;</span>
+</span></span><span class="line"><span class="cl">volumesnapshotclass.snapshot.storage.k8s.io/topolvm-snapclass patched
+</span></span><span class="line"><span class="cl">$ oc apply -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: snapshot.storage.k8s.io/v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: VolumeSnapshot
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: test-snapshot-retain
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  volumeSnapshotClassName: topolvm-snapclass
+</span></span></span><span class="line"><span class="cl"><span class="s">  source:
+</span></span></span><span class="line"><span class="cl"><span class="s">    persistentVolumeClaimName: test-claim-thin
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">volumesnapshot.snapshot.storage.k8s.io/test-snapshot-retain created
+</span></span><span class="line"><span class="cl">$ oc get volumesnapshot test-snapshot-retain
+</span></span><span class="line"><span class="cl">NAME                   READYTOUSE   SOURCEPVC         SOURCESNAPSHOTCONTENT   RESTORESIZE   SNAPSHOTCLASS       SNAPSHOTCONTENT                                    CREATIONTIME   AGE
+</span></span><span class="line"><span class="cl">test-snapshot-retain   <span class="nb">true</span>         test-claim-thin                           1Gi           topolvm-snapclass   snapcontent-31631ab1-a663-4436-b0b6-d19e538364e8   45s            45s
+</span></span><span class="line"><span class="cl">$ oc get volumesnapshotcontent
+</span></span><span class="line"><span class="cl">NAME                                               READYTOUSE   RESTORESIZE   DELETIONPOLICY   DRIVER       VOLUMESNAPSHOTCLASS   VOLUMESNAPSHOT         VOLUMESNAPSHOTNAMESPACE   AGE
+</span></span><span class="line"><span class="cl">snapcontent-31631ab1-a663-4436-b0b6-d19e538364e8   <span class="nb">true</span>         <span class="m">1073741824</span>    Retain           topolvm.io   topolvm-snapclass     test-snapshot-retain   default                   72s
+</span></span><span class="line"><span class="cl">$ oc delete volumesnapshot test-snapshot-retain
+</span></span><span class="line"><span class="cl">volumesnapshot.snapshot.storage.k8s.io <span class="s2">&#34;test-snapshot-retain&#34;</span> deleted
+</span></span><span class="line"><span class="cl">$ oc get volumesnapshotcontent
+</span></span><span class="line"><span class="cl">NAME                                               READYTOUSE   RESTORESIZE   DELETIONPOLICY   DRIVER       VOLUMESNAPSHOTCLASS   VOLUMESNAPSHOT         VOLUMESNAPSHOTNAMESPACE   AGE
+</span></span><span class="line"><span class="cl">snapcontent-31631ab1-a663-4436-b0b6-d19e538364e8   <span class="nb">true</span>         <span class="m">1073741824</span>    Retain           topolvm.io   topolvm-snapclass     test-snapshot-retain   default                   5m14s
+</span></span><span class="line"><span class="cl">$ oc get volumesnapshotcontent snapcontent-31631ab1-a663-4436-b0b6-d19e538364e8 -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.snapshotHandle}&#39;</span>
+</span></span><span class="line"><span class="cl">92d06036-12de-4600-877a-113ec5e21932
+</span></span><span class="line"><span class="cl">$ sudo lvs
+</span></span><span class="line"><span class="cl">  LV                                   VG   Attr       LSize   Pool        Origin                               Data%  Meta%  Move Log Cpy%Sync Convert
+</span></span><span class="line"><span class="cl">  92d06036-12de-4600-877a-113ec5e21932 rhel Vri-a-tz--   1.00g ocpthinpool cd059561-dcd6-4afd-9c22-f370f6caf6aa 6.32
+</span></span><span class="line"><span class="cl">  cd059561-dcd6-4afd-9c22-f370f6caf6aa rhel Vwi-a-tz--   1.00g ocpthinpool                                      6.32
+</span></span><span class="line"><span class="cl">  ocpthinpool                          rhel twi-aotz-- 100.00g                                                  0.07   10.46
+</span></span><span class="line"><span class="cl">  root                                 rhel -wi-ao---- 100.00g
+</span></span><span class="line"><span class="cl">  swap                                 rhel -wi-ao----  &lt;7.76g
+</span></span></code></pre></div><p>VolumeSnapshotを削除しても実体のLV（<code>92d06036-12de-4600-877a-113ec5e21932</code>）が残っていることがわかります。
+実体も削除する場合はVolumeSnapshotContentを削除します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ oc delete volumesnapshotcontent snapcontent-31631ab1-a663-4436-b0b6-d19e538364e8
+</span></span><span class="line"><span class="cl">volumesnapshotcontent.snapshot.storage.k8s.io <span class="s2">&#34;snapcontent-31631ab1-a663-4436-b0b6-d19e538364e8&#34;</span> deleted
+</span></span><span class="line"><span class="cl">$ sudo lvs
+</span></span><span class="line"><span class="cl">  LV                                   VG   Attr       LSize   Pool        Origin                               Data%  Meta%  Move Log Cpy%Sync Convert
+</span></span><span class="line"><span class="cl">  92d06036-12de-4600-877a-113ec5e21932 rhel Vri-a-tz--   1.00g ocpthinpool cd059561-dcd6-4afd-9c22-f370f6caf6aa 6.32
+</span></span><span class="line"><span class="cl">  cd059561-dcd6-4afd-9c22-f370f6caf6aa rhel Vwi-a-tz--   1.00g ocpthinpool                                      6.32
+</span></span><span class="line"><span class="cl">  ocpthinpool                          rhel twi-aotz-- 100.00g                                                  0.07   10.46
+</span></span><span class="line"><span class="cl">  root                                 rhel -wi-ao---- 100.00g
+</span></span><span class="line"><span class="cl">  swap                                 rhel -wi-ao----  &lt;7.76g
+</span></span></code></pre></div><p>これが正常動作なのかはわかりませんが、上の通りVolumeSnapshotContentを削除してもLVが残ってしまいました。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo lvremove rhel/92d06036-12de-4600-877a-113ec5e21932
+</span></span><span class="line"><span class="cl">  Logical volume <span class="s2">&#34;92d06036-12de-4600-877a-113ec5e21932&#34;</span> successfully removed.
+</span></span></code></pre></div><p>最後の動作が想定外でしたが、概ね動作を理解できました。</p>
+<div class="amazon-widget">
+  <div class="amazon-widget-image">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B09MQ54CLV/?tag=uyorum-22">
+      <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B09MQ54CLV&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=uyorum-22" />
+    </a>
+  </div>
+  <div class="amazon-widget-info">
+    <a target="_blank" href="https://www.amazon.co.jp/dp/B09MQ54CLV/?tag=uyorum-22">
+      <span class="amazon-widget-title">
+        OpenShift徹底入門
+      </span>
+      <span class="amazon-widget-via">
+        <img src="https://www.amazon.co.jp/favicon.ico" />
+        amazon.co.jp
+      </span>
+    </a>
+  </div>
+</div>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fmicroshift-topolvm%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Microshift%e3%81%a7topolvm%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6PV%e3%82%92%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fmicroshift-topolvm%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fmicroshift-topolvm%2f&amp;title=Microshift%e3%81%a7topolvm%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6PV%e3%82%92%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Microshift%e3%81%a7topolvm%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6PV%e3%82%92%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fmicroshift-topolvm%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/setup-microshift/">MicroShiftをインストールする</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+

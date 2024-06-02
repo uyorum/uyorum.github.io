@@ -55,7 +55,7 @@
   <article itemscope itemtype="http://schema.org/BlogPosting">
     <h1 class="entry-title" itemprop="headline">MicroShiftをインストールする</h1>
     <span class="entry-meta">
-      <time itemprop="datePublished" datetime=" 2024-04-17">April 17, 2024
+      <time itemprop="datePublished" datetime=" 2024-04-20">April 20, 2024
       </time>
     </span>
     <span class="pull-right">
@@ -259,7 +259,8 @@ RHELインストール時に<code>/</code>等に割り当てる容量を少し�
 </span></span><span class="line"><span class="cl">NAME                             HOST                             ADMITTED   SERVICE   TLS
 </span></span><span class="line"><span class="cl">route.route.openshift.io/hello   hello-default.apps.uyorum.net    True       hello
 </span></span></code></pre></div><p>手元のPCで<code>https://hello-default.apps.uyorum.net</code>でアクセスし、Nginxのデフォルトページが表示されることを確認します。<br>
-hosts等で<code>hello-default.apps.uyorum.net</code>がMicroShiftホストのIPアドレスへ名前解決できるようにしておいてください。IPアドレスでのアクセスでは正しく表示されません。</p>
+hosts等で<code>hello-default.apps.uyorum.net</code>がMicroShiftホストのIPアドレスへ名前解決できるようにしておく必要があります。IPアドレスでのアクセスでは正しく表示されません。<br>
+自分の場合は<a href="../edge-router-wildcard-dns/">ワイルドカードDNSレコードをEdge Routerで設定</a>し、宅内からはホスト名でアクセスできるようにしました。</p>
 <p>以上です。</p>
 <div class="amazon-widget">
   <div class="amazon-widget-image">
