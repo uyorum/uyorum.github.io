@@ -190,6 +190,40 @@ EdgeRouterはNAPTでインターネットへ出ていく構成なんですが、
 マンションに付属のインターネット回線等、各戸にグローバルアドレスが割り当てられない状況でも自宅につながるVPN網を構築したり、自宅のサーバをインターネットへ公開することができるので、そういう状況では特に便利ですね。</p>
 <p>私も一時期そのようなマンションに住んでいたのですが、その時は<a href="../publish-with-openvpn-1/">こんなこと</a>をやってました。
 それがサービスで、しかも無料で実現できるのは素晴らしいです。</p>
+<h2 id="2024425-追記">2024/4/25 追記</h2>
+<p>Edge Routerのファームウェアを更新したところcloudflaredが消えたため再度インストールと設定を行いました。
+初回と手順が異なったのでメモ。</p>
+<h3 id="インストール">インストール</h3>
+<p><code>cloudflared</code>のビルドとインストールまでは前回と同じです。
+ただしビルドにGo 1.21以上が必要なようだったので<a href="https://go.dev/doc/install">ここ</a>から最新版をダウンロードしました。</p>
+<h3 id="設定">設定</h3>
+<p>ログインは同じコマンドでOKです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># cloudflared tunnel login</span>
+</span></span><span class="line"><span class="cl">Please open the following URL and log in with your Cloudflare account:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">https://dash.cloudflare.com/argotunnel?aud<span class="o">=</span><span class="p">&amp;</span><span class="nv">callback</span><span class="o">=</span>https%3A%2F%2Flogin.cloudflareaccess.org%2FXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX%3D
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Leave cloudflared running to download the cert automatically.
+</span></span><span class="line"><span class="cl">You have successfully logged in.
+</span></span><span class="line"><span class="cl">If you wish to copy your credentials to a server, they have been saved to:
+</span></span><span class="line"><span class="cl">/root/.cloudflared/cert.pem
+</span></span><span class="line"><span class="cl"><span class="c1"># mkdir /etc/cloudflared</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># mv /root/.cloudflared/cert.pem /etc/cloudflared</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rm -rf /root/.cloudflared</span>
+</span></span></code></pre></div><p>前回はこの後トンネルの作成を行いましたが、今回はすでにあるトンネルに接続します。<br>
+Cloudflare Zero Trustのコンソールにログインし、対象のトンネルの設定画面を開き、<code>If you already have cloudflared installed on your machine:</code>の下のコマンドを実行します。
+実行には2分ほどかかりました。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># cloudflared service install XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+</span></span><span class="line"><span class="cl">2024-04-25T14:13:14Z INF Using Systemd
+</span></span><span class="line"><span class="cl">2024-04-25T14:15:39Z INF Linux service <span class="k">for</span> cloudflared installed successfully
+</span></span></code></pre></div><p>あとは前回と同じようにサービス自動起動の設定を行います。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># rm /etc/systemd/system/cloudflared-update.service</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rm /etc/systemd/system/cloudflared-update.timer</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl daemon-reload</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl enable --now cloudflared</span>
+</span></span></code></pre></div><p>今回は<code>/etc/cloudflared/config.yml</code>を作っていませんので、どこかに情報が保存されているようです。<br>
+今回そのあたりはあまり調査できていません。</p>
+<hr>
 <h2 id="参考">参考</h2>
 <ul>
 <li><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/">Via the command line · Cloudflare Zero Trust docs</a></li>

@@ -7,11 +7,11 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Wed, 17 Apr 2024 00:22:52 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/rhel/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Apr 2024 18:01:51 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/tags/rhel/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MicroShiftをインストールする</title>
       <link>https://blog.uyorum.net/post/setup-microshift/</link>
-      <pubDate>Wed, 17 Apr 2024 00:22:52 +0900</pubDate>
+      <pubDate>Sat, 20 Apr 2024 18:01:51 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/post/setup-microshift/</guid>
       <description>&lt;p&gt;PC環境の見直しによりN100ミニPCが余ったので自宅サーバーにするためにRHELとMicroShiftを入れてみた。&lt;/p&gt;</description>
