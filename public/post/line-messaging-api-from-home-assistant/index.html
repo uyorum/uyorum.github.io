@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.110.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="google-site-verification" content="1i1Op7whJ5gykPQAa7tjPVqL2kpAQQ2KsY6ZUFIU8p0" />
+	
+	
+
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-K2G6PBB');</script>
+
+
+
+	<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/css/affiliate.css">
+	<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	<link rel="icon" href="https://blog.uyorum.net/favicon.ico">
+	<link rel="alternate" href="/index.xml" type="application/rss+xml" title="@uyorumの雑記帳">
+	
+	<title>Home AssistantからLine Messaging APIを実行する - @uyorumの雑記帳</title>
+</head>
+
+<body>
+	
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2G6PBB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+	<div class="container">
+
+		<header role="banner">
+			<div class="header-logo">
+				<a href="/"><img src="https://avatars2.githubusercontent.com/u/2661975" width="60" height="60" alt="@uyorumの雑記帳"></a>
+			</div>
+			
+		</header>
+
+
+<main role="main">
+  <article itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="entry-title" itemprop="headline">Home AssistantからLine Messaging APIを実行する</h1>
+    <span class="entry-meta">
+      <time itemprop="datePublished" datetime=" 2025-02-15">February 15, 2025
+      </time>
+    </span>
+    <span class="pull-right">
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fline-messaging-api-from-home-assistant%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Home%20Assistant%e3%81%8b%e3%82%89Line%20Messaging%20API%e3%82%92%e5%ae%9f%e8%a1%8c%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fline-messaging-api-from-home-assistant%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fline-messaging-api-from-home-assistant%2f&amp;title=Home%20Assistant%e3%81%8b%e3%82%89Line%20Messaging%20API%e3%82%92%e5%ae%9f%e8%a1%8c%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Home%20Assistant%e3%81%8b%e3%82%89Line%20Messaging%20API%e3%82%92%e5%ae%9f%e8%a1%8c%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fline-messaging-api-from-home-assistant%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </span>
+    <section itemprop="entry-text">
+      <p><a href="https://notify-bot.line.me/closing-announce">Line Notifyがサービス終了する</a>ということで、代替として推奨されているMessaging APIでメッセージをポストするように設定していきます。</p>
+<h2 id="line-botの設定">LINE Botの設定</h2>
+<p>まず、LINE Botを作成し、チャネルアクセストークンを取得します。<br>
+手順については、以下の記事などを参考にしてください。<br>
+（参考: <a href="https://zenn.dev/protoout/articles/16-line-bot-setup">LINE公式アカウントの作成 / LINE Botの初め方 2025年更新</a>）</p>
+<p>同じ画面にあるQRコードを使ってBotを友達登録しておきます。<br>
+また、「チャネル基本設定」にある「あなたのユーザーID」を控えておきます。</p>
+<h2 id="home-assistantの設定">Home Assistantの設定</h2>
+<p>Home Assistant用のカスタムコンポーネントもありますが、LINE Messaging APIの仕様を確認したところ、メッセージ送信は単純なREST APIのようです。<br>
+そこで、Home Assistantにデフォルトで備わっている<a href="https://www.home-assistant.io/integrations/notify.rest/">RESTful Notifications</a>を使ってAPIを呼び出すことにします。</p>
+<p>メッセージの仕様はいくつかありますが、特定のユーザーにメッセージを送信する<a href="https://developers.line.biz/ja/reference/messaging-api/#send-push-message">プッシュメッセージ</a>を使います。<br>
+まず、これを使って自分にメッセージを送信できるようにします。（メッセージを送信するには、あらかじめ友達登録が必要です）</p>
+<p>私の環境ではHome Assistantの設定を別ファイルに分割しているため、それぞれのファイルに設定を記述します。通常は<code>configuration.yaml</code>に記述すれば問題ありません。</p>
+<p>secret.yaml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">line_channel_access_token</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Bearer &lt;上で確認したチャネルアクセストークン&gt;&#39;</span><span class="w">
+</span></span></span></code></pre></div><p>notify.yaml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">LINE_me</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">rest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">https://api.line.me/v2/bot/message/push</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l">POST_JSON</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">headers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Authorization</span><span class="p">:</span><span class="w"> </span>!<span class="l">secret line_channel_access_token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="l">application/json</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;上で確認した自分のユーザーID&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">messages</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">text</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ message }}&#34;</span><span class="w">
+</span></span></span></code></pre></div><h2 id="グループlineへの投稿">グループLINEへの投稿</h2>
+<p>私は家族でLINEグループへLINE Notifyも追加して各種通知を送信していました。次はBotからこのグループに投稿するための設定も行っていきます。<br>
+まずはあらかじめグループにBotを追加しておきます。</p>
+<p>特定のグループにメッセージを送信するには、ユーザーIDの代わりに「グループID」を指定する必要があります。<br>
+ですがこのグループID、GUIから確認する手段が用意されていません（少なくとも私は見つけられなかった）<br>
+私はLINEのWebhook機能とHome AssistantのWebhook Triggerを使って取得しました。この方法を使うには、Home Assistantがインターネットに公開されている必要があります。</p>
+<h3 id="グループid取得方法">グループID取得方法</h3>
+<ol>
+<li>
+<p>LINE Botの設定画面でWebhookを有効にします<br>
+Webhook URLは「https://&lt;Home Assistant公開ホスト名&gt;/api/webhook/&lt;Webhook Trigger名&gt;」です。<br>
+Webhook Trigger名は任意の文字列です。このTrigger名をHome Assistantでも使います。</p>
+</li>
+<li>
+<p>Home Assistantに以下のAutomationを作成します</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l">Get LINE group ID</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">triggers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">webhook_id</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;上で設定したWebhook Trigger名&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">allowed_methods</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">POST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">local_only</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">trigger</span><span class="p">:</span><span class="w"> </span><span class="l">webhook</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">actions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l">notify.line_me</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">message: &#39;User ID</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">trigger.json.events[0].source.userId }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l">notify.line_me</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">message: &#39;Group ID</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">trigger.json.events[0].source.groupId }}&#39;</span><span class="w">
+</span></span></span></code></pre></div></li>
+<li>
+<p>グループ内で発言します</p>
+</li>
+<li>
+<p>Botから自分宛にグループIDと発言した人のユーザーIDが投稿されてきます</p>
+</li>
+</ol>
+<h3 id="グループ投稿用notifyサービスの設定">グループ投稿用Notifyサービスの設定</h3>
+<p>取得したグループIDを使って、グループ投稿用のNotifyサービスを設定します。<br>
+ID以外は上記の設定と同じです。</p>
+<p>notify.yaml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">LINE_family</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l">rest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">https://api.line.me/v2/bot/message/push</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l">POST_JSON</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">headers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Authorization</span><span class="p">:</span><span class="w"> </span>!<span class="l">secret line_channel_access_token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="l">application/json</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;グループID&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">messages</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">text</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ message }}&#34;</span><span class="w">
+</span></span></span></code></pre></div><p>以上で設定は完了です。<br>
+LINE Notifyを使っていたAutomationを修正し、動作確認後、LINE Notify関連の設定を削除します。</p>
+<p>以前使用していたカスタムコンポーネントを削除し、Home Assistantを再起動します。
+各種設定ファイルからLINE Notifyに関する記述を削除すれば、置き換えは完了です。</p>
+<p>以上です。</p>
+<h2 id="参考資料">参考資料</h2>
+<ul>
+<li><a href="https://developers.line.biz/ja/reference/messaging-api/#send-push-message">Messaging APIリファレンス | LINE Developers</a></li>
+<li><a href="https://www.home-assistant.io/integrations/notify.rest/">RESTful Notifications - Home Assistant</a></li>
+<li><a href="https://www.home-assistant.io/docs/automation/trigger/#webhook-trigger">Automation Trigger - Home Assistant</a></li>
+</ul>
+    </section>
+    <aside>
+      <div class="share-box">
+  <ul class="share">
+    <a class="facebook" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fblog.uyorum.net%2fpost%2fline-messaging-api-from-home-assistant%2f" target="_blank">
+      <i class="fa fa-facebook fa-lg"></i></a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?text=Home%20Assistant%e3%81%8b%e3%82%89Line%20Messaging%20API%e3%82%92%e5%ae%9f%e8%a1%8c%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fline-messaging-api-from-home-assistant%2f" target="_blank">
+      <i class="fa fa-twitter fa-lg"></i></a>
+    <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.uyorum.net%2fpost%2fline-messaging-api-from-home-assistant%2f&amp;title=Home%20Assistant%e3%81%8b%e3%82%89Line%20Messaging%20API%e3%82%92%e5%ae%9f%e8%a1%8c%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3" target="_blank">
+      <i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="email" href="mailto:?subject=Home%20Assistant%e3%81%8b%e3%82%89Line%20Messaging%20API%e3%82%92%e5%ae%9f%e8%a1%8c%e3%81%99%e3%82%8b - %40uyorum%e3%81%ae%e9%9b%91%e8%a8%98%e5%b8%b3&amp;body=https%3a%2f%2fblog.uyorum.net%2fpost%2fline-messaging-api-from-home-assistant%2f">
+      <i class="fa fa-envelope fa-lg"></i></a>
+  </ul>
+</div>
+
+    </aside>
+    
+
+<h1>関連記事</h1>
+<ul>
+  
+  <li><a href="/post/hassio-introduction/">Home AssistantのデプロイをHass.ioにした</a></li>
+  
+  <li><a href="/post/home-automation-2017/">ホームオートメーションの現状まとめ@2017</a></li>
+  
+  <li><a href="/post/home-assistant-with-dash-button/">Home AssistantとAmazon Dash Buttonを連携させる</a></li>
+  
+  <li><a href="/post/home-assistant-gpio/">Home Assistantで人感センサーを使って照明を自動点灯する</a></li>
+  
+  <li><a href="/post/home-assistant-install/">Home Assistantでつくるホームオートメーション(導入編)</a></li>
+  
+</ul>
+
+
+    
+    <div class="disqus-comments">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "uyorum" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+    
+  </article>
+</main>
+
+<footer role="contentinfo">
+	<div class="hr"></div>
+	<div class="footer-link">
+		<a href="mailto:uyorum.pub@gmail.com" target="_blank"><i class="fa fa-envelope fa-2x"></i></a>
+		<a href="https://twitter.com/uyorum" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+		
+		<a href="https://github.com/uyorum" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+		
+		
+	</div>
+	<div class="copyright">Copyright &copy; uyorum All Right Reserved.</div>
+</footer>
+</div>
+
+
+
+
+
+<script src="/js/code-title.js"></script>
+
+</body>
+
+</html>
+

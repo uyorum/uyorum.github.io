@@ -7,11 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>uyorum All Right Reserved.</copyright>
-    <lastBuildDate>Sat, 20 Apr 2024 18:02:52 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Feb 2025 11:20:54 +0900</lastBuildDate><atom:link href="https://blog.uyorum.net/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Home AssistantからLine Messaging APIを実行する</title>
+      <link>https://blog.uyorum.net/post/line-messaging-api-from-home-assistant/</link>
+      <pubDate>Sat, 15 Feb 2025 11:20:54 +0900</pubDate>
+      
+      <guid>https://blog.uyorum.net/post/line-messaging-api-from-home-assistant/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://notify-bot.line.me/closing-announce&#34;&gt;Line Notifyがサービス終了する&lt;/a&gt;ということで、代替として推奨されているMessaging APIでメッセージをポストするように設定していきます。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Microshiftでtopolvmを使ってPVをを作成する</title>
       <link>https://blog.uyorum.net/post/microshift-topolvm/</link>
-      <pubDate>Sat, 20 Apr 2024 18:02:52 +0900</pubDate>
+      <pubDate>Sun, 02 Jun 2024 11:34:03 +0900</pubDate>
       
       <guid>https://blog.uyorum.net/post/microshift-topolvm/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;../setup-microshift/&#34;&gt;前回&lt;/a&gt;セットアップしたMicroShiftではLVMシンプールを使ってPVを作成するように設定したので、各種動作を確認してみます。&lt;/p&gt;</description>
